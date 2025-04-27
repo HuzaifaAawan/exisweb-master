@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+.App-header{
+    background-color: #f3f3f3  !important;
+}
+
+.button-colors {
+    background-color: #4CAF50;
+}
+.main-header{
+    font-weight: 800;
+}
