@@ -1,0 +1,37 @@
+.sidebar-buttons label {
+  background-color: #08af0b;
+  color: #fff;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar-buttons label:hover {
+  background-color: #268b6b; /* Slightly lighter on hover */
+  transform: scale(1.05); /* Slight zoom-in animation */
+}
+
+/* Same effect for profile and logout buttons */
+.profile-btn,
+.logout-btn {
+  background-color: rgba(255, 255, 255, 0.85);
+  border: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Inter, sans-serif;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.profile-btn:hover,
+.logout-btn:hover {
+  background-color: #248566;
+  transform: scale(1.05);
+}
