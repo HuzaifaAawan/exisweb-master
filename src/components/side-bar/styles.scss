@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .sidebar-buttons label {
   background-color: #08af0b;
   color: #fff;
@@ -35,3 +36,89 @@
   background-color: #248566;
   transform: scale(1.05);
 }
+=======
+.Sidebar {
+  width: 300px;
+  min-height: 100vh;
+  background-color: #fff;
+  border-right: 1px solid #f3f5f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 0;
+}
+
+.sidebar-heading {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  color: #556485;
+  padding: 0 16px;
+}
+
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.sidebar-buttons label {
+  background-color: #04544f;
+  color: #fff;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sidebar-footer {
+  margin-top: 48px;
+}
+
+.profile-box {
+  /* background-image: url('/your-profile-background.jpg'); */
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-btn,
+.logout-btn {
+  background-color: rgba(255, 255, 255, 0.85);
+  border: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Inter, sans-serif;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+}
+
+@media screen and (max-width: 768px) {
+  .Sidebar {
+    width: 100%;
+    flex-direction: column;
+    border-right: none;
+    border-bottom: 1px solid #f3f5f8;
+  }
+
+  .sidebar-buttons label,
+  .profile-btn,
+  .logout-btn {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .profile-box {
+    padding: 16px;
+  }
+}
+>>>>>>> 204ba91b83a6982270dbd52da0ed502f56ee68e0
