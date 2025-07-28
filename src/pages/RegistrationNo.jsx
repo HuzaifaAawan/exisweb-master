@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import backgroundImage from "../assets/icons/background2.2.png"; // ✅ import image from src
 
 export default function StyledRegistrationForm() {
   const [formData, setFormData] = useState({
@@ -18,7 +19,10 @@ export default function StyledRegistrationForm() {
   }));
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[url('/background.png')] bg-cover bg-center">
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center w-100"
+      style={{ backgroundImage: `url(${backgroundImage})` }} // ✅ background image applied here
+    >
       <div className="bg-white rounded-2xl shadow-md max-w-xl w-full p-8">
         <h2 className="text-center text-lg font-semibold text-gray-900 mb-6">
           Registration Number Reservation Portal
@@ -155,69 +159,36 @@ export default function StyledRegistrationForm() {
             </div>
           </div>
 
-         {/* Phone Number + Biometric ID */}
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  {/* Phone Number */}
- <div>
-  <label className="text-sm font-medium text-gray-700">Phone Number</label>
-  <div className="relative">
-    <span className="absolute left-3 top-2.5 text-green-600">📞</span>
-    
-    <input
-      type="text"
-      name="phone"
-      placeholder="+92-3XX-XXXXXXX"
-      onChange={(e) => {
-        let value = e.target.value.replace(/\D/g, ''); // only digits
-        if (value.startsWith("0")) value = value.slice(1);
-        if (value.startsWith("92")) value = value.slice(2);
-        value = value.slice(0, 10);
-        let formatted = '';
-        if (value.length >= 10) {
-          formatted = `+92-${value.slice(0, 3)}-${value.slice(3)}`;
-        } else if (value.length > 0) {
-          formatted = `+92-${value}`;
-        }
-        e.target.value = formatted;
-      }}
-      className="pl-8 w-full mt-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-    />
-  </div>
-</div>
-
-
-
-  {/* Biometric ID */}
-  <div>
-    <label className="text-sm font-medium text-gray-700">Biometric ID</label>
-    <input
-      type="text"
-      name="biometricId"
-      inputMode="numeric"
-      pattern="\d*"
-      onInput={(e) => {
-        e.target.value = e.target.value.replace(/\D/g, '');
-      }}
-      placeholder="Enter here..."
-      className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-    />
-  </div>
-</div>
+          {/* Phone Number + Biometric ID */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Phone Number */}
             <div>
-              <label className="text-sm font-medium text-gray-700">Vehicle Maker</label>
+              <label className="text-sm font-medium text-gray-700">Phone Number</label>
               <div className="relative">
                 <span className="absolute left-3 top-2.5 text-green-600">📞</span>
                 <input
                   type="text"
-                  name="vehicleMaker"
-                  value={formData.vehicleMaker}
-                  onChange={(e) => setFormData({ ...formData, vehicleMaker: e.target.value })}
-                  placeholder="Enter text here"
+                  name="phone"
+                  placeholder="+92-3XX-XXXXXXX"
+                  onChange={(e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.startsWith("0")) value = value.slice(1);
+                    if (value.startsWith("92")) value = value.slice(2);
+                    value = value.slice(0, 10);
+                    let formatted = '';
+                    if (value.length >= 10) {
+                      formatted = `+92-${value.slice(0, 3)}-${value.slice(3)}`;
+                    } else if (value.length > 0) {
+                      formatted = `+92-${value}`;
+                    }
+                    e.target.value = formatted;
+                  }}
                   className="pl-8 w-full mt-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
             </div>
+
+            {/* Biometric ID */}
             <div>
   <label className="text-sm font-medium text-gray-700">Joint With</label>
   <input
