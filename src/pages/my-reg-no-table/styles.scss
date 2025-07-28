@@ -1,0 +1,19 @@
+.registation-form-table-container {
+  .table-main-container {
+    margin: 0px 24px;
+    padding: 16px;
+    height: calc(100vh - 10em);
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .table-title {
+        font-size: 16px;
+      }
+      .table-search {
+        width: auto;
+        height: 40px;
+      }
+    }
+  }
+}

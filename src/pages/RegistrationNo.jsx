@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import Select from "react-select";
 import backgroundImage from "../assets/icons/background2.2.png"; // ✅ import image from src
+import RegistrationNoTable from "./my-reg-no-table";
 
 export default function StyledRegistrationForm() {
   const [formData, setFormData] = useState({
@@ -12,12 +13,15 @@ export default function StyledRegistrationForm() {
     vehicleMaker: "",
     jointWith: "",
   });
-
+  const [showTable, setShowTable] = useState(false);
   const numberOptions = Array.from({ length: 999 }, (_, i) => ({
     value: i + 1,
     label: (i + 1).toString(),
   }));
 
+  if (showTable) {
+    return <RegistrationNoTable formData={formData} />;
+  }
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center w-100"
@@ -28,7 +32,13 @@ export default function StyledRegistrationForm() {
           Registration Number Reservation Portal
         </h2>
 
-        <form className="space-y-6">
+        <form
+          className="space-y-6"
+          onSubmit={(e) => {
+            e.preventDefault();
+            setShowTable(true);
+          }}
+        >
           {/* Series + Available Number + Check */}
           <div className="flex gap-3">
             {/* Series Alphabets */}
@@ -101,7 +111,9 @@ export default function StyledRegistrationForm() {
                   alignItems: "center",
                 }}
               >
-                Check<br />Availability
+                Check
+                <br />
+                Availability
               </button>
             </div>
           </div>
@@ -110,12 +122,16 @@ export default function StyledRegistrationForm() {
 
           {/* Applicant Name */}
           <div>
-            <label className="text-sm font-medium text-gray-700">Applicant Name</label>
+            <label className="text-sm font-medium text-gray-700">
+              Applicant Name
+            </label>
             <input
               type="text"
               name="applicantName"
               value={formData.applicantName}
-              onChange={(e) => setFormData({ ...formData, applicantName: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, applicantName: e.target.value })
+              }
               placeholder="Enter full name"
               autoComplete="name"
               required
@@ -134,7 +150,10 @@ export default function StyledRegistrationForm() {
                 onChange={(e) => {
                   let value = e.target.value.replace(/\D/g, "").slice(0, 13);
                   if (value.length > 12)
-                    value = `${value.slice(0, 5)}-${value.slice(5, 12)}-${value.slice(12)}`;
+                    value = `${value.slice(0, 5)}-${value.slice(
+                      5,
+                      12
+                    )}-${value.slice(12)}`;
                   else if (value.length > 5)
                     value = `${value.slice(0, 5)}-${value.slice(5)}`;
                   setFormData({ ...formData, cnic: value });
@@ -163,19 +182,23 @@ export default function StyledRegistrationForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Phone Number */}
             <div>
-              <label className="text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
               <div className="relative">
-                <span className="absolute left-3 top-2.5 text-green-600">📞</span>
+                <span className="absolute left-3 top-2.5 text-green-600">
+                  📞
+                </span>
                 <input
                   type="text"
                   name="phone"
                   placeholder="+92-3XX-XXXXXXX"
                   onChange={(e) => {
-                    let value = e.target.value.replace(/\D/g, '');
+                    let value = e.target.value.replace(/\D/g, "");
                     if (value.startsWith("0")) value = value.slice(1);
                     if (value.startsWith("92")) value = value.slice(2);
                     value = value.slice(0, 10);
-                    let formatted = '';
+                    let formatted = "";
                     if (value.length >= 10) {
                       formatted = `+92-${value.slice(0, 3)}-${value.slice(3)}`;
                     } else if (value.length > 0) {
@@ -190,18 +213,19 @@ export default function StyledRegistrationForm() {
 
             {/* Biometric ID */}
             <div>
-  <label className="text-sm font-medium text-gray-700">Joint With</label>
-  <input
-    type="text"
-    name="jointWith"
-    placeholder="Enter here..."
-    onInput={(e) => {
-      e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, ''); // only letters and spaces
-    }}
-    className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-  />
-</div>
-
+              <label className="text-sm font-medium text-gray-700">
+                Joint With
+              </label>
+              <input
+                type="text"
+                name="jointWith"
+                placeholder="Enter here..."
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, ""); // only letters and spaces
+                }}
+                className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
           </div>
 
           {/* Generate Button */}
