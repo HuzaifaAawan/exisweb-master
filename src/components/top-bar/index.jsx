@@ -1,8 +1,9 @@
 // components/Header.jsx
 import React, { useState } from "react";
-import "./styles.scss"; // only if you have custom CSS for background image
+import "./styles.scss"; // for background pattern
 import headerLogo from '../../assets/icons/header_logo-removebg-preview.png';
- // ✅ Correct import
+import menuTopImage from '../../assets/icons/top_right.jpg'; // apni image ka path aur naam yahaan set karo
+
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,85 +13,85 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-green-800 text-white bg-header-pattern bg-cover bg-center">
-      <div className="flex justify-between items-center px-4 py-4 md:px-8">
-        <div className="flex items-center space-x-4">
-            <img
-  src={headerLogo}
-  alt="Ictlogo"
-  // className="Ictlogo  FLOGO-1 h-10 w-10"
-  style={{ width: '4.11rem', height: '4.8rem' }} // ✅ width & height together
-/>
-
-
+    <header className="relative bg-green-800 text-white bg-header-pattern bg-cover bg-center">
+      <div className="relative flex flex-col md:flex-row items-start md:items-start px-4 py-4 md:px-8 min-h-[100px]">
+        
+        {/* Logo & Department Name */}
+        <div className="flex items-center space-x-4 w-full md:w-auto font-inter">
+          <img
+            src={headerLogo}
+            alt="Ictlogo"
+            className="w-28 h-28 object-contain"
+          />
           <div>
-            <h1 className="text-base md:text-lg font-semibold">
+            <h1 className="text-white text-[26px] font-bold leading-[49px] font-[Inter] text-left">
               Excise & Taxation Department
             </h1>
-            <p className="text-xs md:text-sm">Islamabad Capital Territory</p>
+            <h1 className="text-white text-[26px] font-bold leading-[1.5] font-[Inter]">
+              Islamabad Capital Territory
+            </h1>
           </div>
         </div>
 
-        {/* Right Side - Navigation for larger screens */}
-        <nav className="hidden md:flex space-x-6 text-sm font-medium">
-          <a href="#" className="hover:underline">
-            Office Timings
-          </a>
-          <a href="#" className="hover:underline">
-            Announcement
-          </a>
-          <a href="#" className="hover:underline">
-            Tenders
-          </a>
-          <a href="#" className="hover:underline">
-            Contact
-          </a>
-        </nav>
+        {/* Navigation with top image - Desktop only */}
+        <div className="hidden md:flex flex-col items-end space-y-2 absolute bottom-2 right-0">
+          
+         <div className="relative w-[325px] h-[110px] ml-[250px] rounded overflow-hidden">
+            {/* Gradient Layer */}
+           <div className="absolute inset-0 bg-gradient-to-r from-[#0a4247] via-[#179a66] to-[#179a66] opacity-80 z-0" />
+
+            {/* Image Layer */}
+             <img
+  src={menuTopImage}
+  alt="menu-top-logo"
+  className=" menu-top-logo w-full h-full object-contain opacity-90 relative z-30"
+/>
+             </div>
+          {/* Navigation Links */}
+          <nav className="flex space-x-6 text-sm font-medium px-8">
+            <button className="hover">Office Timings</button>
+            <button className="hover">Announcement</button>
+            <button className="hover">Tenders</button>
+            <button className="hover">Contact</button>
+          </nav>
+        </div>
 
         {/* Mobile Menu Toggle Button */}
-        <button className="md:hidden focus:outline-none" onClick={toggleMenu}>
-          <svg
-            className="h-6 w-6 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            {menuOpen ? (
-              // Close icon
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              // Hamburger icon
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
+        <div className="md:hidden self-end mt-4">
+          <button className="focus:outline-none" onClick={toggleMenu}>
+            <svg
+              className="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {menuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu Items */}
+      {/* Mobile Dropdown Links */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium">
-          <a href="#" className="block hover:underline">
-            Office Timings
-          </a>
-          <a href="#" className="block hover:underline">
-            Announcement
-          </a>
-          <a href="#" className="block hover:underline">
-            Tenders
-          </a>
-          <a href="#" className="block hover:underline">
-            Contact
-          </a>
+        <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium  px-3">
+         <button className="block hover">Office Timings</button>
+         <button className="block hover">Announcement</button>
+         <button className="block hover">Tenders</button>
+         <button className="block hover">Contact</button>
         </div>
       )}
     </header>

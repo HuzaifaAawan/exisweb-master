@@ -69,8 +69,8 @@ const VehicleDetails = () => {
   };
 
   return (
-    <div className="App">
-      <header className="App-header mt-5 mx-auto p-5">
+    <div className="App w-full flex justify-center">
+      <header className="App-header mt-5 mx-auto p-7 w-full max-w-8xl h-auto">
         <h1 className="text-xl font-bold text-center mb-5">
           Check Registered Vehicle Details
         </h1>

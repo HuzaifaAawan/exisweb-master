@@ -1,37 +1,111 @@
-.sidebar-buttons label {
-  background-color: #08af0b;
-  color: #fff;
-  font-family: Inter, sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+.sidebar-container {
+  background-color: #fff;
+  height: 100vh;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
 }
 
-.sidebar-buttons label:hover {
-  background-color: #268b6b; /* Slightly lighter on hover */
-  transform: scale(1.05); /* Slight zoom-in animation */
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 12px;
+}
+.profile-box {
+  margin-top: 40px; // ya jitna bhi chaho
 }
 
-/* Same effect for profile and logout buttons */
-.profile-btn,
-.logout-btn {
-  background-color: rgba(255, 255, 255, 0.85);
-  border: none;
-  padding: 10px 12px;
-  font-size: 14px;
+
+.portal-title {
   font-weight: 600;
-  font-family: Inter, sans-serif;
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: left;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 16px;
+  padding-left: 10px;
 }
 
-.profile-btn:hover,
+.custom-menu .ant-menu-item {
+  height: 52px; /* increased from 44px */
+  margin-bottom: 8px !important;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  padding-left: 12px !important;
+  transition: background 0.3s;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.57;
+  letter-spacing: -0.28px;
+  text-align: left;
+
+}
+
+.custom-menu .ant-menu-item-selected {
+  background-color: #e6f4ea !important;
+  color: #119744 !important;
+}
+
+.menu-icon {
+  width: 18px;
+  margin-right: 12px;
+  font-family: Inter;
+  font-size: 14px;
+}
+
+.bottom-section {
+  padding-top: 78px !important;
+  border-top: 1px solid #eee !important;
+}
+
+.profile-box {
+  padding: 12px 0;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-left: 8px;
+}
+
+.profile-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #e53935;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding-left: 8px;
+  transition: color 0.3s;
+}
+
 .logout-btn:hover {
-  background-color: #248566;
-  transform: scale(1.05);
+  color: #119744;
+}
+
+.logout-icon {
+  width: 18px;
+  height: 18px;
+}
+.custom-menu .ant-menu-item-selected {
+  background-color: #119744 !important;
+  color: #e6f4ea !important;
 }

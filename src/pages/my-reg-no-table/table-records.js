@@ -1,78 +1,67 @@
 
- export const columns = [
-    {
-      title: "#",
-      dataIndex: "serial",
-      key: "serial",
-      width: 60,
-    },
-    {
-      title: "Series",
-      dataIndex: "series",
-      key: "series",
-      sorter: (a, b) => a.field.localeCompare(b.field),
-    },
-    {
-      title: "Number",
-      dataIndex: "number",
-      key: "number",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "Applicant Name",
-      dataIndex: "applicant_name",
-      key: "applicant_name",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "CNIC",
-      dataIndex: "cnic",
-      key: "cnic",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "NTN",
-      dataIndex: "NTN",
-      key: "NTN",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "Phone Number",
-      dataIndex: "phone_number",
-      key: "phone_number",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "Biometric ID",
-      dataIndex: "biometric_id",
-      key: "biometric_id",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "Vehicle Maker",
-      dataIndex: "vehicle_maker",
-      key: "vehicle_maker",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "Joint With",
-      dataIndex: "joint_with",
-      key: "joint_with",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "PSID",
-      dataIndex: "PSID",
-      key: "PSID",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-    {
-      title: "Payment Status",
-      dataIndex: "payment_status",
-      key: "payment_status",
-      sorter: (a, b) => a.value.localeCompare(b.value),
-    },
-  ];
+export const columns = [
+  {
+    title: "#",
+    dataIndex: "serial",
+    key: "serial",
+    width: 60,
+  },
+  {
+    title: "Series",
+    dataIndex: "series",
+    key: "series",
+  },
+  {
+    title: "Number",
+    dataIndex: "number",
+    key: "number",
+  },
+  {
+    title: "Applicant Name",
+    dataIndex: "applicant_name",
+    key: "applicant_name",
+  },
+  {
+    title: "CNIC",
+    dataIndex: "cnic",
+    key: "cnic",
+  },
+  {
+    title: "NTN",
+    dataIndex: "NTN",
+    key: "NTN",
+  },
+  {
+    title: "Phone Number",
+    dataIndex: "phone_number",
+    key: "phone_number",
+  },
+  {
+    title: "Biometric ID",
+    dataIndex: "biometric_id",
+    key: "biometric_id",
+  },
+  {
+    title: "Vehicle Maker",
+    dataIndex: "vehicle_maker",
+    key: "vehicle_maker",
+  },
+  {
+    title: "Joint With",
+    dataIndex: "joint_with",
+    key: "joint_with",
+  },
+  {
+    title: "PSID",
+    dataIndex: "PSID",
+    key: "PSID",
+  },
+  {
+    title: "Payment Status",
+    dataIndex: "payment_status",
+    key: "payment_status",
+  },
+];
 
 export const tableRecords = [
   {

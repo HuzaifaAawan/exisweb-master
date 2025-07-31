@@ -1,6 +1,6 @@
-import { Table, Typography } from "antd/es";
+import { Table, Typography, Input } from "antd";
 import backgroundImage from "../../assets/icons/background2.2.png";
-import Search from "antd/es/input/Search";
+import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import "./styles.scss";
 import { columns, tableRecords } from "./table-records";
@@ -8,25 +8,17 @@ import { columns, tableRecords } from "./table-records";
 const RegistrationNoTable = ({ formData }) => {
   const [searchText, setSearchText] = useState("");
 
-  console.debug(formData, "formData inside RegistrationNoTable");
-  //   <<<<<<<<<<<Do not remove this commented code>>>>>>>
-  //   const filteredData = Object.entries(formData)
-  //     .map(([key, value], index) => ({
-  //       key,
-  //       serial: index + 1,
-  //       field: key,
-  //       value,
-  //     }))
-  //     .filter(
-  //       (row) =>
-  //         row.field.toLowerCase().includes(searchText.toLowerCase()) ||
-  //         row.value.toLowerCase().includes(searchText.toLowerCase())
-  //     );
+  const handleSearch = () => {
+    console.log("Search triggered on Enter:", searchText);
+    // Yahan koi additional logic lagana ho to kar lo
+  };
+
   const filteredData = tableRecords?.filter((item) =>
     Object.values(item).some((value) =>
       String(value).toLowerCase().includes(searchText.toLowerCase())
     )
   );
+
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center w-100 registation-form-table-container"
@@ -38,13 +30,17 @@ const RegistrationNoTable = ({ formData }) => {
             My Registration Numbers
           </Typography.Title>
 
-          <Search
-            placeholder="Search by field or value"
-            allowClear
-            enterButton
-            onChange={(e) => setSearchText(e.target.value)}
-            className="table-search"
-          />
+          <div className="search-wrapper">
+            <Input
+              placeholder="Search..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              onPressEnter={handleSearch} // Trigger on Enter
+              prefix={<SearchOutlined style={{ color: "#a0aec0" }} />}
+              className="custom-search"
+              allowClear
+            />
+          </div>
         </div>
 
         <Table

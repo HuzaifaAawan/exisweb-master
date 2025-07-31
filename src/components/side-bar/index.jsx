@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { Layout, Menu, Button } from "antd";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./styles.scss";
-import { Button, Divider, Layout, Menu, Typography } from "antd";
-import { useNavigate } from "react-router-dom";
 
-// Icon Imports
+// Icons
 import OpenMenuIcon from "../../assets/icons/slider_open.png";
 import CloseMenuIcon from "../../assets/icons/slider_close.svg";
-
-import CarIcon from "../../assets/icons/icon-home-simple-door.svg";
-import TransferIcon from "../../assets/icons/icon-home-simple-door.svg";
+import CarIcon from "../../assets/icons/1st.png";
+import TransferIcon from "../../assets/icons/icon-user-1.png";
 import DetailIcon from "../../assets/icons/icon-calendar.svg";
 import SmartCardIcon from "../../assets/icons/icon-calendar-2.svg";
 import ChallanIcon from "../../assets/icons/icon-calendar-2.svg";
@@ -16,168 +15,111 @@ import ReserveIcon from "../../assets/icons/icon-reports.svg";
 import RegistrationIcon from "../../assets/icons/icon-home-simple-door.svg";
 import BiometricIcon from "../../assets/icons/icon-calendar-4.svg";
 import LocatorIcon from "../../assets/icons/icon-calendar-5.svg";
+import bgImage from "../../assets/icons/download2.jpg";
+
+
 
 const Sidebar = () => {
   const { Sider } = Layout;
-  const { Title } = Typography;
-  const [collapsed, setCollapsed] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState(250);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [collapsed, setCollapsed] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(310);
 
   const menuItems = [
-    {
-      key: "1",
-      icon: <img src={CarIcon} alt="Car" className="menu-icon" />,
-      label: "New Vehicle Registration",
-      path: "/new-reg",
-    },
-    {
-      key: "2",
-      icon: <img src={TransferIcon} alt="Transfer" className="menu-icon" />,
-      label: "Vehicle Transfer of Ownership",
-      path: "/transfer-ownership",
-    },
-    {
-      key: "3",
-      icon: <img src={DetailIcon} alt="Detail" className="menu-icon" />,
-      label: "Check Vehicle Detail",
-      path: "/vehicle-detail",
-    },
-    {
-      key: "4",
-      icon: <img src={SmartCardIcon} alt="Smart Card" className="menu-icon" />,
-      label: "Check Smart Card Status",
-      path: "/smart-card-status",
-    },
-    {
-      key: "5",
-      icon: <img src={ChallanIcon} alt="Challan" className="menu-icon" />,
-      label: "Vehicle Challan Verification",
-      path: "/challan-verification",
-    },
-    {
-      key: "6",
-      icon: <img src={ReserveIcon} alt="Reserve" className="menu-icon" />,
-      label: "Reserve Reg. Number",
-      path: "/registration",
-    },
-    {
-      key: "7",
-      icon: <img src={RegistrationIcon} alt="Registration" className="menu-icon" />,
-      label: "My Registration Numbers",
-      path: "/my-numbers",
-    },
-    {
-      key: "8",
-      icon: <img src={BiometricIcon} alt="Biometric" className="menu-icon" />,
-      label: "Biometric Verification",
-      path: "/biometric",
-    },
-    {
-      key: "9",
-      icon: <img src={LocatorIcon} alt="Locator" className="menu-icon" />,
-      label: "eSahulat Centre Locator",
-      path: "/locator",
-    },
+    { key: "/new-reg", icon: <img src={CarIcon} className="menu-icon" />, label: "New Vehicle Registration" },
+    { key: "/transfer-ownership", icon: <img src={TransferIcon} className="menu-icon" />, label: "Vehicle Transfer of Ownership" },
+    { key: "/vehicle-detail", icon: <img src={DetailIcon} className="menu-icon" />, label: "Check Vehicle Detail" },
+    { key: "/smart-card-status", icon: <img src={SmartCardIcon} className="menu-icon" />, label: "Check Vehicle Smart Card Status" },
+    { key: "/challan-verification", icon: <img src={ChallanIcon} className="menu-icon" />, label: "Vehicle Challan Verification" },
+    { key: "/registration", icon: <img src={ReserveIcon} className="menu-icon" />, label: "Reserve Registration Number" },
+    { key: "/my-numbers", icon: <img src={RegistrationIcon} className="menu-icon" />, label: "My Registration Numbers" },
+    { key: "/biometric", icon: <img src={BiometricIcon} className="menu-icon" />, label: "Biometric Verification" },
+    { key: "/locator", icon: <img src={LocatorIcon} className="menu-icon" />, label: "eSahulat Centre Locator" },
   ];
 
   useEffect(() => {
-    setSidebarWidth(collapsed ? 0 : 250);
+    setSidebarWidth(collapsed ? 0 : 310);
   }, [collapsed]);
 
   return (
     <>
       <Button
         type="text"
-        icon={
-          <img
-            src={collapsed ? OpenMenuIcon : CloseMenuIcon}
-            alt="Toggle Menu"
-            className={`transition-icon ${collapsed ? "rotate" : ""}`}
-            style={{ width: 18, height: 18 }}
-          />
-        }
+        icon={<img src={collapsed ? OpenMenuIcon : CloseMenuIcon} className="toggle-icon" />}
         onClick={() => setCollapsed(!collapsed)}
         className="sidebar-toggle-btn"
         style={{
           position: "relative",
-          top: 4,
-          left: sidebarWidth + 4,
+          top: 6,
+          left: sidebarWidth + 2,
           zIndex: 1001,
           transition: "left 0.3s ease",
           backgroundColor: "#fff",
           border: "1px solid #ddd",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
         }}
       />
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={setCollapsed}
-        width={250}
-        collapsedWidth={0}
-        trigger={null}
-        style={{
-          minHeight: "100vh",
-          background: "#fff",
-          color: "#000",
-          transition: "all 0.3s ease",
+
+     <Sider
+  width={299}
+  collapsedWidth={0}
+  collapsed={collapsed}
+  className="sidebar-container"
+  trigger={null}
+>
+  <div className="sidebar-inner">
+    <div className="top-section">
+      <div className="portal-title">PUBLIC SERVICE PORTAL</div>
+
+      <Menu
+        mode="inline"
+        selectedKeys={[location.pathname]}
+        onClick={({ key }) => navigate(key)}
+        items={menuItems}
+        className="custom-menu"
+      />
+    </div>
+
+    {/* PROFILE BOX START */}
+    <div
+      className="profile-box p-6 rounded-lg shadow-md bg-cover bg-center flex flex-col items-center mt-[10px]"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+      }}
+    >
+      {/* Profile Button */}
+      <button
+        className="flex items-center justify-start gap-2 text-gray-800 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full"
+        onClick={() => {
+          console.log("Profile clicked");
         }}
       >
-        <div
-          style={{
-            color: "#556485",
-            textAlign: "left",
-            backgroundColor: "fff",
-            fontSize: "14px",
-            padding: "10px",
-          }}
+        <span className="font-semibold text-gray-800">User Account</span>
+      </button>
+
+      {/* Logout Button */}
+      <button className="flex items-center gap-2 text-red-600 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full justify-start mt-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
-          {!collapsed && (
-            <Title level={5} style={{ color: "#556485", margin: 0 }}>
-              Public Service Portal
-            </Title>
-          )}
-        </div>
-        <Menu
-          theme="light"
-          mode="inline"
-          items={menuItems}
-          onClick={({ key }) => {
-            const selectedItem = menuItems.find((item) => item.key === key);
-            if (selectedItem) navigate(selectedItem.path);
-          }}
-          style={{ color: "#000" }}
-        />
-        <Divider />
-        <div className="profile-box p-4 bg-white rounded shadow-md">
-          <div className="flex items-center gap-2 mb-4">
-            <img
-              src="/profile.jpg"
-              alt="User"
-              className="w-5 h-5 rounded-full object-cover"
-            />
-            <span className="font-medium text-gray-800">User Account</span>
-          </div>
-          <button className="flex items-center gap-2 text-red-500 font-medium hover:text-red-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
-              />
-            </svg>
-            Logout Account
-          </button>
-        </div>
-      </Sider>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+          />
+        </svg>
+        Logout Account
+      </button>
+    </div>
+    {/* PROFILE BOX END */}
+  </div>
+</Sider>
+
     </>
   );
 };

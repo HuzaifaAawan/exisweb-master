@@ -5,13 +5,13 @@ import Header from '../components/top-bar';
 
 const AppLayout = () => {
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Header />
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', flex: 1 }}>
         <Sidebar />
-        <main style={{ padding: '1rem', flex: 1 }}>
+        
           <Outlet />
-        </main>
+        
       </div>
     </div>
   );
