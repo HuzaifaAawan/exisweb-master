@@ -1,9 +1,8 @@
 // components/Header.jsx
 import React, { useState } from "react";
 import "./styles.scss"; // for background pattern
-import headerLogo from '../../assets/icons/header_logo-removebg-preview.png';
-import menuTopImage from '../../assets/icons/top_right.jpg'; // apni image ka path aur naam yahaan set karo
-
+import headerLogo from "../../assets/icons/header_logo-removebg-preview.png";
+import menuTopImage from "../../assets/icons/top_right.jpg"; // apni image ka path aur naam yahaan set karo
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,45 +13,31 @@ const Header = () => {
 
   return (
     <header className="relative bg-green-800 text-white bg-header-pattern bg-cover bg-center">
-      <div className="relative flex flex-col md:flex-row items-start md:items-start px-4 py-4 md:px-8 min-h-[100px]">
-        
+      <div className="hearder-container">
         {/* Logo & Department Name */}
-        <div className="flex items-center space-x-4 w-full md:w-auto font-inter">
+        <div className="flex items-center header-title">
           <img
             src={headerLogo}
             alt="Ictlogo"
-            className="w-28 h-28 object-contain"
+            className="header-logo"
+            height={97}
           />
           <div>
-            <h1 className="text-white text-[26px] font-bold leading-[49px] font-[Inter] text-left">
-              Excise & Taxation Department
-            </h1>
-            <h1 className="text-white text-[26px] font-bold leading-[1.5] font-[Inter]">
-              Islamabad Capital Territory
-            </h1>
+            <h1 className="text-white heading">Excise & Taxation Department</h1>
+            <h1 className="text-white heading">Islamabad Capital Territory</h1>
           </div>
         </div>
 
         {/* Navigation with top image - Desktop only */}
-        <div className="hidden md:flex flex-col items-end space-y-2 absolute bottom-2 right-0">
-          
-         <div className="relative w-[325px] h-[110px] ml-[250px] rounded overflow-hidden">
-            {/* Gradient Layer */}
-           <div className="absolute inset-0 bg-gradient-to-r from-[#0a4247] via-[#179a66] to-[#179a66] opacity-80 z-0" />
-
+        <div className="header-right-items">
             {/* Image Layer */}
-             <img
-  src={menuTopImage}
-  alt="menu-top-logo"
-  className=" menu-top-logo w-full h-full object-contain opacity-90 relative z-30"
-/>
-             </div>
+            <img src={menuTopImage} alt="menu-top-logo" className="rightImg" />
           {/* Navigation Links */}
-          <nav className="flex space-x-6 text-sm font-medium px-8">
-            <button className="hover">Office Timings</button>
-            <button className="hover">Announcement</button>
-            <button className="hover">Tenders</button>
-            <button className="hover">Contact</button>
+          <nav className="navigation-menu">
+            <button className="nav-menu-item">Office Timings</button>
+            <button className="nav-menu-item">Announcement</button>
+            <button className="nav-menu-item">Tenders</button>
+            <button className="nav-menu-item">Contact</button>
           </nav>
         </div>
 
@@ -88,10 +73,10 @@ const Header = () => {
       {/* Mobile Dropdown Links */}
       {menuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium  px-3">
-         <button className="block hover">Office Timings</button>
-         <button className="block hover">Announcement</button>
-         <button className="block hover">Tenders</button>
-         <button className="block hover">Contact</button>
+          <button className="block hover">Office Timings</button>
+          <button className="block hover">Announcement</button>
+          <button className="block hover">Tenders</button>
+          <button className="block hover">Contact</button>
         </div>
       )}
     </header>

@@ -1,7 +1,22 @@
+.sidebar-wrapper {
+  position: relative;
+}
+
+.sidebar-toggle-btn {
+  width: 28px !important;
+  height: 28px !important;
+  position: absolute;
+  right: -17px;
+  top: 20px;
+  z-index: 1000;
+  background: white;
+  border-radius: 8px;
+  padding: 4px;
+  border: solid 1px #e3e3e3;
+}
 .sidebar-container {
   background-color: #fff;
-  height: 100vh;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  height: calc(100vh - 9em);
 }
 
 .sidebar-inner {
@@ -9,46 +24,53 @@
   flex-direction: column;
   height: 100%;
   padding: 16px 12px;
+  .top-section {
+    padding-top: 10px;
+  }
 }
 .profile-box {
-  margin-top: 40px; // ya jitna bhi chaho
+  margin-top: 40px;
 }
 
-
 .portal-title {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
-  color: #333;
+  color: #556485;
   margin-bottom: 16px;
   padding-left: 10px;
 }
-
-.custom-menu .ant-menu-item {
-  height: 52px; /* increased from 44px */
-  margin-bottom: 8px !important;
+.ant-menu-light {
+  border: none !important;
+}
+.custom-menu {
   display: flex;
-  align-items: center;
-  border-radius: 6px;
-  padding-left: 12px !important;
-  transition: background 0.3s;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.57;
-  letter-spacing: -0.28px;
-  text-align: left;
-
+  flex-direction: column;
+  .ant-menu-item {
+    height: 44px;
+    margin-bottom: 8px !important;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    padding-left: 12px !important;
+    transition: background 0.3s;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #556485;
+  }
 }
-
-.custom-menu .ant-menu-item-selected {
-  background-color: #e6f4ea !important;
-  color: #119744 !important;
-}
+// .custom-menu .ant-menu-item-selected {
+//   background-color: #e6f4ea !important;
+//   color: #04544f !important;
+// }
 
 .menu-icon {
   width: 18px;
-  margin-right: 12px;
+  margin-right: 0px;
   font-family: Inter;
   font-size: 14px;
 }
@@ -98,7 +120,7 @@
 }
 
 .logout-btn:hover {
-  color: #119744;
+  color: #04544f;
 }
 
 .logout-icon {
@@ -106,6 +128,7 @@
   height: 18px;
 }
 .custom-menu .ant-menu-item-selected {
-  background-color: #119744 !important;
-  color: #e6f4ea !important;
+  background-color: #04544f !important;
+  color: #fff !important;
+  font-weight: bold !important;
 }
