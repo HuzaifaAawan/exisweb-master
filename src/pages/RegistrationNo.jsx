@@ -13,11 +13,40 @@ export default function StyledRegistrationForm() {
     vehicleMaker: "",
     jointWith: "",
   });
+
   const [showTable, setShowTable] = useState(false);
   const numberOptions = Array.from({ length: 999 }, (_, i) => ({
     value: i + 1,
     label: (i + 1).toString(),
   }));
+
+  const [clickCount, setClickCount] = useState(0);
+
+  const handleCheckAvailability = () => {
+    setClickCount((prev) => prev + 1);
+  };
+
+  const getAvailabilityMessage = () => {
+    if (clickCount === 0) return null;
+    return clickCount % 2 === 1
+      ? "✅ This Series and Number is Available"
+      : "❌ This Series and Number is NOT Available";
+  };
+
+  const getAvailabilityStyle = () => ({
+    height: "20px",
+    flexGrow: 1,
+    fontFamily: "Inter",
+    fontSize: "12px",
+    fontWeight: 500,
+    fontStretch: "normal",
+    fontStyle: "normal",
+    lineHeight: 1.67,
+    letterSpacing: "normal",
+    textAlign: "left",
+    color: clickCount % 2 === 1 ? "#4caf50" : "red",
+    marginTop: "6px",
+  });
 
   if (showTable) return <RegistrationNoTable formData={formData} />;
 
@@ -54,62 +83,63 @@ export default function StyledRegistrationForm() {
             </div>
 
             {/* Available Numbers */}
-         <div className="w-1/3">
-    <label className="text-sm font-medium text-gray-700 mb-1 block">
-      Available Numbers
-    </label>
-    <div className="relative">
-      <Select
-        options={numberOptions}
-        placeholder={"Enter"}
-        isSearchable
-        classNamePrefix="react-select"
-        styles={{
-          control: (base, state) => ({
-            ...base,
-            minHeight: "50px",
-            paddingLeft: "12px",
-            paddingRight: "40px",
-            borderRadius: "8px",
-            borderColor: state.isFocused ? "#14b8a6" : "#e3e3e3",
-            boxShadow: state.isFocused
-              ? "0 0 0 2px rgba(20, 184, 166, 0.2)"
-              : "none",
-            backgroundColor: "#fff",
-            display: "flex",
-            // alignItems: "center",
-            transition: "all 0.2s ease",
-            fontSize: "14px",
-            color: "#374151",
-            cursor: "text",
-          }),
-          placeholder: (base) => ({
-            ...base,
-            color: "#9CA3AF",
-            fontSize: "14px",
-            whiteSpace: "pre-line",
-          }),
-          menu: (base) => ({
-            ...base,
-            borderRadius: "8px",
-            zIndex: 50,
-          }),
-          indicatorSeparator: () => ({
-            display: "none",
-          }),
-          dropdownIndicator: (base, state) => ({
-            ...base,
-            color: "#9CA3AF",
-            paddingRight: "px",
-            transform: state.selectProps.menuIsOpen
-              ? "rotate(180deg)"
-              : "rotate(0deg)",
-            transition: "transform 0.2s ease",
-          }),
-        }}
-      />
-    </div>
-  </div>
+            <div className="w-1/3">
+              <label className="text-sm font-medium text-gray-700 mb-1 block">
+                Available Numbers
+              </label>
+              <div className="relative">
+                <Select
+                  options={numberOptions}
+                  placeholder={"Enter"}
+                  isSearchable
+                  classNamePrefix="react-select"
+                  styles={{
+                    control: (base, state) => ({
+                      ...base,
+                      minHeight: "50px",
+                      paddingLeft: "12px",
+                      paddingRight: "4px",
+                      borderRadius: "8px",
+                      borderColor: state.isFocused ? "#14b8a6" : "#e3e3e3",
+                      boxShadow: state.isFocused
+                        ? "0 0 0 2px rgba(20, 184, 166, 0.2)"
+                        : "none",
+                      backgroundColor: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      transition: "all 0.2s ease",
+                      fontSize: "14px",
+                      color: "#374151",
+                      cursor: "text",
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: "#9CA3AF",
+                      fontSize: "14px",
+                      whiteSpace: "pre-line",
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      borderRadius: "8px",
+                      zIndex: 50,
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                    dropdownIndicator: (base, state) => ({
+                      ...base,
+                      color: "#9CA3AF",
+                      paddingRight: "4px",
+                      transform: state.selectProps.menuIsOpen
+                        ? "rotate(180deg)"
+                        : "rotate(0deg)",
+                      transition: "transform 0.2s ease",
+                    }),
+                  }}
+                />
+              </div>
+            </div>
+
             {/* Check Availability */}
             <div className="w-1/3">
               <label className="text-sm font-medium text-gray-700 mb-1 block invisible">
@@ -117,6 +147,7 @@ export default function StyledRegistrationForm() {
               </label>
               <button
                 type="button"
+                onClick={handleCheckAvailability}
                 className="w-full font-semibold text-center leading-tight"
                 style={{
                   height: "50px",
@@ -138,6 +169,11 @@ export default function StyledRegistrationForm() {
               </button>
             </div>
           </div>
+
+          {/* Availability Message */}
+          {clickCount > 0 && (
+            <div style={getAvailabilityStyle()}>{getAvailabilityMessage()}</div>
+          )}
 
           <hr className="border-dashed" />
 
@@ -199,14 +235,13 @@ export default function StyledRegistrationForm() {
             <div>
               <label className="text-sm font-medium text-gray-700">Phone Number</label>
               <div className="relative">
-               <span className="absolute left-3 top-3.5">
-  <img
-    src="https://flagcdn.com/w40/pk.png"
-    alt="PK"
-    className="w-5 h-5 rounded-full object-cover"
-  />
-</span>
-
+                <span className="absolute left-3 top-3.5">
+                  <img
+                    src="https://flagcdn.com/w40/pk.png"
+                    alt="PK"
+                    className="w-5 h-5 rounded-full object-cover"
+                  />
+                </span>
                 <input
                   type="text"
                   name="phone"

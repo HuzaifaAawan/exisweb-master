@@ -27,47 +27,49 @@ const Sidebar = () => {
   const menuItems = [
     {
       key: "/new-reg",
-      icon: <img src={newVehicleRegIcon} className="menu-icon" />,
+     icon: <img src={newVehicleRegIcon} className="menu-icon" alt="" />,
+
       label: "New Vehicle Registration",
     },
     {
       key: "/transfer-ownership",
-      icon: <img src={vehTransferOwnership} className="menu-icon" />,
+   icon: <img src={vehTransferOwnership} className="menu-icon" alt="Vehicle Transfer Ownership" />,
+
       label: "Vehicle Transfer of Ownership",
     },
     {
       key: "/vehicle-detail",
-      icon: <img src={checkVehicleDetail} className="menu-icon" />,
+      icon: <img src={checkVehicleDetail} className="menu-icon" alt="" />,
       label: "Check Vehicle Detail",
     },
     {
       key: "/smart-card-status",
-      icon: <img src={smartCardStatus} className="menu-icon" />,
+      icon: <img src={smartCardStatus} className="menu-icon" alt="" />,
       label: "Check Vehicle Smart Card Status",
     },
     {
       key: "/challan-verification",
-      icon: <img src={challanVerification} className="menu-icon" />,
+      icon: <img src={challanVerification} className="menu-icon"  alt=""/>,
       label: "Vehicle Challan Verification",
     },
     {
       key: "/registration",
-      icon: <img src={resrvRegNo} className="menu-icon" />,
+      icon: <img src={resrvRegNo} className="menu-icon" alt="" />,
       label: "Reserve Registration Number",
     },
     {
       key: "/my-numbers",
-      icon: <img src={myRegNo} className="menu-icon" />,
+      icon: <img src={myRegNo} className="menu-icon" alt="" />,
       label: "My Registration Numbers",
     },
     {
       key: "/biometric",
-      icon: <img src={biometricVerif} className="menu-icon" />,
+      icon: <img src={biometricVerif} className="menu-icon"  alt=""/>,
       label: "Biometric Verification",
     },
     {
       key: "/locator",
-      icon: <img src={eSahulat} className="menu-icon" />,
+      icon: <img src={eSahulat} className="menu-icon " alt="" />,
       label: "eSahulat Centre Locator",
     },
   ];
@@ -79,18 +81,25 @@ const Sidebar = () => {
   return (
     <>
       <div className="sidebar-wrapper">
-        <Button
-          type="text"
-          icon={
-            <img
-              src={collapsed ? OpenMenuIcon : CloseMenuIcon}
-              className="toggle-icon"
-            />
-          }
-          onClick={() => setCollapsed(!collapsed)}
-          className="sidebar-toggle-btn"
-        />
-
+       <Button
+  type="text"
+  icon={
+    <img
+      src={collapsed ? OpenMenuIcon : CloseMenuIcon}
+      className="toggle-icon"
+      alt=""
+    />
+  }
+  onClick={() => setCollapsed(!collapsed)}
+  className="sidebar-toggle-btn"
+  style={{
+    position: 'absolute',
+    top: '10px',
+    right: collapsed ? '-40px' : '-17px', 
+    transition: 'right 0.3s ease',
+    zIndex: 1000,
+  }}
+/>
         <Sider
           width={299}
           collapsedWidth={0}
@@ -125,6 +134,11 @@ const Sidebar = () => {
                   console.log("Profile clicked");
                 }}
               >
+                  <img
+    src="" // image path 
+    alt="User"
+    className="w-6 h-6 rounded-full object-cover"
+  />
                 <span className="font-semibold text-gray-800">
                   User Account
                 </span>
