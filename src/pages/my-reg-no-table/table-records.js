@@ -56,11 +56,20 @@ export const columns = [
     dataIndex: "PSID",
     key: "PSID",
   },
-  {
-    title: "Payment Status",
-    dataIndex: "payment_status",
-    key: "payment_status",
+ {
+  title: "Payment Status",
+  dataIndex: "payment_status",
+  key: "payment_status",
+  render: (text) => {
+    let color = "black";
+    if (text === "Paid") color = "green";
+    else if (text === "Unpaid") color = "red";
+    else if (text === "Refunded") color = "orange";
+
+    return <span style={{ color, fontWeight: "bold" }}>{text}</span>;
   },
+}
+
 ];
 
 export const tableRecords = [
@@ -109,6 +118,21 @@ export const tableRecords = [
     PSID: "PSID003",
     payment_status: "Paid",
   },
+  {
+  key: "6",
+  serial: 6,
+  series: "MN",
+  number: "555",
+  applicant_name: "Adeel Bhatti",
+  cnic: "36302-9876543-1",
+  NTN: "8899776",
+  phone_number: "+92-345-7654321",
+  biometric_id: "BIO98765",
+  vehicle_maker: "KIA",
+  joint_with: "N/A",
+  PSID: "PSID004",
+  payment_status: "Refunded",
+},
   {
     key: "4",
     serial: 4,

@@ -54,35 +54,62 @@ export default function StyledRegistrationForm() {
             </div>
 
             {/* Available Numbers */}
-            <div className="w-full md:w-1/3 px-2 mb-4">
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
-                Available Numbers
-              </label>
-              <Select
-                options={numberOptions}
-                placeholder="222"
-                classNamePrefix="react-select"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: "50px",
-                    paddingLeft: "12px",
-                    paddingRight: "12px",
-                    borderRadius: "8px",
-                    borderColor: "#e3e3e3",
-                    backgroundColor: "#fff",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#9CA3AF",
-                    fontSize: "14px",
-                  }),
-                }}
-              />
-            </div>
-
+         <div className="w-1/3">
+    <label className="text-sm font-medium text-gray-700 mb-1 block">
+      Available Numbers
+    </label>
+    <div className="relative">
+      <Select
+        options={numberOptions}
+        placeholder={"Enter"}
+        isSearchable
+        classNamePrefix="react-select"
+        styles={{
+          control: (base, state) => ({
+            ...base,
+            minHeight: "50px",
+            paddingLeft: "12px",
+            paddingRight: "40px",
+            borderRadius: "8px",
+            borderColor: state.isFocused ? "#14b8a6" : "#e3e3e3",
+            boxShadow: state.isFocused
+              ? "0 0 0 2px rgba(20, 184, 166, 0.2)"
+              : "none",
+            backgroundColor: "#fff",
+            display: "flex",
+            // alignItems: "center",
+            transition: "all 0.2s ease",
+            fontSize: "14px",
+            color: "#374151",
+            cursor: "text",
+          }),
+          placeholder: (base) => ({
+            ...base,
+            color: "#9CA3AF",
+            fontSize: "14px",
+            whiteSpace: "pre-line",
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: "8px",
+            zIndex: 50,
+          }),
+          indicatorSeparator: () => ({
+            display: "none",
+          }),
+          dropdownIndicator: (base, state) => ({
+            ...base,
+            color: "#9CA3AF",
+            paddingRight: "px",
+            transform: state.selectProps.menuIsOpen
+              ? "rotate(180deg)"
+              : "rotate(0deg)",
+            transition: "transform 0.2s ease",
+          }),
+        }}
+      />
+    </div>
+  </div>
             {/* Check Availability */}
             <div className="w-1/3">
               <label className="text-sm font-medium text-gray-700 mb-1 block invisible">
@@ -93,7 +120,7 @@ export default function StyledRegistrationForm() {
                 className="w-full font-semibold text-center leading-tight"
                 style={{
                   height: "50px",
-                  padding: "10px 12px",
+                  padding: "0 12px",
                   borderRadius: "8px",
                   backgroundColor: "#ebf1f1",
                   color: "#04544f",
@@ -102,6 +129,9 @@ export default function StyledRegistrationForm() {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
+                  lineHeight: "1.2",
+                  textAlign: "center",
+                  fontSize: "14px",
                 }}
               >
                 Check<br />Availability
@@ -118,7 +148,9 @@ export default function StyledRegistrationForm() {
               type="text"
               name="applicantName"
               value={formData.applicantName}
-              onChange={(e) => setFormData({ ...formData, applicantName: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, applicantName: e.target.value })
+              }
               placeholder="Enter full name"
               autoComplete="name"
               required
@@ -167,7 +199,14 @@ export default function StyledRegistrationForm() {
             <div>
               <label className="text-sm font-medium text-gray-700">Phone Number</label>
               <div className="relative">
-                <span className="absolute left-3 top-2.5 text-green-600">📞</span>
+               <span className="absolute left-3 top-3.5">
+  <img
+    src="https://flagcdn.com/w40/pk.png"
+    alt="PK"
+    className="w-5 h-5 rounded-full object-cover"
+  />
+</span>
+
                 <input
                   type="text"
                   name="phone"
@@ -206,21 +245,34 @@ export default function StyledRegistrationForm() {
             </div>
           </div>
 
+          {/* Vehicle Maker + Joint With */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-700">Vehicle Maker</label>
-              <div className="relative">
-                <span className="absolute left-3 top-2.5 text-green-600">📞</span>
-                <input
-                  type="text"
+              <label className="text-sm font-medium text-gray-900">Vehicle Maker</label>
+              <div className="relative mt-1">
+                <select
                   name="vehicleMaker"
                   value={formData.vehicleMaker}
-                  onChange={(e) => setFormData({ ...formData, vehicleMaker: e.target.value })}
-                  placeholder="Enter text here"
-                  className="pl-8 w-full mt-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
+                  onChange={(e) =>
+                    setFormData({ ...formData, vehicleMaker: e.target.value })
+                  }
+                  className="w-full appearance-none border border-gray-200 bg-gray-100 text-gray-700 px-4 py-2 pr-10 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                >
+                  <option value="">Select Vehicle Maker</option>
+                  <option value="Toyota">Toyota</option>
+                  <option value="Honda">Honda</option>
+                  <option value="Suzuki">Suzuki</option>
+                  <option value="Kia">Kia</option>
+                  <option value="Hyundai">Hyundai</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500">
+                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 14l-5-5h10l-5 5z" clipRule="evenodd" />
+                  </svg>
+                </div>
               </div>
             </div>
+
             <div>
               <label className="text-sm font-medium text-gray-700">Joint With</label>
               <input
@@ -235,7 +287,7 @@ export default function StyledRegistrationForm() {
             </div>
           </div>
 
-          {/* Generate Button */}
+          {/* Generate Challan Button */}
           <button
             type="button"
             onClick={() => setShowTable(true)}
