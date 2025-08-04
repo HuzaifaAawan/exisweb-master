@@ -21,7 +21,7 @@ const RegistrationNoTable = ({ formData }) => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center w-100 registation-form-table-container"
+      className="flex items-center justify-center bg-cover bg-center w-100 registation-form-table-container"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="bg-white rounded-2xl shadow-md w-full p-8 table-main-container">
@@ -48,6 +48,8 @@ const RegistrationNoTable = ({ formData }) => {
           dataSource={filteredData}
           pagination={false}
           bordered
+          scroll={{ x: "max-content"}}
+          className="records-table"
         />
       </div>
     </div>

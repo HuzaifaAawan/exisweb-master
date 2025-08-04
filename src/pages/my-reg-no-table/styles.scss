@@ -1,8 +1,9 @@
 .registation-form-table-container {
+  width: 100% !important;
   .table-main-container {
     margin: 0px 24px;
     padding: 16px;
-    height: calc(100vh - 10em);
+    // height: calc(100vh - 10em);
 
     .table-header {
       display: flex;
@@ -27,6 +28,9 @@
         width: auto;
         height: 40px;
       }
+    }
+    .records-table {
+      height: calc(100vh - 19em);
     }
   }
 }

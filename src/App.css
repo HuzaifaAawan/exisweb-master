@@ -1,5 +1,19 @@
 @import "tailwindcss";
-  
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.reg-form {
+  &-header {
+  }
+  .reg-form-title {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .reg-form-content {
+    background-color: #fff;
+    border-radius: 8px;
+  }
+}

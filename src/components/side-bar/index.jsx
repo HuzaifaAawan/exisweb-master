@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Menu, Button } from "antd";
+import { Layout, Menu, Button, Divider } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./styles.scss";
-
+import userProfile from "../../assets/icons/user-profile.jpg";
 // Icons
 import OpenMenuIcon from "../../assets/icons/slider_open.png";
 import CloseMenuIcon from "../../assets/icons/slider_close.svg";
@@ -27,13 +27,18 @@ const Sidebar = () => {
   const menuItems = [
     {
       key: "/new-reg",
-     icon: <img src={newVehicleRegIcon} className="menu-icon" alt="" />,
-
+      icon: <img src={newVehicleRegIcon} className="menu-icon" alt="" />,
       label: "New Vehicle Registration",
     },
     {
       key: "/transfer-ownership",
-   icon: <img src={vehTransferOwnership} className="menu-icon" alt="Vehicle Transfer Ownership" />,
+      icon: (
+        <img
+          src={vehTransferOwnership}
+          className="menu-icon"
+          alt="Vehicle Transfer Ownership"
+        />
+      ),
 
       label: "Vehicle Transfer of Ownership",
     },
@@ -49,7 +54,7 @@ const Sidebar = () => {
     },
     {
       key: "/challan-verification",
-      icon: <img src={challanVerification} className="menu-icon"  alt=""/>,
+      icon: <img src={challanVerification} className="menu-icon" alt="" />,
       label: "Vehicle Challan Verification",
     },
     {
@@ -64,12 +69,135 @@ const Sidebar = () => {
     },
     {
       key: "/biometric",
-      icon: <img src={biometricVerif} className="menu-icon"  alt=""/>,
+      icon: <img src={biometricVerif} className="menu-icon" alt="" />,
       label: "Biometric Verification",
     },
     {
       key: "/locator",
       icon: <img src={eSahulat} className="menu-icon " alt="" />,
+      label: "eSahulat Centre Locator",
+    },
+  ];
+  const getMenuItems = (activeKey) => [
+    {
+      key: "/new-reg",
+      icon: (
+        <img
+          src={
+            activeKey === "/new-reg"
+              ? newVehicleRegIconActive
+              : newVehicleRegIcon
+          }
+          className="menu-icon"
+          alt=""
+        />
+      ),
+      label: "New Vehicle Registration",
+    },
+    {
+      key: "/transfer-ownership",
+      icon: (
+        <img
+          src={
+            activeKey === "/transfer-ownership"
+              ? vehTransferOwnershipActive
+              : vehTransferOwnership
+          }
+          className="menu-icon"
+          alt=""
+        />
+      ),
+      label: "Vehicle Transfer of Ownership",
+    },
+    {
+      key: "/vehicle-detail",
+      icon: (
+        <img
+          src={
+            activeKey === "/vehicle-detail"
+              ? checkVehicleDetailActive
+              : checkVehicleDetail
+          }
+          className="menu-icon"
+          alt=""
+        />
+      ),
+      label: "Check Vehicle Detail",
+    },
+    {
+      key: "/smart-card-status",
+      icon: (
+        <img
+          src={
+            activeKey === "/smart-card-status"
+              ? smartCardStatusActive
+              : smartCardStatus
+          }
+          className="menu-icon"
+          alt=""
+        />
+      ),
+      label: "Check Vehicle Smart Card Status",
+    },
+    {
+      key: "/challan-verification",
+      icon: (
+        <img
+          src={
+            activeKey === "/challan-verification"
+              ? challanVerificationActive
+              : challanVerification
+          }
+          className="menu-icon"
+          alt=""
+        />
+      ),
+      label: "Vehicle Challan Verification",
+    },
+    {
+      key: "/registration",
+      icon: (
+        <img
+          src={activeKey === "/registration" ? resrvRegNoActive : resrvRegNo}
+          className="menu-icon"
+          alt=""
+        />
+      ),
+      label: "Reserve Registration Number",
+    },
+    {
+      key: "/my-numbers",
+      icon: (
+        <img
+          src={activeKey === "/my-numbers" ? myRegNoActive : myRegNo}
+          className="menu-icon"
+          alt=""
+        />
+      ),
+      label: "My Registration Numbers",
+    },
+    {
+      key: "/biometric",
+      icon: (
+        <img
+          src={
+            activeKey === "/biometric" ? biometricVerifActive : biometricVerif
+          }
+          className="menu-icon"
+          alt=""
+        />
+      ),
+      label: "Biometric Verification",
+    },
+    {
+      key: "/locator",
+      icon: (
+        <img
+          src={activeKey === "/locator" ? eSahulatActive : eSahulat}
+          className="menu-icon"
+          alt=""
+        />
+      ),
       label: "eSahulat Centre Locator",
     },
   ];
@@ -81,25 +209,25 @@ const Sidebar = () => {
   return (
     <>
       <div className="sidebar-wrapper">
-       <Button
-  type="text"
-  icon={
-    <img
-      src={collapsed ? OpenMenuIcon : CloseMenuIcon}
-      className="toggle-icon"
-      alt=""
-    />
-  }
-  onClick={() => setCollapsed(!collapsed)}
-  className="sidebar-toggle-btn"
-  style={{
-    position: 'absolute',
-    top: '10px',
-    right: collapsed ? '-40px' : '-17px', 
-    transition: 'right 0.3s ease',
-    zIndex: 1000,
-  }}
-/>
+        <Button
+          type="text"
+          icon={
+            <img
+              src={collapsed ? OpenMenuIcon : CloseMenuIcon}
+              className="toggle-icon"
+              alt=""
+            />
+          }
+          onClick={() => setCollapsed(!collapsed)}
+          className="sidebar-toggle-btn"
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: collapsed ? "-40px" : "-17px",
+            transition: "right 0.3s ease",
+            zIndex: 1000,
+          }}
+        />
         <Sider
           width={299}
           collapsedWidth={0}
@@ -107,7 +235,15 @@ const Sidebar = () => {
           className="sidebar-container"
           trigger={null}
         >
-          <div className="sidebar-inner">
+          <div
+            className="sidebar-inner bg-no-repeat bg-bottom bg-contain"
+            style={
+              {
+                // backgroundImage: `url(${bgImage})`,
+                // backgroundSize: "300px auto",
+              }
+            }
+          >
             <div className="top-section">
               <div className="portal-title">PUBLIC SERVICE PORTAL</div>
 
@@ -115,37 +251,37 @@ const Sidebar = () => {
                 mode="inline"
                 selectedKeys={[location.pathname]}
                 onClick={({ key }) => navigate(key)}
-                items={menuItems}
+                // items={menuItems}
+                items={getMenuItems(location.pathname)}
                 className="custom-menu"
               />
             </div>
-
-            {/* PROFILE BOX START */}
-            <div
-              className="profile-box p-6 rounded-lg shadow-md bg-cover bg-center flex flex-col items-center mt-[10px] "
+            <Divider
               style={{
-                backgroundImage: `url(${bgImage})`,
+                minWidth: "90%",
+                width: "90%",
+                margin: "24px 12px",
               }}
-            >
-              {/* Profile Button */}
+            />
+            <div className="profile-box p-6 rounded-lg bg-cover bg-center flex flex-col items-center mt-[10px] ">
               <button
-                className="flex items-center justify-start gap-2 text-gray-800 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full"
+                className="flex items-center justify-start gap-2 text-gray-800 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full user-account"
                 onClick={() => {
                   console.log("Profile clicked");
                 }}
               >
-                  <img
-    src="" // image path 
-    alt="User"
-    className="w-6 h-6 rounded-full object-cover"
-  />
+                <img
+                  src={userProfile}
+                  alt="User"
+                  className="w-6 h-6 rounded-full object-cover "
+                />
                 <span className="font-semibold text-gray-800">
                   User Account
                 </span>
               </button>
 
               {/* Logout Button */}
-              <button className="flex items-center gap-2 text-red-600 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full justify-start mt-2">
+              <button className="flex items-center gap-2 text-red-600 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full justify-start mt-2 logout-btn">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
@@ -163,7 +299,6 @@ const Sidebar = () => {
                 Logout Account
               </button>
             </div>
-            {/* PROFILE BOX END */}
           </div>
         </Sider>
       </div>

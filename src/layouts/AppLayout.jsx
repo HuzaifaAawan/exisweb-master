@@ -6,7 +6,12 @@ import Header from "../components/top-bar";
 const AppLayout = () => {
   return (
     <div
-      style={{ display: "flex", flexDirection: "column", height: "100vh" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        overflowX: "clip",
+      }}
       className="app-layout-container"
     >
       <Header className="app-layout-container-header" />

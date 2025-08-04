@@ -23,13 +23,23 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 16px 12px;
+  padding: 16px;
   .top-section {
     padding-top: 10px;
   }
 }
 .profile-box {
-  margin-top: 40px;
+  border-radius: 0 !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 0;
+  .user-account {
+    background-color: unset !important;
+  }
+  .logout-btn {
+    background-color: unset !important;
+  }
 }
 
 .portal-title {
@@ -63,10 +73,6 @@
     color: #556485;
   }
 }
-// .custom-menu .ant-menu-item-selected {
-//   background-color: #e6f4ea !important;
-//   color: #04544f !important;
-// }
 
 .menu-icon {
   width: 18px;

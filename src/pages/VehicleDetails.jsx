@@ -69,14 +69,14 @@ const VehicleDetails = () => {
   };
 
   return (
-    <div className="App w-full flex justify-center">
-      <header className="App-header mt-5 mx-auto p-7 w-full max-w-8xl h-auto">
-        <h1 className="text-xl font-bold text-center mb-5">
+    <div className="App w-full flex justify-center reg-form">
+      <header className="App-header mt-5 mx-auto p-7 w-full max-w-8xl h-auto reg-form-header">
+        <h1 className="text-xl font-bold text-center mb-5 reg-form-title">
           Check Registered Vehicle Details
         </h1>
         <form
           onSubmit={handleCheck}
-          className="grid grid-cols-6 gap-4 px-5 py-5 mx-auto"
+          className="grid grid-cols-6 gap-4 px-5 py-5 mx-auto reg-form-content"
         >
           <button
             type="button"
