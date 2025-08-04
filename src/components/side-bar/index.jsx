@@ -7,99 +7,133 @@ import "./styles.scss";
 import OpenMenuIcon from "../../assets/icons/slider_open.png";
 import CloseMenuIcon from "../../assets/icons/slider_close.svg";
 import bgImage from "../../assets/icons/download2.jpg";
-import newVehicleRegIcon from "../../assets/icons/new_vehicle_reg.svg";
-import vehTransferOwnership from "../../assets/icons/veh_transfer_ownership.svg";
-import checkVehicleDetail from "../../assets/icons/check_vehicle_detail.svg";
-import smartCardStatus from "../../assets/icons/smart_card_status.svg";
-import challanVerification from "../../assets/icons/challan_verification.svg";
-import resrvRegNo from "../../assets/icons/resrv_reg_no.svg";
-import myRegNo from "../../assets/icons/my_reg_no.svg";
-import biometricVerif from "../../assets/icons/biometric_verif.svg";
-import eSahulat from "../../assets/icons/e_sahulat.svg";
+
+import newVehicleRegIcon from "../../assets/icons/New Vehicle Registration-Unselected.svg";
+import newVehicleRegIconActive from "../../assets/icons/New Vehicle Registration-Selected.svg";
+
+import vehTransferOwnership from "../../assets/icons/Vehicle Transfer of Ownership-Unselected.svg";
+import vehTransferOwnershipActive from "../../assets/icons/Vehicle Transfer of Ownership-Selected.svg";
+
+import checkVehicleDetail from "../../assets/icons/Check Vehicle Detail-Unselected.svg";
+import checkVehicleDetailActive from "../../assets/icons/Check Vehicle Detail-Selected.svg";
+
+import smartCardStatus from "../../assets/icons/Check Vehicle Smart Card Status-Unselected.svg";
+import smartCardStatusActive from "../../assets/icons/Check Vehicle Smart Card Status-Selected.svg";
+
+import challanVerification from "../../assets/icons/Vehicle Challan Verification-Unselected.svg";
+import challanVerificationActive from "../../assets/icons/Vehicle Challan Verification-Selected.svg";
+
+import resrvRegNo from "../../assets/icons/Reserve Registration No.-Unselected.svg";
+import resrvRegNoActive from "../../assets/icons/Reserve Registration No.-Selected.svg";
+
+import myRegNo from "../../assets/icons/My Registration No.-Unselected.svg";
+import myRegNoActive from "../../assets/icons/My Registration No.-Selected.svg";
+
+import biometricVerif from "../../assets/icons/Biometric Verification-Unselected.svg";
+import biometricVerifActive from "../../assets/icons/Biometric Verification-Selected.svg";
+
+import eSahulat from "../../assets/icons/eSahulat Centre Locator-Unselected.svg";
+import eSahulatActive from "../../assets/icons/eSahulat Centre Locator-Selected.svg";
 
 const Sidebar = () => {
   const { Sider } = Layout;
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState(310);
+
+  const currentPath = location.pathname;
 
   const menuItems = [
     {
       key: "/new-reg",
-     icon: <img src={newVehicleRegIcon} className="menu-icon" alt="" />,
-
       label: "New Vehicle Registration",
+      icon: newVehicleRegIcon,
+      iconActive: newVehicleRegIconActive,
     },
     {
       key: "/transfer-ownership",
-   icon: <img src={vehTransferOwnership} className="menu-icon" alt="Vehicle Transfer Ownership" />,
-
       label: "Vehicle Transfer of Ownership",
+      icon: vehTransferOwnership,
+      iconActive: vehTransferOwnershipActive,
     },
     {
       key: "/vehicle-detail",
-      icon: <img src={checkVehicleDetail} className="menu-icon" alt="" />,
       label: "Check Vehicle Detail",
+      icon: checkVehicleDetail,
+      iconActive: checkVehicleDetailActive,
     },
     {
       key: "/smart-card-status",
-      icon: <img src={smartCardStatus} className="menu-icon" alt="" />,
       label: "Check Vehicle Smart Card Status",
+      icon: smartCardStatus,
+      iconActive: smartCardStatusActive,
     },
     {
       key: "/challan-verification",
-      icon: <img src={challanVerification} className="menu-icon"  alt=""/>,
       label: "Vehicle Challan Verification",
+      icon: challanVerification,
+      iconActive: challanVerificationActive,
     },
     {
       key: "/registration",
-      icon: <img src={resrvRegNo} className="menu-icon" alt="" />,
       label: "Reserve Registration Number",
+      icon: resrvRegNo,
+      iconActive: resrvRegNoActive,
     },
     {
       key: "/my-numbers",
-      icon: <img src={myRegNo} className="menu-icon" alt="" />,
       label: "My Registration Numbers",
+      icon: myRegNo,
+      iconActive: myRegNoActive,
     },
     {
       key: "/biometric",
-      icon: <img src={biometricVerif} className="menu-icon"  alt=""/>,
       label: "Biometric Verification",
+      icon: biometricVerif,
+      iconActive: biometricVerifActive,
     },
     {
       key: "/locator",
-      icon: <img src={eSahulat} className="menu-icon " alt="" />,
       label: "eSahulat Centre Locator",
+      icon: eSahulat,
+      iconActive: eSahulatActive,
     },
   ];
 
-  useEffect(() => {
-    setSidebarWidth(collapsed ? 0 : 310);
-  }, [collapsed]);
+  const menuItemsForAntd = menuItems.map((item) => ({
+    key: item.key,
+    icon: (
+      <img
+        src={currentPath === item.key ? item.iconActive : item.icon}
+        className="menu-icon"
+        alt={item.label}
+      />
+    ),
+    label: item.label,
+  }));
 
   return (
     <>
       <div className="sidebar-wrapper">
-       <Button
-  type="text"
-  icon={
-    <img
-      src={collapsed ? OpenMenuIcon : CloseMenuIcon}
-      className="toggle-icon"
-      alt=""
-    />
-  }
-  onClick={() => setCollapsed(!collapsed)}
-  className="sidebar-toggle-btn"
-  style={{
-    position: 'absolute',
-    top: '10px',
-    right: collapsed ? '-40px' : '-17px', 
-    transition: 'right 0.3s ease',
-    zIndex: 1000,
-  }}
-/>
+        <Button
+          type="text"
+          icon={
+            <img
+              src={collapsed ? OpenMenuIcon : CloseMenuIcon}
+              className="toggle-icon"
+              alt="Toggle Sidebar"
+            />
+          }
+          onClick={() => setCollapsed(!collapsed)}
+          className="sidebar-toggle-btn"
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: collapsed ? "-40px" : "-17px",
+            transition: "right 0.3s ease",
+            zIndex: 1000,
+          }}
+        />
         <Sider
           width={299}
           collapsedWidth={0}
@@ -115,14 +149,14 @@ const Sidebar = () => {
                 mode="inline"
                 selectedKeys={[location.pathname]}
                 onClick={({ key }) => navigate(key)}
-                items={menuItems}
+                items={menuItemsForAntd}
                 className="custom-menu"
               />
             </div>
 
             {/* PROFILE BOX START */}
             <div
-              className="profile-box p-6 rounded-lg shadow-md bg-cover bg-center flex flex-col items-center mt-[10px] "
+              className="profile-box p-6 rounded-lg shadow-md bg-cover bg-center flex flex-col items-center mt-[10px]"
               style={{
                 backgroundImage: `url(${bgImage})`,
               }}
@@ -134,14 +168,12 @@ const Sidebar = () => {
                   console.log("Profile clicked");
                 }}
               >
-                  <img
-    src="" // image path 
-    alt="User"
-    className="w-6 h-6 rounded-full object-cover"
-  />
-                <span className="font-semibold text-gray-800">
-                  User Account
-                </span>
+                <img
+                  src=""
+                  alt="User"
+                  className="w-6 h-6 rounded-full object-cover"
+                />
+                <span className="font-semibold text-gray-800">User Account</span>
               </button>
 
               {/* Logout Button */}

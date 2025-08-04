@@ -1,3 +1,13 @@
 .new-reg {
-  padding: 4rem;
+  min-height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: white;
 }
