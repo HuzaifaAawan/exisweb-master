@@ -165,7 +165,9 @@ export default function StyledRegistrationForm() {
                   fontSize: "14px",
                 }}
               >
-                Check<br />Availability
+                Check
+                <br />
+                Availability
               </button>
             </div>
           </div>
@@ -179,7 +181,9 @@ export default function StyledRegistrationForm() {
 
           {/* Applicant Name */}
           <div>
-            <label className="text-sm font-medium text-gray-700">Applicant Name</label>
+            <label className="text-sm font-medium text-gray-700">
+              Applicant Name
+            </label>
             <input
               type="text"
               name="applicantName"
@@ -205,7 +209,10 @@ export default function StyledRegistrationForm() {
                 onChange={(e) => {
                   let value = e.target.value.replace(/\D/g, "").slice(0, 13);
                   if (value.length > 12)
-                    value = `${value.slice(0, 5)}-${value.slice(5, 12)}-${value.slice(12)}`;
+                    value = `${value.slice(0, 5)}-${value.slice(
+                      5,
+                      12
+                    )}-${value.slice(12)}`;
                   else if (value.length > 5)
                     value = `${value.slice(0, 5)}-${value.slice(5)}`;
                   setFormData({ ...formData, cnic: value });
@@ -233,7 +240,9 @@ export default function StyledRegistrationForm() {
           {/* Phone Number + Biometric ID */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
               <div className="relative">
                 <span className="absolute left-3 top-3.5">
                   <img
@@ -247,11 +256,11 @@ export default function StyledRegistrationForm() {
                   name="phone"
                   placeholder="+92-3XX-XXXXXXX"
                   onChange={(e) => {
-                    let value = e.target.value.replace(/\D/g, '');
+                    let value = e.target.value.replace(/\D/g, "");
                     if (value.startsWith("0")) value = value.slice(1);
                     if (value.startsWith("92")) value = value.slice(2);
                     value = value.slice(0, 10);
-                    let formatted = '';
+                    let formatted = "";
                     if (value.length >= 10) {
                       formatted = `+92-${value.slice(0, 3)}-${value.slice(3)}`;
                     } else if (value.length > 0) {
@@ -265,14 +274,16 @@ export default function StyledRegistrationForm() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700">Biometric ID</label>
+              <label className="text-sm font-medium text-gray-700">
+                Biometric ID
+              </label>
               <input
                 type="text"
                 name="biometricId"
                 inputMode="numeric"
                 pattern="\d*"
                 onInput={(e) => {
-                  e.target.value = e.target.value.replace(/\D/g, '');
+                  e.target.value = e.target.value.replace(/\D/g, "");
                 }}
                 placeholder="Enter here..."
                 className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -283,7 +294,9 @@ export default function StyledRegistrationForm() {
           {/* Vehicle Maker + Joint With */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-900">Vehicle Maker</label>
+              <label className="text-sm font-medium text-gray-900">
+                Vehicle Maker
+              </label>
               <div className="relative mt-1">
                 <select
                   name="vehicleMaker"
@@ -291,6 +304,7 @@ export default function StyledRegistrationForm() {
                   onChange={(e) =>
                     setFormData({ ...formData, vehicleMaker: e.target.value })
                   }
+                  style={{ fontSize: "14px" }}
                   className="w-full appearance-none border border-gray-200 bg-gray-100 text-gray-700 px-4 py-2 pr-10 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 >
                   <option value="">Select Vehicle Maker</option>
@@ -301,21 +315,31 @@ export default function StyledRegistrationForm() {
                   <option value="Hyundai">Hyundai</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500">
-                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 14l-5-5h10l-5 5z" clipRule="evenodd" />
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 14l-5-5h10l-5 5z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700">Joint With</label>
+              <label className="text-sm font-medium text-gray-700">
+                Joint With
+              </label>
               <input
                 type="text"
                 name="jointWith"
                 placeholder="Enter here..."
                 onInput={(e) => {
-                  e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                  e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
                 }}
                 className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
@@ -326,7 +350,7 @@ export default function StyledRegistrationForm() {
           <button
             type="button"
             onClick={() => setShowTable(true)}
-            style={{ backgroundColor: "#04544f" }}
+            style={{ backgroundColor: "#04544f", fontSize: "14px" }}
             className="w-full text-white rounded-md py-3 mt-4 font-semibold hover:brightness-90 transition"
           >
             Generate Challan

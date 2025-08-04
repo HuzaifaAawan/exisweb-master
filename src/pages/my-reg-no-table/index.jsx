@@ -5,12 +5,12 @@ import { useState } from "react";
 import "./styles.scss";
 import { columns, tableRecords } from "./table-records";
 
-const RegistrationNoTable = ({ formData }) => {
+const RegistrationNoTable = () => {
   const [searchText, setSearchText] = useState("");
+  const [pageSize, setPageSize] = useState(11);
 
   const handleSearch = () => {
     console.log("Search triggered on Enter:", searchText);
-    // Yahan koi additional logic lagana ho to kar lo
   };
 
   const filteredData = tableRecords?.filter((item) =>
@@ -26,7 +26,7 @@ const RegistrationNoTable = ({ formData }) => {
     >
       <div className="bg-white rounded-2xl shadow-md w-full p-8 table-main-container">
         <div className="table-header">
-          <Typography.Title level={4} className="table-title">
+          <Typography.Title level={5} className="table-title">
             My Registration Numbers
           </Typography.Title>
 
@@ -35,7 +35,7 @@ const RegistrationNoTable = ({ formData }) => {
               placeholder="Search..."
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              onPressEnter={handleSearch} // Trigger on Enter
+              onPressEnter={handleSearch}
               prefix={<SearchOutlined style={{ color: "#a0aec0" }} />}
               className="custom-search"
               allowClear
@@ -44,12 +44,22 @@ const RegistrationNoTable = ({ formData }) => {
         </div>
 
         <Table
+          className="custom-table"
           columns={columns}
           dataSource={filteredData}
-          pagination={false}
-          bordered
+          pagination={{
+            pageSize: pageSize,
+            showSizeChanger: true,
+            pageSizeOptions: ["5", "10", "11", "15", "20"],
+            position: ["bottomRight"],
+            onShowSizeChange: (current, size) => setPageSize(size),
+            showTotal: (total, range) => (
+              <span>{`${range[0]}-${range[1]} of ${total} rows`}</span>
+            ),
+          }}
+          bordered={false}
+          rowClassName={() => "custom-row"}
           scroll={{ x: "max-content"}}
-          className="records-table"
         />
       </div>
     </div>

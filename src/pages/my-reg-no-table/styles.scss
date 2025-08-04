@@ -1,9 +1,8 @@
 .registation-form-table-container {
   width: 100% !important;
   .table-main-container {
-    margin: 0px 24px;
-    padding: 16px;
-    // height: calc(100vh - 10em);
+    margin: 0 24px;
+    padding: 0 16px;
 
     .table-header {
       display: flex;
@@ -11,22 +10,14 @@
       align-items: center;
 
       .table-title {
-        height: 22px;
-        flex-grow: 1;
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         font-size: 16px;
-        font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.38;
-        letter-spacing: normal;
-        text-align: left;
+        font-weight: 700;
         color: #171d22;
       }
 
-      .table-search {
-        width: auto;
-        height: 40px;
+      .search-wrapper {
+        width: 300px;
       }
     }
     .records-table {
@@ -35,7 +26,6 @@
   }
 }
 
-// 👇 These should be global or outside nested blocks
 .custom-search {
   background-color: #f7f9fc !important;
   border-radius: 12px !important;
@@ -43,6 +33,7 @@
   font-size: 16px;
   border: none !important;
   box-shadow: none !important;
+  width: 100%;
 }
 
 .custom-search input {
@@ -51,6 +42,102 @@
   box-shadow: none !important;
 }
 
-.search-wrapper {
-  padding: 12px;
+.custom-table .ant-table {
+  border-radius: 12px;
+  overflow: hidden;
+  height: calc(100vh - 22em) !important;
+  border-collapse: separate !important;
+  border-spacing: 0 12px !important; // 12px vertical gap, 0 horizontal
+}
+
+.custom-table .ant-table-thead > tr > th {
+  background-color: #f5faff;
+  font-weight: 600;
+  text-align: center;
+  color: #003366;
+  border-bottom: 1px solid #e4eaf1;
+  font-size: 14px;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  text-align: center;
+  font-size: 13px;
+  padding: 12px 8px;
+}
+
+// Row Background
+.custom-row {
+  background-color: #f5f6f8 !important;
+  border-radius: 12px !important;
+  height: 48px !important;
+  padding: 0 50px 0 26.5px !important;
+  margin: 23px 0 5px !important;
+  transition: all 0.3s ease !important;
+}
+.custom-table .ant-table {
+  border-collapse: separate !important;
+  border-spacing: 0 0; // let spacing come from margin
+}
+
+/* To simulate `margin` between rows, use spacing via border-spacing or wrap in div (optional) */
+.custom-table .ant-table-tbody > tr.rectangle-row {
+  height: 48px;
+}
+
+/* Optional: Remove default borders */
+.custom-table .ant-table-tbody > tr > td {
+  border: none;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  background-color: unset;
+  font-weight: 500;
+  text-align: center;
+  color: #556485;
+  border-bottom: 1px solid #e4eaf1;
+  font-size: 12px;
+}
+// Add spacing between table rows
+.custom-table .ant-table-tbody > tr {
+  border-bottom: 8px solid #f3f6fa;
+}
+
+// Row hover effect
+.custom-table .ant-table-tbody > tr:hover {
+  background-color: #f0f8ff;
+}
+
+// Payment Status Color Tags
+.paid-status {
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.unpaid-status {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.refunded-status {
+  color: #f39c12;
+  font-weight: 600;
+}
+
+// Pagination custom layout
+.custom-table .ant-table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #e3e3e3;
+}
+
+// Left side: Rows per page dropdown
+.ant-pagination-options {
+  order: -1;
+}
+
+// Right side: Prev/Next + Page numbers
+.ant-pagination {
+  justify-content: flex-end;
 }

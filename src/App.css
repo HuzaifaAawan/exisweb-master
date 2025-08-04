@@ -5,12 +5,13 @@
 @tailwind utilities;
 
 .reg-form {
-  &-header {
+  .reg-form-header {
   }
   .reg-form-title {
     background-color: white;
     padding: 10px;
     border-radius: 8px;
+    font-size: 16px;
   }
   .reg-form-content {
     background-color: #fff;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
 import "../App.css"; // Make sure path is correct
+import backgroundImage from "../assets/icons/background2.2.png";
 
 const VehicleDetails = () => {
   const [registration, setRegistration] = useState("");
@@ -70,7 +71,10 @@ const VehicleDetails = () => {
 
   return (
     <div className="App w-full flex justify-center reg-form">
-      <header className="App-header mt-5 mx-auto p-7 w-full max-w-8xl h-auto reg-form-header">
+      <header
+        className="App-header mt-5 mx-auto p-7 w-full max-w-8xl h-auto reg-form-header"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
         <h1 className="text-xl font-bold text-center mb-5 reg-form-title">
           Check Registered Vehicle Details
         </h1>
