@@ -56,18 +56,33 @@ export default function StyledRegistrationForm() {
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="bg-white rounded-2xl shadow-md max-w-xl w-full p-8">
-        <h2 className="text-center text-lg font-semibold text-gray-900 mb-6">
+        <h2 className="text-center text-lg font-bold text-gray-900 mb-6">
           Registration Number Reservation Portal
         </h2>
 
-        <form className="space-y-6">
+       <div
+  style={{
+    width: "100%",
+    height: "1px",
+    backgroundColor: "#e3e3e3",
+    marginTop: "15px",
+    margin: "15px 0 24px",
+  }}
+></div>
+
+
+        <form className="space-y-8">
           {/* Series + Available Number + Check */}
           <div className="flex gap-3">
             {/* Series Alphabets */}
             <div className="w-1/3">
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
-                Series Alphabets
-              </label>
+             <label
+  className="text-sm font-bold mb-1 block"
+  style={{  color: "#161a23" }}
+>
+  Series Alphabets
+</label>
+
               <input
                 type="text"
                 placeholder="LZ"
@@ -84,7 +99,9 @@ export default function StyledRegistrationForm() {
 
             {/* Available Numbers */}
             <div className="w-1/3">
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
+              <label className="text-sm font-bold text-gray-700 mb-1 block"
+              style={{  color: "#161a23" }}
+              >
                 Available Numbers
               </label>
               <div className="relative">
@@ -142,7 +159,7 @@ export default function StyledRegistrationForm() {
 
             {/* Check Availability */}
             <div className="w-1/3">
-              <label className="text-sm font-medium text-gray-700 mb-1 block invisible">
+              <label className="text-sm font-bold text-gray-700 mb-1 block invisible">
                 Check Availability
               </label>
               <button
@@ -181,7 +198,9 @@ export default function StyledRegistrationForm() {
 
           {/* Applicant Name */}
           <div>
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-bold text-gray-700"
+            style={{  color: "#161a23" }}
+            >
               Applicant Name
             </label>
             <input
@@ -201,7 +220,9 @@ export default function StyledRegistrationForm() {
           {/* CNIC + NTN */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-700">CNIC</label>
+              <label className="text-sm font-bold text-gray-700"
+              style={{ color: "#161a23" }}
+              >CNIC</label>
               <input
                 type="text"
                 name="cnic"
@@ -222,7 +243,9 @@ export default function StyledRegistrationForm() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-700">NTN</label>
+              <label className="text-sm font-bold text-gray-700"
+              style={{ fontFamily: "Inter", color: "#161a23" }}
+              >NTN</label>
               <input
                 type="text"
                 name="ntn"
@@ -240,7 +263,9 @@ export default function StyledRegistrationForm() {
           {/* Phone Number + Biometric ID */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-bold text-gray-700"
+              style={{  color: "#161a23" }}
+              >
                 Phone Number
               </label>
               <div className="relative">
@@ -274,7 +299,9 @@ export default function StyledRegistrationForm() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-bold text-gray-700"
+              style={{ color: "#161a23" }}
+              >
                 Biometric ID
               </label>
               <input
@@ -294,7 +321,8 @@ export default function StyledRegistrationForm() {
           {/* Vehicle Maker + Joint With */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-900">
+              <label className="text-sm font-bold text-gray-900"
+              style={{ color: "#161a23" }}>
                 Vehicle Maker
               </label>
               <div className="relative mt-1">
@@ -331,7 +359,9 @@ export default function StyledRegistrationForm() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-bold text-gray-700"
+              style={{ color: "#161a23" }}
+              >
                 Joint With
               </label>
               <input
@@ -351,7 +381,7 @@ export default function StyledRegistrationForm() {
             type="button"
             onClick={() => setShowTable(true)}
             style={{ backgroundColor: "#04544f", fontSize: "14px" }}
-            className="w-full text-white rounded-md py-3 mt-4 font-semibold hover:brightness-90 transition"
+            className="w-full text-white rounded-md py-3 mt-4 font-bold hover:brightness-90 transition"
           >
             Generate Challan
           </button>

@@ -6,7 +6,6 @@ import userProfile from "../../assets/icons/user-profile.jpg";
 // Icons
 import OpenMenuIcon from "../../assets/icons/slider_open.png";
 import CloseMenuIcon from "../../assets/icons/slider_close.svg";
-import bgImage from "../../assets/icons/download2.jpg";
 
 import newVehicleRegIcon from "../../assets/icons/New Vehicle Registration-Unselected.svg";
 import newVehicleRegIconActive from "../../assets/icons/New Vehicle Registration-Selected.svg";
@@ -253,7 +252,7 @@ const Sidebar = () => {
             position: "absolute",
             top: "10px",
             right: collapsed ? "-40px" : "-17px",
-            transition: "right 0.3s ease",
+            transition: "right 1s ease",
             zIndex: 1000,
           }}
         />

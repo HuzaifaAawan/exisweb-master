@@ -21,6 +21,7 @@ const Header = () => {
             alt="Ictlogo"
             className="header-logo"
             height={97}
+            width={84}
           />
           <div>
             <h1 className="text-white heading">Excise & Taxation Department</h1>

@@ -8,14 +8,20 @@
     display: flex;
     justify-content: space-between;
     .header-title {
-      gap: 10px;
+      gap: 14px;
       .header-logo {
-        height: 97px !important;
+        margin-left: 20px !important;
+        height: 100px !important;
+        width: 84px !important;
+        flex-grow: 0 !important;
       }
       .heading {
-        font-weight: bold;
-        font-size: 20px;
-      }
+       font-family: Inter;
+       font-size: 26px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #fff;
+     }
     }
     .header-right-items {
       position: relative;

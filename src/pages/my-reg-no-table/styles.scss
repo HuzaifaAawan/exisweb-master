@@ -47,37 +47,73 @@
   overflow: hidden;
   height: calc(100vh - 22em) !important;
   border-collapse: separate !important;
-  border-spacing: 0 12px !important; // 12px vertical gap, 0 horizontal
+  border-spacing: 0 5px !important; // ✅ vertical spacing of 5px
 }
+
 
 .custom-table .ant-table-thead > tr > th {
   background-color: #f5faff;
   font-weight: 600;
   text-align: center;
+  margin-bottom: 2rem !important;
   color: #003366;
   border-bottom: 1px solid #e4eaf1;
   font-size: 14px;
 }
 
-.custom-table .ant-table-tbody > tr > td {
-  text-align: center;
-  font-size: 13px;
-  padding: 12px 8px;
+.custom-table {
+  .ant-table {
+    border-radius: 12px;
+    overflow: hidden;
+    height: calc(100vh - 22em) !important;
+
+    // 👇 Row gap added using border-spacing
+    border-collapse: separate !important;
+    border-spacing: 0 12px !important; // vertical spacing between rows
+  }
+
+  .ant-table-tbody > tr > td {
+    background-color: #f5f6f8 !important;
+    border: none !important;
+    padding: 16px 12px;
+    font-size: 13px;
+    margin-bottom: 2rem !important;
+    text-align: center;
+    transition: background-color 0.3s ease;
+
+    // 👇 Rounded corners for each row
+    &:first-child {
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+  }
+
+  .ant-table-tbody > tr:hover > td {
+    background-color: #f0f8ff !important;
+  }
 }
+
 
 // Row Background
 .custom-row {
   background-color: #f5f6f8 !important;
   border-radius: 12px !important;
   height: 48px !important;
-  padding: 0 50px 0 26.5px !important;
-  margin: 23px 0 5px !important;
-  transition: all 0.3s ease !important;
+  margin: 23px 0 5px !important; // 👈 isko optional adjust bhi kar sakte ho
 }
-.custom-table .ant-table {
-  border-collapse: separate !important;
-  border-spacing: 0 0; // let spacing come from margin
-}
+
+
+
+// .custom-table .ant-table {
+//   border-collapse: separate !important;
+//   border-spacing: 0 5px !important; // ✅ This gives you vertical spacing
+// }
+
 
 /* To simulate `margin` between rows, use spacing via border-spacing or wrap in div (optional) */
 .custom-table .ant-table-tbody > tr.rectangle-row {
@@ -86,8 +122,21 @@
 
 /* Optional: Remove default borders */
 .custom-table .ant-table-tbody > tr > td {
-  border: none;
+  background-color: #f5f6f8 !important;
+  border: none !important;
+
+  // Rounded corners for each row (only on first and last td)
+  &:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
 }
+
 
 .custom-table .ant-table-thead > tr > th {
   background-color: unset;
@@ -97,10 +146,19 @@
   border-bottom: 1px solid #e4eaf1;
   font-size: 12px;
 }
-// Add spacing between table rows
-.custom-table .ant-table-tbody > tr {
-  border-bottom: 8px solid #f3f6fa;
+.custom-table-row {
+  // Add spacing below each row
+  .ant-table-cell {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  // Optional: Add shadow effect for clearer separation
+  background-color: #fff;
+  margin-bottom: 12px;
+  border-radius: 6px;
 }
+
 
 // Row hover effect
 .custom-table .ant-table-tbody > tr:hover {
@@ -122,22 +180,64 @@
   color: #f39c12;
   font-weight: 600;
 }
-
-// Pagination custom layout
-.custom-table .ant-table-pagination {
-  display: flex;
+.custom-pagination {
+  display: flex !important;
   justify-content: space-between;
   align-items: center;
-  padding-top: 12px;
-  border-top: 1px solid #e3e3e3;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  gap: 16px;
+
+  .ant-pagination-options {
+    order: 1;
+    flex: 1;
+  }
+
+  // Center part – numbers and total
+  .ant-pagination-total-text,
+  .ant-pagination-item,
+  .ant-pagination-item-active {
+    order: 2;
+    margin: 0 4px;
+  }
+
+  // Previous / Next buttons
+  .ant-pagination-prev,
+.ant-pagination-next {
+  order : 3;
+  display: flex;
+   align-items: center;         // vertically center
+  justify-content: center; 
+  gap: 6px;
+  width: 92px;
+  height: 35px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e3e3e3;
+  background-color: #fff;
+  color: #000;
+  font-size: 14px;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  // Fix inner elements from breaking pointer
+  * {
+    pointer-events: none;
+  }
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
 }
 
-// Left side: Rows per page dropdown
-.ant-pagination-options {
-  order: -1;
-}
 
-// Right side: Prev/Next + Page numbers
-.ant-pagination {
-  justify-content: flex-end;
+  // To fully center the middle block
+  .ant-pagination {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    order: 1;
+  }
 }

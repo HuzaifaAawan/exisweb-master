@@ -7,7 +7,9 @@ import { columns, tableRecords } from "./table-records";
 
 const RegistrationNoTable = () => {
   const [searchText, setSearchText] = useState("");
-  const [pageSize, setPageSize] = useState(11);
+  const [pageSize, setPageSize] = useState(10);
+const [currentPage, setCurrentPage] = useState(1);
+
 
   const handleSearch = () => {
     console.log("Search triggered on Enter:", searchText);
@@ -43,24 +45,47 @@ const RegistrationNoTable = () => {
           </div>
         </div>
 
-        <Table
-          className="custom-table"
-          columns={columns}
-          dataSource={filteredData}
-          pagination={{
-            pageSize: pageSize,
-            showSizeChanger: true,
-            pageSizeOptions: ["5", "10", "11", "15", "20"],
-            position: ["bottomRight"],
-            onShowSizeChange: (current, size) => setPageSize(size),
-            showTotal: (total, range) => (
-              <span>{`${range[0]}-${range[1]} of ${total} rows`}</span>
-            ),
-          }}
-          bordered={false}
-          rowClassName={() => "custom-row"}
-          scroll={{ x: "max-content"}}
-        />
+      <Table 
+  className="custom-table mb-4"
+  columns={columns}
+  dataSource={filteredData}
+  rowClassName={() => "custom-table-row"}  
+  pagination={{
+    current: currentPage,
+    pageSize: pageSize,
+    showSizeChanger: true,
+    pageSizeOptions: ["5", "10", "11", "15", "20"],
+    onChange: (page, size) => {
+      setCurrentPage(page);
+      setPageSize(size);
+    },
+itemRender: (current, type, originalElement) => {
+  if (type === "prev") {
+    return (
+      <button type="button" className="pagination-btn">
+        Previous
+      </button>
+    );
+  }
+  if (type === "next") {
+    return (
+      <button type="button" className="pagination-btn">
+        Next
+      </button>
+    );
+  }
+  return originalElement;
+},
+
+
+
+    className: "custom-pagination",
+    position: ["bottomRight"],
+  }}
+  bordered={false}
+  scroll={{ x: "max-content" }}
+/>
+
       </div>
     </div>
   );

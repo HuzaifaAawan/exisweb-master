@@ -14,6 +14,7 @@
   padding: 4px;
   border: solid 1px #e3e3e3;
 }
+
 .sidebar-container {
   background-color: #fff;
   height: calc(100vh - 9em);
@@ -24,37 +25,48 @@
   flex-direction: column;
   height: 100%;
   padding: 16px;
+
   .top-section {
     padding-top: 10px;
   }
 }
+
 .profile-box {
   border-radius: 0 !important;
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   background-color: rgba(255, 255, 255, 0.7);
-  padding: 0;
+  padding: 12px 0;
+
   .user-account {
     background-color: unset !important;
   }
+
   .logout-btn {
     background-color: unset !important;
   }
 }
 
 .portal-title {
-  font-weight: 500;
+  font-family: Inter, sans-serif;
+  font-weight: bold;
   font-size: 14px;
   color: #556485;
   margin-bottom: 16px;
   padding-left: 10px;
+  line-height: 1.43;
+  letter-spacing: -0.28px;
+  text-align: left;
 }
+
 .ant-menu-light {
   border: none !important;
 }
+
 .custom-menu {
   display: flex;
   flex-direction: column;
+
   .ant-menu-item {
     height: 44px;
     margin-bottom: 8px !important;
@@ -63,31 +75,34 @@
     border-radius: 6px;
     padding-left: 12px !important;
     transition: background 0.3s;
+    font-family: Inter, sans-serif;
     font-size: 14px;
-    font-weight: normal;
+    font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.57;
+    line-height: 1.43;
     letter-spacing: -0.28px;
     text-align: left;
     color: #556485;
+  }
+
+  .ant-menu-item-selected {
+    background-color: #04544f !important;
+    color: #fff !important;
+    font-weight: bold !important;
   }
 }
 
 .menu-icon {
   width: 18px;
   margin-right: 0px;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 14px;
 }
 
 .bottom-section {
   padding-top: 78px !important;
   border-top: 1px solid #eee !important;
-}
-
-.profile-box {
-  padding: 12px 0;
 }
 
 .profile-info {
@@ -106,8 +121,9 @@
 }
 
 .profile-name {
+  font-family: Inter, sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   color: #333;
 }
 
@@ -118,23 +134,19 @@
   background: none;
   border: none;
   color: #e53935;
+  font-family: Inter, sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   cursor: pointer;
   padding-left: 8px;
   transition: color 0.3s;
-}
 
-.logout-btn:hover {
-  color: #04544f;
+  &:hover {
+    color: #04544f;
+  }
 }
 
 .logout-icon {
   width: 18px;
   height: 18px;
-}
-.custom-menu .ant-menu-item-selected {
-  background-color: #04544f !important;
-  color: #fff !important;
-  font-weight: bold !important;
 }
