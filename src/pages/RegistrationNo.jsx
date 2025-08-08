@@ -55,7 +55,14 @@ export default function StyledRegistrationForm() {
       className="min-h-[80vh] bg-cover bg-center w-full flex justify-center items-start pt-12"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="bg-white rounded-2xl shadow-md max-w-xl w-full p-8">
+      <div
+  className="bg-white rounded-2xl shadow-md p-8"
+  style={{
+    width: "1100px",
+    height: "725px",
+  }}
+>
+
         <h2 className="text-center text-lg font-bold text-gray-900 mb-6">
           Registration Number Reservation Portal
         </h2>
