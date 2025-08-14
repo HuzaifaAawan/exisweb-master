@@ -1,19 +1,173 @@
 .transfer-ownership {
   width: 100%;
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Horizontal center */
+  justify-content: flex-start; /* Top aligned instead of vertical center */
+  padding-top: 42px;
+}
+.Main-Heading {
+  width: 962px;
+  height: 29px;
+  font-family: Inter, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: normal;
+  text-align: center;
+  color: #04544f;
+  margin-bottom: 16px; /* Form aur heading ke darmiyan gap */
+}
+
+
+
+.transfer-ownership-content-container {
+  background-color: #fff;
+  height: calc(100vh - 7em);
+  border-radius: 8px;
+  width: calc(100vw - 15em);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Headings */
+.Profiles-Manager {
+  height: 19px;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: normal;
+  text-align: left;
+  color: #171d22;
+}
+
+.Profiles-Manager2 {
+  height: 20px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.43;
+  text-align: left;
+  color: #556485;
+  margin-top: 8px;
+}
+
+/* Labels */
+.Textfield-Label,
+.Date,
+.Dropdown-Label {
+  height: 20px;
+  flex-grow: 1;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.43;
+  text-align: left;
+  color: #161a23;
+}
+
+/* Input wrappers */
+.input-frame {
+  height: 50px;
+  flex: 1 1 260px; /* flex-grow:1, flex-shrink:1, flex-basis:260px */
+  min-width: 200px; /* chhoti screen me shrink ho sakta hai */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: solid 1px #e3e3e3;
+  background-color: #fff;
+}
+
+.submit-frame {
+  flex: 1 1 100px; /* responsive width */
+  max-width: 120px; /* zyada na badhe */
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
-  .transfer-ownership-content-container {
-    background-color: #fff;
-    height: calc(100vh - 7em);
-    border-radius: 8px;
-    width: calc(100vw - 15em);
-    padding: 16px;
-    .title {
-    }
+  gap: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ebf1f1;
+  color: #04544f;
+  font-family: ProximaNova, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+
+.submit-frame:hover {
+  background-color: #cddede;
+}
+
+/* Icon bottom text */
+.info-text {
+  width: 392px;
+  height: 40px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.43;
+  text-align: center;
+  color: #556485;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Dummy data without background */
+.dummy-data-container.no-bg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px 24px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
   }
 }
+
+.dummy-data-item {
+  display: flex;
+  flex-direction: column;
+  padding-right: 12px;
+  border-right: 1px solid #e3e3e3;
+
+  &:nth-child(3n) {
+    border-right: none;
+  }
+
+  @media (max-width: 768px) {
+    border-right: none;
+    border-bottom: 1px solid #e3e3e3;
+    padding-bottom: 8px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .label {
+    font-size: 14px;
+    color: #8c8c8c;
+  }
+
+  .value {
+    font-size: 14px;
+    font-weight: bold;
+    color: #171d22;
+    margin-top: 2px;
+  }
+}
+
