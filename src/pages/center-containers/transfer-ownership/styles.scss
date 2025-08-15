@@ -1,3 +1,4 @@
+/* Main container */
 .transfer-ownership {
   width: 100%;
   min-height: 100vh;
@@ -8,46 +9,50 @@
   display: flex;
   flex-direction: column;
   align-items: center; /* Horizontal center */
-  justify-content: flex-start; /* Top aligned instead of vertical center */
+  justify-content: flex-start; /* Top aligned */
   padding-top: 42px;
-}
-.Main-Heading {
-  width: 962px;
-  height: 29px;
-  font-family: Inter, sans-serif;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: normal;
-  text-align: center;
-  color: #04544f;
-  margin-bottom: 16px; /* Form aur heading ke darmiyan gap */
+  gap: 16px; /* Space between forms */
 }
 
-
-
-.transfer-ownership-content-container {
-  background-color: #fff;
-  height: calc(100vh - 7em);
-  border-radius: 8px;
-  width: calc(100vw - 15em);
-  padding: 16px;
+/* Inner form container */
+.Frame-1000009526 {
+  height: 1181px;
+  align-self: stretch;
+  flex-grow: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 24px;
+  padding: 24px 0;
+  border-radius: 16px;
+  border: solid 1px #e3e3e3;
+  background-color: #fff;
+  max-width: 1100px;
+  width: 100%;
 }
 
-/* Headings */
+/* Ensure form containers are centered */
+.Frame-1000009526,
+.transfer-ownership-content-container {
+  margin: 0 auto;
+}
+
+/* Heading styles */
+.Profiles-Manager-form2-h1,
 .Profiles-Manager {
+  display: block;
   height: 19px;
   font-family: Inter, sans-serif;
   font-size: 16px;
   font-weight: bold;
-  line-height: normal;
   text-align: left;
   color: #171d22;
 }
 
+.Profiles-Manager-form2-h2,
 .Profiles-Manager2 {
+  display: block;
   height: 20px;
   font-family: Inter, sans-serif;
   font-size: 14px;
@@ -58,25 +63,54 @@
   margin-top: 8px;
 }
 
-/* Labels */
-.Textfield-Label,
-.Date,
-.Dropdown-Label {
+/* Divider line */
+.Line-8 {
+  height: 1px;
+  background-color: #e3e3e3;
+  width: 100%;
+  margin: 16px 0;
+}
+
+/* Hire purchase container */
+.hire-purchase-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.Hire-Purchase-Agreement {
+  height: 20px;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #556485;
+}
+
+.Physical-Inspection-Request {
   height: 20px;
   flex-grow: 1;
   font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fb0004;
+}
+
+.Dropdown-Label {
+  height: 20px;
+  font-family: Inter, sans-serif;
   font-size: 14px;
   font-weight: bold;
-  line-height: 1.43;
-  text-align: left;
   color: #161a23;
 }
 
-/* Input wrappers */
+/* Input field container */
+.Frame-1,
 .input-frame {
   height: 50px;
-  flex: 1 1 260px; /* flex-grow:1, flex-shrink:1, flex-basis:260px */
-  min-width: 200px; /* chhoti screen me shrink ho sakta hai */
+  align-self: stretch;
+  flex-grow: 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -88,9 +122,120 @@
   background-color: #fff;
 }
 
+.input-frame {
+  flex: 1 1 260px;
+  min-width: 200px;
+}
+
+/* Labels */
+.Textfield-Label,
+.Date,
+.Dropdown-Label {
+  height: 20px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #161a23;
+  margin-bottom: 8px;
+}
+
+/* Input wrapper */
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.input-wrapper.full-width {
+  width: 100%;
+}
+
+.input-wrapper .ant-input {
+  height: 40px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* Note box */
+.note,
+.Note {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: #f3f5f8;
+  box-sizing: border-box;
+}
+
+.Note {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Note text styles */
+.NOTE-Wrapper {
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  line-height: 1.42;
+  text-align: left;
+}
+
+.text-style-1 {
+  color: #161a23;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.links a {
+  color: #245df9;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* Save button */
+.Save_button {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #04544f;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.Save_button:hover {
+  background-color: #03403c;
+}
+
+/* Transfer ownership content container */
+.transfer-ownership-content-container {
+  background-color: #fff;
+  height: calc(100vh - 7em);
+  border-radius: 8px;
+  width: calc(100vw - 15em);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Submit frame */
 .submit-frame {
-  flex: 1 1 100px; /* responsive width */
-  max-width: 120px; /* zyada na badhe */
+  flex: 1 1 100px;
+  max-width: 120px;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -108,26 +253,24 @@
   transition: background 0.3s ease;
 }
 
-
 .submit-frame:hover {
   background-color: #cddede;
 }
 
-/* Icon bottom text */
+/* Info text under icon */
 .info-text {
   width: 392px;
   height: 40px;
   font-family: Inter, sans-serif;
   font-size: 14px;
-  font-weight: normal;
-  line-height: 1.43;
-  text-align: center;
   color: #556485;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* Dummy data without background */
+
+/* Dummy data container (no background) */
 .dummy-data-container.no-bg {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -170,4 +313,3 @@
     margin-top: 2px;
   }
 }
-
