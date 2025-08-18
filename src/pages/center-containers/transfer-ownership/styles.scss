@@ -15,8 +15,8 @@
 }
 
 /* Inner form container */
+
 .Frame-1000009526 {
-  height: 1181px;
   align-self: stretch;
   flex-grow: 0;
   display: flex;
@@ -26,11 +26,12 @@
   gap: 24px;
   padding: 24px 0;
   border-radius: 16px;
-  border: solid 1px #e3e3e3;
+  border: 1px solid #e3e3e3;
   background-color: #fff;
   max-width: 1100px;
   width: 100%;
 }
+
 
 /* Ensure form containers are centered */
 .Frame-1000009526,
@@ -63,12 +64,23 @@
   margin-top: 8px;
 }
 
+.Input-Field {
+  width: 100%; /* poori width le */
+}
+
+.input-frame {
+  display: flex;
+  align-items: center;
+  width: 100%;  /* container bhi poora expand ho */
+}
+
+
+
 /* Divider line */
 .Line-8 {
   height: 1px;
   background-color: #e3e3e3;
   width: 100%;
-  margin: 16px 0;
 }
 
 /* Hire purchase container */
@@ -77,32 +89,52 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-top: 16px;
 }
 
 .Hire-Purchase-Agreement {
   height: 20px;
-  font-family: Inter, sans-serif;
+  font-family: sans-serif;
   font-size: 16px;
   font-weight: bold;
   color: #556485;
 }
 
+/* Input wrapper */
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper.full-width {
+  width: 100%;
+}
+
+.input-wrapper .ant-input {
+  height: 40px;
+  border-radius: 6px;
+  width: 100%;
+}
+
 .Physical-Inspection-Request {
   height: 20px;
   flex-grow: 1;
-  font-family: Inter, sans-serif;
+  font-family: sans-serif;
   font-size: 16px;
   font-weight: bold;
   color: #fb0004;
 }
 
-.Dropdown-Label {
-  height: 20px;
+/* Labels */
+.Textfield-Label,
+.Date,
+.city-select {
+  display: block;
+  margin-bottom: 4px; /* label aur dropdown ke darmiyan chhota gap */
   font-family: Inter, sans-serif;
   font-size: 14px;
   font-weight: bold;
   color: #161a23;
+  line-height: 1.2;
 }
 
 /* Input field container */
@@ -116,7 +148,8 @@
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
-  padding: 10px 12px;
+  
+  padding: 0 12px 10px 12px; 
   border-radius: 8px;
   border: solid 1px #e3e3e3;
   background-color: #fff;
@@ -127,33 +160,26 @@
   min-width: 200px;
 }
 
-/* Labels */
-.Textfield-Label,
-.Date,
-.Dropdown-Label {
-  height: 20px;
-  font-family: Inter, sans-serif;
+
+.city-select-label {
+  display: block; // taki wo line break le aur dropdown ke upar aaye
+  margin-bottom: 4px; // dropdown ke sath 4px ka gap
+  font-weight: bold; // bold label
+  font-size: 14px; // optional, readable font size
+  color: #000; // optional, dark text for visibility
+}
+
+
+
+/* City dropdown */
+.city-select-dropdown {
+  width: 100%;
+  height: 36px;  /* compact input height */
+  border: none;
+  outline: none;
   font-size: 14px;
-  font-weight: bold;
   color: #161a23;
-  margin-bottom: 8px;
-}
-
-/* Input wrapper */
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-top: 16px;
-}
-
-.input-wrapper.full-width {
-  width: 100%;
-}
-
-.input-wrapper .ant-input {
-  height: 40px;
-  border-radius: 6px;
-  width: 100%;
+  background-color: transparent;
 }
 
 /* Note box */
@@ -214,6 +240,7 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
+  margin-top: 16px; /* 👈 sirf button ke upar gap */
 }
 
 .Save_button:hover {
@@ -275,8 +302,10 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px 24px;
+}
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .dummy-data-container.no-bg {
     grid-template-columns: 1fr;
   }
 }
@@ -286,30 +315,32 @@
   flex-direction: column;
   padding-right: 12px;
   border-right: 1px solid #e3e3e3;
+}
 
-  &:nth-child(3n) {
-    border-right: none;
-  }
+.dummy-data-item:nth-child(3n) {
+  border-right: none;
+}
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .dummy-data-item {
     border-right: none;
     border-bottom: 1px solid #e3e3e3;
     padding-bottom: 8px;
-
-    &:last-child {
-      border-bottom: none;
-    }
   }
 
-  .label {
-    font-size: 14px;
-    color: #8c8c8c;
+  .dummy-data-item:last-child {
+    border-bottom: none;
   }
+}
 
-  .value {
-    font-size: 14px;
-    font-weight: bold;
-    color: #171d22;
-    margin-top: 2px;
-  }
+.dummy-data-item .label {
+  font-size: 14px;
+  color: #8c8c8c;
+}
+
+.dummy-data-item .value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #171d22;
+  margin-top: 2px;
 }
