@@ -85,7 +85,7 @@ const VehicleDetails = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="col-span-12 bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+            className="col-span-12 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 btn"
           >
             Go to Reserve Number Page
           </button>

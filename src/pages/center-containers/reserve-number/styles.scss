@@ -11,3 +11,115 @@
   font-size: 24px;
   color: white;
 }
+.reservation-portal-main-container {
+  padding: 22px !important;
+  .outer-div {
+    padding: 0 !important;
+    .heading {
+      font-size: 16px;
+      font-weight: bold;
+      padding: 20px !important;
+      margin-bottom: 0 !important;
+    }
+    .divider {
+      height: 1px;
+      align-self: stretch;
+      flex-grow: 0;
+      background-color: #e3e3e3;
+    }
+    .inner-container-form {
+      padding: 38px 20px !important;
+      .first-row {
+        .next-div {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          .block-title {
+            height: 10px !important;
+          }
+          .input-cls {
+          }
+        }
+      }
+      .second-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        .second-row-heading {
+        }
+        .input-cls {
+          height: 50px !important;
+        }
+      }
+      .third-row {
+        .cnic-div {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          .label {
+          }
+          .cnic-input {
+            height: 50px !important;
+          }
+        }
+        .ntn-div {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          .label {
+          }
+          .ntn-input {
+            height: 50px !important;
+          }
+        }
+      }
+      .forth-row {
+        .phone-no-div {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          .label {
+          }
+          .phone-no-input {
+            height: 50px !important;
+          }
+        }
+        .biometric-id-div {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          .label {
+          }
+          .biometric-id-input {
+            height: 50px !important;
+          }
+        }
+      }
+      .fifth-row {
+        .vehicle-maker-div {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          .label {
+          }
+          .vehicle-maker-input {
+            height: 50px !important;
+          }
+        }
+        .joint-with-div {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          .label {
+          }
+          .join-width-input {
+            height: 50px !important;
+          }
+        }
+      }
+    }
+  }
+}
+button:disabled {
+  cursor: not-allowed !important;
+}
