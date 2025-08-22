@@ -1,19 +1,346 @@
+/* Main container */
 .transfer-ownership {
   width: 100%;
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Horizontal center */
+  justify-content: flex-start; /* Top aligned */
+  padding-top: 42px;
+  gap: 16px; /* Space between forms */
+}
+
+/* Inner form container */
+
+.Frame-1000009526 {
+  align-self: stretch;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 24px;
+  padding: 24px 0;
+  border-radius: 16px;
+  border: 1px solid #e3e3e3;
+  background-color: #fff;
+  max-width: 1100px;
+  width: 100%;
+}
+
+
+/* Ensure form containers are centered */
+.Frame-1000009526,
+.transfer-ownership-content-container {
+  margin: 0 auto;
+}
+
+/* Heading styles */
+.Profiles-Manager-form2-h1,
+.Profiles-Manager {
+  display: block;
+  height: 19px;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  color: #171d22;
+}
+
+.Profiles-Manager-form2-h2,
+.Profiles-Manager2 {
+  display: block;
+  height: 20px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.43;
+  text-align: left;
+  color: #556485;
+  margin-top: 8px;
+}
+
+.Input-Field {
+  width: 100%; /* poori width le */
+}
+
+.input-frame {
+  display: flex;
+  align-items: center;
+  width: 100%;  /* container bhi poora expand ho */
+}
+
+
+
+/* Divider line */
+.Line-8 {
+  height: 1px;
+  background-color: #e3e3e3;
+  width: 100%;
+}
+
+/* Hire purchase container */
+.hire-purchase-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.Hire-Purchase-Agreement {
+  height: 20px;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #556485;
+}
+
+/* Input wrapper */
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper.full-width {
+  width: 100%;
+}
+
+.input-wrapper .ant-input {
+  height: 40px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.Physical-Inspection-Request {
+  height: 20px;
+  flex-grow: 1;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fb0004;
+}
+
+/* Labels */
+.Textfield-Label,
+.Date,
+.city-select {
+  display: block;
+  margin-bottom: 4px; /* label aur dropdown ke darmiyan chhota gap */
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #161a23;
+  line-height: 1.2;
+}
+
+/* Input field container */
+.Frame-1,
+.input-frame {
+  height: 50px;
+  align-self: stretch;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  
+  padding: 0 12px 10px 12px; 
+  border-radius: 8px;
+  border: solid 1px #e3e3e3;
+  background-color: #fff;
+}
+
+.input-frame {
+  flex: 1 1 260px;
+  min-width: 200px;
+}
+
+
+.city-select-label {
+  display: block; // taki wo line break le aur dropdown ke upar aaye
+  margin-bottom: 4px; // dropdown ke sath 4px ka gap
+  font-weight: bold; // bold label
+  font-size: 14px; // optional, readable font size
+  color: #000; // optional, dark text for visibility
+}
+
+
+
+/* City dropdown */
+.city-select-dropdown {
+  width: 100%;
+  height: 36px;  /* compact input height */
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #161a23;
+  background-color: transparent;
+}
+
+/* Note box */
+.note,
+.Note {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: #f3f5f8;
+  box-sizing: border-box;
+}
+
+.Note {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Note text styles */
+.NOTE-Wrapper {
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  line-height: 1.42;
+  text-align: left;
+}
+
+.text-style-1 {
+  color: #161a23;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.links a {
+  color: #245df9;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* Save button */
+.Save_button {
+  width: 100%;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
-  .transfer-ownership-content-container {
-    background-color: #fff;
-    height: calc(100vh - 7em);
-    border-radius: 8px;
-    width: calc(100vw - 15em);
-    padding: 16px;
-    .title {
-    }
+  gap: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #04544f;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  margin-top: 16px; /* 👈 sirf button ke upar gap */
+}
+
+.Save_button:hover {
+  background-color: #03403c;
+}
+
+/* Transfer ownership content container */
+.transfer-ownership-content-container {
+  background-color: #fff;
+  height: calc(100vh - 7em);
+  border-radius: 8px;
+  width: calc(100vw - 15em);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Submit frame */
+.submit-frame {
+  flex: 1 1 100px;
+  max-width: 120px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ebf1f1;
+  color: #04544f;
+  font-family: ProximaNova, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.submit-frame:hover {
+  background-color: #cddede;
+}
+
+/* Info text under icon */
+.info-text {
+  width: 392px;
+  height: 40px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  color: #556485;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dummy data container (no background) */
+.dummy-data-container.no-bg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px 24px;
+}
+
+@media (max-width: 768px) {
+  .dummy-data-container.no-bg {
+    grid-template-columns: 1fr;
   }
+}
+
+.dummy-data-item {
+  display: flex;
+  flex-direction: column;
+  padding-right: 12px;
+  border-right: 1px solid #e3e3e3;
+}
+
+.dummy-data-item:nth-child(3n) {
+  border-right: none;
+}
+
+@media (max-width: 768px) {
+  .dummy-data-item {
+    border-right: none;
+    border-bottom: 1px solid #e3e3e3;
+    padding-bottom: 8px;
+  }
+
+  .dummy-data-item:last-child {
+    border-bottom: none;
+  }
+}
+
+.dummy-data-item .label {
+  font-size: 14px;
+  color: #8c8c8c;
+}
+
+.dummy-data-item .value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #171d22;
+  margin-top: 2px;
 }

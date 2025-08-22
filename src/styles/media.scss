@@ -1,0 +1,35 @@
+// src/styles/media.scss
+
+// Breakpoints
+$mobile: 480px;
+$tablet: 768px;
+$laptop: 1024px;
+$desktop: 1280px;
+
+// Mobile
+@mixin mobile {
+  @media (max-width: #{$mobile}) {
+    @content;
+  }
+}
+
+// Tablet
+@mixin tablet {
+  @media (max-width: #{$tablet}) {
+    @content;
+  }
+}
+
+// Laptop
+@mixin laptop {
+  @media (max-width: #{$laptop}) {
+    @content;
+  }
+}
+
+// Desktop
+@mixin desktop {
+  @media (max-width: #{$desktop}) {
+    @content;
+  }
+}
