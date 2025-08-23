@@ -124,129 +124,115 @@ export default function StyledRegistrationForm() {
           className="space-y-8 inner-container-form"
           onSubmit={(e) => e.preventDefault()}
         >
-          <div className="flex flex-col md:flex-row gap-3 first-row w-full">
-            <div className="w-full md:w-[40%] next-div">
-              <label
-                className="text-sm font-bold text-gray-700 mb-1 block-title"
-                style={{ color: "#161a23" }}
-              >
-                Series Alphabets
-              </label>
-              <input
-                type="text"
-                name="series"
-                value={formData.series}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    series: e.target.value.toUpperCase(),
-                  })
-                }
-                placeholder="LZ"
-                className="w-full text-sm input-cls  focus:outline-none focus:ring-0 focus:border-brandGreen"
-                style={{
-                  height: "50px",
-                  padding: "10px 12px",
-                  borderRadius: "8px",
-                  border: "1px solid #e3e3e3",
-                  backgroundColor: "#fff",
-                }}
-              />
-            </div>
+       <div className="flex flex-col md:flex-row gap-3 w-full items-end">
 
-            <div className="w-full md:w-[40%] next-div">
-              <label
-                className="text-sm font-bold text-gray-700 mb-1 block-title"
-                style={{ color: "#161a23" }}
-              >
-                Available Numbers
-              </label>
-              <div className="relative">
-                <Select
-                  options={numberOptions}
-                  value={
-                    numberOptions.find((o) => o.value === formData.number) ||
-                    null
-                  }
-                  onChange={(option) =>
-                    setFormData({
-                      ...formData,
-                      number: option ? option.value : "",
-                    })
-                  }
-                  placeholder={"Enter"}
-                  isSearchable
-                  classNamePrefix="react-select"
-                  styles={{
-                    control: (base, state) => ({
-                      ...base,
-                      minHeight: "50px",
-                      paddingLeft: "12px",
-                      paddingRight: "4px",
-                      borderRadius: "8px",
-                      borderColor: state.isFocused ? "#14b8a6" : "#e3e3e3",
-                      boxShadow: state.isFocused
-                        ? "0 0 0 2px rgba(20, 184, 166, 0.2)"
-                        : "none",
-                      backgroundColor: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      transition: "all 0.2s ease",
-                      fontSize: "14px",
-                      color: "#374151",
-                      cursor: "text",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#9CA3AF",
-                      fontSize: "14px",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      borderRadius: "8px",
-                      zIndex: 50,
-                    }),
-                    indicatorSeparator: () => ({ display: "none" }),
-                    dropdownIndicator: (base, state) => ({
-                      ...base,
-                      transform: state.selectProps.menuIsOpen
-                        ? "rotate(180deg)"
-                        : "rotate(0deg)",
-                      transition: "transform 0.2s ease",
-                    }),
-                  }}
-                />
-              </div>
-            </div>
+  {/* 1️⃣ Series Alphabets */}
+  <div className="flex-1 min-w-0 next-div">
+    <label className="text-sm font-bold text-gray-700 mb-1 block-title" style={{ color: "#161a23" }}>
+      Series Alphabets
+    </label>
+    <input
+      type="text"
+      name="series"
+      value={formData.series}
+      onChange={(e) =>
+        setFormData({
+          ...formData,
+          series: e.target.value.toUpperCase(),
+        })
+      }
+      placeholder="LZ"
+      className="w-full text-sm input-cls focus:outline-none focus:ring-0 focus:border-brandGreen"
+      style={{
+        height: "50px",
+        padding: "10px 12px",
+        borderRadius: "8px",
+        border: "1px solid #e3e3e3",
+        backgroundColor: "#fff",
+      }}
+    />
+  </div>
 
-            <div className="w-full md:w-[20%]">
-              <label className=" font-bold text-gray-700 mb-1 block invisible ">
-                Check Availability
-              </label>
-              <button
-                type="button"
-                onClick={handleCheckAvailability}
-                className="w-full font-semibold check-avail-btn "
-                style={{
-                  height: "50px",
-                  padding: "0 12px",
-                  fontWeight: "bold",
-                  borderRadius: "8px",
-                  backgroundColor: "#ebf1f1",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  lineHeight: "1.2",
-                  textAlign: "center",
-                  fontSize: "14px",
-                  color: "#04544f",
-                }}
-              >
-                Check Availability
-              </button>
-            </div>
-          </div>
+  {/* 2️⃣ Available Numbers */}
+  <div className="flex-1 min-w-0 next-div">
+    <label className="text-sm font-bold text-gray-700 mb-1 block-title" style={{ color: "#161a23" }}>
+      Available Numbers
+    </label>
+    <div className="relative">
+      <Select
+        options={numberOptions}
+        value={numberOptions.find((o) => o.value === formData.number) || null}
+        onChange={(option) =>
+          setFormData({
+            ...formData,
+            number: option ? option.value : "",
+          })
+        }
+        placeholder={"Enter"}
+        isSearchable
+        classNamePrefix="react-select"
+        styles={{
+          control: (base, state) => ({
+            ...base,
+            minHeight: "50px",
+            paddingLeft: "12px",
+            paddingRight: "4px",
+            borderRadius: "8px",
+            borderColor: state.isFocused ? "#14b8a6" : "#e3e3e3",
+            boxShadow: state.isFocused ? "0 0 0 2px rgba(20, 184, 166, 0.2)" : "none",
+            backgroundColor: "#fff",
+            display: "flex",
+            alignItems: "center",
+            transition: "all 0.2s ease",
+            fontSize: "14px",
+            color: "#374151",
+            cursor: "text",
+          }),
+          placeholder: (base) => ({ ...base, color: "#9CA3AF", fontSize: "14px" }),
+          menu: (base) => ({ ...base, borderRadius: "8px", zIndex: 50 }),
+          indicatorSeparator: () => ({ display: "none" }),
+          dropdownIndicator: (base, state) => ({
+            ...base,
+            transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.2s ease",
+          }),
+        }}
+      />
+    </div>
+  </div>
+
+  {/* 3️⃣ Check Availability Button */}
+  <div className="w-[154px]">
+    <label className="font-bold text-gray-700 mb-1 block invisible">
+      Check Availability
+    </label>
+    <button
+      type="button"
+      onClick={handleCheckAvailability}
+      className="w-full font-semibold check-avail-btn mt-[12px]"
+      style={{
+        height: "50px",
+        padding: "0 12px",
+        fontWeight: "bold",
+        borderRadius: "8px",
+        backgroundColor: "#ebf1f1",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        lineHeight: "1.2",
+        textAlign: "center",
+        fontSize: "14px",
+        color: "#04544f",
+      }}
+    >
+      Check Availability
+    </button>
+  </div>
+
+</div>
+
+
 
           {clickCount > 0 && (
             <div style={getAvailabilityStyle()}>{getAvailabilityMessage()}</div>
@@ -354,28 +340,35 @@ export default function StyledRegistrationForm() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 fifth-row">
-            <div className="vehicle-maker-div">
-              <label className="text-sm font-bold text-[#161a23] label">
-                Vehicle Maker
-              </label>
-              <div className="relative mt-1">
-                <select
-                  name="vehicleMaker"
-                  value={formData.vehicleMaker}
-                  onChange={(e) =>
-                    setFormData({ ...formData, vehicleMaker: e.target.value })
-                  }
-                  className="w-full border border-gray-200 bg-gray-100 text-gray-700 px-4 py-2 pr-10 rounded-md focus:ring-2 focus:ring-teal-500 vehicle-maker-input focus:outline-none focus:ring-0 focus:border-brandGreen"
-                >
-                  <option value="">Select Vehicle Maker</option>
-                  <option value="Toyota">Toyota</option>
-                  <option value="Honda">Honda</option>
-                  <option value="Suzuki">Suzuki</option>
-                  <option value="Kia">Kia</option>
-                  <option value="Hyundai">Hyundai</option>
-                </select>
-              </div>
-            </div>
+
+            <div className="vehicle-maker-div -mt-[8px]">
+  <label className="text-sm font-bold text-[#161a23] label">
+    Vehicle Maker
+  </label>
+  <div className="relative ">
+    <select
+      name="vehicleMaker"
+      value={formData.vehicleMaker}
+      onChange={(e) =>
+        setFormData({ ...formData, vehicleMaker: e.target.value })
+      }
+      className="w-full border border-gray-200 bg-gray-100 text-gray-700 
+        px-4 py-2 pr-10 rounded-md 
+        focus:ring-2 focus:ring-teal-500 vehicle-maker-input 
+        focus:outline-none focus:ring-0 focus:border-brandGreen 
+        [background-position:calc(100%-2rem)_center]"
+    >
+      <option value="">Select Vehicle Maker</option>
+      <option value="Toyota">Toyota</option>
+      <option value="Honda">Honda</option>
+      <option value="Suzuki">Suzuki</option>
+      <option value="Kia">Kia</option>
+      <option value="Hyundai">Hyundai</option>
+    </select>
+  </div>
+</div>
+
+
             <div className="joint-with-div">
               <label className="text-sm font-bold text-[#161a23] label">
                 Joint With

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
 import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
-import { Input, DatePicker, Select, Switch, Row, Col } from "antd";
+import { Input, DatePicker, Select, Switch, Row, Col } from "antd"; // ✅ sirf ye rakho
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
+import { useState } from "react";
 
 const VehicleTransferOwnership = () => {
   const [showData, setShowData] = useState(false);
   const [showPurchaserForm, setShowPurchaserForm] = useState(false);
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
-  const [processType, setProcessType] = useState("");
+  const [processType, setProcessType] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -85,48 +85,51 @@ const VehicleTransferOwnership = () => {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2"
         >
-        <div className="Input-Field w-full">
-  <label className="Textfield-Label">Registration No.</label>
-  <div className="input-frame w-full">
-    <Input
-      placeholder="Enter here..."
-      value={regNo}
-      onChange={(e) => setRegNo(e.target.value)}
-      allowClear
-      className="w-full border-0 shadow-none"
-    />
-  </div>
-</div>
+          <div className="w-full">
+            <label className="Textfield-Label">Registration No.</label>
+            <div className="">
+              <Input
+                placeholder="Enter here..."
+                value={regNo}
+                onChange={(e) => setRegNo(e.target.value)}
+                allowClear
+                className="w-full shadow-none"
+              />
+            </div>
+          </div>
 
-<div className="Input-Field w-full">
-  <label className="Textfield-Label">Registration Date</label>
-  <div className="input-frame w-full">
-    <DatePicker
-      placeholder="Enter Date"
-      className="w-full border-0 shadow-none"
-      value={regDate}
-      onChange={(date) => setRegDate(date)}
-      allowClear
-    />
-  </div>
-</div>
+          <div className="w-full items-center">
+            <label className="Textfield-Label">Registration Date</label>
+            <div className="input-frame">
+              <DatePicker
+                placeholder="Enter Date"
+                className="w-full custom-datepicker"
+                value={regDate}
+                onChange={(date) => setRegDate(date)}
+                allowClear
+              />
+            </div>
+          </div>
 
-<div className="Input-Field w-full">
-  <label className="Textfield-Label">Select Process Type</label>
-  <div className="input-frame w-full">
-    <Select
-      placeholder="Select"
-      className="w-full border-0 shadow-none"
-      value={processType}
-      onChange={(value) => setProcessType(value)}
-      allowClear
-      options={[
-        { value: "transfer", label: "Ownership Transfer" },
-        { value: "inspection", label: "Inspection" },
-      ]}
-    />
-  </div>
-</div>
+          <div className="w-full">
+            <label htmlFor="processType" className="Textfield-Label">
+              Select Process Type
+            </label>
+            <div className="input-frame w-full">
+              <Select
+                id="processType"
+                placeholder="Select"
+                className="w-full custom-select"
+                value={processType ?? null}
+                onChange={(value) => setProcessType(value ?? null)}
+                allowClear
+                options={[
+                  { value: "transfer", label: "Ownership Transfer" },
+                  { value: "inspection", label: "Inspection" },
+                ]}
+              />
+            </div>
+          </div>
 
           <div className="Input-Field flex items-end">
             <button type="submit" className="submit-frame w-full">
@@ -222,67 +225,85 @@ const VehicleTransferOwnership = () => {
 
           <div style={{ padding: "0 24px" }}>
           {/* Row 1: Normal Fields */}
-<Row gutter={[16, 32]}>
-  <Col xs={24} sm={8}> 
-    <span className="Dropdown-Label">Owner Type*</span>
-    <Select placeholder="Select..." style={{ width: "100%" }} />
+<Row gutter={[16, 16]}>
+  <Col xs={24} sm={8}>
+    <span className="Dropdown-Label Textfield-Label">Owner Type*</span>
+    <Select placeholder="Select..." className="uniform-input1">
+      <Select.Option value="org">Organization</Select.Option>
+      <Select.Option value="ind">Individual</Select.Option>
+    </Select>
   </Col>
+
   <Col xs={24} sm={8}>
     <span className="Textfield-Label">NTN No.</span>
-    <Input placeholder="Enter NTN..." />
+    <Input placeholder="Enter NTN..." className="uniform-input1" />
   </Col>
+
   <Col xs={24} sm={8}>
     <span className="Textfield-Label">CNIC No.</span>
-    <Input placeholder="Enter CNIC..." />
+    <Input placeholder="Enter CNIC..." className="uniform-input1" />
   </Col>
+
   <Col xs={24} sm={8}>
     <span className="Textfield-Label">Passport No.</span>
-    <Input placeholder="Enter Passport No." />
+    <Input placeholder="Enter Passport No." className="uniform-input1" />
   </Col>
+
   <Col xs={24} sm={8}>
     <span className="Textfield-Label">Purchaser Name*</span>
-    <Input placeholder="Enter Purchaser Name" />
+    <Input placeholder="Enter Purchaser Name" className="uniform-input1" />
   </Col>
+
   <Col xs={24} sm={8}>
     <span className="Textfield-Label">F/H/W/O Name</span>
-    <Input placeholder="Enter F/H/W/O Name" />
+    <Input placeholder="Enter F/H/W/O Name" className="uniform-input1" />
   </Col>
-  <Col xs={24} sm={12}>
-    <span className="Phone-Number font-bold">Contact Number</span>
 
-    <Input placeholder="Enter Contact Number" />
-  </Col>
   <Col xs={24} sm={12}>
-    <span className="Phone-Number font-bold">Other Contact Number</span>
-    <Input placeholder="Enter Other Contact Number" />
+    <span className="Textfield-Label">Contact Number</span>
+    <Input placeholder="Enter Contact Number" className="uniform-input2" />
   </Col>
+
   <Col xs={24} sm={12}>
-    <span className="Description font-bold">Present Address</span>
-    <Input.TextArea placeholder="Enter Address..." rows={2} />
+    <span className="Textfield-Label">Other Contact Number</span>
+    <Input placeholder="Enter Other Contact Number" className="uniform-input2" />
   </Col>
+
   <Col xs={24} sm={12}>
-    <span className="Description font-bold">Permanent Address</span>
-    <Input.TextArea placeholder="Enter Address..." rows={2} />
+    <span className="Textfield-Label">Present Address</span>
+    <Input.TextArea rows={2} placeholder="Enter Address..." className="uniform-input2" />
   </Col>
+
   <Col xs={24} sm={12}>
-    <span className="Dropdown-Label">
-      District (Present Address)
-    </span>
-    <Select placeholder="Select District" style={{ width: "100%" }}>
-      <Select.Option value="district1">District 1</Select.Option>
-      <Select.Option value="district2">District 2</Select.Option>
-    </Select>
+    <span className="Textfield-Label">Permanent Address</span>
+    <Input.TextArea rows={2} placeholder="Enter Address..."  className="uniform-input2"/>
   </Col>
-  <Col xs={24} sm={12}>
-    <span className="Dropdown-Label font-bold">
-      District (Permanent Address)
-    </span>
-    <Select placeholder="Select District" style={{ width: "100%" }}>
-      <Select.Option value="district1">District 1</Select.Option>
-      <Select.Option value="district2">District 2</Select.Option>
-    </Select>
-  </Col>
+ <Col xs={24} sm={12}>
+  <span className="Dropdown-Label w-full bold Textfield-Label">District (Present Address)</span>
+  <Select
+    placeholder="Select District"
+    className="uniform-input1 w-full max-w-full"
+  >
+   <Select.Option value="org">Islamabad</Select.Option>
+    <Select.Option value="ind">Lahore</Select.Option>
+    <Select.Option value="ind">Karachi</Select.Option>
+  </Select>
+</Col>
+<Col xs={24} sm={12}>
+  <span className="Dropdown-Label w-full Textfield-Label">District (Permanent Address)</span>
+  <Select
+    placeholder="Select District"
+    className="uniform-input1 w-full max-w-full"
+  >
+    <Select.Option value="org">Islamabad</Select.Option>
+    <Select.Option value="ind">Lahore</Select.Option>
+    <Select.Option value="ind">Karachi</Select.Option>
+  </Select>
+</Col>
+
+
 </Row>
+
 
 {/* Row 2: Hire Purchase + Physical Inspection */}
 <Row gutter={[16, 0]} style={{ marginTop: "32px" }}>

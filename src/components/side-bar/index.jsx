@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
+import Attention from "../../pages/center-containers/attention";  // apna modal import karo
+
 import { Layout, Menu, Button, Divider } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./styles.scss";
@@ -40,6 +42,8 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
+  const [showAttention, setShowAttention] = useState(false);
+
 
   const currentPath = location.pathname;
 
@@ -269,13 +273,41 @@ const Sidebar = () => {
             <div className="flex-1">
               <div className="portal-title">PUBLIC SERVICE PORTAL</div>
 
-              <Menu
-                mode="inline"
-                selectedKeys={[location.pathname]}
-                onClick={({ key }) => navigate(key)}
-                items={menuItemsForAntd}
-                className="custom-menu"
-              />
+       {/* Sidebar Toggle Button */}
+<Button
+  type="text"
+  icon={<img src={collapsed ? OpenMenuIcon : CloseMenuIcon} className="toggle-icon" alt="Toggle Sidebar" />}
+  onClick={() => {
+    if (!showAttention) setCollapsed(!collapsed); 
+  }}
+  className="sidebar-toggle-btn"
+  style={{
+    position: "absolute",
+    top: "10px",
+    right: collapsed ? "-40px" : "-17px",
+    transition: "right 1s ease",
+    zIndex: 40,               
+    cursor: showAttention ? "not-allowed" : "pointer", 
+    opacity: showAttention ? 0.5 : 1,                  
+  }}
+/>
+
+{/* Menu */}
+<Menu
+  mode="inline"
+  selectedKeys={[location.pathname]}
+  className="custom-menu"
+  onClick={({ key }) => {
+    if (key === "/registration") {
+      setShowAttention(true); 
+    } else {
+      navigate(key);  
+    }
+  }}
+  items={menuItemsForAntd}
+/>
+
+
             </div>
 
             {/* BOTTOM SECTION (Profile + Logout) */}
@@ -327,6 +359,8 @@ const Sidebar = () => {
             </div>
           </div>
         </Sider>
+        <Attention visible={showAttention} onClose={() => setShowAttention(false)} />
+
       </div>
     </>
   );
