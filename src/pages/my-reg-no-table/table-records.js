@@ -50,24 +50,24 @@ export const columns = [
     dataIndex: "joint_with",
     key: "joint_with",
   },
-  {
-    title: "PSID",
-    dataIndex: "PSID",
-    key: "PSID",
-  },
-  {
-    title: "Payment Status",
-    dataIndex: "payment_status",
-    key: "payment_status",
-    render: (text) => {
-      let className = "";
-      if (text === "Paid") className = "paid-status";
-      else if (text === "Unpaid") className = "unpaid-status";
-      else if (text === "Refunded") className = "refunded-status";
+  // {
+  //   title: "PSID",
+  //   dataIndex: "PSID",
+  //   key: "PSID",
+  // },
+  // {
+  //   title: "Payment Status",
+  //   dataIndex: "payment_status",
+  //   key: "payment_status",
+  //   render: (text) => {
+  //     let className = "";
+  //     if (text === "Paid") className = "paid-status";
+  //     else if (text === "Unpaid") className = "unpaid-status";
+  //     else if (text === "Refunded") className = "refunded-status";
 
-      return <span className={className}>{text}</span>;
-    },
-  },
+  //     return <span className={className}>{text}</span>;
+  //   },
+  // },
 ];
 export const tableRecords = [
   {
