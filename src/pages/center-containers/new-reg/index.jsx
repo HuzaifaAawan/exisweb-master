@@ -39,7 +39,7 @@ const NewVehicleRegistration = () => {
   };
   return (
     <div
-      className="min-h-screen bg-cover bg-no-repeat bg-center p-6"
+      className="new-reg"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="page-title">
