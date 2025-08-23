@@ -3,7 +3,7 @@ import AppLayout from "../layouts/AppLayout";
 
 import VehicleDetails from "../pages/VehicleDetails";
 import RegistrationNoTable from "../pages/my-reg-no-table"; 
-import StyledRegistrationForm from "../pages/RegistrationNo";
+import StyledRegistrationForm from "../pages/center-containers/reserve-number/RegistrationNo";
 import NewVehicleRegistration from "../pages/center-containers/new-reg";
 import VehicleTransferOwnership from "../pages/center-containers/transfer-ownership";
 import CheckSmartCardStatus from "../pages/center-containers/smart-card-status";

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import { useState } from "react";
 import { Layout, Menu, Button, Divider } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./styles.scss";
@@ -256,80 +257,76 @@ const Sidebar = () => {
             zIndex: 1000,
           }}
         />
-     <Sider
-  width={299}
-  collapsedWidth={0}
-  collapsed={collapsed}
-  className="sidebar-container"
-  trigger={null}
->
-  <div className="sidebar-inner bg-no-repeat bg-bottom bg-contain flex flex-col h-full">
-    
-    {/* TOP SECTION (Menu) */}
-    <div className="flex-1">
-      <div className="portal-title">PUBLIC SERVICE PORTAL</div>
-
-      <Menu
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        onClick={({ key }) => navigate(key)}
-        items={menuItemsForAntd}
-        className="custom-menu"
-      />
-    </div>
-
-    {/* BOTTOM SECTION (Profile + Logout) */}
-    <div className="mt-auto">
-      <Divider
-        style={{
-          minWidth: "90%",
-          width: "90%",
-          margin: "24px 12px",
-        }}
-      />
-
-      <div className="profile-box p-6 rounded-lg bg-cover bg-center flex flex-col items-center">
-        <button
-          className="flex items-center justify-start gap-2 text-gray-800 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full user-account"
-          onClick={() => {
-            console.log("Profile clicked");
-          }}
+        <Sider
+          width={299}
+          collapsedWidth={0}
+          collapsed={collapsed}
+          className="sidebar-container"
+          trigger={null}
         >
-          <img
-            src={userProfile}
-            alt="User"
-            className="w-6 h-6 rounded-full object-cover"
-          />
-          <span className="font-semibold text-gray-800">
-            User Account
-          </span>
-        </button>
+          <div className="sidebar-inner bg-no-repeat bg-bottom bg-contain flex flex-col h-full">
+            {/* TOP SECTION (Menu) */}
+            <div className="flex-1">
+              <div className="portal-title">PUBLIC SERVICE PORTAL</div>
 
-        {/* Logout Button */}
-        <button className="flex items-center gap-2 text-red-600 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full justify-start mt-2 logout-btn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
-            />
-          </svg>
-          Logout Account
-        </button>
-      </div>
-    </div>
-  </div>
-</Sider>
+              <Menu
+                mode="inline"
+                selectedKeys={[location.pathname]}
+                onClick={({ key }) => navigate(key)}
+                items={menuItemsForAntd}
+                className="custom-menu"
+              />
+            </div>
 
+            {/* BOTTOM SECTION (Profile + Logout) */}
+            <div className="mt-auto">
+              <Divider
+                style={{
+                  minWidth: "90%",
+                  width: "90%",
+                  margin: "24px 12px",
+                }}
+              />
 
+              <div className="profile-box p-6 rounded-lg bg-cover bg-center flex flex-col items-center">
+                <button
+                  className="flex items-center justify-start gap-2 text-gray-800 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full user-account"
+                  onClick={() => {
+                    console.log("Profile clicked");
+                  }}
+                >
+                  <img
+                    src={userProfile}
+                    alt="User"
+                    className="w-6 h-6 rounded-full object-cover"
+                  />
+                  <span className="font-semibold text-gray-800">
+                    User Account
+                  </span>
+                </button>
 
+                {/* Logout Button */}
+                <button className="flex items-center gap-2 text-red-600 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full justify-start mt-2 logout-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+                    />
+                  </svg>
+                  Logout Account
+                </button>
+              </div>
+            </div>
+          </div>
+        </Sider>
       </div>
     </>
   );
