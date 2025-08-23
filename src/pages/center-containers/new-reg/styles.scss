@@ -25,13 +25,65 @@
     }
   }
   .new-reg-content-container {
-    background-color: #fff;
-    // height: calc(100vh - 7em);
-    border-radius: 8px;
-    width: calc(100vw - 15em);
-    padding: 16px;
-
     .title {
+    }
+    .reg-form-container {
+      .new-vehicle-reg-form {
+        .collapse-content-container {
+          background-color: #fff;
+          border: 1px solid #e3e3e3 !important;
+
+          .panel-hreader {
+            display: flex;
+            flex-direction: column;
+            .panel-title {
+              font-size: 14px !important;
+              margin-bottom: 0 !important;
+            }
+            .panel-header-text {
+              font-size: 12px;
+              color: #556485;
+            }
+          }
+          .ant-collapse-content-box {
+            .slection-field {
+              height: 42px !important;
+            }
+            .input-field {
+              height: 42px !important;
+            }
+            .text-area-input {
+              height: 99px;
+            }
+            .date-picker-cls {
+              height: 42px !important;
+            }
+          }
+        }
+        .vehicle-reg-btn {
+          background-color: #fff;
+          padding: 24px;
+          border-radius: 8px;
+          border: 1px solid #e3e3e3 !important;
+
+          .submit-btn {
+            height: 50px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            // opacity: 0.5;
+            border-radius: 8px;
+            background-color: #04544f;
+            color: #fff;
+            font-weight: bold;
+          }
+        }
+      }
     }
   }
 }
@@ -126,25 +178,75 @@ select:focus {
 .save-btn:hover {
   background: #44966d;
 }
-.custom-tabs .ant-tabs-nav {
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  overflow: hidden;
-  display: inline-block;
+.custom-tabs {
+  width: calc(100vw - 26em);
+  .ant-tabs-nav {
+    width: 100%;
+    margin: 0 !important;
+
+    .ant-tabs-nav-wrap {
+      padding: 6px;
+      background: #fff;
+      border-radius: 8px;
+
+      .ant-tabs-nav-list {
+        margin: 0 !important;
+        display: flex;
+        width: 100%;
+        height: 40px;
+        .ant-tabs-tab {
+          border: none !important;
+        }
+        :hover {
+          color: #04544f !important;
+          background-color: #e0f2f199 !important;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .ant-tabs-content-holder {
+    padding: 20px 0;
+  }
+}
+.custom-tab-bar {
+  display: flex;
+  justify-content: center;
+  border: 1px solid #e3e3e3 !important;
+  border-radius: 8px !important;
 }
 
 .custom-tabs .ant-tabs-tab {
-  padding: 12px 30px;
-  background-color: white;
+  flex: 1;
+  text-align: center;
   font-weight: 500;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  margin: 0 !important;
   transition: all 0.3s ease;
+  padding: 15px;
+  border-radius: 8px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
 .custom-tabs .ant-tabs-tab-active {
-  background-color: #e0f2f1;
+  background-color: #e0f2f199 !important;
   font-weight: bold;
+  .ant-tabs-tab-btn {
+    color: #04544f !important;
+  }
 }
 
 .custom-tabs .ant-tabs-ink-bar {
   display: none !important; /* Remove bottom line */
+}
+.switch-btn-css {
+  background-color: #d9d9d9; /* default background */
+
+  /* When switch is checked */
+  &.ant-switch-checked {
+    background-color: #02bc7d !important;
+  }
 }

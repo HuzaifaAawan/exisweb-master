@@ -1,0 +1,39 @@
+.section-collapse-wrapper {
+  margin-top: 24px;
+}
+
+.section-collapse {
+  margin-bottom: 20px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e3e3e3 !important;
+  .header-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px 24px;
+  padding: 10px 4px;
+  .info-div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.info-grid label {
+  display: block;
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
+}
+
+.info-grid span {
+  font-size: 14px;
+  color: #161a23;
+  font-weight: normal;
+}
