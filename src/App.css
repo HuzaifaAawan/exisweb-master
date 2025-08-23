@@ -6,6 +6,7 @@
 
 .reg-form {
   .reg-form-header {
+    margin: 0 !important;
   }
   .reg-form-title {
     background-color: white;
