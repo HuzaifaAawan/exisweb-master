@@ -124,8 +124,9 @@ export default function StyledRegistrationForm() {
           className="space-y-8 inner-container-form"
           onSubmit={(e) => e.preventDefault()}
         >
-          <div className="flex flex-col md:flex-row gap-3 first-row w-full">
-            <div className="w-full md:w-[40%] next-div">
+          <div className="flex flex-col md:flex-row gap-3 w-full items-end">
+            {/* 1️⃣ Series Alphabets */}
+            <div className="flex-1 min-w-0 next-div">
               <label
                 className="text-sm font-bold text-gray-700 mb-1 block-title"
                 style={{ color: "#161a23" }}
@@ -143,7 +144,7 @@ export default function StyledRegistrationForm() {
                   })
                 }
                 placeholder="LZ"
-                className="w-full text-sm input-cls  focus:outline-none focus:ring-0 focus:border-brandGreen"
+                className="w-full text-sm input-cls focus:outline-none focus:ring-0 focus:border-brandGreen"
                 style={{
                   height: "50px",
                   padding: "10px 12px",
@@ -154,7 +155,8 @@ export default function StyledRegistrationForm() {
               />
             </div>
 
-            <div className="w-full md:w-[40%] next-div">
+            {/* 2️⃣ Available Numbers */}
+            <div className="flex-1 min-w-0 next-div">
               <label
                 className="text-sm font-bold text-gray-700 mb-1 block-title"
                 style={{ color: "#161a23" }}
@@ -219,14 +221,15 @@ export default function StyledRegistrationForm() {
               </div>
             </div>
 
-            <div className="w-full md:w-[20%]">
-              <label className=" font-bold text-gray-700 mb-1 block invisible ">
+            {/* 3️⃣ Check Availability Button */}
+            <div className="w-[154px]">
+              <label className="font-bold text-gray-700 mb-1 block invisible">
                 Check Availability
               </label>
               <button
                 type="button"
                 onClick={handleCheckAvailability}
-                className="w-full font-semibold check-avail-btn "
+                className="w-full font-semibold check-avail-btn mt-[12px]"
                 style={{
                   height: "50px",
                   padding: "0 12px",
@@ -354,18 +357,22 @@ export default function StyledRegistrationForm() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 fifth-row">
-            <div className="vehicle-maker-div">
+            <div className="vehicle-maker-div -mt-[8px]">
               <label className="text-sm font-bold text-[#161a23] label">
                 Vehicle Maker
               </label>
-              <div className="relative mt-1">
+              <div className="relative ">
                 <select
                   name="vehicleMaker"
                   value={formData.vehicleMaker}
                   onChange={(e) =>
                     setFormData({ ...formData, vehicleMaker: e.target.value })
                   }
-                  className="w-full border border-gray-200 bg-gray-100 text-gray-700 px-4 py-2 pr-10 rounded-md focus:ring-2 focus:ring-teal-500 vehicle-maker-input focus:outline-none focus:ring-0 focus:border-brandGreen"
+                  className="w-full border border-gray-200 bg-gray-100 text-gray-700 
+        px-4 py-2 pr-10 rounded-md 
+        focus:ring-2 focus:ring-teal-500 vehicle-maker-input 
+        focus:outline-none focus:ring-0 focus:border-brandGreen 
+        [background-position:calc(100%-2rem)_center]"
                 >
                   <option value="">Select Vehicle Maker</option>
                   <option value="Toyota">Toyota</option>
@@ -376,6 +383,7 @@ export default function StyledRegistrationForm() {
                 </select>
               </div>
             </div>
+
             <div className="joint-with-div">
               <label className="text-sm font-bold text-[#161a23] label">
                 Joint With
