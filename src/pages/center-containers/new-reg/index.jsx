@@ -38,6 +38,7 @@ const NewVehicleRegistration = () => {
   };
   const onFinish = (values) => {
     console.log("Form Data: ", values);
+    
   };
   return (
     <div
@@ -72,7 +73,7 @@ const NewVehicleRegistration = () => {
                 {/* Owner Information */}
                 <Collapse
                   defaultActiveKey={["1"]}
-                  style={{ marginBottom: 20 }}
+                  style={{ marginBottom: 14 }}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -234,7 +235,7 @@ const NewVehicleRegistration = () => {
 
                 {/* Transfer Applicable */}
                 <Collapse
-                  style={{ marginBottom: 20 }}
+                  style={{ marginBottom: 14 }}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -295,7 +296,7 @@ const NewVehicleRegistration = () => {
                         </Form.Item>
                       </Col>
                       <Col span={8}>
-                        <Form.Item label="Name" name="name" required>
+                        <Form.Item label="Name*" name="name">
                           <Input
                             placeholder="Enter here..."
                             className="input-field"
@@ -316,7 +317,7 @@ const NewVehicleRegistration = () => {
 
                 {/* Hire Purchase Info */}
                 <Collapse
-                  style={{ marginBottom: 20 }}
+                  style={{ marginBottom: 14 }}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -355,7 +356,7 @@ const NewVehicleRegistration = () => {
 
                 {/* Tax Payer Category */}
                 <Collapse
-                  style={{ marginBottom: 20 }}
+                  style={{ marginBottom: 14 }}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -386,7 +387,7 @@ const NewVehicleRegistration = () => {
 
                 {/* Vehicle Information */}
                 <Collapse
-                  style={{ marginBottom: 20 }}
+                  style={{ marginBottom: 14 }}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -492,7 +493,7 @@ const NewVehicleRegistration = () => {
 
                 {/* Owner's Representative */}
                 <Collapse
-                  style={{ marginBottom: 20 }}
+                  style={{ marginBottom: 14 }}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}

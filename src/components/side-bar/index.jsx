@@ -264,7 +264,7 @@ const Sidebar = () => {
           width={299}
           collapsedWidth={0}
           collapsed={collapsed}
-          className="sidebar-container"
+          className="sidebar-container "
           trigger={null}
         >
           <div className="sidebar-inner bg-no-repeat bg-bottom bg-contain flex flex-col h-full">
