@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import AppLayout from "../layouts/AppLayout";
 
 import VehicleDetails from "../pages/VehicleDetails";
-import RegistrationNoTable from "../pages/my-reg-no-table"; 
+import RegistrationNoTable from "../pages/my-reg-no-table";
 import StyledRegistrationForm from "../pages/center-containers/reserve-number/RegistrationNo";
 import NewVehicleRegistration from "../pages/center-containers/new-reg";
 import VehicleTransferOwnership from "../pages/center-containers/transfer-ownership";
@@ -24,7 +24,7 @@ const AppRoutes = () => {
           path="/transfer-ownership"
           element={<VehicleTransferOwnership />}
         />
-        <Route path="/reg-table" element={<RegistrationNoTable />} /> 
+        <Route path="/reg-table" element={<RegistrationNoTable />} />
         <Route path="/vehicle-detail" element={<VehicleDetails />} />
         <Route path="/smart-card-status" element={<CheckSmartCardStatus />} />
         <Route

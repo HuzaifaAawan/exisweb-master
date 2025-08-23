@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import Select from "react-select";
 import RegistrationNoTable from "../../my-reg-no-table";

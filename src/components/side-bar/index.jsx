@@ -34,12 +34,15 @@ import biometricVerifActive from "../../assets/icons/Biometric Verification-Sele
 
 import eSahulat from "../../assets/icons/eSahulat Centre Locator-Unselected.svg";
 import eSahulatActive from "../../assets/icons/eSahulat Centre Locator-Selected.svg";
+import AttentionModal from "../attention-modal";
+import bgImage from "../../assets/icons/popup-bg.png";
 
 const Sidebar = () => {
   const { Sider } = Layout;
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
+  const [showAttention, setShowAttention] = useState(false);
 
   const currentPath = location.pathname;
 
@@ -272,7 +275,14 @@ const Sidebar = () => {
               <Menu
                 mode="inline"
                 selectedKeys={[location.pathname]}
-                onClick={({ key }) => navigate(key)}
+                onClick={({ key }) => {
+                  if (key === "/transfer-ownership") {
+                    setShowAttention(true);
+                    navigate(key);
+                  } else {
+                    navigate(key);
+                  }
+                }}
                 items={menuItemsForAntd}
                 className="custom-menu"
               />
@@ -288,7 +298,15 @@ const Sidebar = () => {
                 }}
               />
 
-              <div className="profile-box p-6 rounded-lg bg-cover bg-center flex flex-col items-center">
+              <div
+                className="profile-box p-6 rounded-lg bg-cover bg-center flex flex-col items-center"
+                style={{
+                  backgroundImage: `url(${bgImage})`,
+                  backgroundSize: "cover", // or 'contain' based on what you want
+                  backgroundPosition: "bottom", // or 'center'
+                  backgroundRepeat: "no-repeat",
+                }}
+              >
                 <button
                   className="flex items-center justify-start gap-2 text-gray-800 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full user-account"
                   onClick={() => {
@@ -327,6 +345,10 @@ const Sidebar = () => {
             </div>
           </div>
         </Sider>
+        <AttentionModal
+          open={showAttention}
+          onClose={() => setShowAttention(false)}
+        />
       </div>
     </>
   );
