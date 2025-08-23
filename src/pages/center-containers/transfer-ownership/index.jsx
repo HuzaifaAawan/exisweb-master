@@ -223,7 +223,7 @@ const VehicleTransferOwnership = () => {
           <div style={{ padding: "0 24px" }}>
           {/* Row 1: Normal Fields */}
 <Row gutter={[16, 32]}>
-  <Col xs={24} sm={8}>
+  <Col xs={24} sm={8}> 
     <span className="Dropdown-Label">Owner Type*</span>
     <Select placeholder="Select..." style={{ width: "100%" }} />
   </Col>

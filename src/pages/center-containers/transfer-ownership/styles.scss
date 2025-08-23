@@ -99,6 +99,21 @@
   color: #556485;
 }
 
+.Frame-1000009519 {
+  width: 80px;
+  height: 50px;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  opacity: 0.5;
+  border-radius: 8px;
+  background-color: #ebf1f1;
+}
+
 /* Input wrapper */
 .input-wrapper {
   display: flex;
@@ -112,6 +127,7 @@
 .input-wrapper .ant-input {
   height: 40px;
   border-radius: 6px;
+  padding: 10px 12px;
   width: 100%;
 }
 
@@ -129,12 +145,13 @@
 .Date,
 .city-select {
   display: block;
-  margin-bottom: 4px; /* label aur dropdown ke darmiyan chhota gap */
+  margin-bottom: 8px; /* label aur dropdown ke darmiyan chhota gap */
   font-family: Inter, sans-serif;
   font-size: 14px;
   font-weight: bold;
   color: #161a23;
   line-height: 1.2;
+  
 }
 
 /* Input field container */
