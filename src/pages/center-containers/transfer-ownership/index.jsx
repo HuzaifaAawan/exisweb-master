@@ -1,7 +1,9 @@
 import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
-import { Input, DatePicker, Select, Switch, Row, Col } from "antd"; // ✅ sirf ye rakho
+import { Input, DatePicker, Select, Switch, Row, Col } from "antd"; 
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
+import noteIcon from "../../../assets/icons/note.png";
+ 
 import { useState } from "react";
 
 const VehicleTransferOwnership = () => {
@@ -323,12 +325,18 @@ const VehicleTransferOwnership = () => {
   </Col>
 
   <Col span={24} style={{ marginTop: "8px" }}>
-    <div className="input-wrapper full-width">
-      <span className="Textfield-Label">
-        Bank / Company Name
-      </span>
-      <Input placeholder="Enter Bank / Company Name" />
-    </div>
+   <div className="w-full">
+  <label className="block mb-1 text-sm font-medium text-gray-700">
+    Bank / Company Name
+  </label>
+  <input
+    type="text"
+    placeholder="Enter...."
+    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+</div>
+
+
   </Col>
 
   <Col span={24}>
@@ -344,42 +352,55 @@ const VehicleTransferOwnership = () => {
     <span className="city-select-label">Select your city</span>
   </Col>
 
-  <Col span={24}>
-    <div className="Frame-1">
-      <select className="city-select-dropdown">
-        <option value="">Choose city</option>
-        <option value="karachi">Karachi</option>
-        <option value="lahore">Lahore</option>
-        <option value="islamabad">Islamabad</option>
-      </select>
-    </div>
-  </Col>
+<Col span={24}>
+  <div className="frame-1 w-full h-12 rounded-md overflow-hidden">
+    <select className="w-full h-full bg-transparent px-3 outline-none">
+      <option value="">Choose city</option>
+      <option value="karachi">Karachi</option>
+      <option value="lahore">Lahore</option>
+      <option value="islamabad">Islamabad</option>
+    </select>
+  </div>
+</Col>
+
+
 </Row>
 
 {/* Note Section */}
 <div style={{ marginTop: "16px" }} className="Note">
-  <div className="NOTE-Wrapper">
-    <span className="text-style-1">
-      NOTE: For updates please visit our pages
-    </span>
-    <div className="links">
-      <a
-        href="https://www.facebook.com/IslamabadExcise"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        https://www.facebook.com/IslamabadExcise
-      </a>
-      <a
-        href="https://twitter.com/ICT_Excise"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        https://twitter.com/ICT_Excise
-      </a>
+      <div className="NOTE-Wrapper flex items-start gap-2">
+        {/* Icon */}
+        <img
+          src={noteIcon}
+          alt="Note Icon"
+          className="w-5 h-5 mt-2"
+        />
+
+        {/* Text and Links */}
+        <div>
+          <span className="text-style-1 font-semibold">
+            NOTE: For updates please visit our pages
+          </span>
+          <div className="links flex space-x-2">
+            <a
+              href="https://www.facebook.com/IslamabadExcise"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://www.facebook.com/IslamabadExcise
+            </a>
+            <a
+              href="https://twitter.com/ICT_Excise"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://twitter.com/ICT_Excise
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+
 
 
              <div style={{ marginTop: "24px" }}>

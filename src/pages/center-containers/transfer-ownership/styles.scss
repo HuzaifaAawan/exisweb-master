@@ -233,7 +233,13 @@
   font-size: 14px;
   font-weight: bold;
   color: #161a23;
+  align-items: stretch;
   line-height: 1.2;
+   display: block; // taki wo line break le aur dropdown ke upar aaye
+  margin-bottom: 4px; // dropdown ke sath 4px ka gap
+  font-weight: bold; // bold label
+  font-size: 14px; // optional, readable font size
+  color: #000;
   
 }
 

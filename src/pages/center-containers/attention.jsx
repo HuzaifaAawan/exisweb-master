@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import attentionIcon from "../../assets/icons/Attention icon.svg";
 import bgImage from "../../assets/icons/Popup-bg.png";
+import noteIcon from "../../assets/icons/note.png";
+
 
 const Attention = ({ visible, onClose }) => {
   const navigate = useNavigate();
@@ -16,21 +18,31 @@ const Attention = ({ visible, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div
-        className="w-[500px] bg-white rounded-lg shadow-lg p-6 relative flex flex-col items-center"
+        className="!w-[520px] !h-[429px] bg-white rounded-lg shadow-lg p-6 relative flex flex-col items-center"
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          width: "520px",            
+          height: "529px",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: "24px",
+          margin: "0 0 98px",
+         padding: "0"
         }}
       >
         {/* Icon */}
-       {/* Attention Icon */}
 <div
   className="!flex !justify-center !items-center !flex-grow-0"
   style={{
     width: '88.1px',
     height: '71.2px',
-    margin: '4.4px 0 0',
+    margin: '24px 0 0',
   }}
 >
   <img src={attentionIcon} alt="Attention" className="w-full h-full object-contain" />
@@ -42,8 +54,8 @@ const Attention = ({ visible, onClose }) => {
   style={{
     color: '#fb0004',
     marginBottom: '24px',
-    fontSize: '24px',   // explicitly set
-    fontWeight: 800      // explicitly set
+    fontSize: '24px',   
+    fontWeight: 800      
   }}
 >
   Attention...!
@@ -56,8 +68,22 @@ const Attention = ({ visible, onClose }) => {
 
     {/* Combined info container with 8px bottom gap */}
 <div
-  className="!h-[140px] !w-full !flex !flex-col !justify-start !items-start !text-left !font-inter !text-[14px] !font-normal !leading-[1.43] !text-[#161a23] !flex-grow-0"
-  style={{ marginBottom: '8px' }} // 8px gap below
+  className="!flex !flex-col !justify-start !items-start !flex-grow-0"
+  style={{
+    height: "140px",             
+    alignSelf: "stretch",        
+    fontFamily: "Inter",         
+    fontSize: "14px",           
+    fontWeight: "normal",        
+    fontStretch: "normal",      
+    fontStyle: "normal",        
+    lineHeight: "1.43",         
+    letterSpacing: "normal",   
+    textAlign: "left",           
+    color: "#161a23",           
+    marginBottom: "8px",  
+    padding: "0 24px",        
+  }}
 >
   <p>
     1. Please provide correct information, otherwise application will be rejected by Excise office.
@@ -72,11 +98,23 @@ const Attention = ({ visible, onClose }) => {
 
 
 {/* Bold info container */}
-{/* Bold info container with 16px bottom gap */}
-{/* Bold info container with 16px gap below */}
 <div
-  className="!h-[80px] !w-full !flex !flex-col !justify-start !items-start !text-left !font-inter !text-[14px] !font-bold !leading-[1.43] !text-[#161a23] !flex-grow-0"
-  style={{ marginBottom: '16px' }} // 16px gap below
+  className="!flex !flex-col !justify-start !items-start !flex-grow-0"
+  style={{
+    height: "80px",             
+    alignSelf: "stretch",      
+    fontFamily: "Inter",        
+    fontSize: "14px",            
+    fontWeight: "bold",          
+    fontStretch: "normal",      
+    fontStyle: "normal",         
+    lineHeight: "1.43",         
+    letterSpacing: "normal",    
+    textAlign: "left",           
+    color: "#161a23",            
+    marginBottom: "0px",      
+    padding: "0 24px",          
+  }}
 >
   <span>
     Commercial Vehicles (Only passing required from motor vehicle examiner) <br />
@@ -85,34 +123,77 @@ const Attention = ({ visible, onClose }) => {
 </div>
 
 
-        {/* Red warning */}
-  {/* Red warning with background */}
-<p
-  className="!h-[36px] !w-full !flex !justify-center !items-center !gap-[6px] !p-[8px_10px] !rounded-[8px] !mt-4 !mb-2 text-center !text-xs"
-  style={{ backgroundColor: '#fde8e9', color: '#dc2626' ,padding: '8px 10px',borderRadius: '8px'  }} // background + text color explicitly
+    
+ <div
+  style={{
+    height: "36px",
+    flexGrow: 0,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 10px",
+    borderRadius: "8px",
+    backgroundColor: "#fde8e9",
+    margin: "0 24px",
+  }}
 >
-  PAY YOUR TOKEN TAX ON TIME TO AVOID SUSPENSION & HEAVY FINES
-</p>
+  {/* Icon */}
+  <img
+    src={noteIcon}
+    alt="Note Icon"
+    style={{
+      width: "16px",
+      height: "16px",
+    }}
+  />
+
+  {/* Text */}
+  <span
+    style={{
+      height: "20px",
+      fontFamily: "Inter",
+      fontSize: "12px",
+      fontWeight: "bold",
+      fontStretch: "normal",
+      fontStyle: "normal",
+      lineHeight: "1.67",
+      letterSpacing: "normal",
+      textAlign: "center",
+      color: "#fb0004",
+    }}
+  >
+    PAY YOUR TOKEN TAX ON TIME TO AVOID SUSPENSION & HEAVY FINES
+  </span>
+</div>
 
 
-        {/* Button */}
-<div className="w-full mt-4 flex justify-center">
+
+   <div className="w-full flex justify-center">
   <button
     onClick={handleOk}
-    className="!h-[50px] !flex !justify-center !items-center !gap-[10px] !font-medium !text-base !cursor-pointer !hover:opacity-90 !transition"
     style={{
-      width: '472px',             // fixed width
-      height: '50px',             // height
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '10px',
-      padding: '15px',
-      backgroundColor: '#04544f', // background color
-      color: '#ffffff',           // text color white
-      border: '1px solid #ffffff',// white border
-      borderRadius: '8px'         // border-radius 8px
+      height: "50px",
+      width:"432px",
+      alignSelf: "stretch",       
+      flexGrow: 0,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "10px",
+      padding: "15px",
+      borderRadius: "8px",
+      backgroundColor: "#04544f",
+      color: "#ffffff",
+      border: "1px solid #ffffff",
+      fontFamily: "Inter",
+      fontSize: "16px",
+      fontWeight: 500,
+      cursor: "pointer",
+      margin: "0 24px", 
+      marginBottom:"24px"          
     }}
   >
     OK, UNDERSTAND
