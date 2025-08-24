@@ -13,7 +13,26 @@
   padding-top: 42px;
   gap: 16px; /* Space between forms */
 }
-
+.select-div {
+  align-items: end !important;
+}
+.slect-proceess-type-cls {
+  .ant-select-selector {
+    border: unset !important;
+    box-shadow: unset !important;
+  }
+}
+.reg-no-div {
+  align-items: end !important;
+  .reg-no-input {
+    border: unset !important;
+    box-shadow: unset !important;
+  }
+}
+.date-picker-cls {
+  border: unset !important;
+  box-shadow: unset !important;
+}
 /* Inner form container */
 
 .Frame-1000009526 {

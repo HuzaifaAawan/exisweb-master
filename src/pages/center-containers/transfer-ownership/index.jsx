@@ -85,48 +85,48 @@ const VehicleTransferOwnership = () => {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2"
         >
-        <div className="Input-Field w-full">
-  <label className="Textfield-Label">Registration No.</label>
-  <div className="input-frame w-full">
-    <Input
-      placeholder="Enter here..."
-      value={regNo}
-      onChange={(e) => setRegNo(e.target.value)}
-      allowClear
-      className="w-full border-0 shadow-none"
-    />
-  </div>
-</div>
+          <div className="Input-Field w-full ">
+            <label className="Textfield-Label">Registration No.</label>
+            <div className="input-frame w-full reg-no-div">
+              <Input
+                placeholder="Enter here..."
+                value={regNo}
+                onChange={(e) => setRegNo(e.target.value)}
+                allowClear
+                className="w-full border-0 shadow-none reg-no-input"
+              />
+            </div>
+          </div>
 
-<div className="Input-Field w-full">
-  <label className="Textfield-Label">Registration Date</label>
-  <div className="input-frame w-full">
-    <DatePicker
-      placeholder="Enter Date"
-      className="w-full border-0 shadow-none"
-      value={regDate}
-      onChange={(date) => setRegDate(date)}
-      allowClear
-    />
-  </div>
-</div>
+          <div className="Input-Field w-full">
+            <label className="Textfield-Label">Registration Date</label>
+            <div className="input-frame w-full reg-no-div">
+              <DatePicker
+                placeholder="Enter Date"
+                className="w-full border-0 shadow-none date-picker-cls"
+                value={regDate}
+                onChange={(date) => setRegDate(date)}
+                allowClear
+              />
+            </div>
+          </div>
 
-<div className="Input-Field w-full">
-  <label className="Textfield-Label">Select Process Type</label>
-  <div className="input-frame w-full">
-    <Select
-      placeholder="Select"
-      className="w-full border-0 shadow-none"
-      value={processType}
-      onChange={(value) => setProcessType(value)}
-      allowClear
-      options={[
-        { value: "transfer", label: "Ownership Transfer" },
-        { value: "inspection", label: "Inspection" },
-      ]}
-    />
-  </div>
-</div>
+          <div className="Input-Field w-full ">
+            <label className="Textfield-Label">Select Process Type</label>
+            <div className="input-frame w-full select-div">
+              <Select
+                placeholder="Select"
+                className="w-full border-0 shadow-none slect-proceess-type-cls"
+                value={processType}
+                onChange={(value) => setProcessType(value)}
+                allowClear
+                options={[
+                  { value: "transfer", label: "Ownership Transfer" },
+                  { value: "inspection", label: "Inspection" },
+                ]}
+              />
+            </div>
+          </div>
 
           <div className="Input-Field flex items-end">
             <button type="submit" className="submit-frame w-full">
@@ -201,7 +201,7 @@ const VehicleTransferOwnership = () => {
       </div>
 
       {/* Second Form - Purchaser Information */}
-     {showPurchaserForm && (
+      {showPurchaserForm && (
         <div className="Frame-1000009526">
           <div style={{ padding: "0 24px" }}>
             <span className="Profiles-Manager-form2-h1">
@@ -221,147 +221,143 @@ const VehicleTransferOwnership = () => {
           </div>
 
           <div style={{ padding: "0 24px" }}>
-          {/* Row 1: Normal Fields */}
-<Row gutter={[16, 32]}>
-  <Col xs={24} sm={8}>
-    <span className="Dropdown-Label">Owner Type*</span>
-    <Select placeholder="Select..." style={{ width: "100%" }} />
-  </Col>
-  <Col xs={24} sm={8}>
-    <span className="Textfield-Label">NTN No.</span>
-    <Input placeholder="Enter NTN..." />
-  </Col>
-  <Col xs={24} sm={8}>
-    <span className="Textfield-Label">CNIC No.</span>
-    <Input placeholder="Enter CNIC..." />
-  </Col>
-  <Col xs={24} sm={8}>
-    <span className="Textfield-Label">Passport No.</span>
-    <Input placeholder="Enter Passport No." />
-  </Col>
-  <Col xs={24} sm={8}>
-    <span className="Textfield-Label">Purchaser Name*</span>
-    <Input placeholder="Enter Purchaser Name" />
-  </Col>
-  <Col xs={24} sm={8}>
-    <span className="Textfield-Label">F/H/W/O Name</span>
-    <Input placeholder="Enter F/H/W/O Name" />
-  </Col>
-  <Col xs={24} sm={12}>
-    <span className="Phone-Number font-bold">Contact Number</span>
+            {/* Row 1: Normal Fields */}
+            <Row gutter={[16, 32]}>
+              <Col xs={24} sm={8}>
+                <span className="Dropdown-Label">Owner Type*</span>
+                <Select placeholder="Select..." style={{ width: "100%" }} />
+              </Col>
+              <Col xs={24} sm={8}>
+                <span className="Textfield-Label">NTN No.</span>
+                <Input placeholder="Enter NTN..." />
+              </Col>
+              <Col xs={24} sm={8}>
+                <span className="Textfield-Label">CNIC No.</span>
+                <Input placeholder="Enter CNIC..." />
+              </Col>
+              <Col xs={24} sm={8}>
+                <span className="Textfield-Label">Passport No.</span>
+                <Input placeholder="Enter Passport No." />
+              </Col>
+              <Col xs={24} sm={8}>
+                <span className="Textfield-Label">Purchaser Name*</span>
+                <Input placeholder="Enter Purchaser Name" />
+              </Col>
+              <Col xs={24} sm={8}>
+                <span className="Textfield-Label">F/H/W/O Name</span>
+                <Input placeholder="Enter F/H/W/O Name" />
+              </Col>
+              <Col xs={24} sm={12}>
+                <span className="Phone-Number font-bold">Contact Number</span>
 
-    <Input placeholder="Enter Contact Number" />
-  </Col>
-  <Col xs={24} sm={12}>
-    <span className="Phone-Number font-bold">Other Contact Number</span>
-    <Input placeholder="Enter Other Contact Number" />
-  </Col>
-  <Col xs={24} sm={12}>
-    <span className="Description font-bold">Present Address</span>
-    <Input.TextArea placeholder="Enter Address..." rows={2} />
-  </Col>
-  <Col xs={24} sm={12}>
-    <span className="Description font-bold">Permanent Address</span>
-    <Input.TextArea placeholder="Enter Address..." rows={2} />
-  </Col>
-  <Col xs={24} sm={12}>
-    <span className="Dropdown-Label">
-      District (Present Address)
-    </span>
-    <Select placeholder="Select District" style={{ width: "100%" }}>
-      <Select.Option value="district1">District 1</Select.Option>
-      <Select.Option value="district2">District 2</Select.Option>
-    </Select>
-  </Col>
-  <Col xs={24} sm={12}>
-    <span className="Dropdown-Label font-bold">
-      District (Permanent Address)
-    </span>
-    <Select placeholder="Select District" style={{ width: "100%" }}>
-      <Select.Option value="district1">District 1</Select.Option>
-      <Select.Option value="district2">District 2</Select.Option>
-    </Select>
-  </Col>
-</Row>
+                <Input placeholder="Enter Contact Number" />
+              </Col>
+              <Col xs={24} sm={12}>
+                <span className="Phone-Number font-bold">
+                  Other Contact Number
+                </span>
+                <Input placeholder="Enter Other Contact Number" />
+              </Col>
+              <Col xs={24} sm={12}>
+                <span className="Description font-bold">Present Address</span>
+                <Input.TextArea placeholder="Enter Address..." rows={2} />
+              </Col>
+              <Col xs={24} sm={12}>
+                <span className="Description font-bold">Permanent Address</span>
+                <Input.TextArea placeholder="Enter Address..." rows={2} />
+              </Col>
+              <Col xs={24} sm={12}>
+                <span className="Dropdown-Label">
+                  District (Present Address)
+                </span>
+                <Select placeholder="Select District" style={{ width: "100%" }}>
+                  <Select.Option value="district1">District 1</Select.Option>
+                  <Select.Option value="district2">District 2</Select.Option>
+                </Select>
+              </Col>
+              <Col xs={24} sm={12}>
+                <span className="Dropdown-Label font-bold">
+                  District (Permanent Address)
+                </span>
+                <Select placeholder="Select District" style={{ width: "100%" }}>
+                  <Select.Option value="district1">District 1</Select.Option>
+                  <Select.Option value="district2">District 2</Select.Option>
+                </Select>
+              </Col>
+            </Row>
 
-{/* Row 2: Hire Purchase + Physical Inspection */}
-<Row gutter={[16, 0]} style={{ marginTop: "32px" }}>
-  <Col span={24}>
-  <div className="my-6 border-t border-gray-300"></div>
-  
-   <div className="hire-purchase-container mt-6">
-    
-  {/* Title */}
-  <span className="Hire-Purchase-Agreement block">
-    Hire Purchase Agreement
-  </span>
-  {/* Switch */}
-  <Switch />
-</div>
+            {/* Row 2: Hire Purchase + Physical Inspection */}
+            <Row gutter={[16, 0]} style={{ marginTop: "32px" }}>
+              <Col span={24}>
+                <div className="my-6 border-t border-gray-300"></div>
 
-  </Col>
+                <div className="hire-purchase-container mt-6">
+                  {/* Title */}
+                  <span className="Hire-Purchase-Agreement block">
+                    Hire Purchase Agreement
+                  </span>
+                  {/* Switch */}
+                  <Switch />
+                </div>
+              </Col>
 
-  <Col span={24} style={{ marginTop: "8px" }}>
-    <div className="input-wrapper full-width">
-      <span className="Textfield-Label">
-        Bank / Company Name
-      </span>
-      <Input placeholder="Enter Bank / Company Name" />
-    </div>
-  </Col>
+              <Col span={24} style={{ marginTop: "8px" }}>
+                <div className="input-wrapper full-width">
+                  <span className="Textfield-Label">Bank / Company Name</span>
+                  <Input placeholder="Enter Bank / Company Name" />
+                </div>
+              </Col>
 
-  <Col span={24}>
-    <div className="mt-8">
-  <span className="Physical-Inspection-Request">
-    Physical Inspection Request
-  </span>
-</div>
+              <Col span={24}>
+                <div className="mt-8">
+                  <span className="Physical-Inspection-Request">
+                    Physical Inspection Request
+                  </span>
+                </div>
+              </Col>
 
-  </Col>
+              <Col span={24} style={{ marginTop: "8px", marginBottom: "8px" }}>
+                <span className="city-select-label">Select your city</span>
+              </Col>
 
-  <Col span={24} style={{ marginTop: "8px", marginBottom: "8px" }}>
-    <span className="city-select-label">Select your city</span>
-  </Col>
+              <Col span={24}>
+                <div className="Frame-1">
+                  <select className="city-select-dropdown">
+                    <option value="">Choose city</option>
+                    <option value="karachi">Karachi</option>
+                    <option value="lahore">Lahore</option>
+                    <option value="islamabad">Islamabad</option>
+                  </select>
+                </div>
+              </Col>
+            </Row>
 
-  <Col span={24}>
-    <div className="Frame-1">
-      <select className="city-select-dropdown">
-        <option value="">Choose city</option>
-        <option value="karachi">Karachi</option>
-        <option value="lahore">Lahore</option>
-        <option value="islamabad">Islamabad</option>
-      </select>
-    </div>
-  </Col>
-</Row>
+            {/* Note Section */}
+            <div style={{ marginTop: "16px" }} className="Note">
+              <div className="NOTE-Wrapper">
+                <span className="text-style-1">
+                  NOTE: For updates please visit our pages
+                </span>
+                <div className="links">
+                  <a
+                    href="https://www.facebook.com/IslamabadExcise"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    https://www.facebook.com/IslamabadExcise
+                  </a>
+                  <a
+                    href="https://twitter.com/ICT_Excise"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    https://twitter.com/ICT_Excise
+                  </a>
+                </div>
+              </div>
+            </div>
 
-{/* Note Section */}
-<div style={{ marginTop: "16px" }} className="Note">
-  <div className="NOTE-Wrapper">
-    <span className="text-style-1">
-      NOTE: For updates please visit our pages
-    </span>
-    <div className="links">
-      <a
-        href="https://www.facebook.com/IslamabadExcise"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        https://www.facebook.com/IslamabadExcise
-      </a>
-      <a
-        href="https://twitter.com/ICT_Excise"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        https://twitter.com/ICT_Excise
-      </a>
-    </div>
-  </div>
-</div>
-
-
-             <div style={{ marginTop: "24px" }}>
+            <div style={{ marginTop: "24px" }}>
               <button className="Save_button">Save</button>
             </div>
           </div>
