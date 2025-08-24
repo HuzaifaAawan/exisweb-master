@@ -16,6 +16,7 @@ import {
 } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import ApplicationDetails from "./application-details";
+import InfoModal from "../../../components/info-modal";
 
 const NewVehicleRegistration = () => {
   const { Panel } = Collapse;
@@ -32,13 +33,14 @@ const NewVehicleRegistration = () => {
     vehicle: false,
     representative: false,
   });
+  const [infoModal, setInfoModal] = useState(false);
 
   const toggleCollapse = (section) => {
     setCollapsed((prev) => ({ ...prev, [section]: !prev[section] }));
   };
   const onFinish = (values) => {
     console.log("Form Data: ", values);
-    
+    setInfoModal(true);
   };
   return (
     <div
@@ -575,6 +577,7 @@ const NewVehicleRegistration = () => {
           <ApplicationDetails />
         </TabPane>
       </Tabs>
+      <InfoModal open={infoModal} onClose={() => setInfoModal(false)} />
     </div>
   );
 };
