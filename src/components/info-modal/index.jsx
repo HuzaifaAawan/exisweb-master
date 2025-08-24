@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "antd";
-import attentionIcon from "../../assets/icons/attention_icon.svg";
+import attentionIcon from "../../assets/icons/Application ID icon.svg";
 import "./styles.scss";
 
 const InfoModal = ({ computerNumber, open, onClose }) => {
@@ -57,6 +57,7 @@ const InfoModal = ({ computerNumber, open, onClose }) => {
               fontWeight: 800,
               lineHeight: "1.25",
               color: "#161a23",
+              fontFamily: "Inter",
               marginBottom: "24px",
             }}
           >
@@ -91,6 +92,7 @@ const InfoModal = ({ computerNumber, open, onClose }) => {
             paddingLeft: "20px",
             paddingTop: "14px",
             paddingBottom: "14px",
+            fontFamily: "Inter",
 
           }}
           className="notice-list"
@@ -111,6 +113,7 @@ const InfoModal = ({ computerNumber, open, onClose }) => {
             justifyContent: "center",
             alignItems: "center",
             gap: "10px",
+            fontFamily: "Inter",
             padding: "15px",
             fontSize: "14px",
             backgroundColor: "#04544f",

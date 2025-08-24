@@ -30,7 +30,8 @@ const AttentionModal = ({ open, onClose }) => {
             className="w-full h-full object-contain"
           />
         </div>
-        <h2 className="modal-title">ATTENTION...!</h2>
+       <h2 className="modal-title whitespace-nowrap">ATTENTION...!</h2>
+
 
         <ol
           style={{
