@@ -4,6 +4,9 @@ import Select from "react-select";
 import RegistrationNoTable from "../../my-reg-no-table";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import "./styles.scss";
+import UppercaseInput, {
+  EngineSizeInput,
+} from "../../../components/CapitalizedInput.jsx";
 
 export default function StyledRegistrationForm() {
   const [formData, setFormData] = useState({
@@ -26,14 +29,16 @@ export default function StyledRegistrationForm() {
     label: (i + 1).toString(),
   }));
 
-  const handleCheckAvailability = () => setClickCount((p) => p + 1);
-
   const getAvailabilityMessage = () => {
     if (clickCount === 0) return null;
     return clickCount % 2 === 1
       ? "✅ This Series and Number is Available"
       : "❌ This Series and Number is NOT Available";
   };
+
+  const handleCheckAvailability = () => setClickCount((p) => p + 1);
+
+  
 
   const getAvailabilityStyle = () => ({
     height: "20px",
@@ -68,7 +73,7 @@ export default function StyledRegistrationForm() {
     return "";
   };
 
-  // validation rules (adjust lengths if you want stricter)
+  // validation rules 
   const isSeriesValid = formData.series.trim().length > 0;
   const isNumberValid = formData.number.toString().trim().length > 0;
   const isApplicantNameValid = formData.applicantName.trim().length > 0;
@@ -91,7 +96,7 @@ export default function StyledRegistrationForm() {
     isVehicleMakerValid &&
     isJointWithValid;
 
-  // Debugging: shows current formData + validation in console
+ 
   useEffect(() => {
     console.log("formData:", formData, {
       isSeriesValid,
@@ -105,7 +110,7 @@ export default function StyledRegistrationForm() {
       isJointWithValid,
       isFormValid,
     });
-  }, [formData]); // remove in production if you don't want logs
+  }, [formData]); 
 
   if (showTable) return <RegistrationNoTable formData={formData} />;
 

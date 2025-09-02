@@ -122,7 +122,7 @@
 
 /* Input fields (NTN, CNIC, Passport, etc.) */
 .ant-input {
-  width: 340px !important;   /* fix width */
+  // width: 340px !important;   /* fix width */
   height: 42px;              /* thodi badi height */
   border-radius: 6px;
   padding: 10px 12px;
@@ -133,7 +133,7 @@
 
 /* Select dropdown wrapper */
 .ant-select {
-  width: 340px !important;   /* fix width */
+  // width: 340px !important;   /* fix width */
 }
 
 /* Actual dropdown box height */
@@ -187,7 +187,12 @@
   border: solid 1px #e3e3e3 !important;
   background-color: #fff !important;
 }
-
+.slection-field{
+  height: 46px !important;
+  border: 1px solid #d9d9d9 !important;
+  border-radius: 6px !important;
+  width: 100% !important;
+}
 .form-label {
   height: 20px;
   flex-grow: 1;
@@ -241,7 +246,7 @@
   align-items: stretch;
   line-height: 1.2;
    display: block; // taki wo line break le aur dropdown ke upar aaye
-  margin-bottom: 4px; // dropdown ke sath 4px ka gap
+  margin-bottom: 10px; // dropdown ke sath 4px ka gap
   font-weight: bold; // bold label
   font-size: 14px; // optional, readable font size
   color: #000;
