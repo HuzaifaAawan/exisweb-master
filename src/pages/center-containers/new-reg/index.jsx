@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./styles.scss";
+import "./media.scss";
+
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import UppercaseInput, {
   EngineSizeInput,
@@ -108,7 +110,7 @@ const NewVehicleRegistration = () => {
                     key="1"
                   >
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Ownership Type*" name="ownershipType">
                           <Select
                             placeholder="Select"
@@ -120,7 +122,7 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           name="ntn"
                           label="NTN Number"
@@ -137,7 +139,7 @@ const NewVehicleRegistration = () => {
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           label="CNIC Number"
                           name="cnic"
@@ -157,17 +159,17 @@ const NewVehicleRegistration = () => {
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Passport No." name="Passport">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Name" name="name">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           label="F/H/W/O Name"
                           name="fatherName"
@@ -184,7 +186,7 @@ const NewVehicleRegistration = () => {
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={12}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={12}>
                         <Form.Item name="mobile" label="Mobile Number">
                           <UppercaseInput
                             isPhone
@@ -192,7 +194,7 @@ const NewVehicleRegistration = () => {
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={12}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={12}>
                         <Form.Item name="otherPhone" label="Other Phone">
                           <UppercaseInput
                             isPhone
@@ -203,7 +205,7 @@ const NewVehicleRegistration = () => {
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={12}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={12}>
                         <Form.Item label="Temporary Address" name="tempAddress">
                           <UppercaseInput
                             textarea
@@ -214,7 +216,7 @@ const NewVehicleRegistration = () => {
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={12}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={12}>
                         <Form.Item label="Permanent Address" name="permAddress">
                           <UppercaseInput
                             textarea
@@ -294,7 +296,7 @@ const NewVehicleRegistration = () => {
                     extra={<Switch className="switch-btn-css" />}
                   >
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Ownership Type*" name="ownershipType">
                           <Select
                             placeholder="Select"
@@ -305,7 +307,7 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           name="ntn"
                           label="NTN Number"
@@ -322,7 +324,7 @@ const NewVehicleRegistration = () => {
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           label="CNIC Number"
                           name="cnic"
@@ -342,17 +344,17 @@ const NewVehicleRegistration = () => {
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Passport No." name="Passport">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Name" name="name">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           label="F/H/W/O Name"
                           name="fatherName"
@@ -399,7 +401,7 @@ const NewVehicleRegistration = () => {
                           label="Bank / Company Name"
                           name="bankCompanyName"
                         >
-                          <Input
+                          <UppercaseInput
                             placeholder="Enter here"
                             className="input-field"
                           />
@@ -467,7 +469,7 @@ const NewVehicleRegistration = () => {
                     key="5"
                   >
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Category" name="vehicleCategory">
                           <Select
                             placeholder="Select"
@@ -485,7 +487,7 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Purchase Type" name="purchaseType">
                           <Select
                             placeholder="Select"
@@ -501,7 +503,7 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Body Type" name="bodyType">
                           <Select
                             placeholder="Select"
@@ -527,11 +529,11 @@ const NewVehicleRegistration = () => {
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="No. of Seats" name="seats">
                           <Select
                             placeholder="Select number"
-                            className="input-field"
+                            className="slection-field"
                           >
                             {[...Array(100)].map((_, i) => (
                               <Select.Option key={i + 1} value={i + 1}>
@@ -541,12 +543,12 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Chassis No." name="chassisNo">
                           <UppercaseInput placeholder="Enter Chassis Number" />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Engine No." name="engineNo">
                           <UppercaseInput
                             placeholder="Enter Engine Number"
@@ -557,22 +559,29 @@ const NewVehicleRegistration = () => {
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={8}>
+                      {/* Engine Size */}
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Engine Size" name="engineSize">
                           <EngineSizeInput />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+
+                      {/* Vehicle Color */}
+                      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                         <Form.Item label="Vehicle Color" name="color">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+
+                      {/* Vehicle Value */}
+                      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                         <Form.Item label="Vehicle Value" name="value">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+
+                      {/* Purchase Date */}
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item name="purchaseDate">
                           <LabelDatePicker
                             label="Purchase Date"
@@ -622,6 +631,7 @@ const NewVehicleRegistration = () => {
                           ]}
                         >
                           <UppercaseInput
+                            style={{ width: "100%" }}
                             isCNIC
                             placeholder="37406-3833198-7"
                           />
@@ -630,6 +640,7 @@ const NewVehicleRegistration = () => {
                       <Col span={12}>
                         <Form.Item label="Mobile Number" name="mobileNo">
                           <UppercaseInput
+                            style={{ width: "100%" }}
                             isPhone
                             placeholder="Enter mobile number"
                           />

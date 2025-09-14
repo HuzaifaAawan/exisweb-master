@@ -53,10 +53,15 @@
               width: 100% !important;
             
             }
+            .ant-input {
+              height: 46px;
+              border-radius: 6px;
+              padding: 10px 12px;
+            }
             .input-field {
-              height: 42px !important;
+              height: 46px !important;
               width: 100% !important;
-              
+              border-radius: 8px;
             }
             .text-area-input {
               height: 99px;

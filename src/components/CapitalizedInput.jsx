@@ -7,7 +7,6 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 // ------------------- Excel Helper -------------------
-// ------------------- Excel Helper -------------------
 const fetchDistricts = async () => {
   try {
     const response = await fetch("/Districts.xlsx"); // public folder me Excel file
@@ -25,7 +24,7 @@ const fetchDistricts = async () => {
 };
 
 // ------------------- Engine Size Input -------------------
-const EngineSizeInput = ({ value = "", onChange }) => {
+  const EngineSizeInput = ({ value = "", onChange }) => {
   const unitOptions = ["CC", "HP", "KW"];
   const initialUnit = unitOptions.find((u) => value.endsWith(u)) || "CC";
   const initialNumber = value.endsWith(initialUnit)

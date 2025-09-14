@@ -2,6 +2,8 @@ import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
 import noteIcon from "../../../assets/icons/note.png";
+import "./media_transfer.scss";
+
 
 import {
   Form,
@@ -114,10 +116,10 @@ const VehicleTransferOwnership = () => {
           // className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2"
         >
           <Row gutter={16} style={{ alignItems: "center" }}>
-            <Col span={7}>
+            <Col xs={24} sm={12} md={7}>
               <div className="w-full">
                 <label className="Textfield-Label">Registration No.</label>
-                <div className="">
+                <div>
                   <Input
                     placeholder="Enter here..."
                     value={regNo}
@@ -129,27 +131,15 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            <Col span={7}>
-              {/* <div className="w-full items-center">
-            <label className="Textfield-Label">Registration Date</label>
-            <div className="input-frame">
-              <DatePicker
-                placeholder="Enter Date"
-                className="w-full custom-datepicker"
-                value={regDate}
-                onChange={(date) => setRegDate(date)}
-                allowClear
-              />
-            </div>
-          </div> */}
+            <Col xs={24} sm={12} md={7}>
               <LabelDatePicker
-                label={"Registration Date"}
+                label="Registration Date"
                 value={regDate}
                 setRegDate={setRegDate}
               />
             </Col>
 
-            <Col span={7}>
+            <Col xs={24} sm={12} md={7}>
               <div className="w-full">
                 <label htmlFor="processType" className="Textfield-Label">
                   Select Process Type
@@ -171,8 +161,8 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            <Col span={3}>
-              <div className="Input-Field flex " style={{ marginTop: "27px" }}>
+            <Col xs={24} sm={12} md={3}>
+              <div className="Input-Field flex" style={{ marginTop: "27px" }}>
                 <button type="submit" className="submit-frame w-full">
                   <span className="text-sm font-bold text-[#276749]">
                     Submit

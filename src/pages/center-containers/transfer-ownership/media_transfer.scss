@@ -1,0 +1,67 @@
+/* Base wrapper for form items */
+.transfer-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+  
+  /* Tablet (>=640px) -> 2 columns */
+  @media (min-width: 640px) {
+    .transfer-grid {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  
+    .transfer-grid > .transfer-item {
+      flex: 1 1 calc(50% - 16px);
+    }
+  }
+  
+  /* Desktop (>=1024px) -> first 3 columns responsive, button original width */
+  @media (min-width: 1024px) {
+    /* First 3 Cols */
+    .transfer-grid > .transfer-item:not(.button-item) {
+      flex: 1 1 calc(33.333% - 16px);
+    }
+  
+    /* Button Col */
+    .transfer-grid > .button-item {
+      flex: 0 0 auto; /* preserve original width */
+    }
+  }
+  
+  /* AntD inputs, selects, datepickers full width */
+  .uniform-input1,
+  .uniform-input2,
+  .ant-select,
+  .ant-picker,
+  .ant-input {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  
+  /* Form item spacing */
+  .transfer-ownership .ant-form-item {
+    margin-bottom: 12px;
+  }
+  
+  /* Buttons responsive */
+  .save-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  @media (min-width: 640px) {
+    .save-btn {
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 0;
+    }
+  }
+  
