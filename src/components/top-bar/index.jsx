@@ -32,7 +32,10 @@ const Header = () => {
         }}
       ></div>
 
-      <div className="hearder-container" style={{ position: "relative", zIndex: 2 }}>
+      <div
+        className="hearder-container"
+        style={{ position: "relative", zIndex: 2 }}
+      >
         {/* Logo & Department Name */}
         <div className="flex items-center header-title">
           <img
@@ -43,12 +46,8 @@ const Header = () => {
             width={84}
           />
           <div>
-            <h1 className="text-white heading">
-              Excise & Taxation Department
-            </h1>
-            <h1 className="text-white heading">
-              Islamabad Capital Territory
-            </h1>
+            <h1 className="text-white heading">Excise & Taxation Department</h1>
+            <h1 className="text-white heading">Islamabad Capital Territory</h1>
           </div>
         </div>
 
@@ -64,7 +63,7 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="md:hidden self-end mt-4">
+        <div className="hidden laptop:block self-end mt-4">
           <button className="focus:outline-none" onClick={toggleMenu}>
             <svg
               className="h-6 w-6 text-white"
@@ -94,7 +93,7 @@ const Header = () => {
 
       {/* Mobile Dropdown */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium px-3">
+        <div className="mobile-menu-popup">
           <button className="block hover">Office Timings</button>
           <button className="block hover">Announcement</button>
           <button className="block hover">Tenders</button>

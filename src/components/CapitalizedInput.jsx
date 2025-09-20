@@ -24,7 +24,7 @@ const fetchDistricts = async () => {
 };
 
 // ------------------- Engine Size Input -------------------
-  const EngineSizeInput = ({ value = "", onChange }) => {
+const EngineSizeInput = ({ value = "", onChange }) => {
   const unitOptions = ["CC", "HP", "KW"];
   const initialUnit = unitOptions.find((u) => value.endsWith(u)) || "CC";
   const initialNumber = value.endsWith(initialUnit)
@@ -67,28 +67,47 @@ const fetchDistricts = async () => {
   };
 
   return (
-    <Row gutter={8}>
-      <Col span={16}>
-        <Input
-          placeholder="Enter number"
-          value={number}
-          onChange={onNumberChange}
-          maxLength={5}
-          style={{ width: "100%" }}
-        />
-      </Col>
-      <Col span={8}>
-        <Select value={unit} onChange={onUnitChange} style={{ width: "100%" }}>
-          {unitOptions.map((u) => (
-            <Option key={u} value={u}>
-              {u}
-            </Option>
-          ))}
-        </Select>
-      </Col>
-    </Row>
+    <Input
+      type="text"
+      placeholder="Enter number"
+      value={number}
+      onChange={onNumberChange}
+      className="slection-field"
+      prefix={
+        <div
+          onMouseDown={(e) => {
+            e.stopPropagation(); // Input ka focus block hoga
+            e.preventDefault(); // dropdown close nahi hoga
+          }}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <Select
+            value={unit}
+            onChange={onUnitChange}
+            bordered={false}
+            className="engine-unit-select"
+            style={{
+              width: 70,
+              height: "100%",
+              backgroundColor: "#f3f5f8",
+              color: "gray",
+              fontWeight: 500,
+              padding: "0px",
+            }}
+            getPopupContainer={(trigger) => trigger.parentNode}
+          >
+            {unitOptions.map((u) => (
+              <Option key={u} value={u}>
+                {u}
+              </Option>
+            ))}
+          </Select>
+        </div>
+      }
+    />
   );
 };
+
 
 // ------------------- Uppercase Input -------------------
 const UppercaseInput = ({
@@ -141,14 +160,27 @@ const UppercaseInput = ({
     }
 
     if (isNTN) {
-      const alphanumeric = val
-        .replace(/[^a-zA-Z0-9]/g, "")
-        .toUpperCase()
-        .slice(0, 20);
-      onChange?.(alphanumeric);
+      // Sirf digits allow karo
+      const digitsOnly = val.replace(/\D/g, "").slice(0, 8);
+
+      let formatted = digitsOnly;
+      if (digitsOnly.length > 7) {
+        formatted = `${digitsOnly.slice(0, 7)}-${digitsOnly.slice(7)}`;
+      }
+
+      onChange?.(formatted);
       return;
     }
+    if (props.isAddress) {
+      const formatted = val
+        .toUpperCase()
+        .replace(/[^A-Z0-9\s\-\/#]/g, "") // sirf A-Z, 0-9, SPACE, -, /, #
+        .slice(0, maxLength);
 
+      onChange?.(formatted);
+      return;
+    }
+    
     const uppercaseValue = val.toUpperCase().slice(0, maxLength);
     onChange?.(uppercaseValue);
   };
@@ -203,8 +235,8 @@ const DistrictDropdowns = () => {
   }, []);
 
   return (
-    <Row gutter={16} className="cities-row">
-      <Col span={12}>
+    <Row gutter={[16, 16]} wrap className="cities-row">
+      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
         <Form.Item label="District (Temporary)" name="tempDistrict">
           <Select placeholder="Select" className="slection-field">
             {districts.map((d) => (
@@ -215,7 +247,8 @@ const DistrictDropdowns = () => {
           </Select>
         </Form.Item>
       </Col>
-      <Col span={12}>
+
+      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
         <Form.Item label="District (Permanent)" name="permDistrict">
           <Select placeholder="Select" className="slection-field">
             {districts.map((d) => (

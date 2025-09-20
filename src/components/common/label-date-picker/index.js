@@ -12,7 +12,7 @@ export const LabelDatePicker = ({ label, value, setRegDate }) => {
           value={value}
           onChange={(date) => setRegDate(date)}
           allowClear
-          format="MM/DD/YYYY"   // <----- yahan format add karo
+          format="DD/MM/YYYY"   // <----- yahan format add karo
         />
       </div>
     </div>

@@ -60,30 +60,46 @@
   }
 }
 
+/* Mobile responsive adjustments */
+@media (max-width: 1030px) {
+  .header-right-items {
+    display: none !important; /* hide horizontal menu completely */
+  }
 
-@media (max-width: 1024px) {
-  .bg-header-pattern {
-    height: auto;
+  .mobile-menu-toggle {
+    display: block !important; /* show hamburger */
+  }
 
-    .hearder-container {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 10px;
+  .mobile-menu-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background-color: #268b6b;
+    position: absolute;
+    top: 120px; /* header height */
+    right: 0;
+    width: 200px;
+    z-index: 1000;
+    border-radius: 4px;
+  }
 
-      .header-right-items {
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
+  .mobile-menu-popup button {
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
 
-        .navigation-menu {
-          gap: 10px;
-          padding: 5px 10px;
-        }
-      }
-    }
+  .mobile-menu-popup button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 }
 
+/* Smaller breakpoints */
 @media (max-width: 768px) {
   .bg-header-pattern {
     .hearder-container {
@@ -101,10 +117,6 @@
           height: 70px !important;
           width: 60px !important;
         }
-      }
-
-      .header-right-items {
-        display: none; 
       }
     }
   }
@@ -128,4 +140,55 @@
       }
     }
   }
+}
+.mobile-menu-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0; // hum line se separate karenge
+  padding: 10px 0;
+  background-color: #268b6b;
+  position: absolute;
+  top: 120px; // header height
+  right: 0;
+  width: 200px;
+  z-index: 1000;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: slideDown 0.3s forwards; // simple slide-down animation
+}
+
+@keyframes slideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu-popup button {
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-menu-popup button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Divider line between buttons */
+.mobile-menu-popup button:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
 }

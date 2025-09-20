@@ -1,97 +1,116 @@
 .new-reg {
   width: 100%;
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  font-size: 24px;
+  align-items: center !important; // Center the page horizontally
+  padding: 1rem;
+  font-size: 1.5rem;
+
   .page-title {
     .title {
-      width: 382px;
-      height: 29px;
-      margin: 20px;
-      font-family: Inter;
-      font-size: 24px;
+      width: 100%;
+      max-width: 382px;
+      margin: 1rem auto;
+      font-family: Inter, sans-serif;
+      font-size: 1.5rem;
       font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      text-align: center;
+      text-align: center !important; // Center the title
       color: #04544f;
     }
   }
+
   .new-reg-content-container {
-    .title {
-    }
+    width: 100%;
+    // max-width: 900px;
+    // padding: 1rem;
+
     .reg-form-container {
       .new-vehicle-reg-form {
         .collapse-content-container {
           background-color: #fff;
-          border: 1px solid #e3e3e3 !important;
+          border: 1px solid #e3e3e3;
+          border-radius: 8px;
+          // padding: 1rem;
 
           .panel-hreader {
             display: flex;
             flex-direction: column;
+
             .panel-title {
-              font-size: 14px !important;
-              margin-bottom: 0 !important;
+              font-size: 0.875rem;
+              margin-bottom: 0;
             }
+
             .panel-header-text {
-              font-size: 12px;
+              font-size: 0.75rem;
               color: #556485;
             }
           }
+
           .ant-collapse-content-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
             .slection-field {
-                height: 46px !important;
-              border: 1px solid #d9d9d9 !important;
-              border-radius: 6px !important;
-              width: 100% !important;
-            
-            }
-            .ant-input {
               height: 46px;
-              border-radius: 6px;
-              padding: 10px 12px;
-            }
-            .input-field {
-              height: 46px !important;
-              width: 100% !important;
-              border-radius: 8px;
-            }
-            .text-area-input {
-              height: 99px;
-              width: 100% !important;
+              border: 1px solid #d9d9d9;
 
+              .ant-input {
+                height: 100%;
+                text-align: center; // Only center the text in dropdown
+              }
+
+              .ant-input-prefix {
+                margin-right: 0;
+              }
             }
+
+            .ant-input,
+            .input-field,
+            .text-area-input,
             .date-picker-cls {
-              height: 42px !important;
-              width: 100% !important;
+              width: 100%;
+              border-radius: 6px;
+            }
 
+            .ant-input,
+            .input-field {
+              height: 46px;
+              padding: 0.5rem 0.75rem;
+            }
+
+            .text-area-input {
+              height: 6rem;
+            }
+
+            .date-picker-cls {
+              height: 42px;
             }
           }
         }
+
         .vehicle-reg-btn {
           background-color: #fff;
-          padding: 24px;
+          padding: 1rem;
           border-radius: 8px;
-          border: 1px solid #e3e3e3 !important;
+          border: 1px solid #e3e3e3;
+          display: flex;
+          justify-content: center;
 
           .submit-btn {
+            width: 100%; // Full width button
             height: 50px;
-            align-self: stretch;
-            flex-grow: 0;
             display: flex;
-            flex-direction: row;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            padding: 15px;
-            // opacity: 0.5;
+            padding: 0 1rem;
             border-radius: 8px;
             background-color: #04544f;
             color: #fff;
@@ -102,16 +121,33 @@
     }
   }
 }
+
+/* Additional reusable components */
+.kg-box {
+  min-width: 44px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f5f8;
+  color: gray;
+  font-weight: 500;
+  border-right: 1px solid #d9d9d9;
+  border-radius: 6px 0 0 6px;
+}
+
 .form-container {
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
+  padding: 1rem;
   font-family: Arial, sans-serif;
 }
 
 .form-section {
   border: 1px solid #e5e5e5;
   border-radius: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
@@ -119,7 +155,7 @@
 .form-header {
   display: flex;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   font-weight: bold;
   background: #f9f9f9;
   cursor: pointer;
@@ -127,62 +163,67 @@
 }
 
 .form-body {
-  padding: 16px;
+  padding: 1rem;
 }
 
 .section-description {
   color: #777;
-  font-size: 13px;
-  margin-bottom: 12px;
+  font-size: 0.8125rem;
+  margin-bottom: 0.75rem;
 }
 
 .form-row {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .form-group {
   flex: 1;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
-}
 
-.form-group.full-width {
-  flex: 1 1 100%;
+  &.full-width {
+    flex: 1 1 100%;
+  }
 }
 
 label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 0.375rem;
   color: #444;
 }
 
 input,
-select {
-  padding: 8px;
+select,
+textarea {
+  padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 0.875rem;
+  width: 100%;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: none;
-  border: 1px solid #52a97f;
+  border-color: #52a97f;
 }
 
 .form-actions {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 1.5rem;
 }
 
 .save-btn {
+  width: 100%; // Full width save button
   background: #52a97f;
   color: #fff;
-  padding: 12px 24px;
+  padding: 0.75rem 1.5rem;
   font-weight: bold;
   border: none;
   border-radius: 6px;
@@ -193,86 +234,107 @@ select:focus {
 .save-btn:hover {
   background: #44966d;
 }
+
+/* Tabs */
 .custom-tabs {
-  width: calc(100vw - 26em);
+  width: 100%;
+  margin: 0 auto;
+
   .ant-tabs-nav {
     width: 100%;
-    margin: 0 !important;
 
     .ant-tabs-nav-wrap {
-      padding: 6px;
+      padding: 0.5rem;
       background: #fff;
       border-radius: 8px;
+      text-align: center;
 
       .ant-tabs-nav-list {
         margin: 0 !important;
         display: flex;
         width: 100%;
         height: 40px;
+
         .ant-tabs-tab {
-          border: none !important;
+          border: 4px !important;
+          border-radius: 5px;
+          flex: 1;
+          text-align: center;
         }
+
         :hover {
           color: #04544f !important;
           background-color: #e0f2f199 !important;
           font-weight: bold;
+          text-align: center !important;
         }
       }
     }
   }
+
   .ant-tabs-content-holder {
-    padding: 20px 0;
+    // padding: 1rem 0;
   }
-}
-.custom-tab-bar {
-  display: flex;
-  justify-content: center;
-  border: 1px solid #e3e3e3 !important;
-  border-radius: 8px !important;
-}
+  .ant-tabs-tab{
+    font-weight: bold ;
+  }
 
-.custom-tabs .ant-tabs-tab {
-  flex: 1;
-  text-align: center;
-  font-weight: 500;
-  background-color: #fff;
-  border: 1px solid #d9d9d9;
-  margin: 0 !important;
-  transition: all 0.3s ease;
-  padding: 15px;
-  border-radius: 8px;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-}
+  .ant-tabs-tab-active {
+    background-color: #e0f2f199 !important;
+    font-weight: bold;
+    align-items: center !important;
 
-.custom-tabs .ant-tabs-tab-active {
-  background-color: #e0f2f199 !important;
-  font-weight: bold;
-  .ant-tabs-tab-btn {
-    color: #04544f !important;
+    .ant-tabs-tab-btn {
+      color: #04544f !important;
+      text-align: center !important;
+    }
+  }
+
+  .ant-tabs-ink-bar {
+    display: none !important;
   }
 }
 
-.custom-tabs .ant-tabs-ink-bar {
-  display: none !important; /* Remove bottom line */
-}
-.switch-btn-css {
-  background-color: #d9d9d9; /* default background */
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: row;
+  }
 
-  /* When switch is checked */
-  &.ant-switch-checked {
-    background-color: #02bc7d !important;
+  .new-reg-content-container {
+    padding: 0.5rem;
+  }
+
+  .vehicle-reg-btn .submit-btn {
+    padding: 0.5rem;
+  }
+
+  .page-title .title {
+    font-size: 1.25rem;
   }
 }
-/* Remove blue background on input focus or autofill */
-.custom-uppercase-input,
-.custom-uppercase-input:focus,
-.custom-uppercase-input:-webkit-autofill {
-  background-color: #fff !important;
-  box-shadow: none !important;
-  outline: none !important;
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
-  
-}
 
+@media (max-width: 480px) {
+  .new-reg {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .form-section,
+  .collapse-content-container {
+    padding: 0.75rem;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 0.8125rem;
+  }
+}
+.ant-input-affix-wrapper {
+  padding: 0px!important;
+  text-align: left !important;
+}
+  .ant-tabs .ant-tabs-tab {
+    display: block !important;
+  }

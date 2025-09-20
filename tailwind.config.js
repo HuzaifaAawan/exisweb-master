@@ -7,7 +7,10 @@ module.exports = {
         brandGreen: "#04544f", // custom color name
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'], // Inter font as default
+        sans: ["Inter", "sans-serif"], // Inter font as default
+      },
+      screens: {
+        laptop: { max: "1030px" }, // custom breakpoint for 1030px
       },
     },
   },

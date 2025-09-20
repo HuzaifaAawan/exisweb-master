@@ -119,15 +119,12 @@ const VehicleTransferOwnership = () => {
             <Col xs={24} sm={12} md={7}>
               <div className="w-full">
                 <label className="Textfield-Label">Registration No.</label>
-                <div>
-                  <Input
-                    placeholder="Enter here..."
-                    value={regNo}
-                    onChange={(e) => setRegNo(e.target.value)}
-                    allowClear
-                    className="w-full shadow-none"
-                  />
-                </div>
+                <UppercaseInput
+                  placeholder="Enter here..."
+                  value={regNo}
+                  onChange={(val) => setRegNo(val)} // <-- yahan e.target.value nahi
+                  className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
               </div>
             </Col>
 
@@ -275,8 +272,8 @@ const VehicleTransferOwnership = () => {
                 <span className="Textfield-Label">NTN No.</span>
                 <UppercaseInput
                   isNTN
-                  value={ntn} // yahan state bind
-                  onChange={(val) => setNtn(val)} // aur yahan update
+                  value={ntn}
+                  onChange={(val) => setNtn(val)}
                   placeholder="Enter NTN (Max 20 characters)"
                   className="uniform-input1"
                 />
@@ -286,8 +283,8 @@ const VehicleTransferOwnership = () => {
                 <span className="Textfield-Label">CNIC No.</span>
                 <UppercaseInput
                   isCNIC
-                  value={cnic} // state bind
-                  onChange={(val) => setCnic(val)} // state update
+                  value={cnic}
+                  onChange={(val) => setCnic(val)}
                   placeholder="Enter CNIC (e.g. 37406-3833198-7)"
                   className="uniform-input1"
                 />
@@ -299,7 +296,7 @@ const VehicleTransferOwnership = () => {
                   value={passport}
                   onChange={(val) => setPassport(val)}
                   placeholder="Enter Passport No."
-                  maxLength={40} // aap chaho to limit kar sakte ho
+                  maxLength={30}
                   className="uniform-input1"
                 />
               </Col>
@@ -352,7 +349,7 @@ const VehicleTransferOwnership = () => {
                   value={tempAddress} // state bind
                   onChange={(val) => setTempAddress(val)} // state update
                   showCount
-                  maxLength={40}
+                  maxLength={30}
                   rows={4}
                   placeholder="Enter Address..."
                   className="uniform-input2"
@@ -366,7 +363,7 @@ const VehicleTransferOwnership = () => {
                   value={permAddress}
                   onChange={(val) => setPermAddress(val)} // state update
                   showCount
-                  maxLength={40}
+                  maxLength={30}
                   rows={4}
                   placeholder="Enter Address..."
                   className="uniform-input2"
@@ -437,9 +434,11 @@ const VehicleTransferOwnership = () => {
                 <div className="frame-1 w-full h-12 rounded-md overflow-hidden">
                   <select className="w-full h-full bg-transparent px-3 outline-none">
                     <option value="">Choose city</option>
-                    <option value="karachi">Karachi</option>
-                    <option value="lahore">Lahore</option>
-                    <option value="islamabad">Islamabad</option>
+                    <option value="karachi">ISLAMABAD</option>
+                    <option value="lahore">LAHORE</option>
+                    <option value="islamabad">KARACHI</option>
+                    <option value="islamabad">MULTAN</option>
+                    <option value="islamabad">FAISALABAD</option>
                   </select>
                 </div>
               </Col>

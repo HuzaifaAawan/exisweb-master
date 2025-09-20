@@ -35,6 +35,10 @@ const NewVehicleRegistration = () => {
   const { TabPane } = Tabs;
 
   const [form] = Form.useForm();
+  const [ownershipType, setOwnershipType] = useState(null);
+  const [vehicleCategory, setVehicleCategory] = useState("");
+
+
 
   const [collapsed, setCollapsed] = useState({
     owner: false,
@@ -110,83 +114,77 @@ const NewVehicleRegistration = () => {
                     key="1"
                   >
                     <Row gutter={16}>
+                      {/* Ownership Type */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Ownership Type*" name="ownershipType">
                           <Select
                             placeholder="Select"
-                            className="slection-field"
-                            style={{ width: 200, fontSize: "14px" }} // width aur font size adjust karo yahan
+                            value={ownershipType}
+                            onChange={(val) => setOwnershipType(val)}
+                            className="slection-field w-full sm:w-52 text-sm"
+                            style={{ width: 200, fontSize: "14px" }}
                           >
-                            <Option value="individual">Individual</Option>
-                            <Option value="company">Organizational</Option>
+                            <Option value="individual">INDIVIDUAL</Option>
+                            <Option value="company">ORGANIZATIONAL</Option>
                           </Select>
                         </Form.Item>
                       </Col>
+
+                      {/* NTN Number (disabled if Individual) */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item
-                          name="ntn"
-                          label="NTN Number"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please enter NTN number",
-                            },
-                          ]}
-                        >
+                        <Form.Item name="ntn" label="NTN Number">
                           <UppercaseInput
                             isNTN
-                            placeholder="Enter NTN (Max 20 characters)"
+                            placeholder="Enter NTN"
+                            disabled={ownershipType === "individual"}
                           />
                         </Form.Item>
                       </Col>
+
+                      {/* CNIC (disabled if Company) */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item
-                          label="CNIC Number"
-                          name="cnic"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please enter CNIC number",
-                            },
-                          ]}
-                        >
+                        <Form.Item label="CNIC Number" name="cnic">
                           <UppercaseInput
                             isCNIC
                             placeholder="37406-3833198-7"
+                            disabled={ownershipType === "company"}
                           />
                         </Form.Item>
                       </Col>
                     </Row>
 
                     <Row gutter={16}>
+                      {/* Passport (disabled if Company) */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Passport No." name="Passport">
-                          <UppercaseInput placeholder="Enter here..." />
+                        <Form.Item label="Passport No." name="passport">
+                          <UppercaseInput
+                            placeholder="Enter here..."
+                            disabled={ownershipType === "company"}
+                          />
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Name" name="name">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
+
+                      {/* F/H/W/O Name (disabled if Company) */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item
-                          label="F/H/W/O Name"
-                          name="fatherName"
-                          rules={[
-                            { required: true, message: "Please enter name" },
-                          ]}
-                        >
+                        <Form.Item label="F/H/W/O Name" name="fatherName">
                           <UppercaseInput
                             placeholder="Enter name"
                             maxLength={32}
+                            disabled={ownershipType === "company"}
                           />
                         </Form.Item>
                       </Col>
                     </Row>
 
+                    {/* ✅ Rest of your form same rahega (addresses, phones, city, district) */}
                     <Row gutter={16}>
-                      <Col xs={24} sm={24} md={8} lg={8} xl={12}>
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item name="mobile" label="Mobile Number">
                           <UppercaseInput
                             isPhone
@@ -194,7 +192,7 @@ const NewVehicleRegistration = () => {
                           />
                         </Form.Item>
                       </Col>
-                      <Col xs={24} sm={24} md={8} lg={8} xl={12}>
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item name="otherPhone" label="Other Phone">
                           <UppercaseInput
                             isPhone
@@ -205,23 +203,24 @@ const NewVehicleRegistration = () => {
                     </Row>
 
                     <Row gutter={16}>
-                      <Col xs={24} sm={24} md={8} lg={8} xl={12}>
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item label="Temporary Address" name="tempAddress">
                           <UppercaseInput
                             textarea
                             showCount
-                            maxLength={40}
+                            isAddress
+                            maxLength={30}
                             placeholder="Enter here..."
                             className="text-area-input custom-uppercase-input"
                           />
                         </Form.Item>
                       </Col>
-                      <Col xs={24} sm={24} md={8} lg={8} xl={12}>
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item label="Permanent Address" name="permAddress">
                           <UppercaseInput
                             textarea
                             showCount
-                            maxLength={40}
+                            maxLength={30}
                             placeholder="Enter here..."
                             className="text-area-input custom-uppercase-input"
                           />
@@ -229,45 +228,31 @@ const NewVehicleRegistration = () => {
                       </Col>
                     </Row>
 
-                    <Row
-                      gutter={16}
-                      className="cities-row"
-                      style={{ display: "flex", gap: "0" }}
-                    >
-                      <Col span={12}>
+                    <Row gutter={16} className="cities-row">
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item label="City (Temporary)" name="tempCity">
                           <UppercaseInput
                             placeholder="Enter text here"
                             className="input-field"
+                            maxLength={15}
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={12}>
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item label="City (Permanent)" name="permCity">
                           <UppercaseInput
                             placeholder="Enter text here"
                             className="input-field"
+                            maxLength={15}
                           />
                         </Form.Item>
                       </Col>
                     </Row>
-                    <Row gutter={16} className="cities-row">
-                      <Col span={24}>
-                        <Form layout="vertical">
-                          <DistrictDropdowns />
-                        </Form>
+
+                    <Row gutter={[16, 16]} className="cities-row">
+                      <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <DistrictDropdowns />
                       </Col>
-                      {/* <Col span={12}>
-                        <Form.Item
-                          label="District (Permanent)"
-                          name="permDistrict"
-                        >
-                          <Select
-                            placeholder="Select"
-                            className="slection-field"
-                          />
-                        </Form.Item>
-                      </Col> */}
                     </Row>
                   </Panel>
                 </Collapse>
@@ -474,6 +459,7 @@ const NewVehicleRegistration = () => {
                           <Select
                             placeholder="Select"
                             className="slection-field"
+                            onChange={(val) => setVehicleCategory(val)}
                           >
                             <Select.Option value="private">
                               PRIVATE
@@ -594,6 +580,76 @@ const NewVehicleRegistration = () => {
                   </Panel>
                 </Collapse>
 
+                {/* Vehicle Information */}
+                {vehicleCategory === "commercial" && (
+                  <Collapse
+                    style={{ marginBottom: 14 }}
+                    expandIcon={({ isActive }) => (
+                      <CaretRightOutlined rotate={isActive ? 90 : 0} />
+                    )}
+                    className="collapse-content-container"
+                  >
+                    <Panel
+                      header={
+                        <div className="panel-hreader">
+                          <Typography.Title className="panel-title">
+                            Commercial Vehicle Details
+                          </Typography.Title>
+                          <p className="panel-header-text">
+                            This section appears only if “Commercial” is
+                            selected in above section
+                          </p>
+                        </div>
+                      }
+                      key="6"
+                    >
+                      <Row gutter={16}>
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                          <Form.Item
+                            label="Vehicle Type"
+                            name="vehicleCategory"
+                          >
+                            <Select
+                              placeholder="Select"
+                              className="slection-field"
+                            >
+                              <Select.Option value="passenger">
+                                PASSENGER VEHICLE
+                              </Select.Option>
+                              <Select.Option value="goods">
+                                GOODS VEHICLE
+                              </Select.Option>
+                            </Select>
+                          </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                          <Form.Item label="Laden Weight" name="ladenWeight">
+                            <Input
+                              type="number"
+                              placeholder="Enter weight"
+                              className="slection-field"
+                              prefix={<span className="kg-box">KG</span>}
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                          <Form.Item
+                            label="Unladen Weight"
+                            name="unladenWeight"
+                          >
+                            <Input
+                              type="number"
+                              placeholder="Enter weight"
+                              className="slection-field"
+                              prefix={<span className="kg-box">KG</span>}
+                            />
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                    </Panel>
+                  </Collapse>
+                )}
+
                 {/* Owner's Representative */}
                 <Collapse
                   style={{ marginBottom: 14 }}
@@ -688,7 +744,7 @@ const NewVehicleRegistration = () => {
             </div>
           </div>
         </TabPane>
-        <TabPane tab="My Application Details" key="2">
+        <TabPane tab="Edit My Application" key="2">
           <ApplicationDetails />
         </TabPane>
       </Tabs>

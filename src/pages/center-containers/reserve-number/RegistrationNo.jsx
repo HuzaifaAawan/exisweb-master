@@ -4,9 +4,7 @@ import Select from "react-select";
 import RegistrationNoTable from "../../my-reg-no-table";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import "./styles.scss";
-import UppercaseInput, {
-  EngineSizeInput,
-} from "../../../components/CapitalizedInput.jsx";
+
 
 export default function StyledRegistrationForm() {
   const [formData, setFormData] = useState({

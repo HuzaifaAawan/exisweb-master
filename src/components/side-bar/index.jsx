@@ -267,7 +267,7 @@ const Sidebar = () => {
           className="sidebar-container "
           trigger={null}
         >
-          <div className="sidebar-inner bg-no-repeat bg-bottom bg-contain flex flex-col h-full">
+          <div className="sidebar-inner flex flex-col h-full bg-no-repeat bg-bottom bg-contain flex flex-col h-full">
             {/* TOP SECTION (Menu) */}
             <div className="flex-1">
               <div className="portal-title">PUBLIC SERVICE PORTAL</div>
@@ -288,43 +288,21 @@ const Sidebar = () => {
               />
             </div>
 
-            {/* BOTTOM SECTION (Profile + Logout) */}
-            <div className="mt-auto">
-              <Divider
-                style={{
-                  minWidth: "90%",
-                  width: "90%",
-                  margin: "24px 12px",
-                }}
-              />
-
+            <div className="mt-auto w-full">
+              <Divider className="w-[90%] mx-3 my-6" />
               <div
-                className="profile-box p-6 rounded-lg bg-cover bg-center flex flex-col items-center"
-                style={{
-                  backgroundImage: `url(${bgImage})`,
-                  backgroundSize: "cover", // or 'contain' based on what you want
-                  backgroundPosition: "bottom", // or 'center'
-                  backgroundRepeat: "no-repeat",
-                }}
+                className="flex flex-col items-center p-6 bg-cover bg-bottom rounded-lg"
+                style={{ backgroundImage: `url(${bgImage})` }}
               >
-                <button
-                  className="flex items-center justify-start gap-2 text-gray-800 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full user-account"
-                  onClick={() => {
-                    console.log("Profile clicked");
-                  }}
-                >
+                <button className="flex items-center w-full px-4 py-2 text-gray-800 font-semibold rounded hover:bg-white/80 gap-2">
                   <img
                     src={userProfile}
                     alt="User"
-                    className="w-6 h-6 rounded-full object-cover"
+                    className="w-6 h-6 rounded-full"
                   />
-                  <span className="font-semibold text-gray-800">
-                    User Account
-                  </span>
+                  <span>User Account</span>
                 </button>
-
-                {/* Logout Button */}
-                <button className="flex items-center gap-2 text-red-600 font-semibold bg-gray-100 px-4 py-2 rounded hover:bg-white/80 transition w-full justify-start mt-2 logout-btn">
+                <button className="flex items-center w-full px-4 py-2 mt-2 text-red-600 font-semibold rounded hover:bg-white/80 gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
