@@ -94,19 +94,34 @@ const VehicleTransferOwnership = () => {
           // margin: "2rem",
         }}
       >
-        <div className="text-center">
-          <span className="Profiles-Manager block">Change of Ownership</span>
-          <span
-            className="Profiles-Manager2 block"
-            style={{ marginTop: "8px" }}
-          >
-            Please provide the details below to view owner information
-          </span>
+        <div className=" py-3">
+          {/* Title */}
+          <div className="mb-1">
+            <span
+              className="block font-bold text-lg leading-tight"
+              style={{ lineHeight: "1.3", wordBreak: "break-word" }}
+            >
+              Change of Ownership
+            </span>
+          </div>
+
+          {/* Subtitle */}
+          <div className="mb-3">
+            <span
+              className="block text-gray-600 text-sm leading-normal"
+              style={{ lineHeight: "1.5", wordBreak: "break-word" }}
+            >
+              Please provide the details below to view owner information
+            </span>
+          </div>
+
+          {/* Divider */}
           <hr
             style={{
-              marginTop: "15px",
               border: "none",
               borderTop: "1px solid #e3e3e3",
+              width: "80%",
+              margin: "0 auto",
             }}
           />
         </div>
@@ -115,28 +130,45 @@ const VehicleTransferOwnership = () => {
           onSubmit={handleSubmit}
           // className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2"
         >
-          <Row gutter={16} style={{ alignItems: "center" }}>
-            <Col xs={24} sm={12} md={7}>
+          <Row
+            gutter={[16, 16]}
+            className="items-end w-full"
+            style={{
+              flexWrap: "wrap",
+              rowGap: "16px",
+            }}
+          >
+            {/* 1️⃣ Registration No */}
+            <Col xs={24} sm={24} md={12} lg={7}>
               <div className="w-full">
                 <label className="Textfield-Label">Registration No.</label>
-                <UppercaseInput
-                  placeholder="Enter here..."
-                  value={regNo}
-                  onChange={(val) => setRegNo(val)} // <-- yahan e.target.value nahi
-                  className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                <div className="w-full">
+                  <UppercaseInput
+                    placeholder="Enter here..."
+                    value={regNo}
+                    onChange={(val) => setRegNo(val)}
+                    className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg 
+                     focus:outline-none focus:ring-2 focus:ring-blue-500 
+                     focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </Col>
+
+            {/* 2️⃣ Registration Date */}
+            <Col xs={24} sm={24} md={12} lg={7}>
+              <div className="w-full">
+                <LabelDatePicker
+                  label="Registration Date"
+                  value={regDate}
+                  setRegDate={setRegDate}
+                  className="w-full"
                 />
               </div>
             </Col>
 
-            <Col xs={24} sm={12} md={7}>
-              <LabelDatePicker
-                label="Registration Date"
-                value={regDate}
-                setRegDate={setRegDate}
-              />
-            </Col>
-
-            <Col xs={24} sm={12} md={7}>
+            {/* 3️⃣ Process Type */}
+            <Col xs={24} sm={24} md={12} lg={7}>
               <div className="w-full">
                 <label htmlFor="processType" className="Textfield-Label">
                   Select Process Type
@@ -158,15 +190,16 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            <Col xs={24} sm={12} md={3}>
-              <div className="Input-Field flex" style={{ marginTop: "27px" }}>
-                <button type="submit" className="submit-frame w-full">
-                  <span className="text-sm font-bold text-[#276749]">
-                    Submit
-                  </span>
-                </button>
-              </div>
-            </Col>
+            {/* 4️⃣ Submit Button */}
+            {/* <Col xs={24} sm={24} md={12} lg={6}  xlg ={6}className=""> */}
+              <button
+                type="submit"
+                className="submit-frame px-5 py-5 mx-2  rounded-lg bg-[#ebf1f1] 
+                 text-[#04544f] font-bold text-sm hover:bg-[#d8e4e4] transition-all"
+              >
+                Submit
+              </button>
+            {/* </Col> */}
           </Row>
         </form>
 

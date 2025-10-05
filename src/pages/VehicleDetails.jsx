@@ -80,17 +80,17 @@ const VehicleDetails = () => {
         </h1>
         <form
           onSubmit={handleCheck}
-          className="grid grid-cols-6 gap-4 px-5 py-5 mx-auto reg-form-content"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4 px-5 py-5 mx-auto reg-form-content"
         >
           <button
             type="button"
             onClick={handleSubmit}
-            className="col-span-12 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 btn"
+            className="col-span-6 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 btn whitespace-nowrap overflow-hidden text-ellipsis"
           >
             Go to Reserve Number Page
           </button>
 
-          <div className="col-span-12">
+          <div className="col-span-6">
             <label htmlFor="registration" className="block font-medium mb-2">
               REGISTRATION NO:
             </label>
@@ -105,7 +105,7 @@ const VehicleDetails = () => {
             />
           </div>
 
-          <div className="col-span-12">
+          <div className="col-span-6">
             <label htmlFor="date" className="block font-medium mb-2">
               REGISTRATION DATE:
             </label>
@@ -120,7 +120,7 @@ const VehicleDetails = () => {
             />
           </div>
 
-          <div className="col-span-12 mt-4">
+          <div className="col-span-6 mt-4 flex justify-start">
             <ReCAPTCHA
               sitekey="6LfnCSQrAAAAAIwtsn-vb3eIunRMfZopzXnlFxcx"
               onChange={handleCaptchaChange}
@@ -128,37 +128,34 @@ const VehicleDetails = () => {
             />
           </div>
 
-          <div className="col-span-6 sm:col-span-3 mt-4 mx-5">
-            <button
-              type="submit"
-              disabled={loading || !registration || !date}
-              className={`button-colors text-white py-2 px-4 rounded w-full ${
-                loading || !registration || !date
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-green-700"
-              }`}
-            >
-              {loading ? "CHECKING..." : "CHECK"}
-            </button>
+          {/* Equal-width CHECK and RESET Buttons - Always Side-by-Side */}
+          <div className="col-span-1 sm:col-span-2 md:col-span-6 mt-4">
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="submit"
+                disabled={loading || !registration || !date}
+                className="button-colors text-white py-2 px-2 text-sm rounded w-full whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                {loading ? "CHECKING..." : "CHECK"}
+              </button>
+
+              <button
+                type="reset"
+                className="button-colors text-white py-2 px-2 text-sm rounded hover:bg-gray-600 w-full whitespace-nowrap overflow-hidden text-ellipsis"
+                onClick={() => {
+                  setRegistration("");
+                  setDate("");
+                  setResponseData(null);
+                  setError(null);
+                  setCaptchaValue(null);
+                }}
+              >
+                RESET
+              </button>
+            </div>
           </div>
 
-          <div className="col-span-6 sm:col-span-3 mt-4 mx-5">
-            <button
-              type="reset"
-              className="button-colors text-white py-2 px-4 rounded hover:bg-gray-600 w-full"
-              onClick={() => {
-                setRegistration("");
-                setDate("");
-                setResponseData(null);
-                setError(null);
-                setCaptchaValue(null);
-              }}
-            >
-              RESET
-            </button>
-          </div>
-
-          <div className="col-span-12 mt-4">
+          <div className="col-span-6 mt-4">
             {responseData && (
               <div className="mt-10 w-full px-4">
                 <h2 className="text-lg font-semibold mb-4">
@@ -259,7 +256,7 @@ const VehicleDetails = () => {
                         TAX STATUS:
                       </td>
                       <td className="border px-2 py-1">
-                        {responseData["VEH_TAX_PAID_UPTO/lIFE TIME"]}
+                        {responseData["VEH_TAX_PAID_UPTO/lIFE_TIME"]}
                       </td>
                     </tr>
                     <tr>

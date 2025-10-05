@@ -128,11 +128,11 @@ export default function StyledRegistrationForm() {
           className="space-y-8 inner-container-form"
           onSubmit={(e) => e.preventDefault()}
         >
-          <div className="flex flex-col md:flex-row gap-3 w-full items-end">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 w-full">
             {/* 1️⃣ Series Alphabets */}
-            <div className="flex-1 min-w-0 next-div">
+            <div className="flex-shrink-0 md:flex-1">
               <label
-                className="text-sm font-bold text-gray-700 mb-1 block-title"
+                className="text-sm font-bold text-gray-700 mb-1 block"
                 style={{ color: "#161a23" }}
               >
                 Series Alphabets
@@ -160,9 +160,9 @@ export default function StyledRegistrationForm() {
             </div>
 
             {/* 2️⃣ Available Numbers */}
-            <div className="flex-1 min-w-0 next-div">
+            <div className="flex-shrink-0 md:flex-1">
               <label
-                className="text-sm font-bold text-gray-700 mb-1 block-title"
+                className="text-sm font-bold text-gray-700 mb-1 block"
                 style={{ color: "#161a23" }}
               >
                 Available Numbers
@@ -226,28 +226,28 @@ export default function StyledRegistrationForm() {
             </div>
 
             {/* 3️⃣ Check Availability Button */}
-            <div className="w-[154px]">
+            <div className="flex-shrink-0 md:w-auto w-full">
               <label className="font-bold text-gray-700 mb-1 block invisible">
                 Check Availability
               </label>
               <button
                 type="button"
                 onClick={handleCheckAvailability}
-                className="w-full font-semibold check-avail-btn mt-[12px]"
+                className="w-full md:w-auto font-semibold check-avail-btn mt-[12px]"
                 style={{
                   height: "50px",
-                  padding: "0 12px",
+                  padding: "0 20px",
                   fontWeight: "bold",
                   borderRadius: "8px",
                   backgroundColor: "#ebf1f1",
                   display: "flex",
-                  flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
                   lineHeight: "1.2",
                   textAlign: "center",
                   fontSize: "14px",
                   color: "#04544f",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Check Availability

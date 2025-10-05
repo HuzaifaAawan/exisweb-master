@@ -272,8 +272,9 @@
 }
 
 .input-frame {
-  flex: 1 1 260px;
-  min-width: 200px;
+  flex: 1 1 auto;   /* pehle 260px tha */
+  min-width: 0;     /* min-width:200px hatao */
+  width: 100%;   
 }
 
 /* DatePicker main input ke andar text + icon ko center karne ke liye */
@@ -448,8 +449,8 @@
 
 /* Submit frame */
 .submit-frame {
-  flex: 1 1 100px;
-  max-width: 120px;
+  flex: 0 0 auto;   /* pehle 1 1 100px tha */
+  width: auto;  
   height: 50px;
   display: flex;
   justify-content: center;

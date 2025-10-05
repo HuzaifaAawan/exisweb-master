@@ -31,13 +31,13 @@ const Header = () => {
           zIndex: "1",
         }}
       ></div>
-
+ 
       <div
         className="hearder-container"
         style={{ position: "relative", zIndex: 2 }}
       >
         {/* Logo & Department Name */}
-        <div className="flex items-center header-title">
+        <div className="flex items-center flex-nowrap header-title">
           <img
             src={headerLogo}
             alt="Ictlogo"
@@ -45,13 +45,13 @@ const Header = () => {
             height={97}
             width={84}
           />
-          <div>
+          <div className="whitespace-nowrap ml-2">
             <h1 className="text-white heading">Excise & Taxation Department</h1>
             <h1 className="text-white heading">Islamabad Capital Territory</h1>
           </div>
         </div>
 
-        {/* Navigation with top image */}
+        {/* Navigation */}
         <div className="header-right-items">
           <img src={menuTopImage} alt="menu-top-logo" className="rightImg" />
           <nav className="navigation-menu">
