@@ -12,11 +12,29 @@ import ReserveRegNumber from "../pages/center-containers/reserve-number";
 import MyRegistrationNumbers from "../pages/center-containers/my-numbers";
 import BiometricVerification from "../pages/center-containers/biometric";
 import ESahulatCentreLocator from "../pages/center-containers/locator";
+import Login from "../pages/login";
+import Home from "../pages/Home";
+import PrivateRoute from "./PrivateRoute";
+import AuthCallback from "./AuthCallback";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<AppLayout />}>
+      {/* Public routes */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/auth/callback" element={<AuthCallback />} />
+
+      <Route path="/home" element={<AuthCallback />} />
+
+      {/* Protected routes */}
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <AppLayout />
+          </PrivateRoute>
+        }
+      >
         <Route index element={<VehicleDetails />} />
         <Route path="/registration" element={<StyledRegistrationForm />} />
         <Route path="/new-reg" element={<NewVehicleRegistration />} />
