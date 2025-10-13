@@ -4,6 +4,7 @@
   "proxy": "http://58.65.189.226:8080",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^6.1.0",
     "@fontsource/inter": "^5.2.6",
     "@tailwindcss/cli": "^4.1.4",
     "@tailwindcss/postcss7-compat": "^2.2.17",
@@ -11,7 +12,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^13.2.1",
-    "antd": "^5.26.5",
+    "antd": "^5.27.4",
     "axios": "^1.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "lodash.template": "^4.5.0",
     "postcss": "^8.5.3",
     "sass-loader": "^13.3.3",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"

@@ -1,14 +1,28 @@
 // components/Header.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import headerLogo from "../../assets/icons/header_logo-removebg-preview.png";
 import menuTopImage from "../../assets/icons/top_right.jpg";
-import bannerBg from "../../assets/icons/Banner-bg.jpg"; 
+import bannerBg from "../../assets/icons/Banner-bg.jpg";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  // ✅ Close mobile menu automatically when screen size > 1024px
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024 && menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup listener on unmount (prevents memory leaks)
+    return () => window.removeEventListener("resize", handleResize);
+  }, [menuOpen]);
 
   return (
     <header
@@ -31,7 +45,7 @@ const Header = () => {
           zIndex: "1",
         }}
       ></div>
- 
+
       <div
         className="hearder-container"
         style={{ position: "relative", zIndex: 2 }}
