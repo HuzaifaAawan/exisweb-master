@@ -23,9 +23,6 @@ const AppRoutes = () => {
       {/* Public routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
-
-      <Route path="/home" element={<AuthCallback />} />
-
       {/* Protected routes */}
       <Route
         path="/"
