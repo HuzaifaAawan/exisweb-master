@@ -116,7 +116,19 @@ const NewVehicleRegistration = () => {
                     <Row gutter={16}>
                       {/* Ownership Type */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Ownership Type*" name="ownershipType">
+                        <Form.Item
+                          label={
+                            <>
+                              <span className="ownership-full">
+                                Ownership Type*
+                              </span>
+                              <span className="ownership-medium">
+                                Ownership ..
+                              </span>
+                            </>
+                          }
+                          name="ownershipType"
+                        >
                           <Select
                             placeholder="Select"
                             value={ownershipType}
