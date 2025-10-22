@@ -1,39 +1,33 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
-import { Layout, Menu, Button, Divider } from "antd";
+import { useState, useEffect } from "react";
+import { Layout, Menu, Button, Divider, Drawer } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./styles.scss";
 import userProfile from "../../assets/icons/user-profile.jpg";
+import SidebarDrawer from "./SidebarDrawer"; // Import Drawer component
 // Icons
 import OpenMenuIcon from "../../assets/icons/slider_open.png";
 import CloseMenuIcon from "../../assets/icons/slider_close.svg";
 
 import newVehicleRegIcon from "../../assets/icons/New Vehicle Registration-Unselected.svg";
 import newVehicleRegIconActive from "../../assets/icons/New Vehicle Registration-Selected.svg";
-
 import vehTransferOwnership from "../../assets/icons/Vehicle Transfer of Ownership-Unselected.svg";
 import vehTransferOwnershipActive from "../../assets/icons/Vehicle Transfer of Ownership-Selected.svg";
-
 import checkVehicleDetail from "../../assets/icons/Check Vehicle Detail-Unselected.svg";
 import checkVehicleDetailActive from "../../assets/icons/Check Vehicle Detail-Selected.svg";
-
 import smartCardStatus from "../../assets/icons/Check Vehicle Smart Card Status-Unselected.svg";
 import smartCardStatusActive from "../../assets/icons/Check Vehicle Smart Card Status-Selected.svg";
-
 import challanVerification from "../../assets/icons/Vehicle Challan Verification-Unselected.svg";
 import challanVerificationActive from "../../assets/icons/Vehicle Challan Verification-Selected.svg";
-
 import resrvRegNo from "../../assets/icons/Reserve Registration No.-Unselected.svg";
 import resrvRegNoActive from "../../assets/icons/Reserve Registration No.-Selected.svg";
-
 import myRegNo from "../../assets/icons/My Registration No.-Unselected.svg";
 import myRegNoActive from "../../assets/icons/My Registration No.-Selected.svg";
-
 import biometricVerif from "../../assets/icons/Biometric Verification-Unselected.svg";
 import biometricVerifActive from "../../assets/icons/Biometric Verification-Selected.svg";
-
 import eSahulat from "../../assets/icons/eSahulat Centre Locator-Unselected.svg";
 import eSahulatActive from "../../assets/icons/eSahulat Centre Locator-Selected.svg";
+
 import AttentionModal from "../attention-modal";
 import bgImage from "../../assets/icons/popup-bg.png";
 
@@ -41,8 +35,19 @@ const Sidebar = () => {
   const { Sider } = Layout;
   const navigate = useNavigate();
   const location = useLocation();
+
   const [collapsed, setCollapsed] = useState(false);
   const [showAttention, setShowAttention] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // 📱 Responsive check
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 992);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const currentPath = location.pathname;
 
@@ -102,129 +107,6 @@ const Sidebar = () => {
       iconActive: eSahulatActive,
     },
   ];
-  const getMenuItems = (activeKey) => [
-    {
-      key: "/new-reg",
-      icon: (
-        <img
-          src={
-            activeKey === "/new-reg"
-              ? newVehicleRegIconActive
-              : newVehicleRegIcon
-          }
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "New Vehicle Registration",
-    },
-    {
-      key: "/transfer-ownership",
-      icon: (
-        <img
-          src={
-            activeKey === "/transfer-ownership"
-              ? vehTransferOwnershipActive
-              : vehTransferOwnership
-          }
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "Vehicle Transfer of Ownership",
-    },
-    {
-      key: "/vehicle-detail",
-      icon: (
-        <img
-          src={
-            activeKey === "/vehicle-detail"
-              ? checkVehicleDetailActive
-              : checkVehicleDetail
-          }
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "Check Vehicle Detail",
-    },
-    {
-      key: "/smart-card-status",
-      icon: (
-        <img
-          src={
-            activeKey === "/smart-card-status"
-              ? smartCardStatusActive
-              : smartCardStatus
-          }
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "Check Vehicle Smart Card Status",
-    },
-    {
-      key: "/challan-verification",
-      icon: (
-        <img
-          src={
-            activeKey === "/challan-verification"
-              ? challanVerificationActive
-              : challanVerification
-          }
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "Vehicle Challan Verification",
-    },
-    {
-      key: "/registration",
-      icon: (
-        <img
-          src={activeKey === "/registration" ? resrvRegNoActive : resrvRegNo}
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "Reserve Registration Number",
-    },
-    {
-      key: "/my-numbers",
-      icon: (
-        <img
-          src={activeKey === "/my-numbers" ? myRegNoActive : myRegNo}
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "My Registration Numbers",
-    },
-    {
-      key: "/biometric",
-      icon: (
-        <img
-          src={
-            activeKey === "/biometric" ? biometricVerifActive : biometricVerif
-          }
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "Biometric Verification",
-    },
-    {
-      key: "/locator",
-      icon: (
-        <img
-          src={activeKey === "/locator" ? eSahulatActive : eSahulat}
-          className="menu-icon"
-          alt=""
-        />
-      ),
-      label: "eSahulat Centre Locator",
-    },
-  ];
 
   const menuItemsForAntd = menuItems.map((item) => ({
     key: item.key,
@@ -241,88 +123,124 @@ const Sidebar = () => {
   return (
     <>
       <div className="sidebar-wrapper">
-        <Button
-          type="text"
-          icon={
-            <img
-              src={collapsed ? OpenMenuIcon : CloseMenuIcon}
-              className="toggle-icon"
-              alt="Toggle Sidebar"
-            />
-          }
-          onClick={() => setCollapsed(!collapsed)}
-          className="sidebar-toggle-btn"
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: collapsed ? "-40px" : "-17px",
-            transition: "right 1s ease",
-            zIndex: 1000,
-          }}
-        />
-        <Sider
-          width={299}
-          collapsedWidth={0}
-          collapsed={collapsed}
-          className="sidebar-container "
-          trigger={null}
-        >
-          <div className="sidebar-inner flex flex-col h-full bg-no-repeat bg-bottom bg-contain flex flex-col h-full">
-            {/* TOP SECTION (Menu) */}
-            <div className="flex-1">
-              <div className="portal-title">PUBLIC SERVICE PORTAL</div>
-
-              <Menu
-                mode="inline"
-                selectedKeys={[location.pathname]}
-                onClick={({ key }) => {
-                  if (key === "/transfer-ownership") {
-                    setShowAttention(true);
-                    navigate(key);
-                  } else {
-                    navigate(key);
-                  }
-                }}
-                items={menuItemsForAntd}
-                className="custom-menu"
+        {/* 📱 Toggle Button for Mobile */}
+        {isMobile ? (
+          <Button
+            type="text"
+            icon={
+              <img
+                src={OpenMenuIcon}
+                className="toggle-icon"
+                alt="Toggle Drawer"
               />
-            </div>
+            }
+            onClick={() => setDrawerOpen(true)}
+            className="sidebar-toggle-btn"
+            style={{
+              position: "absolute",
+              top: "10px",
+              left: "10px",
+              zIndex: 2000,
+            }}
+          />
+        ) : (
+          // 💻 Normal Sidebar Toggle for Desktop
+          <Button
+            type="text"
+            icon={
+              <img
+                src={collapsed ? OpenMenuIcon : CloseMenuIcon}
+                className="toggle-icon"
+                alt="Toggle Sidebar"
+              />
+            }
+            onClick={() => setCollapsed(!collapsed)}
+            className="sidebar-toggle-btn"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: collapsed ? "-40px" : "-17px",
+              transition: "right 1s ease",
+              zIndex: 1000,
+            }}
+          />
+        )}
 
-            <div className="mt-auto w-full">
-              <Divider className="w-[90%] mx-3 my-6" />
-              <div
-                className="flex flex-col items-center p-6 bg-cover bg-bottom rounded-lg"
-                style={{ backgroundImage: `url(${bgImage})` }}
-              >
-                <button className="flex items-center w-full px-4 py-2 text-gray-800 font-semibold rounded hover:bg-white/80 gap-2">
-                  <img
-                    src={userProfile}
-                    alt="User"
-                    className="w-6 h-6 rounded-full"
-                  />
-                  <span>User Account</span>
-                </button>
-                <button className="flex items-center w-full px-4 py-2 mt-2 text-red-600 font-semibold rounded hover:bg-white/80 gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+        {/* 💻 Sidebar for Desktop */}
+        {!isMobile && (
+          <Sider
+            width={299}
+            collapsedWidth={0}
+            collapsed={collapsed}
+            className="sidebar-container"
+            trigger={null}
+          >
+            <div className="sidebar-inner flex flex-col h-full bg-no-repeat bg-bottom bg-contain">
+              <div className="flex-1">
+                <div className="portal-title">PUBLIC SERVICE PORTAL</div>
+
+                <Menu
+                  mode="inline"
+                  selectedKeys={[location.pathname]}
+                  onClick={({ key }) => {
+                    if (key === "/transfer-ownership") {
+                      setShowAttention(true);
+                      navigate(key);
+                    } else {
+                      navigate(key);
+                    }
+                  }}
+                  items={menuItemsForAntd}
+                  className="custom-menu"
+                />
+              </div>
+
+              <div className="mt-auto w-full">
+                <Divider className="w-[90%] mx-3 my-6" />
+                <div
+                  className="flex flex-col items-center p-6 bg-cover bg-bottom rounded-lg"
+                  style={{ backgroundImage: `url(${bgImage})` }}
+                >
+                  <button className="flex items-center w-full px-4 py-2 text-gray-800 font-semibold rounded hover:bg-white/80 gap-2">
+                    <img
+                      src={userProfile}
+                      alt="User"
+                      className="w-6 h-6 rounded-full"
                     />
-                  </svg>
-                  Logout Account
-                </button>
+                    <span>User Account</span>
+                  </button>
+                  <button className="flex items-center w-full px-4 py-2 mt-2 text-red-600 font-semibold rounded hover:bg-white/80 gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+                      />
+                    </svg>
+                    Logout Account
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </Sider>
+          </Sider>
+        )}
+
+        {/* 📱 Drawer Popup for Mobile */}
+        {isMobile && (
+          <SidebarDrawer
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            menuItems={menuItemsForAntd}
+          />
+        )}
+
         <AttentionModal
           open={showAttention}
           onClose={() => setShowAttention(false)}

@@ -209,7 +209,7 @@
 }
 
 .hidden.laptop\:block {
-  margin-right: 8px !important;
+  margin-right: 0px !important;
 }
 
 .mobile-menu-popup button:hover {
@@ -224,4 +224,42 @@
   right: 10px;
   height: 1px;
   background-color: rgba(255, 255, 255, 0.3);
+}
+/* AntD Dropdown styling to match your old popup */
+.custom-header-dropdown {
+  .ant-dropdown-menu {
+    background-color: #268b6b !important; // green like before
+    border-radius: 6px !important;
+    overflow: hidden;
+    right: 4px!important;
+    animation: slideDown 0.3s ease forwards;
+
+    .ant-dropdown-menu-item {
+      color: white !important;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 12px 16px !important;
+      text-align: left;
+      transition: background-color 0.2s ease;
+    }
+
+    .ant-dropdown-menu-item:not(:last-child) {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .ant-dropdown-menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

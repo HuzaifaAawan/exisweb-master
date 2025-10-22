@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.scss";
 import "./media.scss";
-
+import generatePDF from "./generatePDF";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import UppercaseInput, {
   EngineSizeInput,
@@ -53,13 +53,12 @@ const NewVehicleRegistration = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(null);
 
-  const toggleCollapse = (section) => {
-    setCollapsed((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
   const onFinish = (values) => {
     console.log("Form Data: ", values);
+    generatePDF(values);
     setInfoModal(true);
   };
+  
   return (
     <div
       className="new-reg"
