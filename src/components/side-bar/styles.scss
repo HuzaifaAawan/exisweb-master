@@ -152,3 +152,24 @@
   width: 18px;
   height: 18px;
 }
+.mobile-sidebar-popover {
+  .ant-popover-inner {
+    border-radius: 12px;
+    width: 280px;
+    padding: 0;
+  }
+}
+
+.sidebar-burger-btn {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.mobile-popover-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
