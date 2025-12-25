@@ -294,6 +294,31 @@ textarea:focus {
     display: none !important;
   }
 }
+.ownership-full {
+  display: inline;
+}
+.ownership-medium {
+  display: none;
+}
+.ownership-short {
+  display: none;
+}
+
+/* 800px se 750px ky darmyan */
+@media (max-width: 800px) and (min-width: 751px) {
+  .ownership-full {
+    display: none;
+  }
+  .ownership-medium {
+    display: inline;
+  }
+  .ownership-short {
+    display: none;
+  }
+}
+
+
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

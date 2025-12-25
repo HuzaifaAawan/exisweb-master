@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
@@ -129,7 +130,7 @@ const VehicleTransferOwnership = () => {
         <form
           onSubmit={handleSubmit}
           // className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2"
-        >
+         >
           <Row
             gutter={[16, 16]}
             className="items-end w-full"
@@ -138,7 +139,7 @@ const VehicleTransferOwnership = () => {
               rowGap: "16px",
             }}
           >
-            {/* 1️⃣ Registration No */}
+            {/* Registration No */}
             <Col xs={24} sm={24} md={12} lg={7}>
               <div className="w-full">
                 <label className="Textfield-Label">Registration No.</label>
@@ -155,7 +156,7 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            {/* 2️⃣ Registration Date */}
+            {/* Registration Date */}
             <Col xs={24} sm={24} md={12} lg={7}>
               <div className="w-full">
                 <LabelDatePicker
@@ -167,9 +168,9 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            {/* 3️⃣ Process Type */}
+            {/* Process Type */}
             <Col xs={24} sm={24} md={12} lg={7}>
-              <div className="w-full">
+              <div className="">
                 <label htmlFor="processType" className="Textfield-Label">
                   Select Process Type
                 </label>
@@ -190,15 +191,16 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            {/* 4️⃣ Submit Button */}
+            {/* Submit Button */}
             {/* <Col xs={24} sm={24} md={12} lg={6}  xlg ={6}className=""> */}
-              <button
-                type="submit"
-                className="submit-frame px-5 py-5 mx-2  rounded-lg bg-[#ebf1f1] 
+            <button
+              type="submit"
+              className="submit-frame px-4 py-4 mx-2 rounded-lg bg-[#ebf1f1] 
                  text-[#04544f] font-bold text-sm hover:bg-[#d8e4e4] transition-all"
-              >
-                Submit
-              </button>
+              style={{ flexGrow: 1, width: "auto" }}
+            >
+              Submit
+            </button>
             {/* </Col> */}
           </Row>
         </form>

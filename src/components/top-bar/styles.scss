@@ -121,57 +121,55 @@
   }
 }
 
-
-@media (max-width: 480px) and (min-width: 320px) {
+@media (max-width: 480px) {
   .bg-header-pattern {
-    height: 110px;
+    height: 100px;
 
     .hearder-container {
       .header-title {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px; 
-        
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+
         .header-logo {
-          height: 60px !important;
-          width: 50px !important;
-          margin-left: 20px !important; 
+          height: 55px !important;
+          width: 45px !important;
+          margin-left: 12px !important;
+          transition: all 0.3s ease; // smooth resize
         }
 
         .heading {
-          font-size: 14px;
-          line-height: 1.3;
+          font-size: 13px;
+          line-height: 1.25;
           margin: 0;
+          transition: all 0.3s ease; // smooth resize
         }
       }
     }
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 360px) {
   .bg-header-pattern {
     height: 90px;
 
     .hearder-container {
       .header-title {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2px;
-
-        .heading {
-          font-size: 12px;
-          line-height: 1.2;
-        }
-
         .header-logo {
           height: 45px !important;
           width: 38px !important;
+        }
+
+        .heading {
+          font-size: 11px;
+          line-height: 1.2;
         }
       }
     }
   }
 }
+
 
 .mobile-menu-popup {
   display: flex;
@@ -180,8 +178,8 @@
   padding: 10px 0;
   background-color: #268b6b;
   position: absolute;
-  top: 120px;
-  right: 0;
+  top: 104px!important;
+  right: 3px;
   width: 200px;
   z-index: 1000;
   border-radius: 4px;
@@ -211,7 +209,7 @@
 }
 
 .hidden.laptop\:block {
-  margin-right: 8px !important;
+  margin-right: 0px !important;
 }
 
 .mobile-menu-popup button:hover {
@@ -226,4 +224,42 @@
   right: 10px;
   height: 1px;
   background-color: rgba(255, 255, 255, 0.3);
+}
+/* AntD Dropdown styling to match your old popup */
+.custom-header-dropdown {
+  .ant-dropdown-menu {
+    background-color: #268b6b !important; // green like before
+    border-radius: 6px !important;
+    overflow: hidden;
+    right: 4px!important;
+    animation: slideDown 0.3s ease forwards;
+
+    .ant-dropdown-menu-item {
+      color: white !important;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 12px 16px !important;
+      text-align: left;
+      transition: background-color 0.2s ease;
+    }
+
+    .ant-dropdown-menu-item:not(:last-child) {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .ant-dropdown-menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

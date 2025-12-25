@@ -13,7 +13,6 @@ import MyRegistrationNumbers from "../pages/center-containers/my-numbers";
 import BiometricVerification from "../pages/center-containers/biometric";
 import ESahulatCentreLocator from "../pages/center-containers/locator";
 import Login from "../pages/login";
-import Home from "../pages/Home";
 import PrivateRoute from "./PrivateRoute";
 import AuthCallback from "./AuthCallback";
 

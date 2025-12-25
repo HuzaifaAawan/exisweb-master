@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import "./styles.scss";
 import "./media.scss";
-
+import generatePDF from "./generatePDF";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import UppercaseInput, {
   EngineSizeInput,
@@ -15,7 +16,6 @@ import {
   Button,
   Col,
   Collapse,
-  DatePicker,
   Form,
   Input,
   Row,
@@ -33,6 +33,11 @@ const NewVehicleRegistration = () => {
   const { Panel } = Collapse;
   const { Option } = Select;
   const { TabPane } = Tabs;
+  const [activeKey, setActiveKey] = useState([]);
+  const [hireActiveKey, setHireActiveKey] = useState([]);
+  const [taxActiveKey, setTaxActiveKey] = useState([]);
+  const [vehicleActiveKey, setVehicleActiveKey] = useState([]);
+  const [ownerRepActiveKey, setOwnerRepActiveKey] = useState([]);
 
   const [form] = Form.useForm();
   const [ownershipType, setOwnershipType] = useState(null);
@@ -53,13 +58,12 @@ const NewVehicleRegistration = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(null);
 
-  const toggleCollapse = (section) => {
-    setCollapsed((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
   const onFinish = (values) => {
     console.log("Form Data: ", values);
+    generatePDF(values);
     setInfoModal(true);
   };
+  
   return (
     <div
       className="new-reg"
@@ -116,7 +120,19 @@ const NewVehicleRegistration = () => {
                     <Row gutter={16}>
                       {/* Ownership Type */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Ownership Type*" name="ownershipType">
+                        <Form.Item
+                          label={
+                            <>
+                              <span className="ownership-full">
+                                Ownership Type*
+                              </span>
+                              <span className="ownership-medium">
+                                Ownership ..
+                              </span>
+                            </>
+                          }
+                          name="ownershipType"
+                        >
                           <Select
                             placeholder="Select"
                             value={ownershipType}
@@ -182,7 +198,6 @@ const NewVehicleRegistration = () => {
                       </Col>
                     </Row>
 
-                    {/* ✅ Rest of your form same rahega (addresses, phones, city, district) */}
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item name="mobile" label="Mobile Number">
@@ -264,6 +279,8 @@ const NewVehicleRegistration = () => {
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
                   className="collapse-content-container"
+                  activeKey={activeKey} 
+                  onChange={() => {}} 
                 >
                   <Panel
                     header={
@@ -278,7 +295,16 @@ const NewVehicleRegistration = () => {
                       </div>
                     }
                     key="2"
-                    extra={<Switch className="switch-btn-css" />}
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={activeKey.includes("2")}
+                        onChange={(checked) =>
+                          setActiveKey(checked ? ["2"] : [])
+                        }
+                        onClick={(_, e) => e.stopPropagation()} 
+                      />
+                    }
                   >
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
@@ -292,6 +318,7 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           name="ntn"
@@ -309,6 +336,7 @@ const NewVehicleRegistration = () => {
                           />
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           label="CNIC Number"
@@ -334,11 +362,13 @@ const NewVehicleRegistration = () => {
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Name" name="name">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           label="F/H/W/O Name"
@@ -364,6 +394,8 @@ const NewVehicleRegistration = () => {
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
                   className="collapse-content-container"
+                  activeKey={hireActiveKey} 
+                  onChange={() => {}} 
                 >
                   <Panel
                     header={
@@ -377,7 +409,16 @@ const NewVehicleRegistration = () => {
                       </div>
                     }
                     key="3"
-                    extra={<Switch className="switch-btn-css" />}
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={hireActiveKey.includes("3")}
+                        onChange={(checked) =>
+                          setHireActiveKey(checked ? ["3"] : [])
+                        }
+                        onClick={(_, e) => e.stopPropagation()} 
+                      />
+                    }
                   >
                     <br />
                     <Row gutter={16}>
@@ -399,6 +440,8 @@ const NewVehicleRegistration = () => {
                 {/* Tax Payer Category */}
                 <Collapse
                   style={{ marginBottom: 14 }}
+                  activeKey={taxActiveKey}
+                  onChange={() => {}} 
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -416,6 +459,16 @@ const NewVehicleRegistration = () => {
                       </div>
                     }
                     key="4"
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={taxActiveKey.includes("4")}
+                        onClick={(checked, e) => {
+                          e.stopPropagation?.(); 
+                          setTaxActiveKey(checked ? ["4"] : []);
+                        }}
+                      />
+                    }
                   >
                     <br />
                     <Form.Item
@@ -435,6 +488,8 @@ const NewVehicleRegistration = () => {
                 {/* Vehicle Information */}
                 <Collapse
                   style={{ marginBottom: 14 }}
+                  activeKey={vehicleActiveKey}
+                  onChange={() => {}} 
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -452,6 +507,21 @@ const NewVehicleRegistration = () => {
                       </div>
                     }
                     key="5"
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={vehicleActiveKey.includes("5")}
+                        onClick={(checked, e) => {
+                          e?.stopPropagation?.();
+
+                          if (!checked) {
+                            setVehicleCategory("");
+                          }
+
+                          setVehicleActiveKey(checked ? ["5"] : []);
+                        }}
+                      />
+                    }
                   >
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
@@ -473,6 +543,7 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Purchase Type" name="purchaseType">
                           <Select
@@ -489,6 +560,7 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Body Type" name="bodyType">
                           <Select
@@ -529,11 +601,13 @@ const NewVehicleRegistration = () => {
                           </Select>
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Chassis No." name="chassisNo">
                           <UppercaseInput placeholder="Enter Chassis Number" />
                         </Form.Item>
                       </Col>
+
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Engine No." name="engineNo">
                           <UppercaseInput
@@ -545,28 +619,24 @@ const NewVehicleRegistration = () => {
                     </Row>
 
                     <Row gutter={16}>
-                      {/* Engine Size */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Engine Size" name="engineSize">
                           <EngineSizeInput />
                         </Form.Item>
                       </Col>
 
-                      {/* Vehicle Color */}
                       <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                         <Form.Item label="Vehicle Color" name="color">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
 
-                      {/* Vehicle Value */}
                       <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                         <Form.Item label="Vehicle Value" name="value">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
 
-                      {/* Purchase Date */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item name="purchaseDate">
                           <LabelDatePicker
@@ -580,7 +650,7 @@ const NewVehicleRegistration = () => {
                   </Panel>
                 </Collapse>
 
-                {/* Vehicle Information */}
+                {/* Commercial Section */}
                 {vehicleCategory === "commercial" && (
                   <Collapse
                     style={{ marginBottom: 14 }}
@@ -605,10 +675,7 @@ const NewVehicleRegistration = () => {
                     >
                       <Row gutter={16}>
                         <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                          <Form.Item
-                            label="Vehicle Type"
-                            name="vehicleCategory"
-                          >
+                          <Form.Item label="Vehicle Type" name="vehicleType">
                             <Select
                               placeholder="Select"
                               className="slection-field"
@@ -650,9 +717,11 @@ const NewVehicleRegistration = () => {
                   </Collapse>
                 )}
 
-                {/* Owner's Representative */}
+                
                 <Collapse
                   style={{ marginBottom: 14 }}
+                  activeKey={ownerRepActiveKey}
+                  onChange={() => {}} 
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -670,8 +739,17 @@ const NewVehicleRegistration = () => {
                         </p>
                       </div>
                     }
-                    key="6"
-                    extra={<Switch className="switch-btn-css" />}
+                    key="7"
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={ownerRepActiveKey.includes("7")}
+                        onClick={(checked, e) => {
+                          e?.stopPropagation?.();
+                          setOwnerRepActiveKey(checked ? ["7"] : []);
+                        }}
+                      />
+                    }
                   >
                     <br />
                     <Row gutter={16}>
@@ -703,6 +781,7 @@ const NewVehicleRegistration = () => {
                         </Form.Item>
                       </Col>
                     </Row>
+
                     <Row gutter={16}>
                       <Col span={12}>
                         <Form.Item label="Name" name="name">

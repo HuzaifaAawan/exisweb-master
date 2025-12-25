@@ -11,10 +11,10 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center; /* Horizontal center */
-  justify-content: flex-start; /* Top aligned */
+  align-items: center; 
+  justify-content: flex-start; 
   padding-top: 42px;
-  gap: 16px; /* Space between forms */
+  gap: 16px; 
 }
 
 /* Inner form container */
@@ -68,14 +68,14 @@
 }
 
 .Input-Field {
-  width: 100%; /* poori width le */
+  width: 100%; 
   
 }
 
 .input-frame {
   display: flex;
   align-items: center;
-  width: 100%;  /* container bhi poora expand ho */
+  width: 100%;  
   align-self: stretch;
 }
 
@@ -122,8 +122,8 @@
 
 /* Input fields (NTN, CNIC, Passport, etc.) */
 .ant-input {
-  // width: 340px !important;   /* fix width */
-  // height: 42px;              /* thodi badi height */
+  // width: 340px !important;   
+  // height: 42px;              
   border-radius: 6px;
   padding: 10px 12px;
 }
@@ -132,22 +132,22 @@
 }
 
 /* Select dropdown wrapper */
-.ant-select {
-  // width: 340px !important;   /* fix width */
-}
+// .ant-select {
+//   // width: 340px !important;   
+// }
 
 /* Actual dropdown box height */
 .ant-select-selector {
-  height: 44px !important;   /* thodi badi height */
+  height: 44px !important;   
   border-radius: 6px;
   display: flex;
-  align-items: center;       /* text vertically center */
+  align-items: center;     
 }
 
 
 /* Upper Inputs (Owner Type, NTN, CNIC, Purchaser Name, F/H/W/O, Passport No.) */
 .uniform-input1 {
-  width: 510px;              /* fixed width */
+  width: 510px;             
   height: 50px;
   display: flex;
   flex-direction: row;
@@ -162,7 +162,7 @@
 
 /* Lower Inputs (Contact Number → Permanent Address) */
 .uniform-input2 {
-  width: 766px !important;              /* same width but diff look */
+  width: 766px !important;              
   height: 50px;
   align-self: stretch;
   display: flex;
@@ -202,8 +202,8 @@
   line-height: 1.43;
   text-align: left;
   color: #161a23;
-  margin-bottom: 6px; /* spacing ke liye */
-  display: block; /* label ko block element banane ke liye */
+  margin-bottom: 6px; 
+  display: block; 
 }
 
 
@@ -238,17 +238,17 @@
 .Date,
 .city-select {
   display: block;
-  margin-bottom: 8px; /* label aur dropdown ke darmiyan chhota gap */
+  margin-bottom: 8px; 
   font-family: Inter, sans-serif;
   font-size: 14px;
   font-weight: bold;
   color: #161a23;
   align-items: stretch;
   line-height: 1.2;
-   display: block; // taki wo line break le aur dropdown ke upar aaye
-  margin-bottom: 10px; // dropdown ke sath 4px ka gap
-  font-weight: bold; // bold label
-  font-size: 14px; // optional, readable font size
+   display: block; 
+  margin-bottom: 10px; 
+  font-weight: bold; 
+  font-size: 14px; 
   color: #000;
   
 }
@@ -272,8 +272,8 @@
 }
 
 .input-frame {
-  flex: 1 1 auto;   /* pehle 260px tha */
-  min-width: 0;     /* min-width:200px hatao */
+  flex: 1 1 auto; 
+  min-width: 0;     
   width: 100%;   
 }
 
@@ -297,22 +297,22 @@
 /* Dropdown arrow center align */
 .custom-select .ant-select-selector {
   display: flex;
-  align-items: center;  /* vertically center the content */
+  align-items: center; 
 }
 
 .custom-select .ant-select-arrow,
 .custom-select .ant-select-clear {
-  top: 50% !important;          /* center vertically */
+  top: 50% !important;         
   transform: translateY(50%) !important;
 }
 
 
 .city-select-label {
-  display: block; // taki wo line break le aur dropdown ke upar aaye
-  margin-bottom: 4px; // dropdown ke sath 4px ka gap
-  font-weight: bold; // bold label
-  font-size: 14px; // optional, readable font size
-  color: #000; // optional, dark text for visibility
+  display: block; 
+  margin-bottom: 4px; 
+  font-weight: bold; 
+  font-size: 14px; 
+  color: #000; 
 }
 
 
@@ -320,7 +320,7 @@
 /* City dropdown */
 .city-select-dropdown {
   width: 100%;
-  height: 36px;  /* compact input height */
+  height: 36px;  
   border: none;
   outline: none;
   font-size: 14px;
@@ -356,9 +356,9 @@
 }
 /* For Antd Select */
 .ant-select-outlined .ant-select-selector {
-  border: none !important;        /* removes border */
-  outline: none !important;       /* removes outline */
-  box-shadow: none !important;    /* removes shadow */
+  border: none !important;        
+  outline: none !important;      
+  box-shadow: none !important;   
 }
 
 /* On focus bhi override karo */
@@ -428,7 +428,7 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
-  margin-top: 16px; /* 👈 sirf button ke upar gap */
+  margin-top: 16px; 
 }
 
 .Save_button:hover {
@@ -449,7 +449,7 @@
 
 /* Submit frame */
 .submit-frame {
-  flex: 0 0 auto;   /* pehle 1 1 100px tha */
+  flex: 0 0 auto;   
   width: auto;  
   height: 50px;
   display: flex;

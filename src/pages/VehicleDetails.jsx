@@ -120,28 +120,29 @@ const VehicleDetails = () => {
             />
           </div>
 
-          <div className="col-span-6 mt-4 flex justify-start">
+        
+          <div className="col-span-6 mt-4 flex flex-col sm:flex-row justify-center sm:justify-start items-center w-full">
             <ReCAPTCHA
               sitekey="6LfnCSQrAAAAAIwtsn-vb3eIunRMfZopzXnlFxcx"
               onChange={handleCaptchaChange}
               theme="light"
+              className="scale-90 sm:scale-100 transform origin-center"
             />
           </div>
 
-          {/* Equal-width CHECK and RESET Buttons - Always Side-by-Side */}
-          <div className="col-span-1 sm:col-span-2 md:col-span-6 mt-4">
-            <div className="grid grid-cols-2 gap-3">
+          <div className="col-span-6 mt-4">
+            <div className="flex flex-col sm:flex-row gap-3 w-full">
               <button
                 type="submit"
                 disabled={loading || !registration || !date}
-                className="button-colors text-white py-2 px-2 text-sm rounded w-full whitespace-nowrap overflow-hidden text-ellipsis"
+                className="button-colors text-white py-2 px-2 text-sm rounded w-full sm:w-1/2"
               >
                 {loading ? "CHECKING..." : "CHECK"}
               </button>
 
               <button
                 type="reset"
-                className="button-colors text-white py-2 px-2 text-sm rounded hover:bg-gray-600 w-full whitespace-nowrap overflow-hidden text-ellipsis"
+                className="button-colors text-white py-2 px-2 text-sm rounded hover:bg-gray-600 w-full sm:w-1/2"
                 onClick={() => {
                   setRegistration("");
                   setDate("");

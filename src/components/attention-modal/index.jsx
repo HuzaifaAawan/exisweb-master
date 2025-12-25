@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button } from "antd";
 import attentionIcon from "../../assets/icons/attention_icon.svg";
-import NoteIcon from "../../assets/icons/note.png"; // index.jsx ke location ke hisaab se
+// import NoteIcon from "../../assets/icons/note.png"; // index.jsx ke location ke hisaab se
  // path ko page ke hisaab se adjust karo
 
 import "./styles.scss";
