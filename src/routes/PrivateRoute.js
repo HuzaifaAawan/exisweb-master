@@ -1,15 +1,15 @@
-
-import { Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const [isChecking, setIsChecking] = useState(true);
-  const [hasToken, setHasToken] = useState(false);
+  const [token, setToken] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    setHasToken(!!token);
+    // Read token from localStorage
+    const storedToken = localStorage.getItem("authToken");
+    setToken(storedToken);
     setIsChecking(false);
   }, []);
 
@@ -17,9 +17,9 @@ const PrivateRoute = ({ children }) => {
     return <h2>Checking authentication...</h2>;
   }
 
-  if (!hasToken) {
-    // Not logged in then redirect to SSO login page
-    const baseSSOUrl = "https://58.65.189.226:884/custom-login";
+  if (!token) {
+    // Token missing → redirect to SSO login
+    const baseSSOUrl = process.env.REACT_APP_SSO_LOGIN_URL;
     const callbackUrl = encodeURIComponent(
       `${window.location.origin}/auth/callback?redirect=${location.pathname}`
     );

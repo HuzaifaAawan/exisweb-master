@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -6,18 +5,17 @@ function AuthCallback() {
   const navigate = useNavigate();
   const location = useLocation();
 
-
   useEffect(() => {
-    console.log("Callback URL:", window.location.href);
     const params = new URLSearchParams(location.search);
-    const token = params.get("token");
-    const redirectPath = params.get("redirect") || "/new-reg";
+    const token = params.get("token"); // token from SSO
+    const redirectPath =
+      // params.get("redirect") ||
+      "/new-reg";
 
     if (token) {
-      localStorage.setItem("authToken", token);
-      setTimeout(() => navigate(redirectPath, { replace: true }), 100);
+      localStorage.setItem("authToken", token); // store real token
+      navigate(redirectPath, { replace: true });
     } else {
-      console.error("❌ No token found in callback URL!");
       navigate("/login");
     }
   }, [location, navigate]);
