@@ -1,14 +1,40 @@
 // components/Header.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import headerLogo from "../../assets/icons/header_logo-removebg-preview.png";
 import menuTopImage from "../../assets/icons/top_right.jpg";
-import bannerBg from "../../assets/icons/Banner-bg.jpg"; 
+import bannerBg from "../../assets/icons/Banner-bg.jpg";
+import { Dropdown, Button } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  // Desktop menu items (same as old popup)
+  const menuItems = [
+    { key: "1", label: "Office Timings" },
+    { key: "2", label: "Announcement" },
+    { key: "3", label: "Tenders" },
+    { key: "4", label: "Contact" },
+  ];
+
+  const menuStructure = {
+    items: menuItems.map((item) => ({
+      key: item.key,
+      label: item.label,
+    })),
+  };
+
+  // Close menu automatically on resize > 1024px
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024 && menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [menuOpen]);
 
   return (
     <header
@@ -23,6 +49,7 @@ const Header = () => {
         zIndex: "1",
       }}
     >
+      {/* Transparent Overlay */}
       <div
         style={{
           position: "absolute",
@@ -32,9 +59,12 @@ const Header = () => {
         }}
       ></div>
 
-      <div className="hearder-container" style={{ position: "relative", zIndex: 2 }}>
-        {/* Logo & Department Name */}
-        <div className="flex items-center header-title">
+      <div
+        className="hearder-container"
+        style={{ position: "relative", zIndex: 2 }}
+      >
+        {/* Left Side: Logo & Title */}
+        <div className="flex items-center flex-nowrap header-title">
           <img
             src={headerLogo}
             alt="Ictlogo"
@@ -42,65 +72,41 @@ const Header = () => {
             height={97}
             width={84}
           />
-          <div>
-            <h1 className="text-white heading">
-              Excise & Taxation Department
-            </h1>
-            <h1 className="text-white heading">
-              Islamabad Capital Territory
-            </h1>
+          <div className="whitespace-nowrap ml-2">
+            <h1 className="text-white heading">Excise & Taxation Department</h1>
+            <h1 className="text-white heading">Islamabad Capital Territory</h1>
           </div>
         </div>
 
-        {/* Navigation with top image */}
+        {/* Right Side Menu (Desktop) */}
         <div className="header-right-items">
           <img src={menuTopImage} alt="menu-top-logo" className="rightImg" />
           <nav className="navigation-menu">
-            <button className="nav-menu-item">Office Timings</button>
-            <button className="nav-menu-item">Announcement</button>
-            <button className="nav-menu-item">Tenders</button>
-            <button className="nav-menu-item">Contact</button>
+            {menuItems.map((item) => (
+              <button key={item.key} className="nav-menu-item">
+                {item.label}
+              </button>
+            ))}
           </nav>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <div className="md:hidden self-end mt-4">
-          <button className="focus:outline-none" onClick={toggleMenu}>
-            <svg
-              className="h-6 w-6 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {menuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
+        {/* Mobile Menu Toggle with AntD Dropdown */}
+        <div className="hidden laptop:block self-end mt-2">
+          <Dropdown
+            menu={menuStructure}
+            placement="bottomRight"
+            trigger={["click"]}
+            open={menuOpen}
+            onOpenChange={setMenuOpen}
+            overlayClassName="custom-header-dropdown"
+          >
+            <Button
+              type="text"
+              icon={<MenuOutlined style={{ fontSize: 22, color: "#fff" }} />}
+            />
+          </Dropdown>
         </div>
       </div>
-
-      {/* Mobile Dropdown */}
-      {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium px-3">
-          <button className="block hover">Office Timings</button>
-          <button className="block hover">Announcement</button>
-          <button className="block hover">Tenders</button>
-          <button className="block hover">Contact</button>
-        </div>
-      )}
     </header>
   );
 };

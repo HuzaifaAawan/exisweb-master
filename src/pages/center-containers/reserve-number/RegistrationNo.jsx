@@ -5,6 +5,7 @@ import RegistrationNoTable from "../../my-reg-no-table";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import "./styles.scss";
 
+
 export default function StyledRegistrationForm() {
   const [formData, setFormData] = useState({
     series: "",
@@ -26,14 +27,16 @@ export default function StyledRegistrationForm() {
     label: (i + 1).toString(),
   }));
 
-  const handleCheckAvailability = () => setClickCount((p) => p + 1);
-
   const getAvailabilityMessage = () => {
     if (clickCount === 0) return null;
     return clickCount % 2 === 1
       ? "✅ This Series and Number is Available"
       : "❌ This Series and Number is NOT Available";
   };
+
+  const handleCheckAvailability = () => setClickCount((p) => p + 1);
+
+  
 
   const getAvailabilityStyle = () => ({
     height: "20px",
@@ -68,7 +71,7 @@ export default function StyledRegistrationForm() {
     return "";
   };
 
-  // validation rules (adjust lengths if you want stricter)
+  // validation rules 
   const isSeriesValid = formData.series.trim().length > 0;
   const isNumberValid = formData.number.toString().trim().length > 0;
   const isApplicantNameValid = formData.applicantName.trim().length > 0;
@@ -91,7 +94,7 @@ export default function StyledRegistrationForm() {
     isVehicleMakerValid &&
     isJointWithValid;
 
-  // Debugging: shows current formData + validation in console
+ 
   useEffect(() => {
     console.log("formData:", formData, {
       isSeriesValid,
@@ -105,7 +108,7 @@ export default function StyledRegistrationForm() {
       isJointWithValid,
       isFormValid,
     });
-  }, [formData]); // remove in production if you don't want logs
+  }, [formData]); 
 
   if (showTable) return <RegistrationNoTable formData={formData} />;
 
@@ -125,11 +128,11 @@ export default function StyledRegistrationForm() {
           className="space-y-8 inner-container-form"
           onSubmit={(e) => e.preventDefault()}
         >
-          <div className="flex flex-col md:flex-row gap-3 w-full items-end">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 w-full">
             {/* 1️⃣ Series Alphabets */}
-            <div className="flex-1 min-w-0 next-div">
+            <div className="flex-shrink-0 md:flex-1">
               <label
-                className="text-sm font-bold text-gray-700 mb-1 block-title"
+                className="text-sm font-bold text-gray-700 mb-1 block"
                 style={{ color: "#161a23" }}
               >
                 Series Alphabets
@@ -157,9 +160,9 @@ export default function StyledRegistrationForm() {
             </div>
 
             {/* 2️⃣ Available Numbers */}
-            <div className="flex-1 min-w-0 next-div">
+            <div className="flex-shrink-0 md:flex-1">
               <label
-                className="text-sm font-bold text-gray-700 mb-1 block-title"
+                className="text-sm font-bold text-gray-700 mb-1 block"
                 style={{ color: "#161a23" }}
               >
                 Available Numbers
@@ -223,28 +226,28 @@ export default function StyledRegistrationForm() {
             </div>
 
             {/* 3️⃣ Check Availability Button */}
-            <div className="w-[154px]">
+            <div className="flex-shrink-0 md:w-auto w-full">
               <label className="font-bold text-gray-700 mb-1 block invisible">
                 Check Availability
               </label>
               <button
                 type="button"
                 onClick={handleCheckAvailability}
-                className="w-full font-semibold check-avail-btn mt-[12px]"
+                className="w-full md:w-auto font-semibold check-avail-btn mt-[12px]"
                 style={{
                   height: "50px",
-                  padding: "0 12px",
+                  padding: "0 20px",
                   fontWeight: "bold",
                   borderRadius: "8px",
                   backgroundColor: "#ebf1f1",
                   display: "flex",
-                  flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
                   lineHeight: "1.2",
                   textAlign: "center",
                   fontSize: "14px",
                   color: "#04544f",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Check Availability

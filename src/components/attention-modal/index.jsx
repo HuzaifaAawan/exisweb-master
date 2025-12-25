@@ -1,6 +1,9 @@
 import React from "react";
 import { Modal, Button } from "antd";
 import attentionIcon from "../../assets/icons/attention_icon.svg";
+// import NoteIcon from "../../assets/icons/note.png"; // index.jsx ke location ke hisaab se
+ // path ko page ke hisaab se adjust karo
+
 import "./styles.scss";
 
 const AttentionModal = ({ open, onClose }) => {
@@ -30,7 +33,7 @@ const AttentionModal = ({ open, onClose }) => {
             className="w-full h-full object-contain"
           />
         </div>
-        <h2 className="modal-title">ATTENTION...!</h2>
+        <h2 className="modal-title whitespace-nowrap">ATTENTION...!</h2>
 
         <ol
           style={{
@@ -85,8 +88,11 @@ const AttentionModal = ({ open, onClose }) => {
             margin: "18px 0",
           }}
         >
+          {/* PNG icon */}
+         
           PAY YOUR TOKEN TAX ON TIME TO AVOID SUSPENSION & HEAVY FINES
         </p>
+
         <Button
           type="primary"
           onClick={onClose}

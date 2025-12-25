@@ -1,4 +1,7 @@
 /* Main container */
+*{
+  font-family: Inter;
+}
 .transfer-ownership {
   width: 100%;
   min-height: 100vh;
@@ -8,10 +11,10 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center; /* Horizontal center */
-  justify-content: flex-start; /* Top aligned */
+  align-items: center; 
+  justify-content: flex-start; 
   padding-top: 42px;
-  gap: 16px; /* Space between forms */
+  gap: 16px; 
 }
 
 /* Inner form container */
@@ -28,9 +31,10 @@
   border-radius: 16px;
   border: 1px solid #e3e3e3;
   background-color: #fff;
-  max-width: 1100px;
+
   width: 100%;
 }
+
 
 /* Ensure form containers are centered */
 .Frame-1000009526,
@@ -64,14 +68,18 @@
 }
 
 .Input-Field {
-  width: 100%; /* poori width le */
+  width: 100%; 
+  
 }
 
 .input-frame {
   display: flex;
   align-items: center;
-  width: 100%; /* container bhi poora expand ho */
+  width: 100%;  
+  align-self: stretch;
 }
+
+
 
 /* Divider line */
 .Line-8 {
@@ -96,6 +104,109 @@
   color: #556485;
 }
 
+.Frame-1000009519 {
+  width: 80px;
+  height: 50px;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  opacity: 0.5;
+  border-radius: 8px;
+  background-color: #ebf1f1;
+}
+
+
+/* Input fields (NTN, CNIC, Passport, etc.) */
+.ant-input {
+  // width: 340px !important;   
+  // height: 42px;              
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.ant-picker .ant-picker-outlined{
+  border: #04544f !important;
+}
+
+/* Select dropdown wrapper */
+// .ant-select {
+//   // width: 340px !important;   
+// }
+
+/* Actual dropdown box height */
+.ant-select-selector {
+  height: 44px !important;   
+  border-radius: 6px;
+  display: flex;
+  align-items: center;     
+}
+
+
+/* Upper Inputs (Owner Type, NTN, CNIC, Purchaser Name, F/H/W/O, Passport No.) */
+.uniform-input1 {
+  width: 510px;             
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: solid 1px #e3e3e3;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+/* Lower Inputs (Contact Number → Permanent Address) */
+.uniform-input2 {
+  width: 766px !important;              
+  height: 50px;
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: solid 1px #e3e3e3;
+  box-sizing: border-box;
+}
+
+/* AntD Select override */
+.uniform-input .ant-select-selector {
+  height: 50px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  // padding: 10px 12px !important;
+  border-radius: 8px !important;
+  border: solid 1px #e3e3e3 !important;
+  background-color: #fff !important;
+}
+.slection-field{
+  height: 46px !important;
+  border: 1px solid #d9d9d9 !important;
+  border-radius: 6px !important;
+  width: 100% !important;
+}
+.form-label {
+  height: 20px;
+  flex-grow: 1;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.43;
+  text-align: left;
+  color: #161a23;
+  margin-bottom: 6px; 
+  display: block; 
+}
+
+
 /* Input wrapper */
 .input-wrapper {
   display: flex;
@@ -109,6 +220,7 @@
 .input-wrapper .ant-input {
   height: 40px;
   border-radius: 6px;
+  padding: 10px 12px;
   width: 100%;
 }
 
@@ -126,12 +238,19 @@
 .Date,
 .city-select {
   display: block;
-  margin-bottom: 4px; /* label aur dropdown ke darmiyan chhota gap */
+  margin-bottom: 8px; 
   font-family: Inter, sans-serif;
   font-size: 14px;
   font-weight: bold;
   color: #161a23;
+  align-items: stretch;
   line-height: 1.2;
+   display: block; 
+  margin-bottom: 10px; 
+  font-weight: bold; 
+  font-size: 14px; 
+  color: #000;
+  
 }
 
 /* Input field container */
@@ -145,30 +264,63 @@
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
-
-  padding: 0 12px 10px 12px;
+  
+  padding: 0 12px 10px 12px; 
   border-radius: 8px;
   border: solid 1px #e3e3e3;
   background-color: #fff;
 }
 
 .input-frame {
-  flex: 1 1 260px;
-  min-width: 200px;
+  flex: 1 1 auto; 
+  min-width: 0;     
+  width: 100%;   
 }
 
-.city-select-label {
-  display: block; // taki wo line break le aur dropdown ke upar aaye
-  margin-bottom: 4px; // dropdown ke sath 4px ka gap
-  font-weight: bold; // bold label
-  font-size: 14px; // optional, readable font size
-  color: #000; // optional, dark text for visibility
+/* DatePicker main input ke andar text + icon ko center karne ke liye */
+.custom-datepicker .ant-picker-suffix {
+  top: 50% !important;
+  transform: translateY(50%) !important;
 }
+
+/* Placeholder / text ko center align karne ke liye */
+.custom-datepicker .ant-picker-input > input {
+  transform: translateY(30%) !important;
+}
+
+/* Select box text vertical centering */
+.custom-select .ant-select-selector {
+  display: flex;
+  align-items: center;
+}
+
+/* Dropdown arrow center align */
+.custom-select .ant-select-selector {
+  display: flex;
+  align-items: center; 
+}
+
+.custom-select .ant-select-arrow,
+.custom-select .ant-select-clear {
+  top: 50% !important;         
+  transform: translateY(50%) !important;
+}
+
+
+.city-select-label {
+  display: block; 
+  margin-bottom: 4px; 
+  font-weight: bold; 
+  font-size: 14px; 
+  color: #000; 
+}
+
+
 
 /* City dropdown */
 .city-select-dropdown {
   width: 100%;
-  height: 36px; /* compact input height */
+  height: 36px;  
   border: none;
   outline: none;
   font-size: 14px;
@@ -202,6 +354,48 @@
   line-height: 1.42;
   text-align: left;
 }
+/* For Antd Select */
+.ant-select-outlined .ant-select-selector {
+  border: none !important;        
+  outline: none !important;      
+  box-shadow: none !important;   
+}
+
+/* On focus bhi override karo */
+.ant-select-outlined.ant-select-focused .ant-select-selector {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Agar Tailwind ka ring aa raha hai to */
+.ant-select-outlined:focus,
+.ant-select-outlined:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+:where(.css-dev-only-do-not-override-1vjf2v5).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+  border: 0px !important;
+}
+.uniform-input1 {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+/* DatePicker input border & focus shadow remove */
+.ant-picker {
+  border: none !important;
+  box-shadow: none !important;
+  
+}
+
+.ant-picker:focus,
+.ant-picker-focused {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 
 .text-style-1 {
   color: #161a23;
@@ -234,7 +428,7 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
-  margin-top: 16px; /* 👈 sirf button ke upar gap */
+  margin-top: 16px; 
 }
 
 .Save_button:hover {
@@ -255,8 +449,8 @@
 
 /* Submit frame */
 .submit-frame {
-  flex: 1 1 100px;
-  max-width: 120px;
+  flex: 0 0 auto;   
+  width: auto;  
   height: 50px;
   display: flex;
   justify-content: center;

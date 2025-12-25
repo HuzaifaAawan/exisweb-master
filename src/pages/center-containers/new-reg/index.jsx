@@ -1,11 +1,21 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import "./styles.scss";
+import "./media.scss";
+import generatePDF from "./generatePDF";
 import backgroundImage from "../../../assets/icons/background2.2.png";
+import UppercaseInput, {
+  EngineSizeInput,
+} from "../../../components/CapitalizedInput.jsx";
+import {
+  DistrictDropdowns,
+} from "../../../components/CapitalizedInput.jsx";
+
+
 import {
   Button,
   Col,
   Collapse,
-  DatePicker,
   Form,
   Input,
   Row,
@@ -16,13 +26,24 @@ import {
 } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import ApplicationDetails from "./application-details";
+import InfoModal from "../../../components/info-modal";
+import { LabelDatePicker } from "../../../components/common/label-date-picker";
 
 const NewVehicleRegistration = () => {
   const { Panel } = Collapse;
   const { Option } = Select;
   const { TabPane } = Tabs;
+  const [activeKey, setActiveKey] = useState([]);
+  const [hireActiveKey, setHireActiveKey] = useState([]);
+  const [taxActiveKey, setTaxActiveKey] = useState([]);
+  const [vehicleActiveKey, setVehicleActiveKey] = useState([]);
+  const [ownerRepActiveKey, setOwnerRepActiveKey] = useState([]);
 
   const [form] = Form.useForm();
+  const [ownershipType, setOwnershipType] = useState(null);
+  const [vehicleCategory, setVehicleCategory] = useState("");
+
+
 
   const [collapsed, setCollapsed] = useState({
     owner: false,
@@ -32,14 +53,17 @@ const NewVehicleRegistration = () => {
     vehicle: false,
     representative: false,
   });
+  const [infoModal, setInfoModal] = useState(false);
 
-  const toggleCollapse = (section) => {
-    setCollapsed((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [purchaseDate, setPurchaseDate] = useState(null);
+
   const onFinish = (values) => {
     console.log("Form Data: ", values);
-    
+    generatePDF(values);
+    setInfoModal(true);
   };
+  
   return (
     <div
       className="new-reg"
@@ -94,140 +118,155 @@ const NewVehicleRegistration = () => {
                     key="1"
                   >
                     <Row gutter={16}>
-                      <Col span={8}>
-                        <Form.Item label="Ownership Type*" name="ownershipType">
+                      {/* Ownership Type */}
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item
+                          label={
+                            <>
+                              <span className="ownership-full">
+                                Ownership Type*
+                              </span>
+                              <span className="ownership-medium">
+                                Ownership ..
+                              </span>
+                            </>
+                          }
+                          name="ownershipType"
+                        >
                           <Select
                             placeholder="Select"
-                            className="slection-field"
+                            value={ownershipType}
+                            onChange={(val) => setOwnershipType(val)}
+                            className="slection-field w-full sm:w-52 text-sm"
+                            style={{ width: 200, fontSize: "14px" }}
                           >
-                            <Option value="individual">Individual</Option>
-                            <Option value="company">Company</Option>
+                            <Option value="individual">INDIVIDUAL</Option>
+                            <Option value="company">ORGANIZATIONAL</Option>
                           </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="NTN No." name="ntn">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+
+                      {/* NTN Number (disabled if Individual) */}
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item name="ntn" label="NTN Number">
+                          <UppercaseInput
+                            isNTN
+                            placeholder="Enter NTN"
+                            disabled={ownershipType === "individual"}
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="CNIC No." name="cnic">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+
+                      {/* CNIC (disabled if Company) */}
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="CNIC Number" name="cnic">
+                          <UppercaseInput
+                            isCNIC
+                            placeholder="37406-3833198-7"
+                            disabled={ownershipType === "company"}
                           />
                         </Form.Item>
                       </Col>
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={8}>
+                      {/* Passport (disabled if Company) */}
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Passport No." name="passport">
-                          <Input
+                          <UppercaseInput
                             placeholder="Enter here..."
-                            className="input-field"
+                            disabled={ownershipType === "company"}
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="Name*" name="name">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
-                          />
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Name" name="name">
+                          <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="F/H/W/O Name" name="fhwoName">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+
+                      {/* F/H/W/O Name (disabled if Company) */}
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="F/H/W/O Name" name="fatherName">
+                          <UppercaseInput
+                            placeholder="Enter name"
+                            maxLength={32}
+                            disabled={ownershipType === "company"}
                           />
                         </Form.Item>
                       </Col>
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={12}>
-                        <Form.Item label="Mobile Number" name="mobile">
-                          <Input
-                            placeholder="Enter text here"
-                            className="input-field"
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Form.Item name="mobile" label="Mobile Number">
+                          <UppercaseInput
+                            isPhone
+                            placeholder="Enter mobile number"
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={12}>
-                        <Form.Item label="Other Phone" name="otherPhone">
-                          <Input
-                            placeholder="Enter text here"
-                            className="input-field"
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Form.Item name="otherPhone" label="Other Phone">
+                          <UppercaseInput
+                            isPhone
+                            placeholder="Enter Other number"
                           />
                         </Form.Item>
                       </Col>
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={12}>
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item label="Temporary Address" name="tempAddress">
-                          <Input.TextArea
-                            rows={2}
+                          <UppercaseInput
+                            textarea
+                            showCount
+                            isAddress
+                            maxLength={30}
                             placeholder="Enter here..."
-                            className="text-area-input"
+                            className="text-area-input custom-uppercase-input"
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={12}>
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item label="Permanent Address" name="permAddress">
-                          <Input.TextArea
-                            rows={2}
+                          <UppercaseInput
+                            textarea
+                            showCount
+                            maxLength={30}
                             placeholder="Enter here..."
-                            className="text-area-input"
+                            className="text-area-input custom-uppercase-input"
                           />
                         </Form.Item>
                       </Col>
                     </Row>
 
-                    <Row gutter={16}>
-                      <Col span={6}>
+                    <Row gutter={16} className="cities-row">
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item label="City (Temporary)" name="tempCity">
-                          <Select
-                            placeholder="Select"
-                            className="slection-field"
+                          <UppercaseInput
+                            placeholder="Enter text here"
+                            className="input-field"
+                            maxLength={15}
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={6}>
+                      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item label="City (Permanent)" name="permCity">
-                          <Select
-                            placeholder="Select"
-                            className="slection-field"
+                          <UppercaseInput
+                            placeholder="Enter text here"
+                            className="input-field"
+                            maxLength={15}
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={6}>
-                        <Form.Item
-                          label="District (Temporary)"
-                          name="tempDistrict"
-                        >
-                          <Select
-                            placeholder="Select"
-                            className="slection-field"
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col span={6}>
-                        <Form.Item
-                          label="District (Permanent)"
-                          name="permDistrict"
-                        >
-                          <Select
-                            placeholder="Select"
-                            className="slection-field"
-                          />
-                        </Form.Item>
+                    </Row>
+
+                    <Row gutter={[16, 16]} className="cities-row">
+                      <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                        <DistrictDropdowns />
                       </Col>
                     </Row>
                   </Panel>
@@ -240,6 +279,8 @@ const NewVehicleRegistration = () => {
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
                   className="collapse-content-container"
+                  activeKey={activeKey} 
+                  onChange={() => {}} 
                 >
                   <Panel
                     header={
@@ -254,60 +295,91 @@ const NewVehicleRegistration = () => {
                       </div>
                     }
                     key="2"
-                    extra={<Switch className="switch-btn-css" />}
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={activeKey.includes("2")}
+                        onChange={(checked) =>
+                          setActiveKey(checked ? ["2"] : [])
+                        }
+                        onClick={(_, e) => e.stopPropagation()} 
+                      />
+                    }
                   >
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Ownership Type*" name="ownershipType">
                           <Select
                             placeholder="Select"
                             className="slection-field"
                           >
                             <Option value="individual">Individual</Option>
-                            <Option value="company">Company</Option>
+                            <Option value="company">Organizational</Option>
                           </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="NTN No." name="ntn">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item
+                          name="ntn"
+                          label="NTN Number"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter NTN number",
+                            },
+                          ]}
+                        >
+                          <UppercaseInput
+                            isNTN
+                            placeholder="Enter NTN (Max 20 characters)"
                           />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="CNIC No." name="cnic">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item
+                          label="CNIC Number"
+                          name="cnic"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter CNIC number",
+                            },
+                          ]}
+                        >
+                          <UppercaseInput
+                            isCNIC
+                            placeholder="37406-3833198-7"
                           />
                         </Form.Item>
                       </Col>
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={8}>
-                        <Form.Item label="Passport No." name="passport">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
-                          />
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Passport No." name="Passport">
+                          <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="Name*" name="name">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
-                          />
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Name" name="name">
+                          <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="F/H/W/O Name" name="fhwoName">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item
+                          label="F/H/W/O Name"
+                          name="fatherName"
+                          rules={[
+                            { required: true, message: "Please enter name" },
+                          ]}
+                        >
+                          <UppercaseInput
+                            placeholder="Enter name"
+                            maxLength={32}
                           />
                         </Form.Item>
                       </Col>
@@ -322,6 +394,8 @@ const NewVehicleRegistration = () => {
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
                   className="collapse-content-container"
+                  activeKey={hireActiveKey} 
+                  onChange={() => {}} 
                 >
                   <Panel
                     header={
@@ -335,7 +409,16 @@ const NewVehicleRegistration = () => {
                       </div>
                     }
                     key="3"
-                    extra={<Switch className="switch-btn-css" />}
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={hireActiveKey.includes("3")}
+                        onChange={(checked) =>
+                          setHireActiveKey(checked ? ["3"] : [])
+                        }
+                        onClick={(_, e) => e.stopPropagation()} 
+                      />
+                    }
                   >
                     <br />
                     <Row gutter={16}>
@@ -344,7 +427,7 @@ const NewVehicleRegistration = () => {
                           label="Bank / Company Name"
                           name="bankCompanyName"
                         >
-                          <Input
+                          <UppercaseInput
                             placeholder="Enter here"
                             className="input-field"
                           />
@@ -357,6 +440,8 @@ const NewVehicleRegistration = () => {
                 {/* Tax Payer Category */}
                 <Collapse
                   style={{ marginBottom: 14 }}
+                  activeKey={taxActiveKey}
+                  onChange={() => {}} 
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -374,13 +459,28 @@ const NewVehicleRegistration = () => {
                       </div>
                     }
                     key="4"
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={taxActiveKey.includes("4")}
+                        onClick={(checked, e) => {
+                          e.stopPropagation?.(); 
+                          setTaxActiveKey(checked ? ["4"] : []);
+                        }}
+                      />
+                    }
                   >
                     <br />
                     <Form.Item
                       label="Select Tax Payer Category"
                       name="taxCategory"
                     >
-                      <Select placeholder="Select" className="slection-field" />
+                      <Select placeholder="Select" className="slection-field">
+                        <Select.Option value="filer">FILER</Select.Option>
+                        <Select.Option value="non-filer">
+                          NON-FILER
+                        </Select.Option>
+                      </Select>
                     </Form.Item>
                   </Panel>
                 </Collapse>
@@ -388,6 +488,8 @@ const NewVehicleRegistration = () => {
                 {/* Vehicle Information */}
                 <Collapse
                   style={{ marginBottom: 14 }}
+                  activeKey={vehicleActiveKey}
+                  onChange={() => {}} 
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -405,85 +507,142 @@ const NewVehicleRegistration = () => {
                       </div>
                     }
                     key="5"
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={vehicleActiveKey.includes("5")}
+                        onClick={(checked, e) => {
+                          e?.stopPropagation?.();
+
+                          if (!checked) {
+                            setVehicleCategory("");
+                          }
+
+                          setVehicleActiveKey(checked ? ["5"] : []);
+                        }}
+                      />
+                    }
                   >
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Category" name="vehicleCategory">
                           <Select
                             placeholder="Select"
                             className="slection-field"
-                          />
+                            onChange={(val) => setVehicleCategory(val)}
+                          >
+                            <Select.Option value="private">
+                              PRIVATE
+                            </Select.Option>
+                            <Select.Option value="government">
+                              GOVERNMENT
+                            </Select.Option>
+                            <Select.Option value="commercial">
+                              COMMERCIAL
+                            </Select.Option>
+                          </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Purchase Type" name="purchaseType">
                           <Select
                             placeholder="Select"
                             className="slection-field"
-                          />
+                          >
+                            <Select.Option value="local">LOCAL</Select.Option>
+                            <Select.Option value="imported">
+                              IMPORTED
+                            </Select.Option>
+                            <Select.Option value="auctioned">
+                              AUCTIONED
+                            </Select.Option>
+                          </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Body Type" name="bodyType">
                           <Select
                             placeholder="Select"
                             className="slection-field"
-                          />
+                          >
+                            <Select.Option value="motorcycle">
+                              MOTORCYCLE
+                            </Select.Option>
+                            <Select.Option value="motorcar">
+                              MOTORCAR
+                            </Select.Option>
+                            <Select.Option value="jeep">JEEP</Select.Option>
+                            <Select.Option value="pickup">PICKUP</Select.Option>
+                            <Select.Option value="van">VAN</Select.Option>
+                            <Select.Option value="minibus">
+                              MINIBUS
+                            </Select.Option>
+                            <Select.Option value="bus">BUS</Select.Option>
+                            <Select.Option value="truck">TRUCK</Select.Option>
+                          </Select>
                         </Form.Item>
                       </Col>
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={6}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="No. of Seats" name="seats">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
-                          />
+                          <Select
+                            placeholder="Select number"
+                            className="slection-field"
+                          >
+                            {[...Array(100)].map((_, i) => (
+                              <Select.Option key={i + 1} value={i + 1}>
+                                {i + 1}
+                              </Select.Option>
+                            ))}
+                          </Select>
                         </Form.Item>
                       </Col>
-                      <Col span={6}>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Chassis No." name="chassisNo">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
-                          />
+                          <UppercaseInput placeholder="Enter Chassis Number" />
                         </Form.Item>
                       </Col>
-                      <Col span={6}>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Engine No." name="engineNo">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+                          <UppercaseInput
+                            placeholder="Enter Engine Number"
+                            maxLength={1000}
                           />
-                        </Form.Item>
-                      </Col>
-                      <Col span={6}>
-                        <Form.Item label="Engine Size" name="engineSize">
-                          <Input placeholder="CC" className="input-field" />
                         </Form.Item>
                       </Col>
                     </Row>
 
                     <Row gutter={16}>
-                      <Col span={8}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Engine Size" name="engineSize">
+                          <EngineSizeInput />
+                        </Form.Item>
+                      </Col>
+
+                      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                         <Form.Item label="Vehicle Color" name="color">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
-                          />
+                          <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
+
+                      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                         <Form.Item label="Vehicle Value" name="value">
-                          <Input placeholder="Rs" className="input-field" />
+                          <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
-                      <Col span={8}>
-                        <Form.Item label="Purchase Date" name="purchaseDate">
-                          <DatePicker
-                            style={{ width: "100%" }}
-                            className="date-picker-cls"
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item name="purchaseDate">
+                          <LabelDatePicker
+                            label="Purchase Date"
+                            value={purchaseDate}
+                            setRegDate={setPurchaseDate}
                           />
                         </Form.Item>
                       </Col>
@@ -491,9 +650,78 @@ const NewVehicleRegistration = () => {
                   </Panel>
                 </Collapse>
 
-                {/* Owner's Representative */}
+                {/* Commercial Section */}
+                {vehicleCategory === "commercial" && (
+                  <Collapse
+                    style={{ marginBottom: 14 }}
+                    expandIcon={({ isActive }) => (
+                      <CaretRightOutlined rotate={isActive ? 90 : 0} />
+                    )}
+                    className="collapse-content-container"
+                  >
+                    <Panel
+                      header={
+                        <div className="panel-hreader">
+                          <Typography.Title className="panel-title">
+                            Commercial Vehicle Details
+                          </Typography.Title>
+                          <p className="panel-header-text">
+                            This section appears only if “Commercial” is
+                            selected in above section
+                          </p>
+                        </div>
+                      }
+                      key="6"
+                    >
+                      <Row gutter={16}>
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                          <Form.Item label="Vehicle Type" name="vehicleType">
+                            <Select
+                              placeholder="Select"
+                              className="slection-field"
+                            >
+                              <Select.Option value="passenger">
+                                PASSENGER VEHICLE
+                              </Select.Option>
+                              <Select.Option value="goods">
+                                GOODS VEHICLE
+                              </Select.Option>
+                            </Select>
+                          </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                          <Form.Item label="Laden Weight" name="ladenWeight">
+                            <Input
+                              type="number"
+                              placeholder="Enter weight"
+                              className="slection-field"
+                              prefix={<span className="kg-box">KG</span>}
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                          <Form.Item
+                            label="Unladen Weight"
+                            name="unladenWeight"
+                          >
+                            <Input
+                              type="number"
+                              placeholder="Enter weight"
+                              className="slection-field"
+                              prefix={<span className="kg-box">KG</span>}
+                            />
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                    </Panel>
+                  </Collapse>
+                )}
+
+                
                 <Collapse
                   style={{ marginBottom: 14 }}
+                  activeKey={ownerRepActiveKey}
+                  onChange={() => {}} 
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -511,42 +739,66 @@ const NewVehicleRegistration = () => {
                         </p>
                       </div>
                     }
-                    key="6"
-                    extra={<Switch className="switch-btn-css" />}
+                    key="7"
+                    extra={
+                      <Switch
+                        className="switch-btn-css"
+                        checked={ownerRepActiveKey.includes("7")}
+                        onClick={(checked, e) => {
+                          e?.stopPropagation?.();
+                          setOwnerRepActiveKey(checked ? ["7"] : []);
+                        }}
+                      />
+                    }
                   >
                     <br />
                     <Row gutter={16}>
                       <Col span={12}>
-                        <Form.Item label="CNIC No." name="cnicNo">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+                        <Form.Item
+                          label="CNIC Number"
+                          name="cnic"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter CNIC number",
+                            },
+                          ]}
+                        >
+                          <UppercaseInput
+                            style={{ width: "100%" }}
+                            isCNIC
+                            placeholder="37406-3833198-7"
                           />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
                         <Form.Item label="Mobile Number" name="mobileNo">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+                          <UppercaseInput
+                            style={{ width: "100%" }}
+                            isPhone
+                            placeholder="Enter mobile number"
                           />
                         </Form.Item>
                       </Col>
                     </Row>
+
                     <Row gutter={16}>
                       <Col span={12}>
-                        <Form.Item label="Names" name="name">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
-                          />
+                        <Form.Item label="Name" name="name">
+                          <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="F/H/W/O Name" name="fhwoName">
-                          <Input
-                            placeholder="Enter here..."
-                            className="input-field"
+                        <Form.Item
+                          label="F/H/W/O Name"
+                          name="fatherName"
+                          rules={[
+                            { required: true, message: "Please enter name" },
+                          ]}
+                        >
+                          <UppercaseInput
+                            placeholder="Enter name"
+                            maxLength={32}
                           />
                         </Form.Item>
                       </Col>
@@ -571,10 +823,11 @@ const NewVehicleRegistration = () => {
             </div>
           </div>
         </TabPane>
-        <TabPane tab="My Application Details" key="2">
+        <TabPane tab="Edit My Application" key="2">
           <ApplicationDetails />
         </TabPane>
       </Tabs>
+      <InfoModal open={infoModal} onClose={() => setInfoModal(false)} />
     </div>
   );
 };

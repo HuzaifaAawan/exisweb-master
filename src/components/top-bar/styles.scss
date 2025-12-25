@@ -60,29 +60,44 @@
   }
 }
 
+@media (max-width: 1030px) {
+  .header-right-items {
+    display: none !important;
+  }
 
-@media (max-width: 1024px) {
-  .bg-header-pattern {
-    height: auto;
+  .mobile-menu-toggle {
+    display: block !important;
+  }
 
-    .hearder-container {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 10px;
+  .mobile-menu-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background-color: #268b6b;
+    position: absolute;
+    top: 120px;
+    right: 0;
+    width: 200px;
+    z-index: 1000;
+    border-radius: 4px;
+  }
 
-      .header-right-items {
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
+  .mobile-menu-popup button {
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
 
-        .navigation-menu {
-          gap: 10px;
-          padding: 5px 10px;
-        }
-      }
-    }
+  .mobile-menu-popup button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 }
+
 
 @media (max-width: 768px) {
   .bg-header-pattern {
@@ -102,30 +117,149 @@
           width: 60px !important;
         }
       }
-
-      .header-right-items {
-        display: none; 
-      }
     }
   }
 }
 
 @media (max-width: 480px) {
   .bg-header-pattern {
-    padding: 0;
+    height: 100px;
 
     .hearder-container {
-      padding: 8px;
-
       .header-title {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+
+        .header-logo {
+          height: 55px !important;
+          width: 45px !important;
+          margin-left: 12px !important;
+          transition: all 0.3s ease; // smooth resize
+        }
 
         .heading {
-          font-size: 16px;
+          font-size: 13px;
+          line-height: 1.25;
+          margin: 0;
+          transition: all 0.3s ease; // smooth resize
         }
       }
     }
+  }
+}
+
+@media (max-width: 360px) {
+  .bg-header-pattern {
+    height: 90px;
+
+    .hearder-container {
+      .header-title {
+        .header-logo {
+          height: 45px !important;
+          width: 38px !important;
+        }
+
+        .heading {
+          font-size: 11px;
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+}
+
+
+.mobile-menu-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 10px 0;
+  background-color: #268b6b;
+  position: absolute;
+  top: 104px!important;
+  right: 3px;
+  width: 200px;
+  z-index: 1000;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: slideDown 0.3s forwards;
+}
+
+@keyframes slideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu-popup button {
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.hidden.laptop\:block {
+  margin-right: 0px !important;
+}
+
+.mobile-menu-popup button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-popup button:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+/* AntD Dropdown styling to match your old popup */
+.custom-header-dropdown {
+  .ant-dropdown-menu {
+    background-color: #268b6b !important; // green like before
+    border-radius: 6px !important;
+    overflow: hidden;
+    right: 4px!important;
+    animation: slideDown 0.3s ease forwards;
+
+    .ant-dropdown-menu-item {
+      color: white !important;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 12px 16px !important;
+      text-align: left;
+      transition: background-color 0.2s ease;
+    }
+
+    .ant-dropdown-menu-item:not(:last-child) {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .ant-dropdown-menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
