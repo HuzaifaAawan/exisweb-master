@@ -12,6 +12,7 @@ const SearchResult = ({ data }) => {
       <Collapse
         className="section-collapse"
         defaultActiveKey={["1"]}
+        style={{ marginTop: 14, marginBottom: 14 }}
         expandIcon={({ isActive }) => (
           <CaretRightOutlined rotate={isActive ? 90 : 0} />
         )}
@@ -70,6 +71,7 @@ const SearchResult = ({ data }) => {
       <Collapse
         className="section-collapse"
         defaultActiveKey={["1"]}
+        style={{ marginBottom: 14 }}
         expandIcon={({ isActive }) => (
           <CaretRightOutlined rotate={isActive ? 90 : 0} />
         )}
@@ -108,6 +110,7 @@ const SearchResult = ({ data }) => {
       <Collapse
         className="section-collapse"
         defaultActiveKey={["1"]}
+        style={{ marginBottom: 14 }}
         expandIcon={({ isActive }) => (
           <CaretRightOutlined rotate={isActive ? 90 : 0} />
         )}
@@ -130,6 +133,7 @@ const SearchResult = ({ data }) => {
       <Collapse
         className="section-collapse"
         defaultActiveKey={["1"]}
+        style={{ marginBottom: 14 }}
         expandIcon={({ isActive }) => (
           <CaretRightOutlined rotate={isActive ? 90 : 0} />
         )}
@@ -148,6 +152,7 @@ const SearchResult = ({ data }) => {
       <Collapse
         className="section-collapse"
         defaultActiveKey={["1"]}
+        style={{ marginBottom: 14 }}
         expandIcon={({ isActive }) => (
           <CaretRightOutlined rotate={isActive ? 90 : 0} />
         )}
@@ -202,6 +207,7 @@ const SearchResult = ({ data }) => {
       <Collapse
         className="section-collapse"
         defaultActiveKey={["1"]}
+        style={{ marginBottom: 14 }}
         expandIcon={({ isActive }) => (
           <CaretRightOutlined rotate={isActive ? 90 : 0} />
         )}

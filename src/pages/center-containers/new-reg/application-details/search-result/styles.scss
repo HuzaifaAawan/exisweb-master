@@ -1,39 +1,83 @@
 .section-collapse-wrapper {
-  margin-top: 14px;
-}
-
-.section-collapse {
-  margin-bottom: 20px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e3e3e3 !important;
-  .header-title {
-    font-size: 16px;
-    font-weight: bold;
-  }
+  width: 100%;
 }
 
 .info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 18px 24px;
-  padding: 10px 4px;
-  .info-div{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 48px;
+  padding: 16px 24px;
+}
+/* Header title text */
+.section-collapse .ant-collapse-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
 }
 
+/* Optional: subtitle support (future-proof) */
+.section-collapse .ant-collapse-header-text span {
+  font-size: 12px;
+  font-weight: 400;
+  color: #556485;
+}
+.section-collapse .ant-collapse-content {
+  background-color: #fff;
+}
+
+.section-collapse .ant-collapse-content-box {
+  padding: 0; // kyun ke tum already info-grid mein padding de rahe ho
+}
+/* Collapse outer container */
+.section-collapse {
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* AntD header */
+.section-collapse .ant-collapse-header {
+  background-color: #fff;
+  border-bottom: 1px solid #e3e3e3;
+  padding: 16px 24px !important;
+  align-items: flex-start;
+}
+
+/* Remove default arrow spacing issue */
+.section-collapse .ant-collapse-expand-icon {
+  margin-top: 2px;
+}
+
+
+.info-div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 260px;
+  max-width: 320px;
+}
+
+/* Match typography from first form */
 .info-grid label {
-  display: block;
   font-size: 14px;
+  font-weight: 600;
   color: #000;
-  font-weight: 500;
+  margin-top: 2px;
 }
 
 .info-grid span {
   font-size: 14px;
-  color: #161a23;
-  font-weight: normal;
+  color: #374151;
+  line-height: 1.4;
+}
+
+/* Mobile behavior */
+@media (max-width: 768px) {
+  .info-div {
+    max-width: 100%;
+  }
 }

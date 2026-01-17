@@ -94,6 +94,153 @@ const NewVehicleRegistration = () => {
                 onFinish={onFinish}
                 className="new-vehicle-reg-form"
               >
+                {/* Vehicle Information */}
+                <Collapse
+                  defaultActiveKey={["5"]} // open by default (Owner Info jaisa)
+                  style={{marginBottom: 14 }}
+                  expandIcon={({ isActive }) => (
+                    <CaretRightOutlined rotate={isActive ? 90 : 0} />
+                  )}
+                  className="collapse-content-container"
+                >
+                  <Panel
+                    key="5"
+                    header={
+                      <div className="panel-hreader">
+                        <Typography.Title className="panel-title">
+                          Vehicle Information
+                        </Typography.Title>
+                        <p className="panel-header-text">Add Vehicle detail</p>
+                      </div>
+                    }
+                  >
+                    <Row gutter={16}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Category" name="vehicleCategory">
+                          <Select
+                            placeholder="Select"
+                            className="slection-field"
+                            onChange={(val) => setVehicleCategory(val)}
+                          >
+                            <Select.Option value="private">
+                              PRIVATE
+                            </Select.Option>
+                            <Select.Option value="government">
+                              GOVERNMENT
+                            </Select.Option>
+                            <Select.Option value="commercial">
+                              COMMERCIAL
+                            </Select.Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Purchase Type" name="purchaseType">
+                          <Select
+                            placeholder="Select"
+                            className="slection-field"
+                          >
+                            <Select.Option value="local">LOCAL</Select.Option>
+                            <Select.Option value="imported">
+                              IMPORTED
+                            </Select.Option>
+                            <Select.Option value="auctioned">
+                              AUCTIONED
+                            </Select.Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Body Type" name="bodyType">
+                          <Select
+                            placeholder="Select"
+                            className="slection-field"
+                          >
+                            <Select.Option value="motorcycle">
+                              MOTORCYCLE
+                            </Select.Option>
+                            <Select.Option value="motorcar">
+                              MOTORCAR
+                            </Select.Option>
+                            <Select.Option value="jeep">JEEP</Select.Option>
+                            <Select.Option value="pickup">PICKUP</Select.Option>
+                            <Select.Option value="van">VAN</Select.Option>
+                            <Select.Option value="minibus">
+                              MINIBUS
+                            </Select.Option>
+                            <Select.Option value="bus">BUS</Select.Option>
+                            <Select.Option value="truck">TRUCK</Select.Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                    </Row>
+
+                    <Row gutter={16}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="No. of Seats" name="seats">
+                          <Select
+                            placeholder="Select number"
+                            className="slection-field"
+                          >
+                            {[...Array(100)].map((_, i) => (
+                              <Select.Option key={i + 1} value={i + 1}>
+                                {i + 1}
+                              </Select.Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                      </Col>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Chassis No." name="chassisNo">
+                          <UppercaseInput placeholder="Enter Chassis Number" />
+                        </Form.Item>
+                      </Col>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Engine No." name="engineNo">
+                          <UppercaseInput
+                            placeholder="Enter Engine Number"
+                            maxLength={1000}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+
+                    <Row gutter={16}>
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item label="Engine Size" name="engineSize">
+                          <EngineSizeInput />
+                        </Form.Item>
+                      </Col>
+
+                      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                        <Form.Item label="Vehicle Color" name="color">
+                          <UppercaseInput placeholder="Enter here..." />
+                        </Form.Item>
+                      </Col>
+
+                      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                        <Form.Item label="Vehicle Value" name="value">
+                          <UppercaseInput placeholder="Enter here..." />
+                        </Form.Item>
+                      </Col>
+
+                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Form.Item name="purchaseDate">
+                          <LabelDatePicker
+                            label="Purchase Date"
+                            value={purchaseDate}
+                            setRegDate={setPurchaseDate}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Panel>
+                </Collapse>
+
                 {/* Owner Information */}
                 <Collapse
                   defaultActiveKey={["1"]}
@@ -279,8 +426,8 @@ const NewVehicleRegistration = () => {
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
                   className="collapse-content-container"
-                  activeKey={activeKey} 
-                  onChange={() => {}} 
+                  activeKey={activeKey}
+                  onChange={() => {}}
                 >
                   <Panel
                     header={
@@ -302,7 +449,7 @@ const NewVehicleRegistration = () => {
                         onChange={(checked) =>
                           setActiveKey(checked ? ["2"] : [])
                         }
-                        onClick={(_, e) => e.stopPropagation()} 
+                        onClick={(_, e) => e.stopPropagation()}
                       />
                     }
                   >
@@ -394,8 +541,8 @@ const NewVehicleRegistration = () => {
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
                   className="collapse-content-container"
-                  activeKey={hireActiveKey} 
-                  onChange={() => {}} 
+                  activeKey={hireActiveKey}
+                  onChange={() => {}}
                 >
                   <Panel
                     header={
@@ -416,7 +563,7 @@ const NewVehicleRegistration = () => {
                         onChange={(checked) =>
                           setHireActiveKey(checked ? ["3"] : [])
                         }
-                        onClick={(_, e) => e.stopPropagation()} 
+                        onClick={(_, e) => e.stopPropagation()}
                       />
                     }
                   >
@@ -441,7 +588,7 @@ const NewVehicleRegistration = () => {
                 <Collapse
                   style={{ marginBottom: 14 }}
                   activeKey={taxActiveKey}
-                  onChange={() => {}} 
+                  onChange={() => {}}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -464,7 +611,7 @@ const NewVehicleRegistration = () => {
                         className="switch-btn-css"
                         checked={taxActiveKey.includes("4")}
                         onClick={(checked, e) => {
-                          e.stopPropagation?.(); 
+                          e.stopPropagation?.();
                           setTaxActiveKey(checked ? ["4"] : []);
                         }}
                       />
@@ -482,171 +629,6 @@ const NewVehicleRegistration = () => {
                         </Select.Option>
                       </Select>
                     </Form.Item>
-                  </Panel>
-                </Collapse>
-
-                {/* Vehicle Information */}
-                <Collapse
-                  style={{ marginBottom: 14 }}
-                  activeKey={vehicleActiveKey}
-                  onChange={() => {}} 
-                  expandIcon={({ isActive }) => (
-                    <CaretRightOutlined rotate={isActive ? 90 : 0} />
-                  )}
-                  className="collapse-content-container"
-                >
-                  <Panel
-                    header={
-                      <div className="panel-hreader">
-                        <Typography.Title className="panel-title">
-                          Vehicle Information
-                        </Typography.Title>
-                        <p className="panel-header-text">
-                          Select the Tax Payer Category
-                        </p>
-                      </div>
-                    }
-                    key="5"
-                    extra={
-                      <Switch
-                        className="switch-btn-css"
-                        checked={vehicleActiveKey.includes("5")}
-                        onClick={(checked, e) => {
-                          e?.stopPropagation?.();
-
-                          if (!checked) {
-                            setVehicleCategory("");
-                          }
-
-                          setVehicleActiveKey(checked ? ["5"] : []);
-                        }}
-                      />
-                    }
-                  >
-                    <Row gutter={16}>
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Category" name="vehicleCategory">
-                          <Select
-                            placeholder="Select"
-                            className="slection-field"
-                            onChange={(val) => setVehicleCategory(val)}
-                          >
-                            <Select.Option value="private">
-                              PRIVATE
-                            </Select.Option>
-                            <Select.Option value="government">
-                              GOVERNMENT
-                            </Select.Option>
-                            <Select.Option value="commercial">
-                              COMMERCIAL
-                            </Select.Option>
-                          </Select>
-                        </Form.Item>
-                      </Col>
-
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Purchase Type" name="purchaseType">
-                          <Select
-                            placeholder="Select"
-                            className="slection-field"
-                          >
-                            <Select.Option value="local">LOCAL</Select.Option>
-                            <Select.Option value="imported">
-                              IMPORTED
-                            </Select.Option>
-                            <Select.Option value="auctioned">
-                              AUCTIONED
-                            </Select.Option>
-                          </Select>
-                        </Form.Item>
-                      </Col>
-
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Body Type" name="bodyType">
-                          <Select
-                            placeholder="Select"
-                            className="slection-field"
-                          >
-                            <Select.Option value="motorcycle">
-                              MOTORCYCLE
-                            </Select.Option>
-                            <Select.Option value="motorcar">
-                              MOTORCAR
-                            </Select.Option>
-                            <Select.Option value="jeep">JEEP</Select.Option>
-                            <Select.Option value="pickup">PICKUP</Select.Option>
-                            <Select.Option value="van">VAN</Select.Option>
-                            <Select.Option value="minibus">
-                              MINIBUS
-                            </Select.Option>
-                            <Select.Option value="bus">BUS</Select.Option>
-                            <Select.Option value="truck">TRUCK</Select.Option>
-                          </Select>
-                        </Form.Item>
-                      </Col>
-                    </Row>
-
-                    <Row gutter={16}>
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="No. of Seats" name="seats">
-                          <Select
-                            placeholder="Select number"
-                            className="slection-field"
-                          >
-                            {[...Array(100)].map((_, i) => (
-                              <Select.Option key={i + 1} value={i + 1}>
-                                {i + 1}
-                              </Select.Option>
-                            ))}
-                          </Select>
-                        </Form.Item>
-                      </Col>
-
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Chassis No." name="chassisNo">
-                          <UppercaseInput placeholder="Enter Chassis Number" />
-                        </Form.Item>
-                      </Col>
-
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Engine No." name="engineNo">
-                          <UppercaseInput
-                            placeholder="Enter Engine Number"
-                            maxLength={1000}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-
-                    <Row gutter={16}>
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Engine Size" name="engineSize">
-                          <EngineSizeInput />
-                        </Form.Item>
-                      </Col>
-
-                      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                        <Form.Item label="Vehicle Color" name="color">
-                          <UppercaseInput placeholder="Enter here..." />
-                        </Form.Item>
-                      </Col>
-
-                      <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                        <Form.Item label="Vehicle Value" name="value">
-                          <UppercaseInput placeholder="Enter here..." />
-                        </Form.Item>
-                      </Col>
-
-                      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item name="purchaseDate">
-                          <LabelDatePicker
-                            label="Purchase Date"
-                            value={purchaseDate}
-                            setRegDate={setPurchaseDate}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
                   </Panel>
                 </Collapse>
 
@@ -717,11 +699,10 @@ const NewVehicleRegistration = () => {
                   </Collapse>
                 )}
 
-                
                 <Collapse
                   style={{ marginBottom: 14 }}
                   activeKey={ownerRepActiveKey}
-                  onChange={() => {}} 
+                  onChange={() => {}}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
