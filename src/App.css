@@ -6,6 +6,7 @@
 
 .reg-form {
   .reg-form-header {
+    margin: 0 !important;
   }
   .reg-form-title {
     background-color: white;
@@ -16,5 +17,9 @@
   .reg-form-content {
     background-color: #fff;
     border-radius: 8px;
+    height: calc(100vh - 16em);
+    .btn {
+      height: 42px;
+    }
   }
 }

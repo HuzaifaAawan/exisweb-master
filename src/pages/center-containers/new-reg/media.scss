@@ -1,0 +1,126 @@
+/* media.scss - put in same folder as NewVehicleRegistration.jsx */
+
+/* ----------- Ultra Large Screens (2000px+) ----------- */
+@media (min-width: 2000px) {
+  .submit-btn {
+    min-width: 140px;
+    white-space: normal;
+    word-wrap: break-word;
+    display: block;
+    margin: 0 auto; /* centers the block element */
+  }
+
+  .new-reg .new-reg-content-container .reg-form-container 
+  .new-vehicle-reg-form .vehicle-reg-btn .submit-btn {
+    width: 200px;
+  }
+}
+
+/* ----------- Base Grid (default: mobile first) ----------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile: 1 column */
+  gap: 16px;
+  padding: 0 8px; 
+  width: 100%;
+  
+}
+/* Force inputs and Form.Item to take full width */
+.form-grid .ant-form-item,
+.form-grid .ant-input {
+  width: 100%;
+}
+/* Tablet (>=640px) -> 2 columns */
+@media (min-width: 640px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop (>=1024px) -> 3 columns */
+@media (min-width: 1024px) {
+  .form-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Optional: 2-column only layout */
+.form-grid-2 {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .form-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ----------- Inputs Full Width ----------- */
+.slection-field,
+.input-field,
+.text-area-input,
+.ant-picker,
+.ant-select,
+.new-vehicle-reg-form .ant-input,
+.new-vehicle-reg-form .UppercaseInput {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Spacing fixes */
+.new-vehicle-reg-form .ant-form-item {
+  margin-bottom: 12px;
+}
+
+/* Cities row */
+.cities-row {
+  gap: 0;
+}
+
+/* ----------- Buttons ----------- */
+.vehicle-reg-btn {
+  display: flex;
+  flex-direction: column; /* mobile stacked */
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .vehicle-reg-btn {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.submit-btn {
+  min-width: 200px;
+}
+
+/* ----------- Panel Header ----------- */
+.panel-hreader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+@media (min-width: 640px) {
+  .panel-hreader {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* ----------- Mobile Specific (<=550px) ----------- */
+@media (max-width: 550px) {
+  .submit-btn {
+    width: 100% !important;
+    min-width: auto;
+    white-space: normal;
+    word-wrap: break-word;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .input-frame {
+    width: 100% !important;   /* full width on mobile */
+    min-width: auto !important;
+  }
+}

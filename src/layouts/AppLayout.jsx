@@ -17,7 +17,6 @@ const AppLayout = () => {
       <Header className="app-layout-container-header" />
       <div className="app-layout-content-container" style={{ display: "flex" }}>
         <Sidebar />
-
         <Outlet />
       </div>
     </div>

@@ -1,13 +1,26 @@
-// src/pages/Home.jsx
-import React from 'react';
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { HOME_PAGE_URL } from "../constants";
 
-const Home = () => {
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-teal-800">Welcome to the Home Page!</h1>
-      <p className="mt-2 text-gray-600">This is your landing page after login.</p>
-    </div>
-  );
-};
+function Home() {
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(HOME_PAGE_URL, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("SSO User:", data);
+        setToken(data.token); // store token in context + localStorage
+        navigate("/"); // go to app dashboard
+      })
+      .catch((err) => console.error("Error fetching SSO user:", err));
+  }, [setToken, navigate]);
+
+  return <h2>Processing login...</h2>;
+}
 
 export default Home;

@@ -1,8 +1,8 @@
 .registation-form-table-container {
   width: 100% !important;
   .table-main-container {
-    margin: 0 24px;
-    padding: 0 16px;
+    margin: 24px;
+    padding: 16px;
 
     .table-header {
       display: flex;
@@ -45,7 +45,7 @@
 .custom-table .ant-table {
   border-radius: 12px;
   overflow: hidden;
-  height: calc(100vh - 22em) !important;
+  height: calc(100vh - 23em) !important;
   border-collapse: separate !important;
   border-spacing: 0 5px !important; // ✅ vertical spacing of 5px
 }
@@ -82,15 +82,15 @@
     transition: background-color 0.3s ease;
 
     // 👇 Rounded corners for each row
-    &:first-child {
-      border-top-left-radius: 12px;
-      border-bottom-left-radius: 12px;
-    }
+    // &:first-child {
+    //   border-top-left-radius: 12px;
+    //   border-bottom-left-radius: 12px;
+    // }
 
-    &:last-child {
-      border-top-right-radius: 12px;
-      border-bottom-right-radius: 12px;
-    }
+    // &:last-child {
+    //   border-top-right-radius: 12px;
+    //   border-bottom-right-radius: 12px;
+    // }
   }
 
   .ant-table-tbody > tr:hover > td {
@@ -102,7 +102,7 @@
 // Row Background
 .custom-row {
   background-color: #f5f6f8 !important;
-  border-radius: 12px !important;
+  // border-radius: 12px !important;
   height: 48px !important;
   margin: 23px 0 5px !important; // 👈 isko optional adjust bhi kar sakte ho
 }
@@ -126,15 +126,15 @@
   border: none !important;
 
   // Rounded corners for each row (only on first and last td)
-  &:first-child {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-  }
+  // &:first-child {
+  //   border-top-left-radius: 12px;
+  //   border-bottom-left-radius: 12px;
+  // }
 
-  &:last-child {
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-  }
+  // &:last-child {
+  //   border-top-right-radius: 12px;
+  //   border-bottom-right-radius: 12px;
+  // }
 }
 
 
@@ -156,7 +156,7 @@
   // Optional: Add shadow effect for clearer separation
   background-color: #fff;
   margin-bottom: 12px;
-  border-radius: 6px;
+  // border-radius: 6px;
 }
 
 
