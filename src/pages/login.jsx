@@ -15,11 +15,11 @@ function Login() {
 
     navigate("/new-reg");
 
-    const ssoUrl = process.env.REACT_APP_SSO_LOGIN_URL;
-    const callbackUrl = encodeURIComponent(
-      `${window.location.origin}/auth/callback?redirect=/new-reg`
-    );
-    window.location.href = `${ssoUrl}?callbackUrl=${callbackUrl}`;
+    // const ssoUrl = process.env.REACT_APP_SSO_LOGIN_URL;
+    // const callbackUrl = encodeURIComponent(
+    //   `${window.location.origin}/auth/callback?redirect=/new-reg`
+    // );
+    // window.location.href = `${ssoUrl}?callbackUrl=${callbackUrl}`;
   };
   return (
     <div>
