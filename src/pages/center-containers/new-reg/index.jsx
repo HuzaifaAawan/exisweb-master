@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import "./styles.scss";
 import "./media.scss";
@@ -15,7 +16,6 @@ import {
   Button,
   Col,
   Collapse,
-  DatePicker,
   Form,
   Input,
   Row,

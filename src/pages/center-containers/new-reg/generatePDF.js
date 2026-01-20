@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import jsPDF from "jspdf";
 import QRCode from "qrcode";
-import { notoNastaliqUrdu } from "../../../fonts/NotoNastaliqUrdu-Regular.js";
-import arabicReshaper from "arabic-persian-reshaper";
-import bidi from "bidi-js";
+// import { notoNastaliqUrdu } from "../../../fonts/NotoNastaliqUrdu-Regular.js";
+// import arabicReshaper from "arabic-persian-reshaper";
+// import bidi from "bidi-js";
 
 const generatePDF = async (formData) => {
   const doc = new jsPDF("p", "mm", "a4");
@@ -100,7 +101,7 @@ const generatePDF = async (formData) => {
     yStart + lineHeight * 3 + 2
   );
 
-  // ✅ 5. Add "Forward herewith..." line below phone number
+  //  5. Add "Forward herewith..." line below phone number
   const forwardY = yStart + lineHeight * 4 + 2;
   doc.text(
     "Forward herewith the certificate of registration or the certificate of fitness of Motor Vehicle. No.",
@@ -111,7 +112,7 @@ const generatePDF = async (formData) => {
   // underline for "No. ________"
   doc.line(175, forwardY + 1, 40 + fullLineWidth, forwardY + 1);
 
-  // ✅ 6. Bearing chassis and engine line (new line)
+  //  6. Bearing chassis and engine line (new line)
   const chassisY = forwardY + lineHeight;
   doc.text("bearing chassis No.", 20, chassisY);
   doc.line(51, chassisY + 1, 120, chassisY + 1); // underline for chassis no

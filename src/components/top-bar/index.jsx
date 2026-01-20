@@ -4,9 +4,7 @@ import "./styles.scss";
 import headerLogo from "../../assets/icons/header_logo-removebg-preview.png";
 import menuTopImage from "../../assets/icons/top_right.jpg";
 import bannerBg from "../../assets/icons/Banner-bg.jpg";
-
-// ✅ Ant Design Imports
-import { Dropdown, Button, Space } from "antd";
+import { Dropdown, Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
 const Header = () => {
@@ -27,7 +25,7 @@ const Header = () => {
     })),
   };
 
-  // ✅ Close menu automatically on resize > 1024px
+  // Close menu automatically on resize > 1024px
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1024 && menuOpen) {

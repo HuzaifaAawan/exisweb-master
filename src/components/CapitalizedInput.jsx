@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable react-hooks/exhaustive-deps */
 // CapitalizedInput.jsx
 import React, { useState, useEffect } from "react";
 import { Input, Select, Row, Col, Form } from "antd";

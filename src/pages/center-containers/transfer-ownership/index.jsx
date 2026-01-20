@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
@@ -138,7 +139,7 @@ const VehicleTransferOwnership = () => {
               rowGap: "16px",
             }}
           >
-            {/* 1️⃣ Registration No */}
+            {/* Registration No */}
             <Col xs={24} sm={24} md={12} lg={7}>
               <div className="w-full">
                 <label className="Textfield-Label">Registration No.</label>
@@ -155,7 +156,7 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            {/* 2️⃣ Registration Date */}
+            {/* Registration Date */}
             <Col xs={24} sm={24} md={12} lg={7}>
               <div className="w-full">
                 <LabelDatePicker
@@ -167,7 +168,7 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            {/* 3️⃣ Process Type */}
+            {/* Process Type */}
             <Col xs={24} sm={24} md={12} lg={7}>
               <div className="">
                 <label htmlFor="processType" className="Textfield-Label">
@@ -190,7 +191,7 @@ const VehicleTransferOwnership = () => {
               </div>
             </Col>
 
-            {/* 4️⃣ Submit Button */}
+            {/* Submit Button */}
             {/* <Col xs={24} sm={24} md={12} lg={6}  xlg ={6}className=""> */}
             <button
               type="submit"
