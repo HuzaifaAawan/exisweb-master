@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
-  const [isChecking, setIsChecking] = useState(true);
-  const [token, setToken] = useState(null);
+  const { token } = useAuth(); // Use AuthContext state directly
   const location = useLocation();
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("authToken");
-    setToken(storedToken);
-    setIsChecking(false);
-  }, [location.pathname]);
-
-  if (isChecking) {
-    return <h2>Checking authentication...</h2>;
-  }
+  console.log("PrivateRoute checking auth at:", location.pathname);
+  console.log("PrivateRoute found token:", token ? "YES (length: " + token.length + ")" : "NO");
 
   if (!token) {
     // Token missing → redirect to SSO login
