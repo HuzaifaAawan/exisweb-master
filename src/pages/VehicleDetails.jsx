@@ -3,6 +3,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
 import "../App.css"; // Make sure path is correct
 import backgroundImage from "../assets/icons/background2.2.png";
+import { API_ENDPOINTS } from "../constants";
 
 const VehicleDetails = () => {
   const [registration, setRegistration] = useState("");
@@ -43,27 +44,38 @@ const VehicleDetails = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "https://58.65.189.226:447/system/road_challan_fun/get_challan_app_veh_status",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Basic ${btoa("CardTest:Adnan!123")}`,
-          },
-          body: JSON.stringify({ VEH_REG_NO: registration.toUpperCase() }),
-        }
-      );
+      // Get token from localStorage
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        throw new Error("Authentication token not found. Please login again.");
+      }
+
+      // Format date to DD/MM/YYYY
+      const formattedDate = date ? new Date(date).toLocaleDateString('en-GB') : "";
+
+      const response = await fetch(API_ENDPOINTS.GET_VEHICLE_DETAILS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          REG_NO: registration.toUpperCase(),
+          REG_DATE: formattedDate,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
 
       const result = await response.json();
-      setResponseData({ ...result, enteredDate: date });
+      const vehicle = Array.isArray(result) ? result[0] : result;
+      setResponseData({ ...vehicle, enteredDate: date });
     } catch (error) {
       console.error("Error fetching data:", error);
-      setError("Unable to fetch data. Please try again.");
+      setError(error.message || "Unable to fetch data. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -213,31 +225,7 @@ const VehicleDetails = () => {
                         OWNER NAME:
                       </td>
                       <td className="border px-2 py-1">
-                        {responseData.OWN_NAME}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">F/H NAME:</td>
-                      <td className="border px-2 py-1">
-                        {responseData.OWN_F_H_NAME}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">CNIC:</td>
-                      <td className="border px-2 py-1">{responseData.CNIC}</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">
-                        CONTACT NO:
-                      </td>
-                      <td className="border px-2 py-1">
-                        {responseData.CONTACT_NO}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">CATEGORY:</td>
-                      <td className="border px-2 py-1">
-                        {responseData.CAT_NAME}
+                        {responseData.OWNER_NAME}
                       </td>
                     </tr>
                     <tr>
@@ -249,15 +237,15 @@ const VehicleDetails = () => {
                     <tr>
                       <td className="border px-2 py-1 font-bold">MAKER:</td>
                       <td className="border px-2 py-1">
-                        {responseData.MAK_NAME}
+                        {responseData["MAKER/ MAKE"]}
                       </td>
                     </tr>
                     <tr>
                       <td className="border px-2 py-1 font-bold">
-                        TAX STATUS:
+                        TAX PAID UPTO:
                       </td>
                       <td className="border px-2 py-1">
-                        {responseData["VEH_TAX_PAID_UPTO/lIFE_TIME"]}
+                        {responseData.VEH_TAX_PAID_UPTO || responseData.LIFETIME_TAX || "N/A"}
                       </td>
                     </tr>
                     <tr>
@@ -265,7 +253,7 @@ const VehicleDetails = () => {
                         VEHICLE STATUS:
                       </td>
                       <td className="border px-2 py-1">
-                        {responseData.VHS_NAME}
+                        {responseData.STATUS}
                       </td>
                     </tr>
                     <tr>
@@ -277,14 +265,8 @@ const VehicleDetails = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border px-2 py-1 font-bold">DEFAULTER:</td>
-                      <td className="border px-2 py-1">
-                        {responseData.DEFAULTER}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">PRICE:</td>
-                      <td className="border px-2 py-1">{responseData.PRICE}</td>
+                      <td className="border px-2 py-1 font-bold">HPA:</td>
+                      <td className="border px-2 py-1">{responseData.HPA}</td>
                     </tr>
                   </tbody>
                 </table>

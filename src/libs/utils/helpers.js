@@ -3,15 +3,22 @@ import { getCookie, removeCookie, setCookie } from 'tiny-cookie'
 import { getDomain } from './custom-function'
 
 export const getAccessToken = () => {
+  // First check authToken from localStorage (used by current auth flow)
+  const authToken = localStorage.getItem('authToken')
+  if (authToken) {
+    return authToken
+  }
+
+  // Fallback to cookie-based tokens (legacy)
   const accessToken =
     process.env.NODE_ENV === 'development'
       ? getCookie('__Secure-access_token')
       : getCookie('__Secure-access_token') ||
         getCookie('__Secure-id_token') ||
         localStorage.getItem('access_token')
-  console.log('accessToken', { accessToken, env: process.env.NODE_ENV })
-  // return accessToken
-  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWVyY2hhbnQiLCJleHAiOjE3NjMzNzE0NDIsImp0aSI6IjEiLCJpYXQiOjE3NjIxNjE4NDIsImlzcyI6ImJsb29taW5ndiIsInN1YiI6IjFkZjBlYzAwLWI2YzYtNGFiNS05OGJkLTczMWIxMTJhYzE3MyJ9.mK8zciAV3Y_hkzxllxMXuw_yF1EBJ9MRlISwQm_r4Dg'
+
+  console.log('accessToken', { accessToken, authToken, env: process.env.NODE_ENV })
+  return accessToken
 }
 
 export const getRefreshToken = () => {
