@@ -18,13 +18,13 @@ import {
 } from "antd";
 import { useState } from "react";
 
-import { LabelDatePicker } from "../../../components/common/label-date-picker";
+import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
 import UppercaseInput, {
   EngineSizeInput,
 } from "../../../components/CapitalizedInput.jsx";
 import { DistrictDropdowns } from "../../../components/CapitalizedInput.jsx";
 
-const VehicleTransferOwnership = () => {
+const VehicleInspection = () => {
   const [showData, setShowData] = useState(false);
   const [showPurchaserForm, setShowPurchaserForm] = useState(false);
   const [regNo, setRegNo] = useState("");
@@ -38,7 +38,7 @@ const VehicleTransferOwnership = () => {
   const [contactNumber, setContactNumber] = useState("");
   const [otherContactNumber, setOtherContactNumber] = useState("");
   const [tempAddress, setTempAddress] = useState("");
-  const [permAddress, setPermAddress] = useState(""); // Permanent Address
+  const [permAddress, setPermAddress] = useState(""); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -130,7 +130,7 @@ const VehicleTransferOwnership = () => {
         <form
           onSubmit={handleSubmit}
           // className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2"
-         >
+        >
           <Row
             gutter={[16, 16]}
             className="items-end w-full"
@@ -357,7 +357,7 @@ const VehicleTransferOwnership = () => {
                 />
               </Col>
 
-              <Col xs={24} sm={12}>
+              <Col xs={24} sm={8}>
                 <span className="Textfield-Label">Contact Number</span>
                 <UppercaseInput
                   value={contactNumber}
@@ -367,7 +367,7 @@ const VehicleTransferOwnership = () => {
                 />
               </Col>
 
-              <Col xs={24} sm={12}>
+              <Col xs={24} sm={8}>
                 <span className="Textfield-Label">Other Contact Number</span>
                 <UppercaseInput
                   value={otherContactNumber}
@@ -520,4 +520,4 @@ const VehicleTransferOwnership = () => {
   );
 };
 
-export default VehicleTransferOwnership;
+export default VehicleInspection;

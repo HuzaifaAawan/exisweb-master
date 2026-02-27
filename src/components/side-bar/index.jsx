@@ -55,11 +55,18 @@ const Sidebar = () => {
       iconActive: newVehicleRegIconActive,
     },
     {
+      key: "/vehicle-inspection",
+      label: "Vehicle Inspection",
+      icon: vehTransferOwnership,
+      iconActive: vehTransferOwnershipActive,
+    },
+    {
       key: "/transfer-ownership",
       label: "Vehicle Transfer of Ownership",
       icon: vehTransferOwnership,
       iconActive: vehTransferOwnershipActive,
     },
+
     {
       key: "/vehicle-detail",
       label: "Check Vehicle Detail",

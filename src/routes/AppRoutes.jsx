@@ -5,7 +5,9 @@ import VehicleDetails from "../pages/VehicleDetails";
 import RegistrationNoTable from "../pages/my-reg-no-table";
 import StyledRegistrationForm from "../pages/center-containers/reserve-number/RegistrationNo";
 import NewVehicleRegistration from "../pages/center-containers/new-reg";
-import VehicleTransferOwnership from "../pages/center-containers/transfer-ownership";
+import VehicleInspection from "../pages/center-containers/Vehicle-Inspection";
+import VehicleTransferOwnership from "../pages/center-containers/vehicle-transfer-ownership";
+
 import CheckSmartCardStatus from "../pages/center-containers/smart-card-status";
 import VehicleChallanVerification from "../pages/center-containers/challan-verification";
 import ReserveRegNumber from "../pages/center-containers/reserve-number";
@@ -34,10 +36,13 @@ const AppRoutes = () => {
         <Route index element={<VehicleDetails />} />
         <Route path="/registration" element={<StyledRegistrationForm />} />
         <Route path="/new-reg" element={<NewVehicleRegistration />} />
+        <Route path="/vehicle-inspection" element={<VehicleInspection />} />
+
         <Route
           path="/transfer-ownership"
           element={<VehicleTransferOwnership />}
         />
+
         <Route path="/reg-table" element={<RegistrationNoTable />} />
         <Route path="/vehicle-detail" element={<VehicleDetails />} />
         <Route path="/smart-card-status" element={<CheckSmartCardStatus />} />
