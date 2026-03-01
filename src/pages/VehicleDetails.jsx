@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import "../App.css"; // Make sure path is correct
 import backgroundImage from "../assets/icons/background2.2.png";
 import { API_ENDPOINTS } from "../constants";
+import { useAuthFetch } from "../libs/hooks/useAuthFetch";
 
 const VehicleDetails = () => {
+  const authFetch = useAuthFetch();
   const [registration, setRegistration] = useState("");
   const [date, setDate] = useState("");
   const [captchaValue, setCaptchaValue] = useState(null);
@@ -44,27 +46,18 @@ const VehicleDetails = () => {
     setLoading(true);
 
     try {
-      // Get token from localStorage
-      const token = localStorage.getItem("authToken");
-
-      if (!token) {
-        throw new Error("Authentication token not found. Please login again.");
-      }
-
       // Format date to DD/MM/YYYY
       const formattedDate = date ? new Date(date).toLocaleDateString('en-GB') : "";
 
-      const response = await fetch(API_ENDPOINTS.GET_VEHICLE_DETAILS, {
+      const response = await authFetch(API_ENDPOINTS.GET_VEHICLE_DETAILS, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           REG_NO: registration.toUpperCase(),
           REG_DATE: formattedDate,
         }),
       });
+
+      if (!response) return; // 401 handled by authFetch (cleared token + redirected)
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
