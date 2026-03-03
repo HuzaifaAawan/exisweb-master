@@ -246,7 +246,7 @@
 
 .preview-card {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   background: #ffffff;
   border-radius: 16px;
   padding: 32px;
@@ -412,13 +412,14 @@
   height: 52px;
   border-radius: 8px;
   border: none;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: 0.2s ease;
 }
 
 .back-button {
   background-color: #e3e3e3;
+  color: #04544f;
 }
 
 .back-button:hover {

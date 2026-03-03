@@ -41,6 +41,7 @@ const VehicleTransferOwnership = () => {
   const [contactNumber, setContactNumber] = useState("");
   const [otherContactNumber, setOtherContactNumber] = useState("");
   const [tempAddress, setTempAddress] = useState("");
+  const [biometricNo, setBiometricNo] = useState("");
   const [currentOwnerName, setCurrentOwnerName] = useState("Salman Ahmed");
   const [permAddress, setPermAddress] = useState("");
   const [ownerName, setOwnerName] = useState("Salman Ahmed");
@@ -166,8 +167,8 @@ const VehicleTransferOwnership = () => {
               </label>
               <Input
                 placeholder="Enter here..."
-                value={regNo}
-                onChange={(e) => setRegNo(e.target.value.toUpperCase())}
+                value={biometricNo}
+                onChange={(e) => setBiometricNo(e.target.value.toUpperCase())}
                 className="w-full"
               />
             </Col>
@@ -582,7 +583,7 @@ const VehicleTransferOwnership = () => {
             id="challan"
             style={{
               width: "100%",
-              maxWidth: "700px",
+              maxWidth: "1200px",
               border: "1px solid #e3e3e3",
               borderRadius: "12px",
               padding: "24px",
