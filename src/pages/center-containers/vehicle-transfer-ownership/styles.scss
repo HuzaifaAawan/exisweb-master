@@ -231,9 +231,6 @@
   background-color: #03403c;
 }
 /* ===============================
-   PREVIEW CARD
-================================= */
-/* ===============================
    PREVIEW WRAPPER
 ================================= */
 
@@ -246,7 +243,7 @@
 
 .preview-card {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1200px auto;
   background: #ffffff;
   border-radius: 16px;
   padding: 32px;
@@ -384,19 +381,37 @@
    RIGHT SIDE POSITIONING
 ================================= */
 
-.engine-field {
-  top: 95px;
-  right: 180px;
+.back-field {
+  position: absolute;
+  right: 280px;   // adjust according to card image
+  display: grid;
+  grid-template-columns: 170px auto;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.chassis-field {
-  top: 120px;
-  right: 180px;
+.chassis-back   { top: 10px;
+  left: 150px;
+  margin-left: 340px;}
+.engine-back    { top: 30px; left: 150px; margin-left: 340px;}
+.hpa-back       { top: 50px; left: 150px; margin-left: 340px;}
+.cylinder-back  { top: 70px;left: 150px; margin-left: 340px;}
+.body-back      { top: 90px;left: 150px; margin-left: 340px;}
+.prev-reg-back  { top: 110px;left: 150px; margin-left: 340px;}
+.maker-back     { top: 130px;left: 150px; margin-left: 340px;}
+.class-back     { top: 150px;left: 150px; margin-left: 340px;}
+.unladen-back   { top: 170px;left: 150px; margin-left: 340px;}
+.laden-back     { top: 190px;left: 150px; margin-left: 340px;}
+.tyre-heading   { top: 210px;left: 150px; margin-left: 340px;
+  
 }
 
-/* ===============================
-   BUTTONS
-================================= */
+/* Sub items (Indented) */
+.tyre-front  { top: 230px;left: 150px; margin-left: 360px;}
+.tyre-rear   { top: 250px;left: 150px; margin-left: 360px; }
+.tyre-other  { top: 270px;left: 150px; margin-left: 360px;}
+
+
 /* ===============================
    BUTTONS
 ================================= */
@@ -458,5 +473,118 @@
     color: #000;
     word-break: break-word;
     margin-left: -60px;
+  }
+}
+
+.card-preview,
+.challan-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.nbp-challan-wrapper {
+  width: 100% !important;
+  display: flex;
+
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.nbp-challan {
+  width: 100%;
+  max-width: 1200px auto;
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+  font-family: Arial, sans-serif;
+}
+
+.challan-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.challan-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+
+  .left,
+  .right {
+    flex: 1;
+
+    p {
+      margin: 4px 0;
+      font-size: 14px;
+    }
+  }
+}
+
+.challan-note {
+  margin-top: 20px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.challan-table {
+  width: 100%;
+  margin-top: 25px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  th {
+    background: #f2f2f2;
+  }
+
+  .total-row {
+    font-weight: 700;
+  }
+}
+
+.amount-words {
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+.challan-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  font-size: 13px;
+
+  .branch-info {
+    text-align: right;
+  }
+}
+
+.challan-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 30px;
+
+  button {
+    flex: 1;
+    padding: 12px 0;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-back {
+    background: #e3e3e3;
+  }
+
+  .btn-download {
+    background: #04544f;
+    color: #fff;
   }
 }

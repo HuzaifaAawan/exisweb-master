@@ -462,6 +462,11 @@ const VehicleTransferOwnership = () => {
           </div>
         </div>
       )}
+
+
+
+
+      
       {showPreview && (
         <div className="preview-card-wrapper">
           <div className="preview-card">
@@ -533,14 +538,76 @@ const VehicleTransferOwnership = () => {
 
                 {/* RIGHT SIDE FIELDS */}
 
-                <div className="field engine-field">
-                  <span className="card-label">Engine No:</span>
+                <div className="field back-field chassis-back">
+                  <span className="card-label">Chassis Number:</span>
+                  <span className="card-value">MF52G-331556</span>
+                </div>
+
+                <div className="field back-field engine-back">
+                  <span className="card-label">Engine Number:</span>
                   <span className="card-value">K2K-8760982</span>
                 </div>
 
-                <div className="field chassis-field">
-                  <span className="card-label">Chassis No:</span>
-                  <span className="card-value">MF52G-331556</span>
+                <div className="field back-field hpa-back">
+                  <span className="card-label">HPA:</span>
+                  <span className="card-value">1599 CC</span>
+                </div>
+
+                <div className="field back-field cylinder-back">
+                  <span className="card-label">Number of Cylenders:</span>
+                  <span className="card-value">4</span>
+                </div>
+
+                <div className="field back-field body-back">
+                  <span className="card-label">Type of Body/Color:</span>
+                  <span className="card-value">Silver</span>
+                </div>
+
+                <div className="field back-field prev-reg-back">
+                  <span className="card-label">Previous Registration:</span>
+                  <span className="card-value">-</span>
+                </div>
+
+                <div className="field back-field maker-back">
+                  <span className="card-label">Maker's / Make Name:</span>
+                  <span className="card-value">Honda Civic</span>
+                </div>
+
+                <div className="field back-field class-back">
+                  <span className="card-label">Class of Vehicle:</span>
+                  <span className="card-value">LTV</span>
+                </div>
+
+                <div className="field back-field unladen-back">
+                  <span className="card-label">Unladen Weight:</span>
+                  <span className="card-value">-</span>
+                </div>
+
+                <div className="field back-field laden-back">
+                  <span className="card-label">Registerd Laden Weight:</span>
+                  <span className="card-value">-</span>
+                </div>
+
+                <div className="field back-field tyre-heading">
+                  <span className="card-label" style={{ fontWeight: "800" }}>
+                    Tyre Size:
+                  </span>
+                  <span className="card-value"></span>
+                </div>
+
+                <div className="field back-field tyre-front">
+                  <span className="card-label">Front Axle:</span>
+                  <span className="card-value">-</span>
+                </div>
+
+                <div className="field back-field tyre-rear">
+                  <span className="card-label">Rear Axle:</span>
+                  <span className="card-value">-</span>
+                </div>
+
+                <div className="field back-field tyre-other">
+                  <span className="card-label">Other Axle:</span>
+                  <span className="card-value">-</span>
                 </div>
               </div>
             </div>
@@ -566,151 +633,181 @@ const VehicleTransferOwnership = () => {
         </div>
       )}
 
-      {/* =========================================
-               CHALLAN SECTION
-========================================= */}
+      {/* =======================================
+           CHALLAN SECTION (FIXED)
+         ======================================== */}
       {showChallan && (
-        <div
-          className="challan-wrapper"
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "32px",
-          }}
-        >
-          <div
-            id="challan"
-            style={{
-              width: "100%",
-              maxWidth: "1200px",
-              border: "1px solid #e3e3e3",
-              borderRadius: "12px",
-              padding: "24px",
-              backgroundColor: "#fff",
-              fontFamily: "Arial, sans-serif",
-              fontSize: "14px",
-              lineHeight: "1.5",
-            }}
-          >
-            <h2 style={{ textAlign: "center", marginBottom: "16px" }}>
-              VEHICLE TRANSFER OF OWNERSHIP
-            </h2>
-
-            {/* Header Info */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "16px",
-              }}
-            >
-              <div>
-                <strong>Registration No:</strong> {regNo || "N/A"} <br />
-                <strong>Chassis No:</strong> MF52G-331556 <br />
-                <strong>Engine No:</strong> K2K-8760982
+        <div className="nbp-challan-wrapper">
+          <div id="challan" className="nbp-challan">
+            <div className="challan-inner">
+              <div className="challan-header">
+                <h2>NATIONAL BANK OF PAKISTAN</h2>
+                <h3>Dues Payment Receipt</h3>
               </div>
-              <div>
-                <strong>Date of Transfer:</strong>{" "}
-                {transferDate
-                  ? dayjs(transferDate).format("DD-MM-YYYY")
-                  : "N/A"}{" "}
-                <br />
-                <strong>Reg Date:</strong>{" "}
-                {regDate ? dayjs(regDate).format("DD-MM-YYYY") : "N/A"} <br />
+
+              <div className="challan-info">
+                <div className="left">
+                  <p>
+                    <strong>Registration No:</strong> {regNo || "WD-55"}
+                  </p>
+                  <p>
+                    <strong>Application Type:</strong> TRANSFER OF OWNERSHIP
+                  </p>
+                  <p>
+                    <strong>Chassis No.:</strong> MF52G-331556
+                  </p>
+                  <p>
+                    <strong>Category:</strong> 2
+                  </p>
+                  <p>
+                    <strong>Purchase / Import Date:</strong> 22-08-2013
+                  </p>
+                  <p>
+                    <strong>Owner Name:</strong> {ownerName}
+                  </p>
+                  <p>
+                    <strong>Father / Husband Name:</strong> {ownerFatherName}
+                  </p>
+                  <p>
+                    <strong>HPA With:</strong> -
+                  </p>
+                  <p>
+                    <strong>Payment From:</strong> 01-07-2025
+                  </p>
+                  <p>
+                    <strong>Vehicle Price:</strong> 5774000
+                  </p>
+                </div>
+
+                <div className="right">
+                  <p>
+                    <strong>Challan No:</strong> 7407723
+                  </p>
+                  <p>
+                    <strong>Application ID:</strong> 8271843
+                  </p>
+                  <p>
+                    <strong>Engine No.:</strong> K2K-8760982
+                  </p>
+                  <p>
+                    <strong>Purchase Type:</strong> LOCAL
+                  </p>
+                  <p>
+                    <strong>Maker / Brand:</strong> Honda Civic
+                  </p>
+                  <p>
+                    <strong>Class:</strong> LTV
+                  </p>
+                  <p>
+                    <strong>Payment Upto:</strong> 30-06-2026
+                  </p>
+                  <p>
+                    <strong>Filer / NonFiler:</strong> Non-Filer
+                  </p>
+                  <p>
+                    <strong>Engine Capacity:</strong> 2700 CC
+                  </p>
+                  <p>
+                    <strong>Seating Capacity:</strong> 6
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* Owner Info */}
-            <div style={{ marginBottom: "16px" }}>
-              <strong>Current Owner:</strong> {ownerName} <br />
-              <strong>F/O/W Name:</strong> {ownerFatherName} <br />
-              <strong>CNIC No:</strong> {ownerCnic} <br />
-              <strong>Present Address:</strong> {ownerAddress}
-            </div>
+              <div className="challan-note">
+                Kindly make payment of following dues at bank booth situated in
+                this office or online system for electronic payment. Please
+                check the vehicle particulars and amount carefully.
+              </div>
 
-            {/* Purchaser Info */}
-            <div style={{ marginBottom: "16px" }}>
-              <strong>Purchaser Name:</strong> {purchaserName || "N/A"} <br />
-              <strong>F/O/W Name:</strong> {fatherName || "N/A"} <br />
-              <strong>CNIC No:</strong> {cnic || "N/A"} <br />
-              <strong>Contact Number:</strong> {contactNumber || "N/A"} <br />
-              <strong>Other Contact:</strong> {otherContactNumber || "N/A"}{" "}
-              <br />
-              <strong>Email:</strong> {email || "N/A"} <br />
-              <strong>Temporary Address:</strong> {tempAddress || "N/A"} <br />
-              <strong>Permanent Address:</strong> {permAddress || "N/A"}
-            </div>
+              <table className="challan-table">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Account Head</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>TRANSFER FEE</td>
+                    <td>11,000</td>
+                    <td>B02801</td>
+                  </tr>
+                  <tr>
+                    <td>BIOMETRIC LATE PENALTY</td>
+                    <td>6,000</td>
+                    <td>B02801</td>
+                  </tr>
+                  <tr className="total-row">
+                    <td>Total</td>
+                    <td>17,000</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
 
-            <hr style={{ border: "1px dashed #ccc", margin: "16px 0" }} />
+              <div className="amount-words">Seventeen thousand</div>
 
-            <p style={{ fontSize: "12px" }}>
-              Kindly make payment of all applicable dues at your bank or online
-              system. Once the payment is done, the transaction will be recorded
-              in the system.
-            </p>
+              <div className="challan-footer">
+                <div>
+                  Printed by: SHAHID KHAN NAWAB <br />
+                  Print on: {dayjs().format("DD/MM/YYYY")}
+                </div>
 
-            {/* Buttons */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginTop: "24px",
-                gap: "16px",
-              }}
-            >
-              <button
-                style={{
-                  flex: 1,
-                  padding: "12px 0",
-                  backgroundColor: "#e3e3e3",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                }}
-                onClick={() => {
-                  setShowChallan(false);
-                  setShowData(false);
-                  setShowPurchaserForm(false);
-                  setShowPreview(false);
-                  // Reset form if needed
-                }}
-              >
-                Back to Homepage
-              </button>
+                <div className="branch-info">
+                  National Bank of Pakistan <br />
+                  E.T.D Office H9 Branch <br />
+                  Islamabad <br />
+                  Challan No: 7407723
+                </div>
+              </div>
 
-              <button
-                style={{
-                  flex: 1,
-                  padding: "12px 0",
-                  backgroundColor: "#04544f",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                }}
-                onClick={() => {
-                  const challanElement = document.getElementById("challan");
-                  import("html2canvas").then((html2canvas) => {
-                    html2canvas.default(challanElement).then((canvas) => {
-                      import("jspdf").then((jsPDF) => {
-                        const pdf = new jsPDF.jsPDF("p", "mm", "a4");
-                        const imgData = canvas.toDataURL("image/png");
-                        const imgProps = pdf.getImageProperties(imgData);
-                        const pdfWidth = pdf.internal.pageSize.getWidth();
-                        const pdfHeight =
-                          (imgProps.height * pdfWidth) / imgProps.width;
-                        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-                        pdf.save("vehicle-challan.pdf");
+              {/* BUTTONS */}
+              <div className="challan-buttons">
+                <button
+                  className="btn-back"
+                  onClick={() => {
+                    setShowChallan(false);
+                    setShowPreview(false);
+                    setShowPurchaserForm(false);
+                    setShowData(false);
+                  }}
+                >
+                  Back to Homepage
+                </button>
+
+                <button
+                  className="btn-download"
+                  onClick={() => {
+                    const challanElement = document.getElementById("challan");
+
+                    import("html2canvas").then((html2canvas) => {
+                      html2canvas.default(challanElement).then((canvas) => {
+                        import("jspdf").then((jsPDF) => {
+                          const pdf = new jsPDF.jsPDF("p", "mm", "a4");
+                          const imgData = canvas.toDataURL("image/png");
+                          const imgProps = pdf.getImageProperties(imgData);
+                          const pdfWidth = pdf.internal.pageSize.getWidth();
+                          const pdfHeight =
+                            (imgProps.height * pdfWidth) / imgProps.width;
+
+                          pdf.addImage(
+                            imgData,
+                            "PNG",
+                            0,
+                            0,
+                            pdfWidth,
+                            pdfHeight,
+                          );
+                          pdf.save("vehicle-challan.pdf");
+                        });
                       });
                     });
-                  });
-                }}
-              >
-                Download Challan
-              </button>
+                  }}
+                >
+                  Download Challan
+                </button>
+              </div>
             </div>
           </div>
         </div>

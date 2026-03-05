@@ -6,6 +6,7 @@ import backgroundImage from "../assets/icons/background2.2.png";
 import { API_ENDPOINTS } from "../constants";
 import { useAuthFetch } from "../libs/hooks/useAuthFetch";
 
+
 const VehicleDetails = () => {
   const authFetch = useAuthFetch();
   const [registration, setRegistration] = useState("");
