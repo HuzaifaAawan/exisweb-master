@@ -206,7 +206,7 @@ const VehicleTransferOwnership = () => {
                 <label className="Textfield-Label">Registration No.</label>
                 <div className="w-full">
                   <UppercaseInput
-                    placeholder="Enter here..."
+                    placeholder="e.g., ALB-572"
                     value={regNo}
                     onChange={(val) => setRegNo(val)}
                     className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg 
@@ -234,7 +234,7 @@ const VehicleTransferOwnership = () => {
                 Biometric Verification Tracking Number
               </label>
               <Input
-                placeholder="Enter here..."
+                placeholder="e.g., 1234567890"
                 value={biometricNo}
                 onChange={(e) => setBiometricNo(e.target.value.toUpperCase())}
                 className="w-full"
