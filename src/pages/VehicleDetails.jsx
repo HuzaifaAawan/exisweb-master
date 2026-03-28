@@ -14,7 +14,9 @@ const VehicleDetails = () => {
   const [captchaValue, setCaptchaValue] = useState(null);
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
+  const [registrationError, setRegistrationError] = useState("");
   const [loading, setLoading] = useState(false);
+  const REG_PATTERN = /^[A-Z]{2,3}-\d+$/;
   const [isRedirected, setIsRedirected] = useState(false);
   const navigate = useNavigate();
 
@@ -38,6 +40,11 @@ const VehicleDetails = () => {
     e.preventDefault();
     setError(null);
     setResponseData(null);
+
+    if (!REG_PATTERN.test(registration)) {
+      setRegistrationError("Format must be 2-3 letters, a hyphen, then numbers (e.g., ALB-572).");
+      return;
+    }
 
     if (!captchaValue) {
       setError("Please verify that you're not a robot.");
@@ -104,11 +111,22 @@ const VehicleDetails = () => {
               type="text"
               id="registration"
               placeholder="e.g., ALB-572"
-              className="border rounded p-2 w-full"
+              className={`border rounded p-2 w-full ${registrationError ? "border-red-500" : ""}`}
               required
               value={registration}
-              onChange={(e) => setRegistration(e.target.value.toUpperCase())}
+              onChange={(e) => {
+                const val = e.target.value.toUpperCase();
+                setRegistration(val);
+                if (val && !REG_PATTERN.test(val)) {
+                  setRegistrationError("Format: 2-3 letters, hyphen, numbers (e.g., ALB-572).");
+                } else {
+                  setRegistrationError("");
+                }
+              }}
             />
+            {registrationError && (
+              <p className="text-red-500 text-sm mt-1">{registrationError}</p>
+            )}
           </div>
 
           <div className="col-span-6">
@@ -154,6 +172,7 @@ const VehicleDetails = () => {
                   setDate("");
                   setResponseData(null);
                   setError(null);
+                  setRegistrationError("");
                   setCaptchaValue(null);
                 }}
               >
@@ -161,115 +180,77 @@ const VehicleDetails = () => {
               </button>
             </div>
           </div>
-
-          <div className="col-span-6 mt-4">
-            {responseData && (
-              <div className="mt-10 w-full px-4">
-                <h2 className="text-lg font-semibold mb-4">
-                  Vehicle Information
-                </h2>
-                <table className="table-auto border-collapse border w-full">
-                  <tbody>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">REG NO:</td>
-                      <td className="border px-2 py-1">
-                        {responseData.VEH_REG_NO}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">REG DATE:</td>
-                      <td className="border px-2 py-1">
-                        {responseData.VEH_REG_DATE}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">ENGINE NO:</td>
-                      <td className="border px-2 py-1">
-                        {responseData.VEH_ENGINE_NO}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">CHASIS NO:</td>
-                      <td className="border px-2 py-1">
-                        {responseData.VEH_CHASIS_NO}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">
-                        ENGINE SIZE:
-                      </td>
-                      <td className="border px-2 py-1">
-                        {responseData.VEH_ENGINE_SIZE}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">
-                        YEAR OF MANF:
-                      </td>
-                      <td className="border px-2 py-1">
-                        {responseData.VEH_YEAR_OF_MANF}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">COLOR:</td>
-                      <td className="border px-2 py-1">{responseData.COLOR}</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">
-                        OWNER NAME:
-                      </td>
-                      <td className="border px-2 py-1">
-                        {responseData.OWNER_NAME}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">BODY TYPE:</td>
-                      <td className="border px-2 py-1">
-                        {responseData.BODYTYPE}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">MAKER:</td>
-                      <td className="border px-2 py-1">
-                        {responseData["MAKER/ MAKE"]}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">
-                        TAX PAID UPTO:
-                      </td>
-                      <td className="border px-2 py-1">
-                        {responseData.VEH_TAX_PAID_UPTO || responseData.LIFETIME_TAX || "N/A"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">
-                        VEHICLE STATUS:
-                      </td>
-                      <td className="border px-2 py-1">
-                        {responseData.STATUS}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">
-                        VEHICLE TYPE:
-                      </td>
-                      <td className="border px-2 py-1">
-                        {responseData.VPT_TYPE}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 font-bold">HPA:</td>
-                      <td className="border px-2 py-1">{responseData.HPA}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
         </form>
 
         {error && <div className="text-red-500 mt-5">{error}</div>}
+
+        {responseData && (
+          <div className="px-5 py-5 mx-auto reg-form-content mt-5">
+            <h2 className="text-xl font-bold text-center mb-5 reg-form-title">Vehicle Information</h2>
+            <table className="table-auto border-collapse border w-full">
+              <tbody>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">REG NO:</td>
+                  <td className="border px-2 py-1">{responseData.VEH_REG_NO}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">REG DATE:</td>
+                  <td className="border px-2 py-1">{responseData.VEH_REG_DATE}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">ENGINE NO:</td>
+                  <td className="border px-2 py-1">{responseData.VEH_ENGINE_NO}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">CHASIS NO:</td>
+                  <td className="border px-2 py-1">{responseData.VEH_CHASIS_NO}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">ENGINE SIZE:</td>
+                  <td className="border px-2 py-1">{responseData.VEH_ENGINE_SIZE}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">YEAR OF MANF:</td>
+                  <td className="border px-2 py-1">{responseData.VEH_YEAR_OF_MANF}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">COLOR:</td>
+                  <td className="border px-2 py-1">{responseData.COLOR}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">OWNER NAME:</td>
+                  <td className="border px-2 py-1">{responseData.OWNER_NAME}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">BODY TYPE:</td>
+                  <td className="border px-2 py-1">{responseData.BODYTYPE}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">MAKER:</td>
+                  <td className="border px-2 py-1">{responseData["MAKER/ MAKE"]}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">TAX PAID UPTO:</td>
+                  <td className="border px-2 py-1">
+                    {responseData.VEH_TAX_PAID_UPTO || responseData.LIFETIME_TAX || "N/A"}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">VEHICLE STATUS:</td>
+                  <td className="border px-2 py-1">{responseData.STATUS}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">VEHICLE TYPE:</td>
+                  <td className="border px-2 py-1">{responseData.VPT_TYPE}</td>
+                </tr>
+                <tr>
+                  <td className="border px-2 py-1 font-bold">HPA:</td>
+                  <td className="border px-2 py-1">{responseData.HPA}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </header>
     </div>
   );
