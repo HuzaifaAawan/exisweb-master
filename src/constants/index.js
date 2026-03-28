@@ -9,4 +9,5 @@ export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "https://58.65
 // API Endpoints
 export const API_ENDPOINTS = {
   GET_VEHICLE_DETAILS: `${API_BASE_URL}/portal/function/get_veh_det`,
+  GET_BIO_DET: `${API_BASE_URL}/portal/function/get_bio_det`,
 };
