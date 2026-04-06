@@ -242,11 +242,11 @@
 }
 
 .preview-card {
-  width: 100%;
-  max-width: 1200px auto;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
+  width: 100%; 
+  max-width: 1200px auto; 
+  background: #ffffff; 
+  border-radius: 16px; 
+  padding: 32px; 
   border: 1px solid #e3e3e3;
 }
 
@@ -268,8 +268,8 @@
 .smart-card {
   position: relative;
   width: 100%;
-  max-width: 950px;
-  margin: 30px auto;
+  max-width: 100%;
+  margin: 30px 0; 
   aspect-ratio: 950 / 340; /* Adjust according to your image ratio */
 }
 
@@ -303,25 +303,25 @@
 ================================= */
 
 .purchaser-name {
-  top: 70px;
+  top: 80px;
   left: 150px;
   margin-left: -40px;
 }
 
 .father-name {
-  top: 90px;
+  top: 100px;
   left: 150px;
   margin-left: -40px;
 }
 
 .cnic-field {
-  top: 110px;
+  top: 120px;
   left: 150px;
   margin-left: -40px;
 }
 
 .registration-date {
-  top: 130px;
+  top: 140px;
   left: 150px;
   width: 420px;
   margin-left: -40px;
@@ -331,7 +331,7 @@
 }
 
 .transferred-to {
-  top: 150px;  
+  top: 160px;  
   left: 150px;
   width: 420px;
   margin-left: -40px;
@@ -341,7 +341,7 @@
 }
 
 .transfer-date {
-  top: 180px;       // Adjust as needed
+  top: 190px;       // Adjust as needed
   left: 150px;
   margin-left: -40px;
   display: flex;
@@ -350,7 +350,7 @@
 }
 
 .transfer-father {
-  top: 200px;      
+  top: 210px;      
   left: 150px;
   margin-left: -40px;
   display: flex;
@@ -359,7 +359,7 @@
 }
 
 .transfer-cnic {
-  top: 220px;      
+  top: 230px;      
   left: 150px;
   margin-left: -40px;
   display: flex;
@@ -368,7 +368,7 @@
 }
 
 .transfer-address {
-  top: 240px;       
+  top: 250px;       
   left: 150px;
   width: 420px;     // address wrap
   margin-left: -40px;
@@ -391,25 +391,25 @@
 }
 
 .chassis-back   { top: 10px;
-  left: 150px;
+  left: 250px;
   margin-left: 340px;}
-.engine-back    { top: 30px; left: 150px; margin-left: 340px;}
-.hpa-back       { top: 50px; left: 150px; margin-left: 340px;}
-.cylinder-back  { top: 70px;left: 150px; margin-left: 340px;}
-.body-back      { top: 90px;left: 150px; margin-left: 340px;}
-.prev-reg-back  { top: 110px;left: 150px; margin-left: 340px;}
-.maker-back     { top: 130px;left: 150px; margin-left: 340px;}
-.class-back     { top: 150px;left: 150px; margin-left: 340px;}
-.unladen-back   { top: 170px;left: 150px; margin-left: 340px;}
-.laden-back     { top: 190px;left: 150px; margin-left: 340px;}
-.tyre-heading   { top: 210px;left: 150px; margin-left: 340px;
+.engine-back    { top: 30px; left: 250px; margin-left: 340px;}
+.hpa-back       { top: 50px; left: 250px; margin-left: 340px;}
+.cylinder-back  { top: 70px;left: 250px; margin-left: 340px;}
+.body-back      { top: 90px;left: 250px; margin-left: 340px;}
+.prev-reg-back  { top: 110px;left: 250px; margin-left: 340px;}
+.maker-back     { top: 130px;left: 250px; margin-left: 340px;}
+.class-back     { top: 150px;left: 250px; margin-left: 340px;}
+.unladen-back   { top: 170px;left: 250px; margin-left: 340px;}
+.laden-back     { top: 190px;left: 250px; margin-left: 340px;}
+.tyre-heading   { top: 210px;left: 250px; margin-left: 340px;
   
 }
 
 /* Sub items (Indented) */
-.tyre-front  { top: 230px;left: 150px; margin-left: 360px;}
-.tyre-rear   { top: 250px;left: 150px; margin-left: 360px; }
-.tyre-other  { top: 270px;left: 150px; margin-left: 360px;}
+.tyre-front  { top: 230px;left: 250px; margin-left: 360px;}
+.tyre-rear   { top: 250px;left: 250px; margin-left: 360px; }
+.tyre-other  { top: 270px;left: 250px; margin-left: 360px;}
 
 
 /* ===============================
@@ -423,31 +423,47 @@
 
 .back-button,
 .confirm-button {
+  height: 50px;
   flex: 1;
-  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
   border-radius: 8px;
   border: none;
   font-weight: 500;
   cursor: pointer;
-  transition: 0.2s ease;
 }
 
+/* Back Button (Zeplin) */
 .back-button {
-  background-color: #e3e3e3;
+  background-color: #ebf1f1;
   color: #04544f;
 }
 
-.back-button:hover {
-  background-color: #d4d4d4;
-}
-
+/* Confirm Button (Zeplin) */
 .confirm-button {
   background-color: #04544f;
   color: #fff;
 }
 
-.confirm-button:hover {
-  background-color: #03403c;
+.btn-text {
+  height: 20px;
+  font-family: 'Proxima Nova', sans-serif; /* fallback added */
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.43;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.back-text {
+  color: #04544f;
+}
+
+.confirm-text {
+  color: #ffffff;
 }
 
 
@@ -491,12 +507,12 @@
 }
 
 .nbp-challan {
-  width: 100%;
-  max-width: 1200px auto;
-  background: #fff;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+  width: 100%; 
+  max-width: 1200px auto; 
+  background: #fff; 
+  padding: 40px; 
+  border-radius: 12px; 
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08); 
   font-family: Arial, sans-serif;
 }
 
