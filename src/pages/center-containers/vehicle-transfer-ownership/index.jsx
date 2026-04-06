@@ -23,8 +23,11 @@ import UppercaseInput, {
 import { DistrictDropdowns } from "../../../components/CapitalizedInput.jsx";
 
 import dayjs from "dayjs";
+import { useAuthFetch } from "../../../libs/hooks/useAuthFetch";
+import { API_ENDPOINTS } from "../../../constants";
 
 const VehicleTransferOwnership = () => {
+  const authFetch = useAuthFetch();
   const [showData, setShowData] = useState(false);
   const [showPurchaserForm, setShowPurchaserForm] = useState(false);
   const [regNo, setRegNo] = useState("");
@@ -42,13 +45,16 @@ const VehicleTransferOwnership = () => {
   const [otherContactNumber, setOtherContactNumber] = useState("");
   const [tempAddress, setTempAddress] = useState("");
   const [biometricNo, setBiometricNo] = useState("");
-  const [currentOwnerName, setCurrentOwnerName] = useState("Salman Ahmed");
+  const [currentOwnerName, setCurrentOwnerName] = useState("");
   const [permAddress, setPermAddress] = useState("");
-  const [ownerName, setOwnerName] = useState("Salman Ahmed");
-  const [ownerCnic, setOwnerCnic] = useState("1730188367206");
+  const [ownerName, setOwnerName] = useState("");
+  const [ownerCnic, setOwnerCnic] = useState("");
   const [transferDate, setTransferDate] = useState(dayjs());
-  const [ownerFatherName, setOwnerFatherName] = useState("Ahmed Raza");
-  const [ownerAddress, setOwnerAddress] = useState("Islamabad, Pakistan");
+  const [ownerFatherName, setOwnerFatherName] = useState("");
+  const [ownerAddress, setOwnerAddress] = useState("");
+  const [vehicleData, setVehicleData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     purchaserName: "",
     fatherName: "",
@@ -58,10 +64,72 @@ const VehicleTransferOwnership = () => {
 
   const [previewData, setPreviewData] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setShowData(true);
-    setShowPurchaserForm(true);
+    setError(null);
+    setVehicleData(null);
+    setShowData(false);
+    setShowPurchaserForm(false);
+    setLoading(true);
+
+    try {
+      const formattedDate = regDate ? dayjs(regDate).format("DD/MM/YYYY") : "";
+
+      const response = await authFetch(API_ENDPOINTS.GET_BIO_DET, {
+        method: "POST",
+        body: JSON.stringify({
+          TRANSACTION_NO: biometricNo,
+          REG_NO: regNo.toUpperCase(),
+          REG_DATE: formattedDate,
+        }),
+      });
+
+      if (!response) return; // 401 handled by authFetch
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const text = await response.text();
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch {
+        // API returns non-standard format: {ErrorCode=001, ErrorMessage="..."}
+        const inner = text.trim().replace(/^\{|\}$/g, "");
+        result = {};
+        inner.split(",").forEach((pair) => {
+          const eqIdx = pair.indexOf("=");
+          if (eqIdx !== -1) {
+            const key = pair.slice(0, eqIdx).trim();
+            const val = pair.slice(eqIdx + 1).trim().replace(/^"|"$/g, "");
+            result[key] = val;
+          }
+        });
+      }
+
+      if (result.ErrorCode) {
+        throw new Error(result.ErrorMessage || "An error occurred. Please try again.");
+      }
+
+      const vehicle = result.vehicle?.[0] || {};
+      const bio = result.bio?.[0] || {};
+
+      setVehicleData(vehicle);
+      setOwnerName(vehicle.OWNER_NAME || "");
+      setCurrentOwnerName(vehicle.OWNER_NAME || "");
+      setOwnerCnic(bio.CNIC || "");
+      setOwnerFatherName("");
+      setOwnerAddress("");
+      setCnic(bio.PURCHASERID || "");
+      setShowData(true);
+      setShowPurchaserForm(true);
+    } catch (err) {
+      console.error("Error fetching bio details:", err);
+      setError(err.message || "Unable to fetch data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -138,7 +206,7 @@ const VehicleTransferOwnership = () => {
                 <label className="Textfield-Label">Registration No.</label>
                 <div className="w-full">
                   <UppercaseInput
-                    placeholder="Enter here..."
+                    placeholder="e.g., ALB-572"
                     value={regNo}
                     onChange={(val) => setRegNo(val)}
                     className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg 
@@ -166,7 +234,7 @@ const VehicleTransferOwnership = () => {
                 Biometric Verification Tracking Number
               </label>
               <Input
-                placeholder="Enter here..."
+                placeholder="e.g., 1234567890"
                 value={biometricNo}
                 onChange={(e) => setBiometricNo(e.target.value.toUpperCase())}
                 className="w-full"
@@ -174,15 +242,24 @@ const VehicleTransferOwnership = () => {
             </Col>
 
             <Col flex="150px">
-              <button type="submit" className="submit-frame w-full">
-                Submit
+              <button
+                type="submit"
+                className="submit-frame w-full"
+                disabled={loading || !regNo || !regDate || !biometricNo}
+              >
+                {loading ? "Loading..." : "Submit"}
               </button>
             </Col>
           </Row>
         </form>
 
+        {/* Error */}
+        {error && (
+          <div className="text-red-500 text-sm text-center">{error}</div>
+        )}
+
         {/* Info Before Submit */}
-        {!showData && (
+        {!showData && !error && (
           <div className="flex flex-col items-center mt-2 px-4">
             {transferIcon ? (
               <img src={transferIcon} alt="icon" className="w-11 h-11" />
@@ -222,22 +299,22 @@ const VehicleTransferOwnership = () => {
 
               <div className="dummy-data-item">
                 <span className="label">Chasis No.</span>
-                <div className="value">MF52G-331556</div>
+                <div className="value">{vehicleData?.VEH_CHASIS_NO || "N/A"}</div>
               </div>
 
               <div className="dummy-data-item">
                 <span className="label">Engine No.</span>
-                <div className="value">K2K-8760982</div>
+                <div className="value">{vehicleData?.VEH_ENGINE_NO || "N/A"}</div>
               </div>
 
               <div className="dummy-data-item">
                 <span className="label">Current Owner CNIC</span>
-                <div className="value">{ownerCnic}</div>
+                <div className="value">{ownerCnic || "N/A"}</div>
               </div>
 
               <div className="dummy-data-item">
                 <span className="label">Current Owner Name</span>
-                <div className="value">{ownerName}</div>
+                <div className="value">{ownerName || "N/A"}</div>
               </div>
             </div>
           </>
@@ -296,11 +373,10 @@ const VehicleTransferOwnership = () => {
 
               <Col xs={24} sm={8}>
                 <span className="Textfield-Label">CNIC No.</span>
-                <UppercaseInput
-                  isCNIC
+                <Input
                   value={cnic}
-                  onChange={(val) => setCnic(val)}
-                  placeholder="Enter CNIC (e.g. 37406-3833198-7)"
+                  readOnly
+                  placeholder="Auto-filled from biometric"
                   className="uniform-input1"
                 />
               </Col>
@@ -536,42 +612,42 @@ const VehicleTransferOwnership = () => {
 
                 <div className="field back-field chassis-back">
                   <span className="card-label">Chassis Number:</span>
-                  <span className="card-value">MF52G-331556</span>
+                  <span className="card-value">{vehicleData?.VEH_CHASIS_NO || "N/A"}</span>
                 </div>
 
                 <div className="field back-field engine-back">
                   <span className="card-label">Engine Number:</span>
-                  <span className="card-value">K2K-8760982</span>
+                  <span className="card-value">{vehicleData?.VEH_ENGINE_NO || "N/A"}</span>
                 </div>
 
                 <div className="field back-field hpa-back">
                   <span className="card-label">HPA:</span>
-                  <span className="card-value">1599 CC</span>
+                  <span className="card-value">{vehicleData?.HPA || "N/A"}</span>
                 </div>
 
                 <div className="field back-field cylinder-back">
-                  <span className="card-label">Number of Cylenders:</span>
-                  <span className="card-value">4</span>
+                  <span className="card-label">Engine Size:</span>
+                  <span className="card-value">{vehicleData?.VEH_ENGINE_SIZE ? `${vehicleData.VEH_ENGINE_SIZE} CC` : "N/A"}</span>
                 </div>
 
                 <div className="field back-field body-back">
                   <span className="card-label">Type of Body/Color:</span>
-                  <span className="card-value">Silver</span>
+                  <span className="card-value">{vehicleData?.BODYTYPE && vehicleData?.COLOR ? `${vehicleData.BODYTYPE} / ${vehicleData.COLOR}` : vehicleData?.COLOR || "N/A"}</span>
                 </div>
 
                 <div className="field back-field prev-reg-back">
-                  <span className="card-label">Previous Registration:</span>
-                  <span className="card-value">-</span>
+                  <span className="card-label">Year of Manufacture:</span>
+                  <span className="card-value">{vehicleData?.VEH_YEAR_OF_MANF || "-"}</span>
                 </div>
 
                 <div className="field back-field maker-back">
                   <span className="card-label">Maker's / Make Name:</span>
-                  <span className="card-value">Honda Civic</span>
+                  <span className="card-value">{vehicleData?.["MAKER/ MAKE"] || "N/A"}</span>
                 </div>
 
                 <div className="field back-field class-back">
-                  <span className="card-label">Class of Vehicle:</span>
-                  <span className="card-value">LTV</span>
+                  <span className="card-label">Purchase Type:</span>
+                  <span className="card-value">{vehicleData?.VPT_TYPE || "N/A"}</span>
                 </div>
 
                 <div className="field back-field unladen-back">

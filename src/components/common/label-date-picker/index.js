@@ -7,12 +7,12 @@ export const LabelDatePicker = ({ label, value, setRegDate }) => {
       <label className="Textfield-Label">{label}</label>
       <div className="input-frame">
         <DatePicker
-          placeholder="Enter Date"
+          placeholder="DD/MM/YYYY"
           className="w-full custom-datepicker"
           value={value}
           onChange={(date) => setRegDate(date)}
           allowClear
-          format="DD/MM/YYYY"   // <----- yahan format add karo
+          format="DD/MM/YYYY" 
         />
       </div>
     </div>
