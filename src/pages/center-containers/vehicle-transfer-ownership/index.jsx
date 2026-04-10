@@ -561,10 +561,6 @@ const VehicleTransferOwnership = () => {
         </div>
       )}
 
-
-
-
-      
       {showPreview && (
         <div className="preview-card-wrapper">
           <div className="preview-card">
@@ -717,14 +713,16 @@ const VehicleTransferOwnership = () => {
                 className="back-button"
                 onClick={() => setShowPreview(false)}
               >
-                Go Back and Edit
+                <span className="btn-text back-text">GO BACK AND EDIT</span>
               </button>
 
               <button
                 className="confirm-button"
                 onClick={() => setShowChallan(true)}
               >
-                Save & Generate Challan
+                <span className="btn-text confirm-text">
+                  CONFIRM AND SUBMIT
+                </span>
               </button>
             </div>
           </div>
