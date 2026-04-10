@@ -52,6 +52,9 @@ const VehicleTransferOwnership = () => {
   const [transferDate, setTransferDate] = useState(dayjs());
   const [ownerFatherName, setOwnerFatherName] = useState("");
   const [ownerAddress, setOwnerAddress] = useState("");
+  const [firstOwnerName, setFirstOwnerName] = useState("");
+  const [firstOwnerFatherName, setFirstOwnerFatherName] = useState("");
+  const [firstOwnerCnic, setFirstOwnerCnic] = useState("");
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -122,6 +125,9 @@ const VehicleTransferOwnership = () => {
       setOwnerFatherName("");
       setOwnerAddress("");
       setCnic(bio.PURCHASERID || "");
+      setFirstOwnerName(vehicle.FIRST_OWNER_NAME || "");
+      setFirstOwnerFatherName(vehicle.FIRST_OWNER_FATHERNAME || "");
+      setFirstOwnerCnic(vehicle.FIRST_OWNER_CNIC || "");
       setShowData(true);
       setShowPurchaserForm(true);
     } catch (err) {
@@ -298,13 +304,28 @@ const VehicleTransferOwnership = () => {
               </div>
 
               <div className="dummy-data-item">
-                <span className="label">Chasis No.</span>
-                <div className="value">{vehicleData?.VEH_CHASIS_NO || "N/A"}</div>
+                <span className="label">Engine No.</span>
+                <div className="value">{vehicleData?.VEH_ENGINE_NO || "N/A"}</div>
               </div>
 
               <div className="dummy-data-item">
-                <span className="label">Engine No.</span>
-                <div className="value">{vehicleData?.VEH_ENGINE_NO || "N/A"}</div>
+                <span className="label">First Owner Name</span>
+                <div className="value">{firstOwnerName || "N/A"}</div>
+              </div>
+
+              <div className="dummy-data-item">
+                <span className="label">First Owner F/H/W/O</span>
+                <div className="value">{firstOwnerFatherName || "N/A"}</div>
+              </div>
+
+              <div className="dummy-data-item">
+                <span className="label">First Owner CNIC</span>
+                <div className="value">{firstOwnerCnic || "N/A"}</div>
+              </div>
+
+              <div className="dummy-data-item">
+                <span className="label">Chasis No.</span>
+                <div className="value">{vehicleData?.VEH_CHASIS_NO || "N/A"}</div>
               </div>
 
               <div className="dummy-data-item">
@@ -526,10 +547,11 @@ const VehicleTransferOwnership = () => {
               </div>
             </div> */}
 
-            <div style={{ marginTop: "24px" }}>
+            <div style={{ marginTop: "24px", display: "flex", justifyContent: "flex-end" }}>
               <button
                 type="button"
                 className="Save_button"
+                style={{ width: "30%" }}
                 onClick={() => setShowPreview(true)}
               >
                 Save
@@ -564,17 +586,17 @@ const VehicleTransferOwnership = () => {
                 {/* LEFT SIDE FIELDS */}
                 <div className="field purchaser-name">
                   <span className="card-label">Purchaser Name:</span>
-                  <span className="card-value">{purchaserName || "N/A"}</span>
+                  <span className="card-value">{firstOwnerName || "N/A"}</span>
                 </div>
 
                 <div className="field father-name">
                   <span className="card-label">F/O/W Name:</span>
-                  <span className="card-value">{fatherName || "N/A"}</span>
+                  <span className="card-value">{firstOwnerFatherName || "N/A"}</span>
                 </div>
 
                 <div className="field cnic-field">
                   <span className="card-label">CNIC:</span>
-                  <span className="card-value">{cnic || "N/A"}</span>
+                  <span className="card-value">{firstOwnerCnic || "N/A"}</span>
                 </div>
                 <div className="field registration-date">
                   <span className="card-label">Reg Date:</span>
@@ -599,7 +621,7 @@ const VehicleTransferOwnership = () => {
 
                 <div className="field transfer-father">
                   <span className="card-label">F/O/W Name:</span>
-                  <span className="card-value">{ownerFatherName || "N/A"}</span>
+                  <span className="card-value">{fatherName || "N/A"}</span>
                 </div>
 
                 <div className="field transfer-cnic">
@@ -609,7 +631,7 @@ const VehicleTransferOwnership = () => {
 
                 <div className="field transfer-address">
                   <span className="card-label">Present Address:</span>
-                  <span className="card-value">{ownerAddress || "N/A"}</span>
+                  <span className="card-value">{tempAddress || "N/A"}</span>
                 </div>
 
                 {/* RIGHT SIDE FIELDS */}
@@ -839,9 +861,9 @@ const VehicleTransferOwnership = () => {
               </div>
 
               {/* BUTTONS */}
-              <div className="challan-buttons">
+              <div className="preview-buttons">
                 <button
-                  className="btn-back"
+                  className="back-button"
                   onClick={() => {
                     setShowChallan(false);
                     setShowPreview(false);
@@ -853,7 +875,7 @@ const VehicleTransferOwnership = () => {
                 </button>
 
                 <button
-                  className="btn-download"
+                  className="confirm-button"
                   onClick={() => {
                     const challanElement = document.getElementById("challan");
 
