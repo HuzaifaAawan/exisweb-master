@@ -33,6 +33,7 @@ const VehicleTransferOwnership = () => {
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [cnic, setCnic] = useState("");
   const [passport, setPassport] = useState("");
   const [purchaserName, setPurchaserName] = useState("");
@@ -426,10 +427,24 @@ const VehicleTransferOwnership = () => {
                 <Input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setEmail(val);
+                    if (val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+                      setEmailError("Please enter a valid email address");
+                    } else {
+                      setEmailError("");
+                    }
+                  }}
                   placeholder="Enter Email Address"
                   className="uniform-input1"
+                  status={emailError ? "error" : ""}
                 />
+                {emailError && (
+                  <span style={{ color: "#ff4d4f", fontSize: "12px" }}>
+                    {emailError}
+                  </span>
+                )}
               </Col>
 
               <Col xs={24} sm={12} className="relative">
