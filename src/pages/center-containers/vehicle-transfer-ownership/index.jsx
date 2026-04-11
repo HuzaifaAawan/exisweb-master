@@ -67,6 +67,9 @@ const VehicleTransferOwnership = () => {
   });
 
   const [previewData, setPreviewData] = useState(null);
+  const [challanData, setChallanData] = useState(null);
+  const [challanLoading, setChallanLoading] = useState(false);
+  const [challanError, setChallanError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -728,17 +731,49 @@ const VehicleTransferOwnership = () => {
                 className="back-button"
                 onClick={() => setShowPreview(false)}
               >
-                <span className="btn-text back-text">GO BACK AND EDIT</span>
+                GO BACK AND EDIT
               </button>
 
               <button
                 className="confirm-button"
-                onClick={() => setShowChallan(true)}
+                disabled={challanLoading}
+                onClick={async () => {
+                  setChallanError(null);
+                  setChallanLoading(true);
+                  try {
+                    const formattedDate = regDate ? dayjs(regDate).format("DD/MM/YYYY") : "";
+                    const response = await authFetch(API_ENDPOINTS.PROCESS_BIO, {
+                      method: "POST",
+                      body: JSON.stringify({
+                        TRANSACTION_NO: biometricNo,
+                        REG_NO: regNo.toUpperCase(),
+                        REG_DATE: formattedDate,
+                        PURCHASER_NAME: purchaserName,
+                        PURCHASER_FATHER_NAME: fatherName,
+                        PURCHASER_CONTACT_NUMBER: contactNumber,
+                        PURCHASER_CONTACT_NUMBER2: otherContactNumber,
+                        PURCHASER_EMAIL: email,
+                      }),
+                    });
+                    if (!response) return;
+                    if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+                    const result = await response.json();
+                    setChallanData(result);
+                    setShowChallan(true);
+                  } catch (err) {
+                    setChallanError(err.message || "Failed to process. Please try again.");
+                  } finally {
+                    setChallanLoading(false);
+                  }
+                }}
               >
-                <span className="btn-text confirm-text">
-                  CONFIRM AND SUBMIT
-                </span>
+                {challanLoading ? "Processing..." : "CONFIRM AND SUBMIT"}
               </button>
+              {challanError && (
+                <div style={{ color: "#ff4d4f", fontSize: "12px", textAlign: "center", marginTop: "8px", width: "100%" }}>
+                  {challanError}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -759,67 +794,61 @@ const VehicleTransferOwnership = () => {
               <div className="challan-info">
                 <div className="left">
                   <p>
-                    <strong>Registration No:</strong> {regNo || "WD-55"}
+                    <strong>Registration No:</strong> {challanData?.REGISTRATION_NO || regNo || "-"}
                   </p>
                   <p>
                     <strong>Application Type:</strong> TRANSFER OF OWNERSHIP
                   </p>
                   <p>
-                    <strong>Chassis No.:</strong> MF52G-331556
+                    <strong>Chassis No.:</strong> {challanData?.CHASSIS_NO || vehicleData?.VEH_CHASIS_NO || "-"}
                   </p>
                   <p>
-                    <strong>Category:</strong> 2
+                    <strong>Category:</strong> {challanData?.CATEGORY || "-"}
                   </p>
                   <p>
-                    <strong>Purchase / Import Date:</strong> 22-08-2013
+                    <strong>Body Type:</strong> {challanData?.BODYTYPE || "-"}
                   </p>
                   <p>
-                    <strong>Owner Name:</strong> {ownerName}
+                    <strong>Owner Name:</strong> {ownerName || "-"}
                   </p>
                   <p>
-                    <strong>Father / Husband Name:</strong> {ownerFatherName}
+                    <strong>Father / Husband Name:</strong> {fatherName || "-"}
                   </p>
                   <p>
-                    <strong>HPA With:</strong> -
+                    <strong>Vehicle Status:</strong> {challanData?.VEHICLE_STATUS || "-"}
                   </p>
                   <p>
-                    <strong>Payment From:</strong> 01-07-2025
+                    <strong>Payment From:</strong> {challanData?.TAX_PAID_FROM ? dayjs(challanData.TAX_PAID_FROM).format("DD-MM-YYYY") : "-"}
                   </p>
                   <p>
-                    <strong>Vehicle Price:</strong> 5774000
+                    <strong>Total Amount:</strong> {challanData?.TOTAL_AMOUNT?.toLocaleString() || "-"}
                   </p>
                 </div>
 
                 <div className="right">
                   <p>
-                    <strong>Challan No:</strong> 7407723
+                    <strong>Challan No:</strong> {challanData?.VCT_CHALLAN_NO || "-"}
                   </p>
                   <p>
-                    <strong>Application ID:</strong> 8271843
+                    <strong>Challan Date:</strong> {challanData?.CHALLAN_DATE || "-"}
                   </p>
                   <p>
-                    <strong>Engine No.:</strong> K2K-8760982
+                    <strong>Challan Status:</strong> {challanData?.CHALLAN_STATUS || "-"}
                   </p>
                   <p>
-                    <strong>Purchase Type:</strong> LOCAL
+                    <strong>Maker / Brand:</strong> {challanData?.MAKER_MAKE || vehicleData?.["MAKER/ MAKE"] || "-"}
                   </p>
                   <p>
-                    <strong>Maker / Brand:</strong> Honda Civic
+                    <strong>Filer Status:</strong> {challanData?.FILER_STATUS || "-"}
                   </p>
                   <p>
-                    <strong>Class:</strong> LTV
+                    <strong>Payment Upto:</strong> {challanData?.TAX_PAID_UPTO || "-"}
                   </p>
                   <p>
-                    <strong>Payment Upto:</strong> 30-06-2026
+                    <strong>Life Time Tax:</strong> {challanData?.VEH_TAX_PAID_LIFE_TIME || "-"}
                   </p>
                   <p>
-                    <strong>Filer / NonFiler:</strong> Non-Filer
-                  </p>
-                  <p>
-                    <strong>Engine Capacity:</strong> 2700 CC
-                  </p>
-                  <p>
-                    <strong>Seating Capacity:</strong> 6
+                    <strong>Payment Date:</strong> {challanData?.PAYMENT_DATE || "-"}
                   </p>
                 </div>
               </div>
@@ -835,33 +864,24 @@ const VehicleTransferOwnership = () => {
                   <tr>
                     <th>Description</th>
                     <th>Amount</th>
-                    <th>Account Head</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>TRANSFER FEE</td>
-                    <td>11,000</td>
-                    <td>B02801</td>
-                  </tr>
-                  <tr>
-                    <td>BIOMETRIC LATE PENALTY</td>
-                    <td>6,000</td>
-                    <td>B02801</td>
-                  </tr>
+                  {challanData?.TAX_FINE_DETAIL?.map((item) => (
+                    <tr key={item.TAT_ID}>
+                      <td>{item.TAT_NAME}</td>
+                      <td>{item.VTH_AMOUNT_PAID?.toLocaleString()}</td>
+                    </tr>
+                  ))}
                   <tr className="total-row">
                     <td>Total</td>
-                    <td>17,000</td>
-                    <td></td>
+                    <td>{challanData?.TOTAL_AMOUNT?.toLocaleString() || "-"}</td>
                   </tr>
                 </tbody>
               </table>
 
-              <div className="amount-words">Seventeen thousand</div>
-
               <div className="challan-footer">
                 <div>
-                  Printed by: SHAHID KHAN NAWAB <br />
                   Print on: {dayjs().format("DD/MM/YYYY")}
                 </div>
 
@@ -869,57 +889,58 @@ const VehicleTransferOwnership = () => {
                   National Bank of Pakistan <br />
                   E.T.D Office H9 Branch <br />
                   Islamabad <br />
-                  Challan No: 7407723
+                  Challan No: {challanData?.VCT_CHALLAN_NO || "-"}
                 </div>
               </div>
 
-              {/* BUTTONS */}
-              <div className="preview-buttons">
-                <button
-                  className="back-button"
-                  onClick={() => {
-                    setShowChallan(false);
-                    setShowPreview(false);
-                    setShowPurchaserForm(false);
-                    setShowData(false);
-                  }}
-                >
-                  Back to Homepage
-                </button>
-
-                <button
-                  className="confirm-button"
-                  onClick={() => {
-                    const challanElement = document.getElementById("challan");
-
-                    import("html2canvas").then((html2canvas) => {
-                      html2canvas.default(challanElement).then((canvas) => {
-                        import("jspdf").then((jsPDF) => {
-                          const pdf = new jsPDF.jsPDF("p", "mm", "a4");
-                          const imgData = canvas.toDataURL("image/png");
-                          const imgProps = pdf.getImageProperties(imgData);
-                          const pdfWidth = pdf.internal.pageSize.getWidth();
-                          const pdfHeight =
-                            (imgProps.height * pdfWidth) / imgProps.width;
-
-                          pdf.addImage(
-                            imgData,
-                            "PNG",
-                            0,
-                            0,
-                            pdfWidth,
-                            pdfHeight,
-                          );
-                          pdf.save("vehicle-challan.pdf");
-                        });
-                      });
-                    });
-                  }}
-                >
-                  Download Challan
-                </button>
-              </div>
             </div>
+          </div>
+
+          {/* BUTTONS - outside #challan so they are excluded from PDF */}
+          <div className="preview-buttons" style={{ marginTop: "24px", width: "100%", maxWidth: "1200px" }}>
+            <button
+              className="back-button"
+              onClick={() => {
+                setShowChallan(false);
+                setShowPreview(false);
+                setShowPurchaserForm(false);
+                setShowData(false);
+              }}
+            >
+              Back to Homepage
+            </button>
+
+            <button
+              className="confirm-button"
+              onClick={() => {
+                const challanElement = document.getElementById("challan");
+
+                import("html2canvas").then((html2canvas) => {
+                  html2canvas.default(challanElement).then((canvas) => {
+                    import("jspdf").then((jsPDF) => {
+                      const pdf = new jsPDF.jsPDF("p", "mm", "a4");
+                      const imgData = canvas.toDataURL("image/png");
+                      const imgProps = pdf.getImageProperties(imgData);
+                      const pdfWidth = pdf.internal.pageSize.getWidth();
+                      const pdfHeight =
+                        (imgProps.height * pdfWidth) / imgProps.width;
+
+                      pdf.addImage(
+                        imgData,
+                        "PNG",
+                        0,
+                        0,
+                        pdfWidth,
+                        pdfHeight,
+                      );
+                      pdf.save("vehicle-challan.pdf");
+                    });
+                  });
+                });
+              }}
+            >
+              Download Challan
+            </button>
           </div>
         </div>
       )}

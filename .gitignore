@@ -25,3 +25,4 @@ yarn-error.log*
 /help
 
 /.yarn
+.yarn/install-state.gz
