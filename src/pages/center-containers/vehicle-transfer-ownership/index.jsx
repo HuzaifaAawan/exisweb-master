@@ -34,6 +34,8 @@ const VehicleTransferOwnership = () => {
   const [regDate, setRegDate] = useState(null);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [nicImage, setNicImage] = useState(null);
+  const [transferLetterImage, setTransferLetterImage] = useState(null);
   const [cnic, setCnic] = useState("");
   const [passport, setPassport] = useState("");
   const [purchaserName, setPurchaserName] = useState("");
@@ -450,6 +452,86 @@ const VehicleTransferOwnership = () => {
                 )}
               </Col>
 
+              <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                <span className="Textfield-Label">Upload CNIC Image</span>
+                <div
+                  className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
+                  style={{ height: "100px", marginTop: "4px" }}
+                  onClick={() => document.getElementById("nic-upload").click()}
+                >
+                  {nicImage ? (
+                    <img
+                      src={URL.createObjectURL(nicImage)}
+                      alt="CNIC"
+                      className="h-full w-full object-contain rounded-lg"
+                    />
+                  ) : (
+                    <>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4" />
+                      </svg>
+                      <span className="text-sm text-gray-500">Click to upload CNIC</span>
+                    </>
+                  )}
+                  <input
+                    id="nic-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => setNicImage(e.target.files[0] || null)}
+                  />
+                </div>
+                {nicImage && (
+                  <button
+                    type="button"
+                    className="text-xs text-red-500 mt-1"
+                    onClick={() => setNicImage(null)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </Col>
+
+              <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                <span className="Textfield-Label">Upload Transfer Letter</span>
+                <div
+                  className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
+                  style={{ height: "100px", marginTop: "4px" }}
+                  onClick={() => document.getElementById("transfer-letter-upload").click()}
+                >
+                  {transferLetterImage ? (
+                    <img
+                      src={URL.createObjectURL(transferLetterImage)}
+                      alt="Transfer Letter"
+                      className="h-full w-full object-contain rounded-lg"
+                    />
+                  ) : (
+                    <>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4" />
+                      </svg>
+                      <span className="text-sm text-gray-500">Click to upload Transfer Letter</span>
+                    </>
+                  )}
+                  <input
+                    id="transfer-letter-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => setTransferLetterImage(e.target.files[0] || null)}
+                  />
+                </div>
+                {transferLetterImage && (
+                  <button
+                    type="button"
+                    className="text-xs text-red-500 mt-1"
+                    onClick={() => setTransferLetterImage(null)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </Col>
+
               <Col xs={24} sm={12} className="relative">
                 <span className="Textfield-Label">Temporary Address</span>
                 <UppercaseInput
@@ -498,7 +580,7 @@ const VehicleTransferOwnership = () => {
                 </div>
               </Col>
 
-              <Col span={24} style={{ marginTop: "8px" }}>
+              <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
                 <div className="w-full">
                   <label className="block mb-1 text-sm font-medium text-gray-700">
                     Bank / Company Name
@@ -506,7 +588,7 @@ const VehicleTransferOwnership = () => {
                   <input
                     type="text"
                     placeholder="Enter...."
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </Col>
@@ -519,12 +601,9 @@ const VehicleTransferOwnership = () => {
                 </div>
               </Col> */}
 
-              <Col span={24} style={{ marginTop: "8px", marginBottom: "8px" }}>
+              <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
                 <span className="city-select-label">Select your city</span>
-              </Col>
-
-              <Col span={24}>
-                <div className="frame-1 w-full h-12 rounded-md overflow-hidden">
+                <div className="frame-1 w-full h-12 rounded-md overflow-hidden" style={{ marginTop: "4px" }}>
                   <select className="w-full h-full bg-transparent px-3 outline-none">
                     <option value="">Choose city</option>
                     <option value="karachi">ISLAMABAD</option>
