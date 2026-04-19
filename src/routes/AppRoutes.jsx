@@ -14,7 +14,6 @@ import ReserveRegNumber from "../pages/center-containers/reserve-number";
 import MyRegistrationNumbers from "../pages/center-containers/my-numbers";
 import BiometricVerification from "../pages/center-containers/biometric";
 import ESahulatCentreLocator from "../pages/center-containers/locator";
-import Login from "../pages/login";
 import PrivateRoute from "./PrivateRoute";
 import AuthCallback from "./AuthCallback";
 import { disabledPages } from "../config/pageConfig";
@@ -26,7 +25,6 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public routes */}
-      <Route path="/login" element={<Login />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
       {/* Protected routes */}
       <Route
