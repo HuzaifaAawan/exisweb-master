@@ -27,6 +27,7 @@ import eSahulatActive from "../../assets/icons/eSahulat Centre Locator-Selected.
 
 import AttentionModal from "../attention-modal";
 import bgImage from "../../assets/icons/popup-bg.png";
+import { disabledPages } from "../../config/pageConfig";
 
 const Sidebar = () => {
   const { Sider } = Layout;
@@ -111,7 +112,7 @@ const Sidebar = () => {
     },
   ];
 
-  const menuItemsForAntd = menuItems.map((item) => ({
+  const menuItemsForAntd = menuItems.filter((item) => !disabledPages.includes(item.key)).map((item) => ({
     key: item.key,
     icon: (
       <img

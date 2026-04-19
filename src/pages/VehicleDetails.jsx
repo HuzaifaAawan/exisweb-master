@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useNavigate } from "react-router-dom";
 import { Row, Col } from "antd";
 import backgroundImage from "../assets/icons/background2.2.png";
 import { API_ENDPOINTS } from "../constants";
@@ -18,19 +17,6 @@ const VehicleDetails = () => {
   const [registrationError, setRegistrationError] = useState("");
   const [loading, setLoading] = useState(false);
   const REG_PATTERN = /^[A-Z]{2,3}-\d+$/;
-  const [isRedirected, setIsRedirected] = useState(false);
-  const navigate = useNavigate();
-
-  const handleSubmit = () => {
-    navigate("/registration");
-  };
-
-  useEffect(() => {
-    if (!isRedirected) {
-      setIsRedirected(true);
-    }
-  }, [isRedirected]);
-
   const handleCaptchaChange = (value) => {
     setCaptchaValue(value);
   };
@@ -211,14 +197,6 @@ const VehicleDetails = () => {
               }}
             >
               Reset
-            </button>
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="submit-frame"
-              style={{ width: "150px", backgroundColor: "#1d4ed8", color: "#fff" }}
-            >
-              Reserve Number
             </button>
           </div>
         </form>
