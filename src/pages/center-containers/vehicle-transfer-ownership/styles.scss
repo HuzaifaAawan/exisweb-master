@@ -369,8 +369,7 @@
 }
 
 .transfer-address {
-  top: 25
-  0px;       
+  top: 250px;       
   left: 150px;
   width: 420px;     // address wrap
   margin-left: -40px;
@@ -412,6 +411,65 @@
 .tyre-front  { top: 230px;left: 250px; margin-left: 360px;}
 .tyre-rear   { top: 250px;left: 250px; margin-left: 360px; }
 .tyre-other  { top: 270px;left: 250px; margin-left: 360px;}
+
+
+
+
+.vehicle-card-preview-wrapper {
+  width: 100%;
+  max-width: 1165px;
+  margin: 24px auto 0;
+}
+
+.vehicle-card-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card-label {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  fill: #111111;
+}
+
+.card-label.bold {
+  font-weight: 800;
+}
+
+.card-value {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  fill: #000000;
+}
+
+/* tablet */
+@media (max-width: 992px) {
+  .card-label,
+  .card-value {
+    font-size: 13px;
+  }
+}
+
+/* mobile */
+@media (max-width: 576px) {
+  .vehicle-card-preview-wrapper {
+    margin-top: 16px;
+  }
+
+  .card-label,
+  .card-value {
+    font-size: 13px;
+  }
+}
+
+
+
+
+
+
 
 
 /* ===============================
