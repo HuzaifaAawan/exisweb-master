@@ -1,36 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
-import noteIcon from "../../../assets/icons/note.png";
+// import noteIcon from "../../../assets/icons/note.png";
+
 import VehicleCardPreview from "./VehicleCardPreview";
-// import cardBg from "../../../assets/icons/islamabad smart card-Photoroom.png";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
+import AttentionModal from "../../../components/attention-modal";
+import { Row, Col, Input, Form, Switch } from "antd";
 
-import {
-  Typography,
-  Row,
-  Col,
-  Select,
-  DatePicker,
-  Input,
-  Form,
-  Switch,
-} from "antd";
-
-import UppercaseInput, {
-  EngineSizeInput,
-} from "../../../components/CapitalizedInput.jsx";
+import UppercaseInput from "../../../components/CapitalizedInput.jsx";
 import { DistrictDropdowns } from "../../../components/CapitalizedInput.jsx";
 
 import dayjs from "dayjs";
 import { useAuthFetch } from "../../../libs/hooks/useAuthFetch";
 import { API_ENDPOINTS } from "../../../constants";
 
+const STORAGE_KEY = "vehicle_transfer_requests";
+
 const VehicleTransferOwnership = () => {
   const authFetch = useAuthFetch();
+
   const [showData, setShowData] = useState(false);
   const [showPurchaserForm, setShowPurchaserForm] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [showChallan, setShowChallan] = useState(false);
+  const [showAttention, setShowAttention] = useState(false);
+  const [showRequestForm, setShowRequestForm] = useState(false);
+
+  const [requests, setRequests] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
   const [email, setEmail] = useState("");
@@ -38,12 +38,9 @@ const VehicleTransferOwnership = () => {
   const [nicImage, setNicImage] = useState(null);
   const [transferLetterImage, setTransferLetterImage] = useState(null);
   const [cnic, setCnic] = useState("");
-  const [passport, setPassport] = useState("");
   const [purchaserName, setPurchaserName] = useState("");
-  const [showPreview, setShowPreview] = useState(false);
   const [fhwoName, setFhwoName] = useState("");
   const [ntn, setNtn] = useState("");
-  const [showChallan, setShowChallan] = useState(false);
   const [fatherName, setFatherName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [otherContactNumber, setOtherContactNumber] = useState("");
@@ -62,17 +59,125 @@ const VehicleTransferOwnership = () => {
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [formData, setFormData] = useState({
-    purchaserName: "",
-    fatherName: "",
-    cnic: "",
-    address: "",
-  });
 
   const [previewData, setPreviewData] = useState(null);
   const [challanData, setChallanData] = useState(null);
   const [challanLoading, setChallanLoading] = useState(false);
   const [challanError, setChallanError] = useState(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        setRequests(JSON.parse(saved));
+      }
+    } catch (err) {
+      console.error("Failed to read requests from localStorage", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
+    } catch (err) {
+      console.error("Failed to save requests to localStorage", err);
+    }
+  }, [requests]);
+
+  const filteredRequests = useMemo(() => {
+    const search = searchText.trim().toLowerCase();
+
+    if (!search) return requests;
+
+    return requests.filter((item) =>
+      [
+        item.biometricTracking,
+        item.biometricDate,
+        item.regNo,
+        item.applicationNo,
+        item.applicationProcessingDate,
+        item.challanNo,
+        item.challanPaymentDate,
+        item.applicationStatus,
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(search),
+    );
+  }, [requests, searchText]);
+
+  const resetEntireFlow = () => {
+    setShowData(false);
+    setShowPurchaserForm(false);
+    setShowPreview(false);
+    setShowChallan(false);
+    setShowRequestForm(false);
+
+    setRegNo("");
+    setRegDate(null);
+    setEmail("");
+    setEmailError("");
+    setNicImage(null);
+    setTransferLetterImage(null);
+    setCnic("");
+    setPurchaserName("");
+    setFhwoName("");
+    setNtn("");
+    setFatherName("");
+    setContactNumber("");
+    setOtherContactNumber("");
+    setTempAddress("");
+    setBiometricNo("");
+    setCurrentOwnerName("");
+    setPermAddress("");
+    setOwnerName("");
+    setOwnerCnic("");
+    setTransferDate(dayjs());
+    setOwnerFatherName("");
+    setOwnerAddress("");
+    setFirstOwnerName("");
+    setFirstOwnerFatherName("");
+    setFirstOwnerCnic("");
+    setVehicleData(null);
+    setLoading(false);
+    setError(null);
+    setPreviewData(null);
+    setChallanData(null);
+    setChallanLoading(false);
+    setChallanError(null);
+  };
+
+  const openNewRequestForm = () => {
+    resetEntireFlow();
+    setShowRequestForm(true);
+  };
+
+  const goBackToTable = () => {
+    setShowData(false);
+    setShowPurchaserForm(false);
+    setShowPreview(false);
+    setShowChallan(false);
+    setShowRequestForm(false);
+  };
+
+  const addRequestRecord = (apiResult = null) => {
+    const newRequest = {
+      id: Date.now(),
+      biometricTracking: biometricNo || "-",
+      biometricDate: regDate ? dayjs(regDate).format("DD-MM-YYYY") : "-",
+      regNo: regNo || "-",
+      applicationNo:
+        apiResult?.APPLICATION_NO ||
+        apiResult?.APP_NO ||
+        `APP-${Date.now().toString().slice(-6)}`,
+      applicationProcessingDate: dayjs().format("DD-MM-YYYY"),
+      challanNo: apiResult?.VCT_CHALLAN_NO || "-",
+      challanPaymentDate: apiResult?.PAYMENT_DATE || "-",
+      applicationStatus: "Submitted",
+    };
+
+    setRequests((prev) => [newRequest, ...prev]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,7 +199,7 @@ const VehicleTransferOwnership = () => {
         }),
       });
 
-      if (!response) return; // 401 handled by authFetch
+      if (!response) return;
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
@@ -105,21 +210,25 @@ const VehicleTransferOwnership = () => {
       try {
         result = JSON.parse(text);
       } catch {
-        // API returns non-standard format: {ErrorCode=001, ErrorMessage="..."}
         const inner = text.trim().replace(/^\{|\}$/g, "");
         result = {};
         inner.split(",").forEach((pair) => {
           const eqIdx = pair.indexOf("=");
           if (eqIdx !== -1) {
             const key = pair.slice(0, eqIdx).trim();
-            const val = pair.slice(eqIdx + 1).trim().replace(/^"|"$/g, "");
+            const val = pair
+              .slice(eqIdx + 1)
+              .trim()
+              .replace(/^"|"$/g, "");
             result[key] = val;
           }
         });
       }
 
       if (result.ErrorCode) {
-        throw new Error(result.ErrorMessage || "An error occurred. Please try again.");
+        throw new Error(
+          result.ErrorMessage || "An error occurred. Please try again.",
+        );
       }
 
       const vehicle = result.vehicle?.[0] || {};
@@ -160,7 +269,6 @@ const VehicleTransferOwnership = () => {
         padding: "1.33rem",
       }}
     >
-      {/* Main Heading */}
       <span
         className="title"
         style={{
@@ -171,639 +279,738 @@ const VehicleTransferOwnership = () => {
           lineHeight: "1.4",
         }}
       >
-        Vehicle Transfer of Ownership
+        VEHICLE TRANSFER OF OWNERSHIP
       </span>
 
-      {/* First Form Wrapper */}
-      <div
-        className="form-card"
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          gap: "24px",
-          padding: "24px",
-          borderRadius: "16px",
-          border: "1px solid #e3e3e3",
-          backgroundColor: "#fff",
-          marginTop: "16px",
-        }}
-      >
-        {/* --------- Existing First Form Content (UNCHANGED) --------- */}
-        <div>
-          <div className="mb-1">
-            <span className="block font-bold text-lg">Change of Ownership</span>
-          </div>
-
-          <div className="mb-3">
-            <span className="block text-gray-600 text-sm">
-              Please provide the details below to view owner information
-            </span>
-          </div>
-
-          <hr
-            style={{
-              border: "none",
-              borderTop: "1px solid #e3e3e3",
-              width: "80%",
-              margin: "0 auto",
-            }}
-          />
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <Row gutter={[16, 8]} align="bottom">
-            {/* Registration No */}
-            <Col xs={24} sm={24} md={12} lg={7}>
-              <div className="w-full">
-                <label className="Textfield-Label">Registration No.</label>
-                <div className="w-full">
-                  <UppercaseInput
-                    placeholder="e.g., ALB-572"
-                    value={regNo}
-                    onChange={(val) => setRegNo(val)}
-                    className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg 
-                     focus:outline-none focus:ring-2 focus:ring-blue-500 
-                     focus:border-blue-500"
-                  />
-                </div>
-              </div>
-            </Col>
-
-            {/* Registration Date */}
-            <Col xs={24} sm={24} md={12} lg={7}>
-              <div className="w-full">
-                <LabelDatePicker
-                  label="Registration Date"
-                  value={regDate}
-                  setRegDate={setRegDate}
-                  className="w-full"
-                />
-              </div>
-            </Col>
-
-            <Col flex="auto">
-              <label className="Textfield-Label">
-                Biometric Verification Tracking Number
-              </label>
-              <Input
-                placeholder="e.g., 1234567890"
-                value={biometricNo}
-                onChange={(e) => setBiometricNo(e.target.value.toUpperCase())}
-                className="w-full"
-              />
-            </Col>
-
-            <Col flex="150px">
-              <button
-                type="submit"
-                className="submit-frame w-full"
-                disabled={loading || !regNo || !regDate || !biometricNo}
-              >
-                {loading ? "Loading..." : "Submit"}
-              </button>
-            </Col>
-          </Row>
-        </form>
-
-        {/* Error */}
-        {error && (
-          <div className="text-red-500 text-sm text-center">{error}</div>
-        )}
-
-        {/* Info Before Submit */}
-        {!showData && !error && (
-          <div className="flex flex-col items-center mt-2 px-4">
-            {transferIcon ? (
-              <img src={transferIcon} alt="icon" className="w-11 h-11" />
-            ) : (
-              <div className="w-11 h-11 bg-black rounded"></div>
-            )}
-            <span
-              className="mt-2 font-[Inter] text-sm text-center text-[#556485]"
-              style={{
-                maxWidth: "392px",
-                whiteSpace: "normal",
-                overflowWrap: "break-word",
-              }}
-            >
-              Please enter the above information to proceed with the change of
-              ownership process.
-            </span>
-          </div>
-        )}
-
-        {/* Dummy Data */}
-        {showData && (
-          <>
-            <hr className="dummy-divider" />
-            <div className="dummy-data-container no-bg">
-              <div className="dummy-data-item">
-                <span className="label">Registration No.</span>
-                <div className="value">{regNo || "N/A"}</div>
-              </div>
-
-              <div className="dummy-data-item">
-                <span className="label">Registration Date</span>
-                <div className="value">
-                  {regDate ? dayjs(regDate).format("DD-MM-YYYY") : "N/A"}
-                </div>
-              </div>
-
-              <div className="dummy-data-item">
-                <span className="label">Engine No.</span>
-                <div className="value">
-                  {vehicleData?.VEH_ENGINE_NO || "N/A"}
-                </div>
-              </div>
-
-              <div className="dummy-data-item">
-                <span className="label">First Owner Name</span>
-                <div className="value">{firstOwnerName || "N/A"}</div>
-              </div>
-
-              <div className="dummy-data-item">
-                <span className="label">First Owner F/H/W/O</span>
-                <div className="value">{firstOwnerFatherName || "N/A"}</div>
-              </div>
-
-              <div className="dummy-data-item">
-                <span className="label">First Owner CNIC</span>
-                <div className="value">{firstOwnerCnic || "N/A"}</div>
-              </div>
-
-              <div className="dummy-data-item">
-                <span className="label">Chasis No.</span>
-                <div className="value">
-                  {vehicleData?.VEH_CHASIS_NO || "N/A"}
-                </div>
-              </div>
-
-              <div className="dummy-data-item">
-                <span className="label">Current Owner CNIC</span>
-                <div className="value">{ownerCnic || "N/A"}</div>
-              </div>
-
-              <div className="dummy-data-item">
-                <span className="label">Current Owner Name</span>
-                <div className="value">{ownerName || "N/A"}</div>
-              </div>
+      {!showRequestForm && (
+        <div className="request-table-card">
+          <div className="request-table-header">
+            <div>
+              <h3 className="request-table-title">
+                Transfer of Ownership Requests
+              </h3>
             </div>
-          </>
-        )}
-      </div>
 
-      {/* Second Form - Purchaser Information */}
-      {showPurchaserForm && !showPreview && (
-        <div className="Frame-1000009526">
-          {/* --------- Entire Second Form Content (UNCHANGED) --------- */}
-          <div style={{ padding: "0 24px" }}>
-            <span className="Profiles-Manager-form2-h1">
-              Purchaser Information
-            </span>
-            <span className="Profiles-Manager-form2-h2">
-              Please provide the details of the purchaser to whom the ownership
-              is being transferred
-            </span>
-            <hr
-              style={{
-                marginTop: "15px",
-                border: "none",
-                borderTop: "1px solid #e3e3e3",
-              }}
-            />
-          </div>
-
-          <div style={{ padding: "0 24px" }}>
-            {/* Row 1: Normal Fields */}
-            <Row gutter={[16, 16]}>
-              <Col xs={24} sm={8}>
-                <span className="Dropdown-Label Textfield-Label">
-                  Purchaser Name
-                </span>
-
-                <Input
-                  placeholder="Enter Purchaser Name"
-                  className="uniform-input1"
-                  value={purchaserName}
-                  onChange={(e) =>
-                    setPurchaserName(e.target.value.toUpperCase())
-                  }
+            <div className="request-table-actions">
+              <div className="request-search-box">
+                <span className="request-search-icon">⌕</span>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
                 />
-              </Col>
-
-              <Col xs={24} sm={8}>
-                <span className="Textfield-Label">F/H/W/O Name</span>
-                <UppercaseInput
-                  value={fatherName}
-                  onChange={setFatherName}
-                  placeholder="Enter Father Name"
-                  className="uniform-input1"
-                  maxLength={32}
-                />
-              </Col>
-
-              <Col xs={24} sm={8}>
-                <span className="Textfield-Label">CNIC No.</span>
-                <Input
-                  value={cnic}
-                  readOnly
-                  placeholder="Auto-filled from biometric"
-                  className="uniform-input1"
-                />
-              </Col>
-
-              <Col xs={24} sm={8}>
-                <span className="Textfield-Label">Contact Number</span>
-                <UppercaseInput
-                  value={contactNumber}
-                  onChange={setContactNumber}
-                  isPhone
-                  placeholder="Enter Contact Number"
-                />
-              </Col>
-
-              <Col xs={24} sm={8}>
-                <span className="Textfield-Label">Other Contact Number</span>
-                <UppercaseInput
-                  value={otherContactNumber}
-                  onChange={setOtherContactNumber}
-                  isPhone
-                  placeholder="Enter Other Contact Number"
-                />
-              </Col>
-              <Col xs={24} sm={8}>
-                <span className="Textfield-Label">Email Address</span>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setEmail(val);
-                    if (val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
-                      setEmailError("Please enter a valid email address");
-                    } else {
-                      setEmailError("");
-                    }
-                  }}
-                  placeholder="Enter Email Address"
-                  className="uniform-input1"
-                  status={emailError ? "error" : ""}
-                />
-                {emailError && (
-                  <span style={{ color: "#ff4d4f", fontSize: "12px" }}>
-                    {emailError}
-                  </span>
-                )}
-              </Col>
-
-              <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
-                <span className="Textfield-Label">Upload CNIC Image</span>
-                <div
-                  className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
-                  style={{ height: "100px", marginTop: "4px" }}
-                  onClick={() => document.getElementById("nic-upload").click()}
-                >
-                  {nicImage ? (
-                    <img
-                      src={URL.createObjectURL(nicImage)}
-                      alt="CNIC"
-                      className="h-full w-full object-contain rounded-lg"
-                    />
-                  ) : (
-                    <>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-8 w-8 text-gray-400 mb-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
-                        />
-                      </svg>
-                      <span className="text-sm text-gray-500">
-                        Click to upload CNIC
-                      </span>
-                    </>
-                  )}
-                  <input
-                    id="nic-upload"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => setNicImage(e.target.files[0] || null)}
-                  />
-                </div>
-                {nicImage && (
-                  <button
-                    type="button"
-                    className="text-xs text-red-500 mt-1"
-                    onClick={() => setNicImage(null)}
-                  >
-                    Remove
-                  </button>
-                )}
-              </Col>
-
-              <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
-                <span className="Textfield-Label">Upload Transfer Letter</span>
-                <div
-                  className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
-                  style={{ height: "100px", marginTop: "4px" }}
-                  onClick={() =>
-                    document.getElementById("transfer-letter-upload").click()
-                  }
-                >
-                  {transferLetterImage ? (
-                    <img
-                      src={URL.createObjectURL(transferLetterImage)}
-                      alt="Transfer Letter"
-                      className="h-full w-full object-contain rounded-lg"
-                    />
-                  ) : (
-                    <>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-8 w-8 text-gray-400 mb-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
-                        />
-                      </svg>
-                      <span className="text-sm text-gray-500">
-                        Click to upload Transfer Letter
-                      </span>
-                    </>
-                  )}
-                  <input
-                    id="transfer-letter-upload"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) =>
-                      setTransferLetterImage(e.target.files[0] || null)
-                    }
-                  />
-                </div>
-                {transferLetterImage && (
-                  <button
-                    type="button"
-                    className="text-xs text-red-500 mt-1"
-                    onClick={() => setTransferLetterImage(null)}
-                  >
-                    Remove
-                  </button>
-                )}
-              </Col>
-
-              <Col xs={24} sm={12} className="relative">
-                <span className="Textfield-Label">Temporary Address</span>
-                <UppercaseInput
-                  textarea
-                  value={tempAddress}
-                  onChange={(val) => setTempAddress(val)}
-                  showCount
-                  maxLength={30}
-                  rows={4}
-                  placeholder="Enter Address..."
-                  className="uniform-input2"
-                />
-              </Col>
-
-              <Col xs={24} sm={12} className="relative">
-                <span className="Textfield-Label">Permanent Address</span>
-                <UppercaseInput
-                  textarea
-                  value={permAddress}
-                  onChange={(val) => setPermAddress(val)}
-                  showCount
-                  maxLength={30}
-                  rows={4}
-                  placeholder="Enter Address..."
-                  className="uniform-input2"
-                />
-              </Col>
-
-              <Col xs={24} sm={24}>
-                <Form layout="vertical">
-                  <DistrictDropdowns />
-                </Form>
-              </Col>
-            </Row>
-
-            {/* Row 2: Hire Purchase + Physical Inspection */}
-            <Row gutter={[16, 0]} style={{ marginTop: "32px" }}>
-              <Col span={24}>
-                <div className="my-6 border-t border-gray-300"></div>
-
-                <div className="hire-purchase-container mt-6">
-                  <span className="Hire-Purchase-Agreement block">
-                    Hire Purchase Agreement
-                  </span>
-                  <Switch />
-                </div>
-              </Col>
-
-              <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
-                <div className="w-full">
-                  <label className="block mb-1 text-sm font-medium text-gray-700">
-                    Bank / Company Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter...."
-                    className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </Col>
-
-              {/* <Col span={24}>
-                <div className="mt-8">
-                  <span className="Physical-Inspection-Request">
-                    Physical Inspection Request
-                  </span>
-                </div>
-              </Col> */}
-
-              <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
-                <span className="city-select-label">Select your city</span>
-                <div
-                  className="frame-1 w-full h-12 rounded-md overflow-hidden"
-                  style={{ marginTop: "4px" }}
-                >
-                  <select className="w-full h-full bg-transparent px-3 outline-none">
-                    <option value="">Choose city</option>
-                    <option value="karachi">ISLAMABAD</option>
-                    <option value="lahore">LAHORE</option>
-                    <option value="islamabad">KARACHI</option>
-                    <option value="islamabad">MULTAN</option>
-                    <option value="islamabad">FAISALABAD</option>
-                  </select>
-                </div>
-              </Col>
-            </Row>
-
-            {/* Note Section */}
-            {/* <div style={{ marginTop: "16px" }} className="Note">
-              <div className="NOTE-Wrapper flex items-start gap-2">
-                <img src={noteIcon} alt="Note Icon" className="w-5 h-5 mt-2" />
-                <div>
-                  <span className="text-style-1 font-semibold">
-                    NOTE: For updates please visit our pages
-                  </span>
-                  <div className="links flex space-x-2">
-                    <a
-                      href="https://www.facebook.com/IslamabadExcise"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      https://www.facebook.com/IslamabadExcise
-                    </a>
-                    <a
-                      href="https://twitter.com/ICT_Excise"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      https://twitter.com/ICT_Excise
-                    </a>
-                  </div>
-                </div>
               </div>
-            </div> */}
 
-            <div
-              style={{
-                marginTop: "24px",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
               <button
                 type="button"
-                className="Save_button"
-                style={{ width: "30%" }}
-                onClick={() => setShowPreview(true)}
+                className="request-new-btn"
+                onClick={() => setShowAttention(true)}
               >
-                Save
+                Request New Transfer of Ownership
+              </button>
+            </div>
+          </div>
+
+          <div className="request-table-wrapper">
+            <table className="request-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Biometric Tracking</th>
+                  <th>Biometric Date</th>
+                  <th>Reg No.</th>
+                  <th>Application No.</th>
+                  <th>Application Processing Date</th>
+                  <th>Challan No.</th>
+                  <th>Challan Payment Date</th>
+                  <th>Application Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {filteredRequests.length > 0 ? (
+                  filteredRequests.map((item, index) => (
+                    <tr key={item.id}>
+                      <td>{index + 1}</td>
+                      <td>{item.biometricTracking}</td>
+                      <td>{item.biometricDate}</td>
+                      <td>{item.regNo}</td>
+                      <td>{item.applicationNo}</td>
+                      <td>{item.applicationProcessingDate}</td>
+                      <td>{item.challanNo}</td>
+                      <td>{item.challanPaymentDate}</td>
+                      <td>
+                        <span className="status-badge">
+                          {item.applicationStatus}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="9">
+                      <div className="request-empty-state">
+                        <div className="request-empty-icon">🗂️</div>
+                        <p>No Requests of Transfer of Ownership Yet.</p>
+                        <span>Request a New Transfer to view details</span>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className="request-table-footer">
+            <div className="request-page-size">11 Rows/Page</div>
+
+            <div className="request-pagination">
+              <button type="button" className="page-btn active">
+                1
+              </button>
+              <button type="button" className="page-btn">
+                2
+              </button>
+              <button type="button" className="page-btn">
+                3
+              </button>
+              <button type="button" className="page-btn dots">
+                ...
+              </button>
+              <button type="button" className="page-btn">
+                8
+              </button>
+              <button type="button" className="page-btn">
+                9
+              </button>
+              <button type="button" className="page-btn">
+                10
+              </button>
+            </div>
+
+            <div className="request-footer-actions">
+              <button type="button" className="footer-nav-btn">
+                ‹ Previous
+              </button>
+              <button type="button" className="footer-nav-btn">
+                Next ›
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {showPreview && (
-        <div className="preview-card-wrapper">
-          <div className="preview-card">
-            <h2 className="preview-title">
-              Vehicle Identification Card Preview
-            </h2>
-
-            <span className="Profiles-Manager-form2-h2">
-              Kindly review the information below as it will appear on your
-              Vehicle Identification Card. If no changes are required, please
-              confirm and submit.
-            </span>
-
-            <VehicleCardPreview
-              purchaserName={purchaserName}
-              fatherName={fatherName}
-              cnic={cnic}
-              regDate={regDate}
-              currentOwnerName={currentOwnerName}
-              transferDate={transferDate}
-              tempAddress={tempAddress}
-              vehicleData={vehicleData}
-              ownerCnic={ownerCnic}
-            />
-
-            <div className="preview-buttons">
+      {showRequestForm && !showChallan && (
+        <>
+          <div
+            className="form-card"
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "24px",
+              padding: "24px",
+              borderRadius: "16px",
+              border: "1px solid #e3e3e3",
+              backgroundColor: "#fff",
+              marginTop: "16px",
+            }}
+          >
+            <div className="back-link-row">
               <button
-                className="back-button"
-                onClick={() => setShowPreview(false)}
+                type="button"
+                className="top-back-button"
+                onClick={goBackToTable}
               >
-                GO BACK AND EDIT
+                ← Back to Requests
               </button>
+            </div>
 
-              <button
-                className="confirm-button"
-                disabled={challanLoading}
-                onClick={async () => {
-                  setChallanError(null);
-                  setChallanLoading(true);
-                  try {
-                    const formattedDate = regDate
-                      ? dayjs(regDate).format("DD/MM/YYYY")
-                      : "";
+            <div>
+              <div className="mb-1">
+                <span className="block font-bold text-lg">
+                  Change of Ownership
+                </span>
+              </div>
 
-                    const response = await authFetch(
-                      API_ENDPOINTS.PROCESS_BIO,
-                      {
-                        method: "POST",
-                        body: JSON.stringify({
-                          TRANSACTION_NO: biometricNo,
-                          REG_NO: regNo.toUpperCase(),
-                          REG_DATE: formattedDate,
-                          PURCHASER_NAME: purchaserName,
-                          PURCHASER_FATHER_NAME: fatherName,
-                          PURCHASER_CONTACT_NUMBER: contactNumber,
-                          PURCHASER_CONTACT_NUMBER2: otherContactNumber,
-                          PURCHASER_EMAIL: email,
-                        }),
-                      },
-                    );
+              <div className="mb-3">
+                <span className="block text-gray-600 text-sm">
+                  Please provide the details below to view owner information
+                </span>
+              </div>
 
-                    if (!response) return;
-                    if (!response.ok) {
-                      throw new Error(`Error: ${response.statusText}`);
-                    }
-
-                    const result = await response.json();
-                    setChallanData(result);
-                    setShowChallan(true);
-                  } catch (err) {
-                    setChallanError(
-                      err.message || "Failed to process. Please try again.",
-                    );
-                  } finally {
-                    setChallanLoading(false);
-                  }
+              <hr
+                style={{
+                  border: "none",
+                  borderTop: "1px solid #e3e3e3",
+                  width: "80%",
+                  margin: "0 auto",
                 }}
-              >
-                {challanLoading ? "Processing..." : "CONFIRM AND SUBMIT"}
-              </button>
+              />
+            </div>
 
-              {challanError && (
-                <div
+            <form onSubmit={handleSubmit}>
+              <Row gutter={[16, 8]} align="bottom">
+                <Col xs={24} sm={24} md={12} lg={7}>
+                  <div className="w-full">
+                    <label className="Textfield-Label">Registration No.</label>
+                    <div className="w-full">
+                      <UppercaseInput
+                        placeholder="e.g., ALB-572"
+                        value={regNo}
+                        onChange={(val) => setRegNo(val)}
+                        className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg 
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 
+                        focus:border-blue-500"
+                      />
+                    </div>
+                  </div>
+                </Col>
+
+                <Col xs={24} sm={24} md={12} lg={7}>
+                  <div className="w-full">
+                    <LabelDatePicker
+                      label="Registration Date"
+                      value={regDate}
+                      setRegDate={setRegDate}
+                      className="w-full"
+                    />
+                  </div>
+                </Col>
+
+                <Col flex="auto">
+                  <label className="Textfield-Label">
+                    Biometric Verification Tracking Number
+                  </label>
+                  <Input
+                    placeholder="e.g., 1234567890"
+                    value={biometricNo}
+                    onChange={(e) =>
+                      setBiometricNo(e.target.value.toUpperCase())
+                    }
+                    className="w-full"
+                  />
+                </Col>
+
+                <Col flex="150px">
+                  <button
+                    type="submit"
+                    className="submit-frame w-full"
+                    disabled={loading || !regNo || !regDate || !biometricNo}
+                  >
+                    {loading ? "Loading..." : "Submit"}
+                  </button>
+                </Col>
+              </Row>
+            </form>
+
+            {error && (
+              <div className="text-red-500 text-sm text-center">{error}</div>
+            )}
+
+            {!showData && !error && (
+              <div className="flex flex-col items-center mt-2 px-4">
+                {transferIcon ? (
+                  <img src={transferIcon} alt="icon" className="w-11 h-11" />
+                ) : (
+                  <div className="w-11 h-11 bg-black rounded"></div>
+                )}
+                <span
+                  className="mt-2 font-[Inter] text-sm text-center text-[#556485]"
                   style={{
-                    color: "#ff4d4f",
-                    fontSize: "12px",
-                    textAlign: "center",
-                    marginTop: "8px",
-                    width: "100%",
+                    maxWidth: "392px",
+                    whiteSpace: "normal",
+                    overflowWrap: "break-word",
                   }}
                 >
-                  {challanError}
+                  Please enter the above information to proceed with the change
+                  of ownership process.
+                </span>
+              </div>
+            )}
+
+            {showData && (
+              <>
+                <hr className="dummy-divider" />
+                <div className="dummy-data-container no-bg">
+                  <div className="dummy-data-item">
+                    <span className="label">Registration No.</span>
+                    <div className="value">{regNo || "N/A"}</div>
+                  </div>
+
+                  <div className="dummy-data-item">
+                    <span className="label">Registration Date</span>
+                    <div className="value">
+                      {regDate ? dayjs(regDate).format("DD-MM-YYYY") : "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="dummy-data-item">
+                    <span className="label">Engine No.</span>
+                    <div className="value">
+                      {vehicleData?.VEH_ENGINE_NO || "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="dummy-data-item">
+                    <span className="label">First Owner Name</span>
+                    <div className="value">{firstOwnerName || "N/A"}</div>
+                  </div>
+
+                  <div className="dummy-data-item">
+                    <span className="label">First Owner F/H/W/O</span>
+                    <div className="value">{firstOwnerFatherName || "N/A"}</div>
+                  </div>
+
+                  <div className="dummy-data-item">
+                    <span className="label">First Owner CNIC</span>
+                    <div className="value">{firstOwnerCnic || "N/A"}</div>
+                  </div>
+
+                  <div className="dummy-data-item">
+                    <span className="label">Chasis No.</span>
+                    <div className="value">
+                      {vehicleData?.VEH_CHASIS_NO || "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="dummy-data-item">
+                    <span className="label">Current Owner CNIC</span>
+                    <div className="value">{ownerCnic || "N/A"}</div>
+                  </div>
+
+                  <div className="dummy-data-item">
+                    <span className="label">Current Owner Name</span>
+                    <div className="value">{ownerName || "N/A"}</div>
+                  </div>
                 </div>
-              )}
-            </div>
+              </>
+            )}
           </div>
-        </div>
+
+          {showPurchaserForm && !showPreview && (
+            <div className="Frame-1000009526">
+              <div style={{ padding: "0 24px" }}>
+                <span className="Profiles-Manager-form2-h1">
+                  Purchaser Information
+                </span>
+                <span className="Profiles-Manager-form2-h2">
+                  Please provide the details of the purchaser to whom the
+                  ownership is being transferred
+                </span>
+                <hr
+                  style={{
+                    marginTop: "15px",
+                    border: "none",
+                    borderTop: "1px solid #e3e3e3",
+                  }}
+                />
+              </div>
+
+              <div style={{ padding: "0 24px" }}>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} sm={8}>
+                    <span className="Dropdown-Label Textfield-Label">
+                      Purchaser Name
+                    </span>
+
+                    <Input
+                      placeholder="Enter Purchaser Name"
+                      className="uniform-input1"
+                      value={purchaserName}
+                      onChange={(e) =>
+                        setPurchaserName(e.target.value.toUpperCase())
+                      }
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={8}>
+                    <span className="Textfield-Label">F/H/W/O Name</span>
+                    <UppercaseInput
+                      value={fatherName}
+                      onChange={setFatherName}
+                      placeholder="Enter Father Name"
+                      className="uniform-input1"
+                      maxLength={32}
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={8}>
+                    <span className="Textfield-Label">CNIC No.</span>
+                    <Input
+                      value={cnic}
+                      readOnly
+                      placeholder="Auto-filled from biometric"
+                      className="uniform-input1"
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={8}>
+                    <span className="Textfield-Label">Contact Number</span>
+                    <UppercaseInput
+                      value={contactNumber}
+                      onChange={setContactNumber}
+                      isPhone
+                      placeholder="Enter Contact Number"
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={8}>
+                    <span className="Textfield-Label">
+                      Other Contact Number
+                    </span>
+                    <UppercaseInput
+                      value={otherContactNumber}
+                      onChange={setOtherContactNumber}
+                      isPhone
+                      placeholder="Enter Other Contact Number"
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={8}>
+                    <span className="Textfield-Label">Email Address</span>
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEmail(val);
+                        if (val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+                          setEmailError("Please enter a valid email address");
+                        } else {
+                          setEmailError("");
+                        }
+                      }}
+                      placeholder="Enter Email Address"
+                      className="uniform-input1"
+                      status={emailError ? "error" : ""}
+                    />
+                    {emailError && (
+                      <span style={{ color: "#ff4d4f", fontSize: "12px" }}>
+                        {emailError}
+                      </span>
+                    )}
+                  </Col>
+
+                  <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                    <span className="Textfield-Label">Upload CNIC Image</span>
+                    <div
+                      className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
+                      style={{ height: "100px", marginTop: "4px" }}
+                      onClick={() =>
+                        document.getElementById("nic-upload").click()
+                      }
+                    >
+                      {nicImage ? (
+                        <img
+                          src={URL.createObjectURL(nicImage)}
+                          alt="CNIC"
+                          className="h-full w-full object-contain rounded-lg"
+                        />
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-8 w-8 text-gray-400 mb-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
+                            />
+                          </svg>
+                          <span className="text-sm text-gray-500">
+                            Click to upload CNIC
+                          </span>
+                        </>
+                      )}
+                      <input
+                        id="nic-upload"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => setNicImage(e.target.files[0] || null)}
+                      />
+                    </div>
+                    {nicImage && (
+                      <button
+                        type="button"
+                        className="text-xs text-red-500 mt-1"
+                        onClick={() => setNicImage(null)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </Col>
+
+                  <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                    <span className="Textfield-Label">
+                      Upload Transfer Letter
+                    </span>
+                    <div
+                      className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
+                      style={{ height: "100px", marginTop: "4px" }}
+                      onClick={() =>
+                        document
+                          .getElementById("transfer-letter-upload")
+                          .click()
+                      }
+                    >
+                      {transferLetterImage ? (
+                        <img
+                          src={URL.createObjectURL(transferLetterImage)}
+                          alt="Transfer Letter"
+                          className="h-full w-full object-contain rounded-lg"
+                        />
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-8 w-8 text-gray-400 mb-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
+                            />
+                          </svg>
+                          <span className="text-sm text-gray-500">
+                            Click to upload Transfer Letter
+                          </span>
+                        </>
+                      )}
+                      <input
+                        id="transfer-letter-upload"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) =>
+                          setTransferLetterImage(e.target.files[0] || null)
+                        }
+                      />
+                    </div>
+                    {transferLetterImage && (
+                      <button
+                        type="button"
+                        className="text-xs text-red-500 mt-1"
+                        onClick={() => setTransferLetterImage(null)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </Col>
+
+                  <Col xs={24} sm={12} className="relative">
+                    <span className="Textfield-Label">Temporary Address</span>
+                    <UppercaseInput
+                      textarea
+                      value={tempAddress}
+                      onChange={(val) => setTempAddress(val)}
+                      showCount
+                      maxLength={30}
+                      rows={4}
+                      placeholder="Enter Address..."
+                      className="uniform-input2"
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={12} className="relative">
+                    <span className="Textfield-Label">Permanent Address</span>
+                    <UppercaseInput
+                      textarea
+                      value={permAddress}
+                      onChange={(val) => setPermAddress(val)}
+                      showCount
+                      maxLength={30}
+                      rows={4}
+                      placeholder="Enter Address..."
+                      className="uniform-input2"
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={24}>
+                    <Form layout="vertical">
+                      <DistrictDropdowns />
+                    </Form>
+                  </Col>
+                </Row>
+
+                <Row gutter={[16, 0]} style={{ marginTop: "32px" }}>
+                  <Col span={24}>
+                    <div className="my-6 border-t border-gray-300"></div>
+
+                    <div className="hire-purchase-container mt-6">
+                      <span className="Hire-Purchase-Agreement block">
+                        Hire Purchase Agreement
+                      </span>
+                      <Switch />
+                    </div>
+                  </Col>
+
+                  <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                    <div className="w-full">
+                      <label className="block mb-1 text-sm font-medium text-gray-700">
+                        Bank / Company Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Enter...."
+                        className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </Col>
+
+                  <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                    <span className="city-select-label">Select your city</span>
+                    <div
+                      className="frame-1 w-full h-12 rounded-md overflow-hidden"
+                      style={{ marginTop: "4px" }}
+                    >
+                      <select className="w-full h-full bg-transparent px-3 outline-none">
+                        <option value="">Choose city</option>
+                        <option value="karachi">ISLAMABAD</option>
+                        <option value="lahore">LAHORE</option>
+                        <option value="islamabad">KARACHI</option>
+                        <option value="multan">MULTAN</option>
+                        <option value="faisalabad">FAISALABAD</option>
+                      </select>
+                    </div>
+                  </Col>
+                </Row>
+
+                <div
+                  style={{
+                    marginTop: "24px",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="Save_button"
+                    style={{ width: "30%" }}
+                    onClick={() => setShowPreview(true)}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showPreview && (
+            <div className="preview-card-wrapper">
+              <div className="preview-card">
+                <h2 className="preview-title">
+                  Vehicle Identification Card Preview
+                </h2>
+
+                <span className="Profiles-Manager-form2-h2">
+                  Kindly review the information below as it will appear on your
+                  Vehicle Identification Card. If no changes are required,
+                  please confirm and submit.
+                </span>
+
+                <VehicleCardPreview
+                  purchaserName={purchaserName}
+                  fatherName={fatherName}
+                  cnic={cnic}
+                  regDate={regDate}
+                  currentOwnerName={currentOwnerName}
+                  transferDate={transferDate}
+                  tempAddress={tempAddress}
+                  vehicleData={vehicleData}
+                  ownerCnic={ownerCnic}
+                />
+
+                <div className="preview-buttons">
+                  <button
+                    className="back-button"
+                    onClick={() => setShowPreview(false)}
+                  >
+                    GO BACK AND EDIT
+                  </button>
+
+                  <button
+                    className="confirm-button"
+                    disabled={challanLoading}
+                    onClick={async () => {
+                      setChallanError(null);
+                      setChallanLoading(true);
+
+                      try {
+                        const formattedDate = regDate
+                          ? dayjs(regDate).format("DD/MM/YYYY")
+                          : "";
+
+                        const response = await authFetch(
+                          API_ENDPOINTS.PROCESS_BIO,
+                          {
+                            method: "POST",
+                            body: JSON.stringify({
+                              TRANSACTION_NO: biometricNo,
+                              REG_NO: regNo.toUpperCase(),
+                              REG_DATE: formattedDate,
+                              PURCHASER_NAME: purchaserName,
+                              PURCHASER_FATHER_NAME: fatherName,
+                              PURCHASER_CONTACT_NUMBER: contactNumber,
+                              PURCHASER_CONTACT_NUMBER2: otherContactNumber,
+                              PURCHASER_EMAIL: email,
+                            }),
+                          },
+                        );
+
+                        if (!response) return;
+
+                        if (!response.ok) {
+                          throw new Error(`Error: ${response.statusText}`);
+                        }
+
+                        const result = await response.json();
+
+                        setChallanData(result);
+                        addRequestRecord(result);
+                        setShowChallan(true);
+                      } catch (err) {
+                        setChallanError(
+                          err.message || "Failed to process. Please try again.",
+                        );
+                      } finally {
+                        setChallanLoading(false);
+                      }
+                    }}
+                  >
+                    {challanLoading ? "Processing..." : "CONFIRM AND SUBMIT"}
+                  </button>
+
+                  {challanError && (
+                    <div
+                      style={{
+                        color: "#ff4d4f",
+                        fontSize: "12px",
+                        textAlign: "center",
+                        marginTop: "8px",
+                        width: "100%",
+                      }}
+                    >
+                      {challanError}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
-      {/* =======================================
-           CHALLAN SECTION (FIXED)
-         ======================================== */}
       {showChallan && (
         <div className="nbp-challan-wrapper">
           <div id="challan" className="nbp-challan">
@@ -936,7 +1143,6 @@ const VehicleTransferOwnership = () => {
             </div>
           </div>
 
-          {/* BUTTONS - outside #challan so they are excluded from PDF */}
           <div
             className="preview-buttons"
             style={{ marginTop: "24px", width: "100%", maxWidth: "1200px" }}
@@ -944,13 +1150,10 @@ const VehicleTransferOwnership = () => {
             <button
               className="back-button"
               onClick={() => {
-                setShowChallan(false);
-                setShowPreview(false);
-                setShowPurchaserForm(false);
-                setShowData(false);
+                goBackToTable();
               }}
             >
-              Back to Homepage
+              Back to Requests
             </button>
 
             <button
@@ -980,6 +1183,14 @@ const VehicleTransferOwnership = () => {
           </div>
         </div>
       )}
+      <AttentionModal
+        open={showAttention}
+        onClose={() => setShowAttention(false)}
+        onContinue={() => {
+          setShowAttention(false);
+          openNewRequestForm();
+        }}
+      />
     </div>
   );
 };

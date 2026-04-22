@@ -24,8 +24,6 @@ import biometricVerif from "../../assets/icons/Biometric Verification-Unselected
 import biometricVerifActive from "../../assets/icons/Biometric Verification-Selected.svg";
 import eSahulat from "../../assets/icons/eSahulat Centre Locator-Unselected.svg";
 import eSahulatActive from "../../assets/icons/eSahulat Centre Locator-Selected.svg";
-
-import AttentionModal from "../attention-modal";
 import bgImage from "../../assets/icons/popup-bg.png";
 import { disabledPages } from "../../config/pageConfig";
 import { useAuth } from "../../context/AuthContext";
@@ -43,7 +41,7 @@ const Sidebar = () => {
   };
 
   const [collapsed, setCollapsed] = useState(false);
-  const [showAttention, setShowAttention] = useState(false);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1030);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -176,7 +174,6 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar-wrapper">
-    
       {!isMobile && (
         <>
           <Button
@@ -212,12 +209,7 @@ const Sidebar = () => {
                   mode="inline"
                   selectedKeys={[location.pathname]}
                   onClick={({ key }) => {
-                    if (key === "/transfer-ownership") {
-                      setShowAttention(true);
-                      navigate(key);
-                    } else {
-                      navigate(key);
-                    }
+                    navigate(key);
                   }}
                   items={menuItemsForAntd}
                   className="custom-menu"
@@ -238,7 +230,10 @@ const Sidebar = () => {
                     />
                     <span>{userName || "User Account"}</span>
                   </button>
-                  <button onClick={handleLogout} className="flex items-center w-full px-4 py-2 mt-2 text-red-600 font-semibold rounded hover:bg-white/80 gap-2">
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full px-4 py-2 mt-2 text-red-600 font-semibold rounded hover:bg-white/80 gap-2"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -262,7 +257,6 @@ const Sidebar = () => {
         </>
       )}
 
-      
       {isMobile && (
         <Popover
           content={popoverContent}
@@ -291,11 +285,6 @@ const Sidebar = () => {
           />
         </Popover>
       )}
-
-      <AttentionModal
-        open={showAttention}
-        onClose={() => setShowAttention(false)}
-      />
     </div>
   );
 };

@@ -1,6 +1,5 @@
-/* Global font */
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* ===============================
@@ -10,40 +9,30 @@
   width: 100%;
   border-radius: 16px;
   border: 1px solid #e3e3e3;
-
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  background: #fff;
 }
 
-
-/* ===============================
-   INNER CONTENT WRAPPER
-================================= */
 .my-numbers-content-container {
   width: 100%;
   max-width: 1200px;
   background: transparent !important;
 }
 
-/* ===============================
-   FORM CARD (FIRST FORM)
-================================= */
 .my-numbers-content-container > div {
   width: 100%;
   border-radius: 16px;
-  border: 1px solid #e3e3e3; 
-  background-color: #fff; // ✅ FIX
+  border: 1px solid #e3e3e3;
+  background-color: #fff;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* ===============================
-   HEADING STYLES
-================================= */
 .title {
   font-size: 18px !important;
   font-weight: 600 !important;
@@ -52,23 +41,14 @@
 
 .Textfield-Label {
   display: block;
-  margin-bottom: 8px; 
+  margin-bottom: 10px;
   font-family: Inter, sans-serif;
   font-size: 14px;
   font-weight: bold;
-  color: #161a23;
-  align-items: stretch;
-  line-height: 1.2;
-  display: block; 
-  margin-bottom: 10px; 
-  font-weight: bold; 
-  font-size: 14px; 
   color: #000;
+  line-height: 1.2;
 }
 
-/* ===============================
-   INPUT & SELECT STYLING
-================================= */
 .ant-input {
   height: 44px;
   border-radius: 6px;
@@ -88,10 +68,198 @@
   align-items: center;
 }
 
-/* Remove extra AntD focus shadows */
 .ant-select-focused .ant-select-selector,
 .ant-picker-focused {
   box-shadow: none !important;
+}
+
+/* ===============================
+   TOP REQUEST TABLE SECTION
+================================= */
+.request-table-card {
+  width: 100%;
+  margin-top: 16px;
+  padding: 16px 14px 18px;
+  border-radius: 16px;
+  border: 1px solid #e6e9ef;
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+.request-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.request-table-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0d4f4a;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.request-table-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.request-search-box {
+  min-width: 240px;
+  width: 280px;
+  height: 44px;
+  border: 1px solid #e3e8ef;
+  border-radius: 10px;
+  background: #f7f9fc;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.request-search-icon {
+  font-size: 16px;
+  color: #8d98aa;
+  margin-right: 8px;
+}
+
+.request-search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+  color: #4b5565;
+}
+
+.request-new-btn {
+  height: 44px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 10px;
+  background: #e7f1f0;
+  color: #0d5c56;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.request-new-btn:hover {
+  background: #d7e8e6;
+}
+
+.request-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #edf0f5;
+  flex: 1;
+  min-height: 520px; // important
+  background: #fff;
+}
+
+.request-table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+  background: #fff;
+}
+.request-table tbody {
+  min-height: 100%;
+}
+.request-table tbody tr {
+  height: 56px;
+}
+
+.request-table thead th {
+  text-align: left;
+  padding: 14px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7e8aa3;
+  background: #fafbfd;
+  border-bottom: 1px solid #edf0f5;
+  white-space: nowrap;
+}
+
+.request-table tbody td {
+  padding: 14px;
+  font-size: 13px;
+  color: #263445;
+  border-bottom: 1px solid #f0f2f6;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.request-table tbody tr:hover {
+  background: #fcfdfd;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #e9f7ef;
+  color: #157347;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.request-empty-state {
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #8793a8;
+  text-align: center;
+  padding: 30px 15px;
+}
+
+.request-empty-icon {
+  font-size: 42px;
+  line-height: 1;
+  margin-bottom: 14px;
+  opacity: 0.6;
+}
+
+.request-empty-state p {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #6d7b93;
+}
+
+.request-empty-state span {
+  font-size: 14px;
+  color: #8d98aa;
+}
+
+.back-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.top-back-button {
+  border: none;
+  background: transparent;
+  color: #04544f;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
 }
 
 /* ===============================
@@ -113,9 +281,6 @@
   background-color: #cddede;
 }
 
-/* ===============================
-   INFO SECTION (BEFORE SUBMIT)
-================================= */
 .info-text {
   font-size: 14px;
   color: #556485;
@@ -126,35 +291,30 @@
 /* ===============================
    DUMMY DATA GRID
 ================================= */
-/* Divider */
 .dummy-divider {
   border: none;
   border-top: 1px solid #e3e3e3;
   margin: 24px 0;
 }
 
-/* Container */
 .dummy-data-container.no-bg {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px 32px;
 }
 
-/* Tablet */
 @media (max-width: 992px) {
   .dummy-data-container.no-bg {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Mobile */
 @media (max-width: 576px) {
   .dummy-data-container.no-bg {
     grid-template-columns: 1fr;
   }
 }
 
-/* Item */
 .dummy-data-item {
   display: flex;
   flex-direction: column;
@@ -162,12 +322,10 @@
   border-right: 1px solid #e3e3e3;
 }
 
-/* Remove right border from every 3rd column */
 .dummy-data-item:nth-child(3n) {
   border-right: none;
 }
 
-/* Tablet fix (2 columns) */
 @media (max-width: 992px) {
   .dummy-data-item {
     border-right: none;
@@ -178,7 +336,6 @@
   }
 }
 
-/* Mobile fix */
 @media (max-width: 576px) {
   .dummy-data-item {
     border-right: none;
@@ -191,14 +348,12 @@
   }
 }
 
-/* Label */
 .dummy-data-item .label {
   font-size: 13px;
   color: #8c8c8c;
   font-weight: 500;
 }
 
-/* Value */
 .dummy-data-item .value {
   font-size: 15px;
   font-weight: 600;
@@ -209,7 +364,13 @@
 .Frame-1000009526 {
   margin-top: 32px !important;
   display: block;
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #e3e3e3;
+  background: #fff;
+  padding: 24px 0;
 }
+
 .Save_button {
   width: 30%;
   height: 50px;
@@ -225,16 +386,16 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
-  margin-top: 16px; 
+  margin-top: 16px;
 }
 
 .Save_button:hover {
   background-color: #03403c;
 }
+
 /* ===============================
    PREVIEW WRAPPER
 ================================= */
-
 .preview-card-wrapper {
   width: 100%;
   margin-top: 32px;
@@ -243,17 +404,13 @@
 }
 
 .preview-card {
-  width: 100%; 
-  max-width: 1200px auto; 
-  background: #ffffff; 
-  border-radius: 16px; 
-  padding: 32px; 
+  width: 100%;
+  max-width: 1200px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
   border: 1px solid #e3e3e3;
 }
-
-/* ===============================
-   HEADINGS
-================================= */
 
 .preview-title {
   font-size: 20px;
@@ -262,19 +419,14 @@
   text-align: center;
 }
 
-/* ===============================
-   SMART CARD CONTAINER
-================================= */
-
 .smart-card {
   position: relative;
   width: 100%;
   max-width: 100%;
-  margin: 30px 0; 
-  aspect-ratio: 950 / 340; /* Adjust according to your image ratio */
+  margin: 30px 0;
+  aspect-ratio: 950 / 340;
 }
 
-/* Background image */
 .card-bg {
   width: 100%;
   height: 100%;
@@ -282,7 +434,6 @@
   display: block;
 }
 
-/* Overlay layer */
 .card-overlay {
   position: absolute;
   inset: 0;
@@ -292,16 +443,10 @@
   padding: 20px;
 }
 
-/* All fields positioned absolute */
 .field {
   position: absolute;
   white-space: nowrap;
 }
-
-/* ===============================
-   LEFT SIDE POSITIONING
-   (Adjust according to your image)
-================================= */
 
 .purchaser-name {
   top: 80px;
@@ -328,21 +473,19 @@
   margin-left: -40px;
   display: flex;
   align-items: flex-start;
-  // white-space: normal;
 }
 
 .transferred-to {
-  top: 160px;  
+  top: 160px;
   left: 150px;
   width: 420px;
   margin-left: -40px;
   display: flex;
   align-items: flex-start;
-  // white-space: normal;
 }
 
 .transfer-date {
-  top: 190px;       // Adjust as needed
+  top: 190px;
   left: 150px;
   margin-left: -40px;
   display: flex;
@@ -351,7 +494,7 @@
 }
 
 .transfer-father {
-  top: 210px;      
+  top: 210px;
   left: 150px;
   margin-left: -40px;
   display: flex;
@@ -360,7 +503,7 @@
 }
 
 .transfer-cnic {
-  top: 230px;      
+  top: 230px;
   left: 150px;
   margin-left: -40px;
   display: flex;
@@ -369,51 +512,107 @@
 }
 
 .transfer-address {
-  top: 250px;       
+  top: 250px;
   left: 150px;
-  width: 420px;     // address wrap
+  width: 420px;
   margin-left: -40px;
   display: flex;
   align-items: flex-start;
   white-space: normal;
 }
 
-/* ===============================
-   RIGHT SIDE POSITIONING
-================================= */
-
 .back-field {
   position: absolute;
-  right: 280px;   // adjust according to card image
+  right: 280px;
   display: grid;
   grid-template-columns: 170px auto;
   font-size: 12px;
   font-weight: 600;
 }
 
-.chassis-back   { top: 10px;
+.chassis-back {
+  top: 10px;
   left: 250px;
-  margin-left: 340px;}
-.engine-back    { top: 30px; left: 250px; margin-left: 340px;}
-.hpa-back       { top: 50px; left: 250px; margin-left: 340px;}
-.cylinder-back  { top: 70px;left: 250px; margin-left: 340px;}
-.body-back      { top: 90px;left: 250px; margin-left: 340px;}
-.prev-reg-back  { top: 110px;left: 250px; margin-left: 340px;}
-.maker-back     { top: 130px;left: 250px; margin-left: 340px;}
-.class-back     { top: 150px;left: 250px; margin-left: 340px;}
-.unladen-back   { top: 170px;left: 250px; margin-left: 340px;}
-.laden-back     { top: 190px;left: 250px; margin-left: 340px;}
-.tyre-heading   { top: 210px;left: 250px; margin-left: 340px;
-  
+  margin-left: 340px;
 }
 
-/* Sub items (Indented) */
-.tyre-front  { top: 230px;left: 250px; margin-left: 360px;}
-.tyre-rear   { top: 250px;left: 250px; margin-left: 360px; }
-.tyre-other  { top: 270px;left: 250px; margin-left: 360px;}
+.engine-back {
+  top: 30px;
+  left: 250px;
+  margin-left: 340px;
+}
 
+.hpa-back {
+  top: 50px;
+  left: 250px;
+  margin-left: 340px;
+}
 
+.cylinder-back {
+  top: 70px;
+  left: 250px;
+  margin-left: 340px;
+}
 
+.body-back {
+  top: 90px;
+  left: 250px;
+  margin-left: 340px;
+}
+
+.prev-reg-back {
+  top: 110px;
+  left: 250px;
+  margin-left: 340px;
+}
+
+.maker-back {
+  top: 130px;
+  left: 250px;
+  margin-left: 340px;
+}
+
+.class-back {
+  top: 150px;
+  left: 250px;
+  margin-left: 340px;
+}
+
+.unladen-back {
+  top: 170px;
+  left: 250px;
+  margin-left: 340px;
+}
+
+.laden-back {
+  top: 190px;
+  left: 250px;
+  margin-left: 340px;
+}
+
+.tyre-heading {
+  top: 210px;
+  left: 250px;
+  margin-left: 340px;
+}
+
+.tyre-front {
+  top: 230px;
+  left: 250px;
+  margin-left: 360px;
+}
+
+.tyre-rear {
+  top: 250px;
+  left: 250px;
+  margin-left: 360px;
+}
+
+.tyre-other {
+  top: 270px;
+  left: 250px;
+  margin-left: 360px;
+}
 
 .vehicle-card-preview-wrapper {
   width: 100%;
@@ -445,7 +644,6 @@
   fill: #000000;
 }
 
-/* tablet */
 @media (max-width: 992px) {
   .card-label,
   .card-value {
@@ -453,7 +651,6 @@
   }
 }
 
-/* mobile */
 @media (max-width: 576px) {
   .vehicle-card-preview-wrapper {
     margin-top: 16px;
@@ -465,13 +662,6 @@
   }
 }
 
-
-
-
-
-
-
-
 /* ===============================
    BUTTONS
 ================================= */
@@ -480,11 +670,13 @@
   gap: 16px;
   margin-top: 32px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .back-button,
 .confirm-button {
   width: 30%;
+  min-width: 220px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -497,13 +689,11 @@
   cursor: pointer;
 }
 
-/* Back Button (Zeplin) */
 .back-button {
   background-color: #ebf1f1;
   color: #04544f;
 }
 
-/* Confirm Button (Zeplin) */
 .confirm-button {
   background-color: #04544f;
   color: #fff;
@@ -511,7 +701,7 @@
 
 .btn-text {
   height: 20px;
-  font-family: 'Proxima Nova', sans-serif; /* fallback added */
+  font-family: "Proxima Nova", sans-serif;
   font-size: 14px;
   font-weight: bold;
   line-height: 1.43;
@@ -526,8 +716,6 @@
 .confirm-text {
   color: #ffffff;
 }
-
-
 
 .card-overlay {
   .field {
@@ -559,6 +747,7 @@
   max-width: 900px;
   margin: 0 auto;
 }
+
 .nbp-challan-wrapper {
   width: 100% !important;
   display: flex;
@@ -568,12 +757,12 @@
 }
 
 .nbp-challan {
-  width: 100%; 
-  max-width: 1200px auto; 
-  background: #fff; 
-  padding: 40px; 
-  border-radius: 12px; 
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08); 
+  width: 100%;
+  max-width: 1200px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
   font-family: Arial, sans-serif;
 }
 
@@ -663,5 +852,198 @@
   .btn-download {
     background: #04544f;
     color: #fff;
+  }
+}
+
+/* ===============================
+   RESPONSIVE
+================================= */
+@media (max-width: 992px) {
+  .request-table-title {
+    font-size: 20px;
+  }
+
+  .request-table-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .request-search-box {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .request-new-btn {
+    width: 100%;
+  }
+
+  .Save_button {
+    width: 100% !important;
+  }
+
+  .preview-card {
+    padding: 20px;
+  }
+
+  .nbp-challan {
+    padding: 20px;
+  }
+
+  .challan-info {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .challan-footer {
+    flex-direction: column;
+    gap: 12px;
+
+    .branch-info {
+      text-align: left;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .request-table-card {
+    width: 100%;
+    margin-top: 16px;
+    padding: 16px 14px 18px;
+    border-radius: 16px;
+    border: 1px solid #e6e9ef;
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    min-height: 700px; // important
+    display: flex;
+    flex-direction: column;
+  }
+
+  .request-table-title {
+    font-size: 18px;
+  }
+
+  .request-empty-state {
+    min-height: 280px;
+  }
+
+  .back-button,
+  .confirm-button {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .form-card,
+  .Frame-1000009526,
+  .preview-card,
+  .nbp-challan {
+    border-radius: 12px;
+  }
+}
+
+.request-table-footer {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #edf0f5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.request-page-size {
+  min-width: 110px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d9dee8;
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #49566a;
+}
+
+.request-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #d9dee8;
+  border-radius: 8px;
+  background: #fff;
+  color: #556274;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+  background: #f5f8fb;
+}
+
+.page-btn.active {
+  background: #eef3f7;
+  color: #0d4f4a;
+  border-color: #cfd9e4;
+}
+
+.page-btn.dots {
+  cursor: default;
+}
+
+.request-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-nav-btn {
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid #d9dee8;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.footer-nav-btn:hover {
+  background: #f8fafc;
+}
+@media (max-width: 768px) {
+  .request-table-card {
+    min-height: 620px;
+  }
+
+  .request-table-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .request-page-size,
+  .request-footer-actions,
+  .request-pagination {
+    width: 100%;
+  }
+
+  .request-footer-actions {
+    justify-content: space-between;
+  }
+
+  .footer-nav-btn {
+    flex: 1;
   }
 }
