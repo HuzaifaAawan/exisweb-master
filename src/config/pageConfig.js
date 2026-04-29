@@ -17,6 +17,5 @@
 //   /locator               - eSahulat Centre Locator
 
 export const disabledPages = [
-   "/registration", "/my-numbers"
-  
+  "/registration", "/my-numbers"
 ];

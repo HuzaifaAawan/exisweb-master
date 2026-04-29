@@ -12,8 +12,6 @@ import CheckSmartCardStatus from "../pages/center-containers/smart-card-status";
 import VehicleChallanVerification from "../pages/center-containers/challan-verification";
 import ReserveRegNumber from "../pages/center-containers/reserve-number";
 import MyRegistrationNumbers from "../pages/center-containers/my-numbers";
-import BiometricVerification from "../pages/center-containers/biometric";
-import ESahulatCentreLocator from "../pages/center-containers/locator";
 import PrivateRoute from "./PrivateRoute";
 import AuthCallback from "./AuthCallback";
 import { disabledPages } from "../config/pageConfig";
@@ -54,8 +52,6 @@ const AppRoutes = () => {
         />
         <Route path="/reserve-number" element={page("/reserve-number", <ReserveRegNumber />)} />
         <Route path="/my-numbers" element={page("/my-numbers", <MyRegistrationNumbers />)} />
-        <Route path="/biometric" element={page("/biometric", <BiometricVerification />)} />
-        <Route path="/locator" element={page("/locator", <ESahulatCentreLocator />)} />
       </Route>
     </Routes>
   );

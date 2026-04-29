@@ -99,7 +99,7 @@ const CheckSmartCardStatus = () => {
               <label className="Textfield-Label">Registration No.</label>
               <input
                 type="text"
-                placeholder="e.g., ALI-575"
+                placeholder="e.g., ALB-572"
                 className="scs-input"
                 value={regNo}
                 onChange={(e) => setRegNo(e.target.value.toUpperCase())}
@@ -110,7 +110,7 @@ const CheckSmartCardStatus = () => {
               <label className="Textfield-Label">Application ID</label>
               <input
                 type="text"
-                placeholder="e.g., 8534635"
+                placeholder="e.g., 1234567"
                 className="scs-input"
                 value={appId}
                 onChange={(e) => setAppId(e.target.value)}

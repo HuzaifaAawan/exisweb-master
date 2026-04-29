@@ -109,14 +109,25 @@ const Sidebar = () => {
       label: "Biometric Verification",
       icon: biometricVerif,
       iconActive: biometricVerifActive,
+      externalUrl: "https://esahulat.nadra.gov.pk/esahulatportal",
     },
     {
       key: "/locator",
       label: "eSahulat Centre Locator",
       icon: eSahulat,
       iconActive: eSahulatActive,
+      externalUrl: "https://e-sahulat.nadra.gov.pk/subpages/locate_franchisee.php",
     },
   ];
+
+  const handleMenuClick = ({ key }) => {
+    const item = menuItems.find((m) => m.key === key);
+    if (item?.externalUrl) {
+      window.open(item.externalUrl, "_blank", "noopener,noreferrer");
+    } else {
+      navigate(key);
+    }
+  };
 
   const menuItemsForAntd = menuItems.filter((item) => !disabledPages.includes(item.key)).map((item) => ({
     key: item.key,
@@ -136,7 +147,7 @@ const Sidebar = () => {
         mode="inline"
         selectedKeys={[location.pathname]}
         onClick={({ key }) => {
-          navigate(key);
+          handleMenuClick({ key });
           setPopoverOpen(false);
         }}
         items={menuItemsForAntd}
@@ -208,9 +219,7 @@ const Sidebar = () => {
                 <Menu
                   mode="inline"
                   selectedKeys={[location.pathname]}
-                  onClick={({ key }) => {
-                    navigate(key);
-                  }}
+                  onClick={handleMenuClick}
                   items={menuItemsForAntd}
                   className="custom-menu"
                 />
