@@ -10,7 +10,8 @@ import UppercaseInput, {
 import {
   DistrictDropdowns,
 } from "../../../components/CapitalizedInput.jsx";
-
+import { useAuthFetch } from "../../../libs/hooks/useAuthFetch";
+import { API_ENDPOINTS } from "../../../constants";
 
 import {
   Button,
@@ -18,6 +19,7 @@ import {
   Collapse,
   Form,
   Input,
+  message,
   Row,
   Select,
   Switch,
@@ -39,11 +41,12 @@ const NewVehicleRegistration = () => {
   const [vehicleActiveKey, setVehicleActiveKey] = useState([]);
   const [ownerRepActiveKey, setOwnerRepActiveKey] = useState([]);
 
+  const authFetch = useAuthFetch();
   const [form] = Form.useForm();
   const [ownershipType, setOwnershipType] = useState(null);
   const [vehicleCategory, setVehicleCategory] = useState("");
-
-
+  const [loading, setLoading] = useState(false);
+  const [computerNumber, setComputerNumber] = useState(null);
 
   const [collapsed, setCollapsed] = useState({
     owner: false,
@@ -58,10 +61,131 @@ const NewVehicleRegistration = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(null);
 
-  const onFinish = (values) => {
-    console.log("Form Data: ", values);
-    generatePDF(values);
-    setInfoModal(true);
+  const BODY_TYPE_MAP = {
+    motorcycle: "MOTORCYCLE",
+    motorcar: "MOTOR CAR",
+    jeep: "JEEP",
+    pickup: "PICKUP",
+    van: "VAN",
+    minibus: "MINIBUS",
+    bus: "BUS",
+    truck: "TRUCK",
+  };
+
+  const COMMERCIAL_CAT_MAP = {
+    passenger: "PASSENGER VEHICLE",
+    goods: "GOODS VEHICLE",
+  };
+
+  const OWNER_TYPE_MAP = {
+    individual: "INDIVIDUAL",
+    company: "ORGANIZATIONAL",
+  };
+
+  const onFinish = async (values) => {
+    const isTransfer = activeKey.includes("2");
+    const isHirePurchase = hireActiveKey.includes("3");
+    const isTaxPayer = taxActiveKey.includes("4");
+    const hasRepresentative = ownerRepActiveKey.includes("7");
+
+    const purchaseDateStr = values.purchaseDate
+      ? values.purchaseDate.format("DD/MM/YYYY")
+      : "";
+
+    const engineCapacity = values.engineSize
+      ? values.engineSize.replace(/[^0-9]/g, "")
+      : "";
+
+    const payload = {
+      meta: { computerNumber: "" },
+      buyer: {
+        ownerType: OWNER_TYPE_MAP[values.ownershipType] || (values.ownershipType || "").toUpperCase(),
+        cnic: values.cnic || "",
+        ownerName: values.name || "",
+        contactNumber: values.mobile || "",
+        presentAddress: values.tempAddress || "",
+        presentAddressCity: values.tempCity || "",
+        presentAddressDistrict: values.tempDistrict || "",
+        permanentAddress: values.permAddress || "",
+        permanentAddressCity: values.permCity || "",
+        permanentAddressDistrict: values.permDistrict || "",
+        ntn: values.ntn || "",
+        passport: values.passport || "",
+        fatherHusbandName: values.fatherName || "",
+        otherContactNumber: values.otherPhone || "",
+      },
+      purchaser: {
+        ownerType: isTransfer ? (OWNER_TYPE_MAP[values.transferOwnershipType] || (values.transferOwnershipType || "").toUpperCase()) : "",
+        cnic: isTransfer ? (values.transferCnic || "") : "",
+        ownerName: isTransfer ? (values.transferName || "") : "",
+        contactNumber: "",
+        presentAddress: "",
+        presentAddressCity: "",
+        presentAddressDistrict: "",
+        permanentAddress: "",
+        permanentAddressCity: "",
+        permanentAddressDistrict: "",
+        ntn: isTransfer ? (values.transferNtn || "") : "",
+        passport: isTransfer ? (values.transferPassport || "") : "",
+        fatherHusbandName: isTransfer ? (values.transferFatherName || "") : "",
+        otherContactNumber: "",
+      },
+      vehicle: {
+        taxpayerType: isTaxPayer ? (values.taxCategory || "").toUpperCase() : "",
+        vehicleHirePurchaseAgreement: isHirePurchase ? "YES" : "NO",
+        vehicleFirstTransfer: isTransfer ? "YES" : "NO",
+        vehicleHirePurchaseParty: isHirePurchase ? (values.bankCompanyName || "") : "",
+        ownerTypePurchaser: isTransfer ? (OWNER_TYPE_MAP[values.transferOwnershipType] || (values.transferOwnershipType || "").toUpperCase()) : "",
+        cnicPurchaser: isTransfer ? (values.transferCnic || "") : "",
+        ownerNamePurchaser: isTransfer ? (values.transferName || "") : "",
+        fatherHusbandNamePurchaser: isTransfer ? (values.transferFatherName || "") : "",
+        vehicleCategory: (values.vehicleCategory || "").toUpperCase(),
+        vehiclePurchaseType: (values.purchaseType || "").toUpperCase(),
+        vehicleBodyType: BODY_TYPE_MAP[values.bodyType] || (values.bodyType || "").toUpperCase(),
+        vehicleSeats: String(values.seats || ""),
+        vehicleChasisNumber: values.chassisNo || "",
+        vehicleEngineNumber: values.engineNo || "",
+        vehicleEngineCapacity: engineCapacity,
+        vehicleColor: values.color || "",
+        vehicleValue: values.value || "",
+        vehiclePurchaseDate: purchaseDateStr,
+        vehicleCommercialCategory: vehicleCategory === "commercial" ? (COMMERCIAL_CAT_MAP[values.vehicleType] || (values.vehicleType || "").toUpperCase()) : "",
+        vehicleLadenWeight: values.ladenWeight ? String(values.ladenWeight) : "",
+        vehicleUnLadenWeight: values.unladenWeight ? String(values.unladenWeight) : "",
+        representativeCnic: hasRepresentative ? (values.repCnic || "") : "",
+        representativeMobile: hasRepresentative ? (values.repMobile || "") : "",
+        representativeName: hasRepresentative ? (values.repName || "") : "",
+        representativeFName: hasRepresentative ? (values.repFatherName || "") : "",
+        ntnPurchaser: isTransfer ? (values.transferNtn || "") : "",
+        passportPurchaser: isTransfer ? (values.transferPassport || "") : "",
+      },
+    };
+
+    setLoading(true);
+    try {
+      const response = await authFetch(API_ENDPOINTS.NEW_REG_SUBMIT, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      if (!response) return; // 401 handled by useAuthFetch (redirect)
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        message.error(errData?.message || `Submission failed (${response.status})`);
+        return;
+      }
+
+      const data = await response.json();
+      const compNum = data?.meta?.computerNumber || null;
+      setComputerNumber(compNum);
+      generatePDF(values);
+      setInfoModal(true);
+    } catch (err) {
+      message.error("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
   
   return (
@@ -455,7 +579,7 @@ const NewVehicleRegistration = () => {
                   >
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Ownership Type*" name="ownershipType">
+                        <Form.Item label="Ownership Type*" name="transferOwnershipType">
                           <Select
                             placeholder="Select"
                             className="slection-field"
@@ -468,7 +592,7 @@ const NewVehicleRegistration = () => {
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
-                          name="ntn"
+                          name="transferNtn"
                           label="NTN Number"
                           rules={[
                             {
@@ -487,7 +611,7 @@ const NewVehicleRegistration = () => {
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           label="CNIC Number"
-                          name="cnic"
+                          name="transferCnic"
                           rules={[
                             {
                               required: true,
@@ -505,13 +629,13 @@ const NewVehicleRegistration = () => {
 
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Passport No." name="Passport">
+                        <Form.Item label="Passport No." name="transferPassport">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Name" name="name">
+                        <Form.Item label="Name" name="transferName">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
@@ -519,7 +643,7 @@ const NewVehicleRegistration = () => {
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item
                           label="F/H/W/O Name"
-                          name="fatherName"
+                          name="transferFatherName"
                           rules={[
                             { required: true, message: "Please enter name" },
                           ]}
@@ -737,7 +861,7 @@ const NewVehicleRegistration = () => {
                       <Col span={12}>
                         <Form.Item
                           label="CNIC Number"
-                          name="cnic"
+                          name="repCnic"
                           rules={[
                             {
                               required: true,
@@ -753,7 +877,7 @@ const NewVehicleRegistration = () => {
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="Mobile Number" name="mobileNo">
+                        <Form.Item label="Mobile Number" name="repMobile">
                           <UppercaseInput
                             style={{ width: "100%" }}
                             isPhone
@@ -765,14 +889,14 @@ const NewVehicleRegistration = () => {
 
                     <Row gutter={16}>
                       <Col span={12}>
-                        <Form.Item label="Name" name="name">
+                        <Form.Item label="Name" name="repName">
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
                         <Form.Item
                           label="F/H/W/O Name"
-                          name="fatherName"
+                          name="repFatherName"
                           rules={[
                             { required: true, message: "Please enter name" },
                           ]}
@@ -794,6 +918,7 @@ const NewVehicleRegistration = () => {
                       type="primary"
                       htmlType="submit"
                       block
+                      loading={loading}
                       className="submit-btn"
                     >
                       SAVE VEHICLE REGISTRATION
@@ -808,7 +933,7 @@ const NewVehicleRegistration = () => {
           <ApplicationDetails />
         </TabPane>
       </Tabs>
-      <InfoModal open={infoModal} onClose={() => setInfoModal(false)} />
+      <InfoModal computerNumber={computerNumber} open={infoModal} onClose={() => setInfoModal(false)} />
     </div>
   );
 };
