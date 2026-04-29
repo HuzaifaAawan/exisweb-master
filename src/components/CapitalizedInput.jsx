@@ -240,7 +240,7 @@ const DistrictDropdowns = () => {
     <Row gutter={[16, 16]} wrap className="cities-row">
       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
         <Form.Item label="District (Temporary)" name="tempDistrict">
-          <Select placeholder="Select" className="slection-field">
+          <Select placeholder="Select" className="slection-field" showSearch filterOption={(input, option) => (option?.children ?? "").toLowerCase().includes(input.toLowerCase())}>
             {districts.map((d) => (
               <Option key={d} value={d}>
                 {d}
@@ -252,7 +252,7 @@ const DistrictDropdowns = () => {
 
       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
         <Form.Item label="District (Permanent)" name="permDistrict">
-          <Select placeholder="Select" className="slection-field">
+          <Select placeholder="Select" className="slection-field" showSearch filterOption={(input, option) => (option?.children ?? "").toLowerCase().includes(input.toLowerCase())}>
             {districts.map((d) => (
               <Option key={d} value={d}>
                 {d}

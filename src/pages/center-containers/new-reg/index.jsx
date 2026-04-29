@@ -304,16 +304,17 @@ const NewVehicleRegistration = () => {
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="No. of Seats" name="seats">
-                          <Select
-                            placeholder="Select number"
+                          <Input
+                            placeholder="Enter number of seats"
                             className="slection-field"
-                          >
-                            {[...Array(100)].map((_, i) => (
-                              <Select.Option key={i + 1} value={i + 1}>
-                                {i + 1}
-                              </Select.Option>
-                            ))}
-                          </Select>
+                            onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/\D/g, "");
+                              if (Number(val) > 999) return;
+                              e.target.value = val;
+                            }}
+                            maxLength={3}
+                          />
                         </Form.Item>
                       </Col>
 
@@ -348,7 +349,11 @@ const NewVehicleRegistration = () => {
 
                       <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                         <Form.Item label="Vehicle Value" name="value">
-                          <UppercaseInput placeholder="Enter here..." />
+                          <Input
+                            placeholder="Enter here..."
+                            className="slection-field"
+                            onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }}
+                          />
                         </Form.Item>
                       </Col>
 
@@ -913,16 +918,14 @@ const NewVehicleRegistration = () => {
 
                 {/* Submit Button */}
                 <Form.Item>
-                  <div className="vehicle-reg-btn">
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      block
-                      loading={loading}
-                      className="submit-btn"
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="confirm-button"
                     >
-                      SAVE VEHICLE REGISTRATION
-                    </Button>
+                      {loading ? "Saving..." : "SAVE VEHICLE REGISTRATION"}
+                    </button>
                   </div>
                 </Form.Item>
               </Form>

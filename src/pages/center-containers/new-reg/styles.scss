@@ -356,6 +356,28 @@ textarea:focus {
     font-size: 0.8125rem;
   }
 }
+
+.confirm-button {
+  width: 30%;
+  min-width: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #04544f;
+  color: #fff;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
 .ant-input-affix-wrapper {
   padding: 0px!important;
   text-align: left !important;
