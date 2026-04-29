@@ -280,12 +280,12 @@
 /* DatePicker main input ke andar text + icon ko center karne ke liye */
 .custom-datepicker .ant-picker-suffix {
   top: 50% !important;
-  transform: translateY(50%) !important;
+  transform: translateY(-3%) !important;
 }
 
 /* Placeholder / text ko center align karne ke liye */
 .custom-datepicker .ant-picker-input > input {
-  transform: translateY(30%) !important;
+  transform: translateY(-3%) !important;
 }
 
 /* Select box text vertical centering */

@@ -468,14 +468,12 @@ const VehicleTransferOwnership = () => {
                 </Col>
 
                 <Col xs={24} sm={24} md={12} lg={7}>
-                  <div className="w-full">
-                    <LabelDatePicker
-                      label="Registration Date"
-                      value={regDate}
-                      setRegDate={setRegDate}
-                      className="w-full"
-                    />
-                  </div>
+                  <LabelDatePicker
+                    label="Registration Date"
+                    value={regDate}
+                    setRegDate={setRegDate}
+                    className="w-full"
+                  />
                 </Col>
 
                 <Col flex="auto">
