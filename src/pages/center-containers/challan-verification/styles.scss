@@ -1,20 +1,155 @@
-
 .challan-verification {
   width: 100%;
+  min-height: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  font-size: 24px;
-  .challan-verification-content-container {
-    background-color: #fff;
-    height: calc(100vh - 7em);
-    border-radius: 8px;
-    width: calc(100vw - 15em);
-    padding: 16px;
-    .title {
+  padding: 1.33rem;
+  overflow: auto;
+}
+
+.challan-page-title {
+  font-size: clamp(16px, 2.2vw, 24px);
+  font-weight: bold;
+  text-align: center;
+  max-width: 95%;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.challan-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #e3e3e3;
+  background-color: #fff;
+  margin-top: 16px;
+}
+
+.challan-input {
+  width: 100%;
+  max-width: 400px;
+  height: 44px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    border-color: #04544f;
+    box-shadow: 0 0 0 2px rgba(4, 84, 79, 0.1);
+  }
+}
+
+.challan-error {
+  color: #ff4d4f;
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+
+.challan-result-error {
+  color: #ff4d4f;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  padding: 16px 0;
+  margin: 0;
+}
+
+.challan-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.challan-status-badge {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.challan-result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 24px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.challan-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .field-label {
+    font-size: 12px;
+    color: #556485;
+    font-weight: 500;
+  }
+
+  .field-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #171d22;
+
+    &.amount {
+      color: #04544f;
+      font-size: 15px;
     }
   }
+}
+
+.challan-result-divider {
+  border-top: 1px solid #e3e3e3;
+  padding-top: 20px;
+  margin-top: 4px;
+}
+
+/* Shared button/label styles matching vehicle-detail page */
+.Textfield-Label {
+  display: block;
+  margin-bottom: 10px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  line-height: 1.2;
+}
+
+.submit-frame {
+  height: 50px;
+  border-radius: 8px;
+  background-color: #ebf1f1;
+  color: #04544f;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-frame:hover {
+  background-color: #cddede;
+}
+
+.submit-frame:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
