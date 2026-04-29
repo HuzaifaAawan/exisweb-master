@@ -11,4 +11,5 @@ export const API_ENDPOINTS = {
   GET_VEHICLE_DETAILS: `${API_BASE_URL}/portal/function/get_veh_det`,
   GET_BIO_DET: `${API_BASE_URL}/portal/function/get_bio_det`,
   PROCESS_BIO: `${API_BASE_URL}/portal/function/process_bio`,
+  NEW_REG_SUBMIT: `${API_BASE_URL}/portal/function/new_reg_submit`,
 };
