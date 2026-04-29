@@ -12,4 +12,6 @@ export const API_ENDPOINTS = {
   GET_BIO_DET: `${API_BASE_URL}/portal/function/get_bio_det`,
   PROCESS_BIO: `${API_BASE_URL}/portal/function/process_bio`,
   NEW_REG_SUBMIT: `${API_BASE_URL}/portal/function/new_reg_submit`,
+  GET_CHALLAN_STATUS: `${API_BASE_URL}/portal/function/get_challan_status`,
+  GET_CARD_STATUS: `${API_BASE_URL}/portal/function/get_card_status`,
 };
