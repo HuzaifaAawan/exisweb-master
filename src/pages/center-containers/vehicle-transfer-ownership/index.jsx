@@ -97,6 +97,7 @@ const VehicleTransferOwnership = () => {
         item.applicationNo,
         item.applicationProcessingDate,
         item.challanNo,
+        item.challanStatus,
         item.challanPaymentDate,
         item.applicationStatus,
       ]
@@ -166,13 +167,35 @@ const VehicleTransferOwnership = () => {
       biometricTracking: biometricNo || "-",
       biometricDate: regDate ? dayjs(regDate).format("DD-MM-YYYY") : "-",
       regNo: regNo || "-",
+
       applicationNo:
         apiResult?.APPLICATION_NO ||
         apiResult?.APP_NO ||
+        apiResult?.ApplicationNo ||
+        apiResult?.applicationNo ||
         `APP-${Date.now().toString().slice(-6)}`,
+
       applicationProcessingDate: dayjs().format("DD-MM-YYYY"),
-      challanNo: apiResult?.VCT_CHALLAN_NO || "-",
-      challanPaymentDate: apiResult?.PAYMENT_DATE || "-",
+
+      challanNo:
+        apiResult?.VCT_CHALLAN_NO ||
+        apiResult?.CHALLAN_NO ||
+        apiResult?.ChallanNo ||
+        apiResult?.challanNo ||
+        "-",
+
+      challanStatus:
+        apiResult?.CHALLAN_STATUS ||
+        apiResult?.ChallanStatus ||
+        apiResult?.challanStatus ||
+        "-",
+
+      challanPaymentDate:
+        apiResult?.PAYMENT_DATE ||
+        apiResult?.PaymentDate ||
+        apiResult?.paymentDate ||
+        "-",
+
       applicationStatus: "Submitted",
     };
 
@@ -259,14 +282,18 @@ const VehicleTransferOwnership = () => {
       className="my-numbers"
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        paddingTop: "42px",
+        paddingTop: "16px",
         display: "flex",
+        justifyContent: "flex-start",
         flexDirection: "column",
+        width: "100%",
+        maxWidth: "100vw",
+        overflowX: "hidden",
         alignItems: "center",
         minHeight: "100vh",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        padding: "1.33rem",
+        padding: "0 1.33rem 1.33rem",
       }}
     >
       <span
@@ -287,7 +314,7 @@ const VehicleTransferOwnership = () => {
           <div className="request-table-header">
             <div>
               <h3 className="request-table-title">
-                Transfer of Ownership Requests
+                Transfer of Ownership Applications
               </h3>
             </div>
 
@@ -317,12 +344,14 @@ const VehicleTransferOwnership = () => {
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>Application Number</th>
                   <th>Biometric Tracking</th>
                   <th>Biometric Date</th>
                   <th>Reg No.</th>
                   <th>Application No.</th>
                   <th>Application Processing Date</th>
                   <th>Challan No.</th>
+                  <th>Challan Status</th>
                   <th>Challan Payment Date</th>
                   <th>Application Status</th>
                 </tr>
@@ -333,13 +362,15 @@ const VehicleTransferOwnership = () => {
                   filteredRequests.map((item, index) => (
                     <tr key={item.id}>
                       <td>{index + 1}</td>
+                      <td>{item.applicationNo}</td>
                       <td>{item.biometricTracking}</td>
                       <td>{item.biometricDate}</td>
                       <td>{item.regNo}</td>
                       <td>{item.applicationNo}</td>
                       <td>{item.applicationProcessingDate}</td>
-                      <td>{item.challanNo}</td>
-                      <td>{item.challanPaymentDate}</td>
+                      <td>{item.challanNo || "-"}</td>
+                      <td>{item.challanStatus || "-"}</td>
+                      <td>{item.challanPaymentDate || "-"}</td>
                       <td>
                         <span className="status-badge">
                           {item.applicationStatus}
@@ -349,7 +380,7 @@ const VehicleTransferOwnership = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="9">
+                    <td colSpan="11">
                       <div className="request-empty-state">
                         <div className="request-empty-icon">🗂️</div>
                         <p>No Requests of Transfer of Ownership Yet.</p>
@@ -435,7 +466,7 @@ const VehicleTransferOwnership = () => {
 
               <div className="mb-3">
                 <span className="block text-gray-600 text-sm">
-                  Please provide the details below to view owner information
+                  Please provide the details below to start your application
                 </span>
               </div>
 
@@ -522,7 +553,7 @@ const VehicleTransferOwnership = () => {
                   }}
                 >
                   Please enter the above information to proceed with the change
-                  of ownership process.
+                  of ownership application.
                 </span>
               </div>
             )}
@@ -644,7 +675,7 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">Contact Number</span>
+                    <span className="Textfield-Label">Mobile Number</span>
                     <UppercaseInput
                       value={contactNumber}
                       onChange={setContactNumber}
@@ -654,9 +685,7 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">
-                      Other Contact Number
-                    </span>
+                    <span className="Textfield-Label">Other Mobile Number</span>
                     <UppercaseInput
                       value={otherContactNumber}
                       onChange={setOtherContactNumber}
@@ -690,8 +719,8 @@ const VehicleTransferOwnership = () => {
                     )}
                   </Col>
 
-                  <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
-                    <span className="Textfield-Label">Upload CNIC Image</span>
+                  {/* <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                    <span className="Textfield-Label">Upload CNIC .PDF</span>
                     <div
                       className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
                       style={{ height: "100px", marginTop: "4px" }}
@@ -743,11 +772,11 @@ const VehicleTransferOwnership = () => {
                         Remove
                       </button>
                     )}
-                  </Col>
+                  </Col> */}
 
-                  <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                  {/* <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
                     <span className="Textfield-Label">
-                      Upload Transfer Letter
+                      Upload Transfer Letter .pdf
                     </span>
                     <div
                       className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
@@ -804,7 +833,7 @@ const VehicleTransferOwnership = () => {
                         Remove
                       </button>
                     )}
-                  </Col>
+                  </Col> */}
 
                   <Col xs={24} sm={12} className="relative">
                     <span className="Textfield-Label">Temporary Address</span>
@@ -841,7 +870,7 @@ const VehicleTransferOwnership = () => {
                   </Col>
                 </Row>
 
-                <Row gutter={[16, 0]} style={{ marginTop: "32px" }}>
+                <Row gutter={[16, 20]} style={{ marginTop: "32px" }}>
                   <Col span={24}>
                     <div className="my-6 border-t border-gray-300"></div>
 
@@ -853,7 +882,8 @@ const VehicleTransferOwnership = () => {
                     </div>
                   </Col>
 
-                  <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
+                  {/* Bank / Company Name */}
+                  <Col xs={24} sm={12}>
                     <div className="w-full">
                       <label className="block mb-1 text-sm font-medium text-gray-700">
                         Bank / Company Name
@@ -866,21 +896,138 @@ const VehicleTransferOwnership = () => {
                     </div>
                   </Col>
 
-                  <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
-                    <span className="city-select-label">Select your city</span>
+                  <Col xs={24} sm={12}></Col>
+
+                  {/* Upload CNIC PDF */}
+                  <Col xs={24} sm={12}>
+                    <span className="Textfield-Label">Upload CNIC .PDF</span>
+
                     <div
-                      className="frame-1 w-full h-12 rounded-md overflow-hidden"
-                      style={{ marginTop: "4px" }}
+                      className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
+                      style={{ height: "100px", marginTop: "8px" }}
+                      onClick={() =>
+                        document.getElementById("nic-pdf-upload").click()
+                      }
                     >
-                      <select className="w-full h-full bg-transparent px-3 outline-none">
-                        <option value="">Choose city</option>
-                        <option value="karachi">ISLAMABAD</option>
-                        <option value="lahore">LAHORE</option>
-                        <option value="islamabad">KARACHI</option>
-                        <option value="multan">MULTAN</option>
-                        <option value="faisalabad">FAISALABAD</option>
-                      </select>
+                      {nicImage ? (
+                        <div className="flex flex-col items-center justify-center">
+                          <span className="text-sm text-gray-700 font-medium">
+                            {nicImage.name}
+                          </span>
+                          <span className="text-xs text-gray-500 mt-1">
+                            Click to change file
+                          </span>
+                        </div>
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-8 w-8 text-gray-400 mb-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
+                            />
+                          </svg>
+
+                          <span className="text-sm text-gray-500">
+                            Click to upload CNIC
+                          </span>
+                        </>
+                      )}
+
+                      <input
+                        id="nic-pdf-upload"
+                        type="file"
+                        accept="application/pdf"
+                        className="hidden"
+                        onChange={(e) => setNicImage(e.target.files[0] || null)}
+                      />
                     </div>
+
+                    {nicImage && (
+                      <button
+                        type="button"
+                        className="text-xs text-red-500 mt-1"
+                        onClick={() => setNicImage(null)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </Col>
+
+                  {/* Upload Transfer Letter PDF */}
+                  <Col xs={24} sm={12}>
+                    <span className="Textfield-Label">
+                      Upload Transfer Letter .pdf
+                    </span>
+
+                    <div
+                      className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
+                      style={{ height: "100px", marginTop: "8px" }}
+                      onClick={() =>
+                        document
+                          .getElementById("transfer-letter-pdf-upload")
+                          .click()
+                      }
+                    >
+                      {transferLetterImage ? (
+                        <div className="flex flex-col items-center justify-center">
+                          <span className="text-sm text-gray-700 font-medium">
+                            {transferLetterImage.name}
+                          </span>
+                          <span className="text-xs text-gray-500 mt-1">
+                            Click to change file
+                          </span>
+                        </div>
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-8 w-8 text-gray-400 mb-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
+                            />
+                          </svg>
+
+                          <span className="text-sm text-gray-500">
+                            Click to upload Transfer Letter
+                          </span>
+                        </>
+                      )}
+
+                      <input
+                        id="transfer-letter-pdf-upload"
+                        type="file"
+                        accept="application/pdf"
+                        className="hidden"
+                        onChange={(e) =>
+                          setTransferLetterImage(e.target.files[0] || null)
+                        }
+                      />
+                    </div>
+
+                    {transferLetterImage && (
+                      <button
+                        type="button"
+                        className="text-xs text-red-500 mt-1"
+                        onClick={() => setTransferLetterImage(null)}
+                      >
+                        Remove
+                      </button>
+                    )}
                   </Col>
                 </Row>
 
@@ -897,7 +1044,7 @@ const VehicleTransferOwnership = () => {
                     style={{ width: "30%" }}
                     onClick={() => setShowPreview(true)}
                   >
-                    Save
+                    Next
                   </button>
                 </div>
               </div>
@@ -973,6 +1120,7 @@ const VehicleTransferOwnership = () => {
                         }
 
                         const result = await response.json();
+                        console.log("PROCESS_BIO RESULT:", result);
 
                         setChallanData(result);
                         addRequestRecord(result);

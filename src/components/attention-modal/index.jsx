@@ -42,11 +42,11 @@ const AttentionModal = ({ open, onClose, onContinue }) => {
           }}
           className="notice-list"
         >
-          <li>
+          <p>
             Please provide correct information, otherwise application will be
             rejected by Excise office.
-          </li>
-          <li>
+          </p>
+          {/* <li>
             Biometric verification is subject to physical inspection by E&T
             staff.
           </li>
@@ -72,7 +72,7 @@ const AttentionModal = ({ open, onClose, onContinue }) => {
               </li>
               <b>Motorcycles</b>
             </ol>
-          </li>
+          </li> */}
         </ol>
 
         <p

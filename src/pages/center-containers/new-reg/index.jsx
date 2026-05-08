@@ -120,7 +120,7 @@ const NewVehicleRegistration = () => {
       message: "Please enter mobile number",
     },
     {
-      len: 14,
+      len: 15,
       message: "Please enter complete mobile number",
     },
   ];
@@ -132,7 +132,7 @@ const NewVehicleRegistration = () => {
           return Promise.resolve();
         }
 
-        if (String(value).length === 13) {
+        if (String(value).length === 15) {
           return Promise.resolve();
         }
 
