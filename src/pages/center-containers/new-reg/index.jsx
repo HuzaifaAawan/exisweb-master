@@ -7,9 +7,7 @@ import backgroundImage from "../../../assets/icons/background2.2.png";
 import UppercaseInput, {
   EngineSizeInput,
 } from "../../../components/CapitalizedInput.jsx";
-import {
-  DistrictDropdowns,
-} from "../../../components/CapitalizedInput.jsx";
+import { DistrictDropdowns } from "../../../components/CapitalizedInput.jsx";
 import { useAuthFetch } from "../../../libs/hooks/useAuthFetch";
 import { API_ENDPOINTS } from "../../../constants";
 
@@ -35,6 +33,7 @@ const NewVehicleRegistration = () => {
   const { Panel } = Collapse;
   const { Option } = Select;
   const { TabPane } = Tabs;
+
   const [activeKey, setActiveKey] = useState([]);
   const [hireActiveKey, setHireActiveKey] = useState([]);
   const [taxActiveKey, setTaxActiveKey] = useState([]);
@@ -43,7 +42,9 @@ const NewVehicleRegistration = () => {
 
   const authFetch = useAuthFetch();
   const [form] = Form.useForm();
+
   const [ownershipType, setOwnershipType] = useState(null);
+  const [transferOwnershipType, setTransferOwnershipType] = useState(null);
   const [vehicleCategory, setVehicleCategory] = useState("");
   const [loading, setLoading] = useState(false);
   const [computerNumber, setComputerNumber] = useState(null);
@@ -56,8 +57,8 @@ const NewVehicleRegistration = () => {
     vehicle: false,
     representative: false,
   });
-  const [infoModal, setInfoModal] = useState(false);
 
+  const [infoModal, setInfoModal] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(null);
 
@@ -82,6 +83,256 @@ const NewVehicleRegistration = () => {
     company: "ORGANIZATIONAL",
   };
 
+  // =========================
+  // Validation Rules
+  // =========================
+
+  const requiredSelectRule = (msg) => [
+    {
+      required: true,
+      message: msg,
+    },
+  ];
+
+  const requiredInputRule = (msg) => [
+    {
+      required: true,
+      whitespace: true,
+      message: msg,
+    },
+  ];
+
+  const numberRules = (msg) => [
+    {
+      required: true,
+      message: msg,
+    },
+    {
+      pattern: /^[0-9]+$/,
+      message: "Only numbers are allowed",
+    },
+  ];
+
+  const mobileRules = [
+    {
+      required: true,
+      whitespace: true,
+      message: "Please enter mobile number",
+    },
+    {
+      len: 14,
+      message: "Please enter complete mobile number",
+    },
+  ];
+
+  const optionalMobileRules = [
+    {
+      validator: (_, value) => {
+        if (!value) {
+          return Promise.resolve();
+        }
+
+        if (String(value).length === 13) {
+          return Promise.resolve();
+        }
+
+        return Promise.reject(new Error("Please enter complete mobile number"));
+      },
+    },
+  ];
+
+  const cnicRules = [
+    {
+      required: true,
+      whitespace: true,
+      message: "Please enter CNIC number",
+    },
+    {
+      pattern: /^[0-9]{5}-[0-9]{7}-[0-9]{1}$/,
+      message: "Please enter complete CNIC like 37406-3833198-7",
+    },
+  ];
+
+  const optionalCnicRules = [
+    {
+      validator: (_, value) => {
+        if (!value) {
+          return Promise.resolve();
+        }
+
+        if (/^[0-9]{5}-[0-9]{7}-[0-9]{1}$/.test(value)) {
+          return Promise.resolve();
+        }
+
+        return Promise.reject(
+          new Error("Please enter complete CNIC like 37406-3833198-7"),
+        );
+      },
+    },
+  ];
+
+  const ntnRules = [
+    {
+      required: true,
+      whitespace: true,
+      message: "Please enter NTN number",
+    },
+    {
+      min: 3,
+      message: "Please enter complete NTN number",
+    },
+  ];
+
+  const handlePurchaseDateChange = (date) => {
+    setPurchaseDate(date);
+
+    form.setFieldsValue({
+      purchaseDate: date,
+    });
+
+    form.validateFields(["purchaseDate"]).catch(() => {});
+  };
+
+  const handleOwnershipTypeChange = (val) => {
+    setOwnershipType(val);
+
+    if (val === "individual") {
+      form.setFieldsValue({
+        ntn: "",
+      });
+
+      form.setFields([{ name: "ntn", errors: [] }]);
+    }
+
+    if (val === "company") {
+      form.setFieldsValue({
+        cnic: "",
+        passport: "",
+        fatherName: "",
+      });
+
+      form.setFields([
+        { name: "cnic", errors: [] },
+        { name: "passport", errors: [] },
+        { name: "fatherName", errors: [] },
+      ]);
+    }
+  };
+
+  const handleTransferOwnershipTypeChange = (val) => {
+    setTransferOwnershipType(val);
+
+    if (val === "individual") {
+      form.setFieldsValue({
+        transferNtn: "",
+      });
+
+      form.setFields([{ name: "transferNtn", errors: [] }]);
+    }
+
+    if (val === "company") {
+      form.setFieldsValue({
+        transferCnic: "",
+        transferPassport: "",
+        transferFatherName: "",
+      });
+
+      form.setFields([
+        { name: "transferCnic", errors: [] },
+        { name: "transferPassport", errors: [] },
+        { name: "transferFatherName", errors: [] },
+      ]);
+    }
+  };
+
+  const handleVehicleCategoryChange = (val) => {
+    setVehicleCategory(val);
+
+    if (val !== "commercial") {
+      form.setFieldsValue({
+        vehicleType: undefined,
+        ladenWeight: "",
+        unladenWeight: "",
+      });
+
+      form.setFields([
+        { name: "vehicleType", errors: [] },
+        { name: "ladenWeight", errors: [] },
+        { name: "unladenWeight", errors: [] },
+      ]);
+    }
+  };
+
+  const handleTransferSwitch = (checked) => {
+    setActiveKey(checked ? ["2"] : []);
+
+    if (!checked) {
+      setTransferOwnershipType(null);
+
+      form.setFieldsValue({
+        transferOwnershipType: undefined,
+        transferNtn: "",
+        transferCnic: "",
+        transferPassport: "",
+        transferName: "",
+        transferFatherName: "",
+      });
+
+      form.setFields([
+        { name: "transferOwnershipType", errors: [] },
+        { name: "transferNtn", errors: [] },
+        { name: "transferCnic", errors: [] },
+        { name: "transferPassport", errors: [] },
+        { name: "transferName", errors: [] },
+        { name: "transferFatherName", errors: [] },
+      ]);
+    }
+  };
+
+  const handleHireSwitch = (checked) => {
+    setHireActiveKey(checked ? ["3"] : []);
+
+    if (!checked) {
+      form.setFieldsValue({
+        bankCompanyName: "",
+      });
+
+      form.setFields([{ name: "bankCompanyName", errors: [] }]);
+    }
+  };
+
+  const handleTaxSwitch = (checked) => {
+    setTaxActiveKey(checked ? ["4"] : []);
+
+    if (!checked) {
+      form.setFieldsValue({
+        taxCategory: undefined,
+      });
+
+      form.setFields([{ name: "taxCategory", errors: [] }]);
+    }
+  };
+
+  const handleRepresentativeSwitch = (checked) => {
+    setOwnerRepActiveKey(checked ? ["7"] : []);
+
+    if (!checked) {
+      form.setFieldsValue({
+        repCnic: "",
+        repMobile: "",
+        repName: "",
+        repFatherName: "",
+      });
+
+      form.setFields([
+        { name: "repCnic", errors: [] },
+        { name: "repMobile", errors: [] },
+        { name: "repName", errors: [] },
+        { name: "repFatherName", errors: [] },
+      ]);
+    }
+  };
+
   const onFinish = async (values) => {
     const isTransfer = activeKey.includes("2");
     const isHirePurchase = hireActiveKey.includes("3");
@@ -99,7 +350,9 @@ const NewVehicleRegistration = () => {
     const payload = {
       meta: { computerNumber: "" },
       buyer: {
-        ownerType: OWNER_TYPE_MAP[values.ownershipType] || (values.ownershipType || "").toUpperCase(),
+        ownerType:
+          OWNER_TYPE_MAP[values.ownershipType] ||
+          (values.ownershipType || "").toUpperCase(),
         cnic: values.cnic || "",
         ownerName: values.name || "",
         contactNumber: values.mobile || "",
@@ -115,9 +368,12 @@ const NewVehicleRegistration = () => {
         otherContactNumber: values.otherPhone || "",
       },
       purchaser: {
-        ownerType: isTransfer ? (OWNER_TYPE_MAP[values.transferOwnershipType] || (values.transferOwnershipType || "").toUpperCase()) : "",
-        cnic: isTransfer ? (values.transferCnic || "") : "",
-        ownerName: isTransfer ? (values.transferName || "") : "",
+        ownerType: isTransfer
+          ? OWNER_TYPE_MAP[values.transferOwnershipType] ||
+            (values.transferOwnershipType || "").toUpperCase()
+          : "",
+        cnic: isTransfer ? values.transferCnic || "" : "",
+        ownerName: isTransfer ? values.transferName || "" : "",
         contactNumber: "",
         presentAddress: "",
         presentAddressCity: "",
@@ -125,23 +381,34 @@ const NewVehicleRegistration = () => {
         permanentAddress: "",
         permanentAddressCity: "",
         permanentAddressDistrict: "",
-        ntn: isTransfer ? (values.transferNtn || "") : "",
-        passport: isTransfer ? (values.transferPassport || "") : "",
-        fatherHusbandName: isTransfer ? (values.transferFatherName || "") : "",
+        ntn: isTransfer ? values.transferNtn || "" : "",
+        passport: isTransfer ? values.transferPassport || "" : "",
+        fatherHusbandName: isTransfer ? values.transferFatherName || "" : "",
         otherContactNumber: "",
       },
       vehicle: {
-        taxpayerType: isTaxPayer ? (values.taxCategory || "").toUpperCase() : "",
+        taxpayerType: isTaxPayer
+          ? (values.taxCategory || "").toUpperCase()
+          : "",
         vehicleHirePurchaseAgreement: isHirePurchase ? "YES" : "NO",
         vehicleFirstTransfer: isTransfer ? "YES" : "NO",
-        vehicleHirePurchaseParty: isHirePurchase ? (values.bankCompanyName || "") : "",
-        ownerTypePurchaser: isTransfer ? (OWNER_TYPE_MAP[values.transferOwnershipType] || (values.transferOwnershipType || "").toUpperCase()) : "",
-        cnicPurchaser: isTransfer ? (values.transferCnic || "") : "",
-        ownerNamePurchaser: isTransfer ? (values.transferName || "") : "",
-        fatherHusbandNamePurchaser: isTransfer ? (values.transferFatherName || "") : "",
+        vehicleHirePurchaseParty: isHirePurchase
+          ? values.bankCompanyName || ""
+          : "",
+        ownerTypePurchaser: isTransfer
+          ? OWNER_TYPE_MAP[values.transferOwnershipType] ||
+            (values.transferOwnershipType || "").toUpperCase()
+          : "",
+        cnicPurchaser: isTransfer ? values.transferCnic || "" : "",
+        ownerNamePurchaser: isTransfer ? values.transferName || "" : "",
+        fatherHusbandNamePurchaser: isTransfer
+          ? values.transferFatherName || ""
+          : "",
         vehicleCategory: (values.vehicleCategory || "").toUpperCase(),
         vehiclePurchaseType: (values.purchaseType || "").toUpperCase(),
-        vehicleBodyType: BODY_TYPE_MAP[values.bodyType] || (values.bodyType || "").toUpperCase(),
+        vehicleBodyType:
+          BODY_TYPE_MAP[values.bodyType] ||
+          (values.bodyType || "").toUpperCase(),
         vehicleSeats: String(values.seats || ""),
         vehicleChasisNumber: values.chassisNo || "",
         vehicleEngineNumber: values.engineNo || "",
@@ -149,15 +416,25 @@ const NewVehicleRegistration = () => {
         vehicleColor: values.color || "",
         vehicleValue: values.value || "",
         vehiclePurchaseDate: purchaseDateStr,
-        vehicleCommercialCategory: vehicleCategory === "commercial" ? (COMMERCIAL_CAT_MAP[values.vehicleType] || (values.vehicleType || "").toUpperCase()) : "",
-        vehicleLadenWeight: values.ladenWeight ? String(values.ladenWeight) : "",
-        vehicleUnLadenWeight: values.unladenWeight ? String(values.unladenWeight) : "",
-        representativeCnic: hasRepresentative ? (values.repCnic || "") : "",
-        representativeMobile: hasRepresentative ? (values.repMobile || "") : "",
-        representativeName: hasRepresentative ? (values.repName || "") : "",
-        representativeFName: hasRepresentative ? (values.repFatherName || "") : "",
-        ntnPurchaser: isTransfer ? (values.transferNtn || "") : "",
-        passportPurchaser: isTransfer ? (values.transferPassport || "") : "",
+        vehicleCommercialCategory:
+          vehicleCategory === "commercial"
+            ? COMMERCIAL_CAT_MAP[values.vehicleType] ||
+              (values.vehicleType || "").toUpperCase()
+            : "",
+        vehicleLadenWeight: values.ladenWeight
+          ? String(values.ladenWeight)
+          : "",
+        vehicleUnLadenWeight: values.unladenWeight
+          ? String(values.unladenWeight)
+          : "",
+        representativeCnic: hasRepresentative ? values.repCnic || "" : "",
+        representativeMobile: hasRepresentative ? values.repMobile || "" : "",
+        representativeName: hasRepresentative ? values.repName || "" : "",
+        representativeFName: hasRepresentative
+          ? values.repFatherName || ""
+          : "",
+        ntnPurchaser: isTransfer ? values.transferNtn || "" : "",
+        passportPurchaser: isTransfer ? values.transferPassport || "" : "",
       },
     };
 
@@ -172,7 +449,9 @@ const NewVehicleRegistration = () => {
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        message.error(errData?.message || `Submission failed (${response.status})`);
+        message.error(
+          errData?.message || `Submission failed (${response.status})`,
+        );
         return;
       }
 
@@ -187,7 +466,11 @@ const NewVehicleRegistration = () => {
       setLoading(false);
     }
   };
-  
+
+  const onFinishFailed = () => {
+    message.error("Please complete all required fields correctly.");
+  };
+
   return (
     <div
       className="new-reg"
@@ -216,12 +499,15 @@ const NewVehicleRegistration = () => {
                 form={form}
                 layout="vertical"
                 onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
                 className="new-vehicle-reg-form"
+                validateTrigger={["onBlur", "onChange"]}
+                scrollToFirstError
               >
                 {/* Vehicle Information */}
                 <Collapse
-                  defaultActiveKey={["5"]} // open by default (Owner Info jaisa)
-                  style={{marginBottom: 14 }}
+                  defaultActiveKey={["5"]}
+                  style={{ marginBottom: 14 }}
                   expandIcon={({ isActive }) => (
                     <CaretRightOutlined rotate={isActive ? 90 : 0} />
                   )}
@@ -240,11 +526,15 @@ const NewVehicleRegistration = () => {
                   >
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Category" name="vehicleCategory">
+                        <Form.Item
+                          label="Category"
+                          name="vehicleCategory"
+                          rules={requiredSelectRule("Please select category")}
+                        >
                           <Select
                             placeholder="Select"
                             className="slection-field"
-                            onChange={(val) => setVehicleCategory(val)}
+                            onChange={handleVehicleCategoryChange}
                           >
                             <Select.Option value="private">
                               PRIVATE
@@ -260,7 +550,13 @@ const NewVehicleRegistration = () => {
                       </Col>
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Purchase Type" name="purchaseType">
+                        <Form.Item
+                          label="Purchase Type"
+                          name="purchaseType"
+                          rules={requiredSelectRule(
+                            "Please select purchase type",
+                          )}
+                        >
                           <Select
                             placeholder="Select"
                             className="slection-field"
@@ -277,7 +573,11 @@ const NewVehicleRegistration = () => {
                       </Col>
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Body Type" name="bodyType">
+                        <Form.Item
+                          label="Body Type"
+                          name="bodyType"
+                          rules={requiredSelectRule("Please select body type")}
+                        >
                           <Select
                             placeholder="Select"
                             className="slection-field"
@@ -303,15 +603,22 @@ const NewVehicleRegistration = () => {
 
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="No. of Seats" name="seats">
+                        <Form.Item
+                          label="No. of Seats"
+                          name="seats"
+                          rules={numberRules("Please enter number of seats")}
+                        >
                           <Input
                             placeholder="Enter number of seats"
                             className="slection-field"
-                            onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }}
+                            onKeyPress={(e) => {
+                              if (!/[0-9]/.test(e.key)) e.preventDefault();
+                            }}
                             onChange={(e) => {
                               const val = e.target.value.replace(/\D/g, "");
                               if (Number(val) > 999) return;
-                              e.target.value = val;
+                              form.setFieldsValue({ seats: val });
+                              form.validateFields(["seats"]).catch(() => {});
                             }}
                             maxLength={3}
                           />
@@ -319,13 +626,25 @@ const NewVehicleRegistration = () => {
                       </Col>
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Chassis No." name="chassisNo">
+                        <Form.Item
+                          label="Chassis No."
+                          name="chassisNo"
+                          rules={requiredInputRule(
+                            "Please enter chassis number",
+                          )}
+                        >
                           <UppercaseInput placeholder="Enter Chassis Number" />
                         </Form.Item>
                       </Col>
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Engine No." name="engineNo">
+                        <Form.Item
+                          label="Engine No."
+                          name="engineNo"
+                          rules={requiredInputRule(
+                            "Please enter engine number",
+                          )}
+                        >
                           <UppercaseInput
                             placeholder="Enter Engine Number"
                             maxLength={1000}
@@ -336,33 +655,59 @@ const NewVehicleRegistration = () => {
 
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Engine Size" name="engineSize">
+                        <Form.Item
+                          label="Engine Size"
+                          name="engineSize"
+                          rules={requiredInputRule("Please enter engine size")}
+                        >
                           <EngineSizeInput />
                         </Form.Item>
                       </Col>
 
                       <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                        <Form.Item label="Vehicle Color" name="color">
+                        <Form.Item
+                          label="Vehicle Color"
+                          name="color"
+                          rules={requiredInputRule(
+                            "Please enter vehicle color",
+                          )}
+                        >
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
 
                       <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                        <Form.Item label="Vehicle Value" name="value">
+                        <Form.Item
+                          label="Vehicle Value"
+                          name="value"
+                          rules={numberRules("Please enter vehicle value")}
+                        >
                           <Input
                             placeholder="Enter here..."
                             className="slection-field"
-                            onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }}
+                            onKeyPress={(e) => {
+                              if (!/[0-9]/.test(e.key)) e.preventDefault();
+                            }}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/\D/g, "");
+                              form.setFieldsValue({ value: val });
+                              form.validateFields(["value"]).catch(() => {});
+                            }}
                           />
                         </Form.Item>
                       </Col>
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item name="purchaseDate">
+                        <Form.Item
+                          name="purchaseDate"
+                          rules={requiredSelectRule(
+                            "Please select purchase date",
+                          )}
+                        >
                           <LabelDatePicker
                             label="Purchase Date"
                             value={purchaseDate}
-                            setRegDate={setPurchaseDate}
+                            setRegDate={handlePurchaseDateChange}
                           />
                         </Form.Item>
                       </Col>
@@ -408,11 +753,14 @@ const NewVehicleRegistration = () => {
                             </>
                           }
                           name="ownershipType"
+                          rules={requiredSelectRule(
+                            "Please select ownership type",
+                          )}
                         >
                           <Select
                             placeholder="Select"
                             value={ownershipType}
-                            onChange={(val) => setOwnershipType(val)}
+                            onChange={handleOwnershipTypeChange}
                             className="slection-field w-full sm:w-52 text-sm"
                             style={{ width: 200, fontSize: "14px" }}
                           >
@@ -424,7 +772,11 @@ const NewVehicleRegistration = () => {
 
                       {/* NTN Number (disabled if Individual) */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item name="ntn" label="NTN Number">
+                        <Form.Item
+                          name="ntn"
+                          label="NTN Number"
+                          rules={ownershipType === "company" ? ntnRules : []}
+                        >
                           <UppercaseInput
                             isNTN
                             placeholder="Enter NTN"
@@ -435,7 +787,13 @@ const NewVehicleRegistration = () => {
 
                       {/* CNIC (disabled if Company) */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="CNIC Number" name="cnic">
+                        <Form.Item
+                          label="CNIC Number"
+                          name="cnic"
+                          rules={
+                            ownershipType === "individual" ? cnicRules : []
+                          }
+                        >
                           <UppercaseInput
                             isCNIC
                             placeholder="37406-3833198-7"
@@ -457,14 +815,26 @@ const NewVehicleRegistration = () => {
                       </Col>
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Name" name="name">
+                        <Form.Item
+                          label="Name"
+                          name="name"
+                          rules={requiredInputRule("Please enter name")}
+                        >
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
 
                       {/* F/H/W/O Name (disabled if Company) */}
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="F/H/W/O Name" name="fatherName">
+                        <Form.Item
+                          label="F/H/W/O Name"
+                          name="fatherName"
+                          rules={
+                            ownershipType === "individual"
+                              ? requiredInputRule("Please enter name")
+                              : []
+                          }
+                        >
                           <UppercaseInput
                             placeholder="Enter name"
                             maxLength={32}
@@ -476,7 +846,11 @@ const NewVehicleRegistration = () => {
 
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Form.Item name="mobile" label="Mobile Number">
+                        <Form.Item
+                          name="mobile"
+                          label="Mobile Number"
+                          rules={mobileRules}
+                        >
                           <UppercaseInput
                             isPhone
                             placeholder="Enter mobile number"
@@ -484,7 +858,11 @@ const NewVehicleRegistration = () => {
                         </Form.Item>
                       </Col>
                       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Form.Item name="otherPhone" label="Other Phone">
+                        <Form.Item
+                          name="otherPhone"
+                          label="Other Phone"
+                          rules={optionalMobileRules}
+                        >
                           <UppercaseInput
                             isPhone
                             placeholder="Enter Other number"
@@ -495,7 +873,13 @@ const NewVehicleRegistration = () => {
 
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Form.Item label="Temporary Address" name="tempAddress">
+                        <Form.Item
+                          label="Temporary Address"
+                          name="tempAddress"
+                          rules={requiredInputRule(
+                            "Please enter temporary address",
+                          )}
+                        >
                           <UppercaseInput
                             textarea
                             showCount
@@ -507,7 +891,13 @@ const NewVehicleRegistration = () => {
                         </Form.Item>
                       </Col>
                       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Form.Item label="Permanent Address" name="permAddress">
+                        <Form.Item
+                          label="Permanent Address"
+                          name="permAddress"
+                          rules={requiredInputRule(
+                            "Please enter permanent address",
+                          )}
+                        >
                           <UppercaseInput
                             textarea
                             showCount
@@ -521,7 +911,13 @@ const NewVehicleRegistration = () => {
 
                     <Row gutter={16} className="cities-row">
                       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Form.Item label="City (Temporary)" name="tempCity">
+                        <Form.Item
+                          label="City (Temporary)"
+                          name="tempCity"
+                          rules={requiredInputRule(
+                            "Please enter temporary city",
+                          )}
+                        >
                           <UppercaseInput
                             placeholder="Enter text here"
                             className="input-field"
@@ -530,7 +926,13 @@ const NewVehicleRegistration = () => {
                         </Form.Item>
                       </Col>
                       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Form.Item label="City (Permanent)" name="permCity">
+                        <Form.Item
+                          label="City (Permanent)"
+                          name="permCity"
+                          rules={requiredInputRule(
+                            "Please enter permanent city",
+                          )}
+                        >
                           <UppercaseInput
                             placeholder="Enter text here"
                             className="input-field"
@@ -575,19 +977,28 @@ const NewVehicleRegistration = () => {
                       <Switch
                         className="switch-btn-css"
                         checked={activeKey.includes("2")}
-                        onChange={(checked) =>
-                          setActiveKey(checked ? ["2"] : [])
-                        }
+                        onChange={handleTransferSwitch}
                         onClick={(_, e) => e.stopPropagation()}
                       />
                     }
                   >
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Ownership Type*" name="transferOwnershipType">
+                        <Form.Item
+                          label="Ownership Type*"
+                          name="transferOwnershipType"
+                          rules={
+                            activeKey.includes("2")
+                              ? requiredSelectRule(
+                                  "Please select ownership type",
+                                )
+                              : []
+                          }
+                        >
                           <Select
                             placeholder="Select"
                             className="slection-field"
+                            onChange={handleTransferOwnershipTypeChange}
                           >
                             <Option value="individual">Individual</Option>
                             <Option value="company">Organizational</Option>
@@ -599,16 +1010,17 @@ const NewVehicleRegistration = () => {
                         <Form.Item
                           name="transferNtn"
                           label="NTN Number"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please enter NTN number",
-                            },
-                          ]}
+                          rules={
+                            activeKey.includes("2") &&
+                            transferOwnershipType === "company"
+                              ? ntnRules
+                              : []
+                          }
                         >
                           <UppercaseInput
                             isNTN
                             placeholder="Enter NTN (Max 20 characters)"
+                            disabled={transferOwnershipType === "individual"}
                           />
                         </Form.Item>
                       </Col>
@@ -617,16 +1029,17 @@ const NewVehicleRegistration = () => {
                         <Form.Item
                           label="CNIC Number"
                           name="transferCnic"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please enter CNIC number",
-                            },
-                          ]}
+                          rules={
+                            activeKey.includes("2") &&
+                            transferOwnershipType === "individual"
+                              ? cnicRules
+                              : []
+                          }
                         >
                           <UppercaseInput
                             isCNIC
                             placeholder="37406-3833198-7"
+                            disabled={transferOwnershipType === "company"}
                           />
                         </Form.Item>
                       </Col>
@@ -635,12 +1048,23 @@ const NewVehicleRegistration = () => {
                     <Row gutter={16}>
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                         <Form.Item label="Passport No." name="transferPassport">
-                          <UppercaseInput placeholder="Enter here..." />
+                          <UppercaseInput
+                            placeholder="Enter here..."
+                            disabled={transferOwnershipType === "company"}
+                          />
                         </Form.Item>
                       </Col>
 
                       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                        <Form.Item label="Name" name="transferName">
+                        <Form.Item
+                          label="Name"
+                          name="transferName"
+                          rules={
+                            activeKey.includes("2")
+                              ? requiredInputRule("Please enter name")
+                              : []
+                          }
+                        >
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
@@ -649,13 +1073,17 @@ const NewVehicleRegistration = () => {
                         <Form.Item
                           label="F/H/W/O Name"
                           name="transferFatherName"
-                          rules={[
-                            { required: true, message: "Please enter name" },
-                          ]}
+                          rules={
+                            activeKey.includes("2") &&
+                            transferOwnershipType === "individual"
+                              ? requiredInputRule("Please enter name")
+                              : []
+                          }
                         >
                           <UppercaseInput
                             placeholder="Enter name"
                             maxLength={32}
+                            disabled={transferOwnershipType === "company"}
                           />
                         </Form.Item>
                       </Col>
@@ -689,9 +1117,7 @@ const NewVehicleRegistration = () => {
                       <Switch
                         className="switch-btn-css"
                         checked={hireActiveKey.includes("3")}
-                        onChange={(checked) =>
-                          setHireActiveKey(checked ? ["3"] : [])
-                        }
+                        onChange={handleHireSwitch}
                         onClick={(_, e) => e.stopPropagation()}
                       />
                     }
@@ -702,6 +1128,13 @@ const NewVehicleRegistration = () => {
                         <Form.Item
                           label="Bank / Company Name"
                           name="bankCompanyName"
+                          rules={
+                            hireActiveKey.includes("3")
+                              ? requiredInputRule(
+                                  "Please enter bank/company name",
+                                )
+                              : []
+                          }
                         >
                           <UppercaseInput
                             placeholder="Enter here"
@@ -739,10 +1172,8 @@ const NewVehicleRegistration = () => {
                       <Switch
                         className="switch-btn-css"
                         checked={taxActiveKey.includes("4")}
-                        onClick={(checked, e) => {
-                          e.stopPropagation?.();
-                          setTaxActiveKey(checked ? ["4"] : []);
-                        }}
+                        onChange={handleTaxSwitch}
+                        onClick={(_, e) => e.stopPropagation()}
                       />
                     }
                   >
@@ -750,6 +1181,13 @@ const NewVehicleRegistration = () => {
                     <Form.Item
                       label="Select Tax Payer Category"
                       name="taxCategory"
+                      rules={
+                        taxActiveKey.includes("4")
+                          ? requiredSelectRule(
+                              "Please select tax payer category",
+                            )
+                          : []
+                      }
                     >
                       <Select placeholder="Select" className="slection-field">
                         <Select.Option value="filer">FILER</Select.Option>
@@ -786,7 +1224,13 @@ const NewVehicleRegistration = () => {
                     >
                       <Row gutter={16}>
                         <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                          <Form.Item label="Vehicle Type" name="vehicleType">
+                          <Form.Item
+                            label="Vehicle Type"
+                            name="vehicleType"
+                            rules={requiredSelectRule(
+                              "Please select vehicle type",
+                            )}
+                          >
                             <Select
                               placeholder="Select"
                               className="slection-field"
@@ -801,7 +1245,11 @@ const NewVehicleRegistration = () => {
                           </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                          <Form.Item label="Laden Weight" name="ladenWeight">
+                          <Form.Item
+                            label="Laden Weight"
+                            name="ladenWeight"
+                            rules={numberRules("Please enter laden weight")}
+                          >
                             <Input
                               type="number"
                               placeholder="Enter weight"
@@ -814,6 +1262,7 @@ const NewVehicleRegistration = () => {
                           <Form.Item
                             label="Unladen Weight"
                             name="unladenWeight"
+                            rules={numberRules("Please enter unladen weight")}
                           >
                             <Input
                               type="number"
@@ -854,10 +1303,8 @@ const NewVehicleRegistration = () => {
                       <Switch
                         className="switch-btn-css"
                         checked={ownerRepActiveKey.includes("7")}
-                        onClick={(checked, e) => {
-                          e?.stopPropagation?.();
-                          setOwnerRepActiveKey(checked ? ["7"] : []);
-                        }}
+                        onChange={handleRepresentativeSwitch}
+                        onClick={(_, e) => e.stopPropagation()}
                       />
                     }
                   >
@@ -867,12 +1314,9 @@ const NewVehicleRegistration = () => {
                         <Form.Item
                           label="CNIC Number"
                           name="repCnic"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please enter CNIC number",
-                            },
-                          ]}
+                          rules={
+                            ownerRepActiveKey.includes("7") ? cnicRules : []
+                          }
                         >
                           <UppercaseInput
                             style={{ width: "100%" }}
@@ -882,7 +1326,13 @@ const NewVehicleRegistration = () => {
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="Mobile Number" name="repMobile">
+                        <Form.Item
+                          label="Mobile Number"
+                          name="repMobile"
+                          rules={
+                            ownerRepActiveKey.includes("7") ? mobileRules : []
+                          }
+                        >
                           <UppercaseInput
                             style={{ width: "100%" }}
                             isPhone
@@ -894,7 +1344,15 @@ const NewVehicleRegistration = () => {
 
                     <Row gutter={16}>
                       <Col span={12}>
-                        <Form.Item label="Name" name="repName">
+                        <Form.Item
+                          label="Name"
+                          name="repName"
+                          rules={
+                            ownerRepActiveKey.includes("7")
+                              ? requiredInputRule("Please enter name")
+                              : []
+                          }
+                        >
                           <UppercaseInput placeholder="Enter here..." />
                         </Form.Item>
                       </Col>
@@ -902,9 +1360,11 @@ const NewVehicleRegistration = () => {
                         <Form.Item
                           label="F/H/W/O Name"
                           name="repFatherName"
-                          rules={[
-                            { required: true, message: "Please enter name" },
-                          ]}
+                          rules={
+                            ownerRepActiveKey.includes("7")
+                              ? requiredInputRule("Please enter name")
+                              : []
+                          }
                         >
                           <UppercaseInput
                             placeholder="Enter name"
@@ -936,7 +1396,11 @@ const NewVehicleRegistration = () => {
           <ApplicationDetails />
         </TabPane>
       </Tabs>
-      <InfoModal computerNumber={computerNumber} open={infoModal} onClose={() => setInfoModal(false)} />
+      <InfoModal
+        computerNumber={computerNumber}
+        open={infoModal}
+        onClose={() => setInfoModal(false)}
+      />
     </div>
   );
 };
