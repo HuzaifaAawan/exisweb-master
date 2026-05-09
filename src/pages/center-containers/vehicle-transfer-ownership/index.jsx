@@ -8,9 +8,9 @@ import VehicleCardPreview from "./VehicleCardPreview";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
 import AttentionModal from "../../../components/attention-modal";
 import { Row, Col, Input, Form, Switch } from "antd";
-
-import UppercaseInput from "../../../components/CapitalizedInput.jsx";
-import { DistrictDropdowns } from "../../../components/CapitalizedInput.jsx";
+import UppercaseInput, {
+  DistrictDropdowns,
+} from "../../../components/CapitalizedInput.jsx";
 
 import dayjs from "dayjs";
 import { useAuthFetch } from "../../../libs/hooks/useAuthFetch";
@@ -34,10 +34,19 @@ const VehicleTransferOwnership = () => {
   const [searchText, setSearchText] = useState("");
   const [apiLoading, setApiLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
+  const [hpaParty, setHpaParty] = useState("");
+  const [hpaLetterNo, setHpaLetterNo] = useState("");
 
+  const [tempCity, setTempCity] = useState("");
+  const [tempDistrict, setTempDistrict] = useState("");
+  const [permCity, setPermCity] = useState("");
+  const [permDistrict, setPermDistrict] = useState("");
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
   const [email, setEmail] = useState("");
+  
+
+  
   const [presentAddress, setpresentAddress] = useState(""); 
   const [presentAddressCity, setpresentAddressCity] = useState(""); 
   const [presentAddressDistrict, setpresentAddressDistrict] = useState(""); 
@@ -1000,7 +1009,12 @@ const VehicleTransferOwnership = () => {
 
                   <Col xs={24} sm={24}>
                     <Form layout="vertical">
-                      <DistrictDropdowns />
+                      <DistrictDropdowns
+                        tempDistrict={tempDistrict}
+                        setTempDistrict={setTempDistrict}
+                        permDistrict={permDistrict}
+                        setPermDistrict={setPermDistrict}
+                      />
                     </Form>
                   </Col>
                 </Row>
@@ -1026,10 +1040,11 @@ const VehicleTransferOwnership = () => {
                       <input
                         type="text"
                         placeholder="Bank / Company Name"
+                        value={hpaParty}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={(e) => {
-                          e.target.value = e.target.value.toUpperCase();
-                        }}
+                        onChange={(e) =>
+                          setHpaParty(e.target.value.toUpperCase())
+                        }
                       />
                     </div>
                   </Col>
@@ -1043,10 +1058,11 @@ const VehicleTransferOwnership = () => {
                       <input
                         type="text"
                         placeholder="Letter No....."
+                        value={hpaLetterNo}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={(e) => {
-                          e.target.value = e.target.value.toUpperCase();
-                        }}
+                        onChange={(e) =>
+                          setHpaLetterNo(e.target.value.toUpperCase())
+                        }
                       />
                     </div>
                   </Col>
@@ -1261,30 +1277,29 @@ const VehicleTransferOwnership = () => {
                           ? dayjs(regDate).format("DD/MM/YYYY")
                           : "";
 
-                        const response = await authFetch(
-                          API_ENDPOINTS.PROCESS_BIO,
-                          {
-                            method: "POST",
-                            body: JSON.stringify({
-                              TRANSACTION_NO: biometricNo,
-                              REG_NO: regNo.toUpperCase(),
-                              REG_DATE: formattedDate,
-                              PURCHASER_NAME: purchaserName,
-                              PURCHASER_FATHER_NAME: fatherName,
-                              PURCHASER_CONTACT_NUMBER: contactNumber,
-                              PURCHASER_CONTACT_NUMBER2: otherContactNumber,
-                              PURCHASER_EMAIL: email,
-                              PURCHASER_TEMP_ADDRESS: presentAddress ,
-                              PURCHASER_TEMP_CITY: presentAddressCity,
-                              PURCHASER_TEMP_DISTRICT:presentAddressDistrict,
-                              PURCHASER_PRMNT_ADDRESS:permanentAddress,
-                              PURCHASER_PRMNT_CITY:permanentAddressCity,
-                              PURCHASER_PRMNT_DISTRICT:permanentAddressDistrict  ,
-                              HPA_PARTY: "",
-                              HPA_LETTER_NO: "" 
-                            }),
-                          },
-                        );
+                          const response = await authFetch(
+                            API_ENDPOINTS.PROCESS_BIO,
+                            {
+                              method: "POST",
+                              body: JSON.stringify({
+                                TRANSACTION_NO: biometricNo,
+                                REG_NO: regNo.toUpperCase(),
+                                REG_DATE: formattedDate,
+
+                                PURCHASER_NAME: purchaserName,
+                                PURCHASER_FATHER_NAME: fatherName,
+                                PURCHASER_CONTACT_NUMBER: contactNumber,
+                                PURCHASER_CONTACT_NUMBER2: otherContactNumber,
+                                PURCHASER_EMAIL: email,
+
+                                PURCHASER_TEMP_ADDRESS: tempAddress,
+                                PURCHASER_TEMP_DISTRICT: tempDistrict,
+
+                                PURCHASER_PRMNT_ADDRESS: permAddress,
+                                PURCHASER_PRMNT_DISTRICT: permDistrict,
+                              }),
+                            },
+                          );
 
                         if (!response) return;
 
