@@ -38,6 +38,12 @@ const VehicleTransferOwnership = () => {
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
   const [email, setEmail] = useState("");
+  const [presentAddress, setpresentAddress] = useState(""); 
+  const [presentAddressCity, setpresentAddressCity] = useState(""); 
+  const [presentAddressDistrict, setpresentAddressDistrict] = useState(""); 
+  const [permanentAddress, setpermanentAddress] = useState(""); 
+  const [permanentAddressCity, setpermanentAddressCity] = useState(""); 
+  const [permanentAddressDistrict, setpermanentAddressDistrict] = useState(""); 
   const [emailError, setEmailError] = useState("");
   const [nicImage, setNicImage] = useState(null);
   const [transferLetterImage, setTransferLetterImage] = useState(null);
@@ -1268,6 +1274,14 @@ const VehicleTransferOwnership = () => {
                               PURCHASER_CONTACT_NUMBER: contactNumber,
                               PURCHASER_CONTACT_NUMBER2: otherContactNumber,
                               PURCHASER_EMAIL: email,
+                              PURCHASER_TEMP_ADDRESS: presentAddress ,
+                              PURCHASER_TEMP_CITY: presentAddressCity,
+                              PURCHASER_TEMP_DISTRICT:presentAddressDistrict,
+                              PURCHASER_PRMNT_ADDRESS:permanentAddress,
+                              PURCHASER_PRMNT_CITY:permanentAddressCity,
+                              PURCHASER_PRMNT_DISTRICT:permanentAddressDistrict  ,
+                              HPA_PARTY: "",
+                              HPA_LETTER_NO: "" 
                             }),
                           },
                         );
