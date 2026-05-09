@@ -288,79 +288,16 @@ const VehicleTransferOwnership = () => {
       console.log("BIO API DATA:", bio);
 
       setVehicleData(vehicle);
-
-      setOwnerName(
-        vehicle.CURRENT_OWNER_NAME ||
-          vehicle.OWNER_NAME ||
-          vehicle["CURRENT OWNER NAME"] ||
-          "",
-      );
-
-      setCurrentOwnerName(
-        vehicle.CURRENT_OWNER_NAME ||
-          vehicle.OWNER_NAME ||
-          vehicle["CURRENT OWNER NAME"] ||
-          "",
-      );
-
-      setOwnerCnic(
-        vehicle.CURRENT_OWNER_CNIC ||
-          vehicle.OWNER_CNIC ||
-          vehicle.CNIC ||
-          vehicle["CURRENT OWNER CNIC"] ||
-          bio.CNIC ||
-          "",
-      );
-      setOwnerFatherName(
-        vehicle.CURRENT_OWNER_FNAME ||
-          vehicle.CURRENT_OWNER_FATHER_NAME ||
-          vehicle.CURRENT_OWNER_FATHERNAME ||
-          vehicle.CURRENT_OWNER_FHWO ||
-          vehicle.CURRENT_OWNER_FHWO_NAME ||
-          vehicle.OWNER_FNAME ||
-          vehicle.OWNER_FATHER_NAME ||
-          vehicle.OWNER_FATHERNAME ||
-          vehicle.OWNER_FHWO ||
-          vehicle.FATHER_NAME ||
-          vehicle.FHWO_NAME ||
-          vehicle["CURRENT OWNER F/H/W/O"] ||
-          vehicle["CURRENT OWNER FATHER NAME"] ||
-          vehicle["FATHER / HUSBAND NAME"] ||
-          "",
-      );
-
+      setOwnerName(vehicle.OWNER_NAME || "");
+      setCurrentOwnerName(vehicle.OWNER_NAME || "");
+      setOwnerCnic(bio.CNIC || "");
       setOwnerFatherName("");
       setOwnerAddress("");
 
       setCnic(bio.PURCHASERID || "");
-
-      setFirstOwnerName(
-        vehicle.FIRST_OWNER_NAME ||
-          vehicle.FIRSTOWNER_NAME ||
-          vehicle.FIRST_OWNER ||
-          vehicle["FIRST OWNER NAME"] ||
-          "",
-      );
-
-      setFirstOwnerFatherName(
-        vehicle.FIRST_OWNER_FNAME ||
-          vehicle.FIRST_OWNER_FATHERNAME ||
-          vehicle.FIRST_OWNER_FATHER_NAME ||
-          vehicle.FIRST_OWNER_FHWO ||
-          vehicle.FIRST_OWNER_FHWO_NAME ||
-          vehicle.FIRST_OWNER_FATHER_HUSBAND_NAME ||
-          vehicle.FATHER_NAME ||
-          vehicle.FHWO_NAME ||
-          "",
-      );
-
-      setFirstOwnerCnic(
-        vehicle.FIRST_OWNER_CNIC ||
-          vehicle.FIRSTOWNER_CNIC ||
-          vehicle["FIRST OWNER CNIC"] ||
-          "",
-      );
-
+      setFirstOwnerName(vehicle.FIRST_OWNER_NAME || "");
+      setFirstOwnerFatherName(vehicle.FIRST_OWNER_FATHERNAME || "");
+      setFirstOwnerCnic(vehicle.FIRST_OWNER_CNIC || "");
       setShowData(true);
       setShowPurchaserForm(true);
     } catch (err) {
