@@ -3,7 +3,7 @@ import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
 // import noteIcon from "../../../assets/icons/note.png";
-
+import { message } from "antd";
 import VehicleCardPreview from "./VehicleCardPreview";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
 import AttentionModal from "../../../components/attention-modal";
@@ -63,7 +63,74 @@ const VehicleTransferOwnership = () => {
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const handlePurchaserNext = () => {
+    if (!purchaserName?.trim()) {
+      message.error("Purchaser Name is required");
+      return;
+    }
 
+    if (!fatherName?.trim()) {
+      message.error("F/H/W/O Name is required");
+      return;
+    }
+
+    if (!cnic?.trim()) {
+      message.error("CNIC No. is required");
+      return;
+    }
+
+    if (!contactNumber?.trim()) {
+      message.error("Mobile Number is required");
+      return;
+    }
+
+    if (contactNumber.length < 13) {
+      message.error("Mobile Number is incomplete");
+      return;
+    }
+
+    if (!otherContactNumber?.trim()) {
+      message.error("Other Mobile Number is required");
+      return;
+    }
+
+    if (otherContactNumber.length < 13) {
+      message.error("Other Mobile Number is incomplete");
+      return;
+    }
+
+    if (!email?.trim()) {
+      message.error("Email Address is required");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      message.error("Please enter a valid email address");
+      return;
+    }
+
+    if (!tempAddress?.trim()) {
+      message.error("Temporary Address is required");
+      return;
+    }
+
+    if (!permAddress?.trim()) {
+      message.error("Permanent Address is required");
+      return;
+    }
+
+    if (!nicImage) {
+      message.error("Upload CNIC PDF is required");
+      return;
+    }
+
+    if (!transferLetterImage) {
+      message.error("Upload Transfer Letter PDF is required");
+      return;
+    }
+
+    setShowPreview(true);
+  };
   const [challanData, setChallanData] = useState(null);
   const [challanLoading, setChallanLoading] = useState(false);
   const [challanError, setChallanError] = useState(null);
@@ -321,13 +388,23 @@ const VehicleTransferOwnership = () => {
               <tbody>
                 {apiLoading ? (
                   <tr>
-                    <td colSpan="11" style={{ textAlign: "center", padding: "20px" }}>
+                    <td
+                      colSpan="11"
+                      style={{ textAlign: "center", padding: "20px" }}
+                    >
                       Loading...
                     </td>
                   </tr>
                 ) : apiError ? (
                   <tr>
-                    <td colSpan="11" style={{ textAlign: "center", padding: "20px", color: "red" }}>
+                    <td
+                      colSpan="11"
+                      style={{
+                        textAlign: "center",
+                        padding: "20px",
+                        color: "red",
+                      }}
+                    >
                       {apiError}
                     </td>
                   </tr>
@@ -640,7 +717,7 @@ const VehicleTransferOwnership = () => {
                 <Row gutter={[16, 16]}>
                   <Col xs={24} sm={8}>
                     <span className="Dropdown-Label Textfield-Label">
-                      Purchaser Name
+                      Purchaser Name <span style={{ color: "red" }}>*</span>
                     </span>
 
                     <Input
@@ -654,7 +731,9 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">F/H/W/O Name</span>
+                    <span className="Textfield-Label">
+                      F/H/W/O Name <span style={{ color: "red" }}>*</span>
+                    </span>
                     <UppercaseInput
                       value={fatherName}
                       onChange={setFatherName}
@@ -665,7 +744,9 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">CNIC No.</span>
+                    <span className="Textfield-Label">
+                      CNIC No. <span style={{ color: "red" }}>*</span>
+                    </span>
                     <Input
                       value={cnic}
                       readOnly
@@ -675,7 +756,9 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">Mobile Number</span>
+                    <span className="Textfield-Label">
+                      Mobile Number <span style={{ color: "red" }}>*</span>
+                    </span>
                     <UppercaseInput
                       value={contactNumber}
                       onChange={setContactNumber}
@@ -685,7 +768,10 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">Other Mobile Number</span>
+                    <span className="Textfield-Label">
+                      Other Mobile Number{" "}
+                      <span style={{ color: "red" }}>*</span>
+                    </span>
                     <UppercaseInput
                       value={otherContactNumber}
                       onChange={setOtherContactNumber}
@@ -695,7 +781,9 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">Email Address</span>
+                    <span className="Textfield-Label">
+                      Email Address <span style={{ color: "red" }}>*</span>
+                    </span>
                     <Input
                       type="email"
                       value={email}
@@ -836,7 +924,10 @@ const VehicleTransferOwnership = () => {
                   </Col> */}
 
                   <Col xs={24} sm={12} className="relative">
-                    <span className="Textfield-Label">Temporary Address</span>
+                    <span className="Textfield-Label">
+                      Temporary Address <span style={{ color: "red" }}>*</span>
+                    </span>
+
                     <UppercaseInput
                       textarea
                       value={tempAddress}
@@ -850,7 +941,9 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={12} className="relative">
-                    <span className="Textfield-Label">Permanent Address</span>
+                    <span className="Textfield-Label">
+                      Permanent Address <span style={{ color: "red" }}>*</span>
+                    </span>
                     <UppercaseInput
                       textarea
                       value={permAddress}
@@ -890,8 +983,11 @@ const VehicleTransferOwnership = () => {
                       </label>
                       <input
                         type="text"
-                        placeholder="Enter...."
+                        placeholder="Bank / Company Name"
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onChange={(e) => {
+                          e.target.value = e.target.value.toUpperCase();
+                        }}
                       />
                     </div>
                   </Col>
@@ -900,19 +996,24 @@ const VehicleTransferOwnership = () => {
                   <Col xs={24} sm={12}>
                     <div className="w-full">
                       <label className="block mb-1 text-sm font-medium text-gray-700">
-                        Letter No.
+                        Hire Purchase Agreement Letter No.
                       </label>
                       <input
                         type="text"
-                        placeholder="Enter...."
+                        placeholder="Letter No....."
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onChange={(e) => {
+                          e.target.value = e.target.value.toUpperCase();
+                        }}
                       />
                     </div>
                   </Col>
 
                   {/* Upload CNIC PDF */}
                   <Col xs={24} sm={12}>
-                    <span className="Textfield-Label">Upload CNIC .PDF</span>
+                    <span className="Textfield-Label">
+                      Upload CNIC .PDF <span style={{ color: "red" }}>*</span>
+                    </span>
 
                     <div
                       className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
@@ -979,7 +1080,8 @@ const VehicleTransferOwnership = () => {
                   {/* Upload Transfer Letter PDF */}
                   <Col xs={24} sm={12}>
                     <span className="Textfield-Label">
-                      Upload Transfer Letter .pdf
+                      Upload Transfer Letter .pdf{" "}
+                      <span style={{ color: "red" }}>*</span>
                     </span>
 
                     <div
@@ -1062,7 +1164,7 @@ const VehicleTransferOwnership = () => {
                     type="button"
                     className="Save_button"
                     style={{ width: "30%" }}
-                    onClick={() => setShowPreview(true)}
+                    onClick={handlePurchaserNext}
                   >
                     Next
                   </button>
