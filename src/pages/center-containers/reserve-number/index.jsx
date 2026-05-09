@@ -8,7 +8,7 @@ const ReserveRegNumber = () => {
       className="reserve-number"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      ReserveRegNumber
+      <span className="page-title">Reserve Registration Number</span>
     </div>
   );
 };

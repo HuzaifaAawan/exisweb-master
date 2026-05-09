@@ -74,7 +74,7 @@ const VehicleChallanVerification = () => {
       className="challan-verification"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <span className="challan-page-title">Vehicle Challan Verification</span>
+      <span className="page-title">Vehicle Challan Verification</span>
 
       <div className="challan-card">
         <span style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}>

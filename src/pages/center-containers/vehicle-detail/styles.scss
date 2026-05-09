@@ -1,3 +1,21 @@
+.page-title {
+  font-size: clamp(16px, 2.2vw, 24px);
+  font-weight: bold;
+  text-align: center;
+  max-width: 95%;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
 .vehicle-detail {
-  padding: 4rem;
+  width: 100%;
+  min-height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.33rem;
+  overflow: auto;
 }

@@ -118,9 +118,9 @@ export default function StyledRegistrationForm() {
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="bg-white rounded-2xl shadow-md p-6 sm:p-8 w-full max-w-[1100px] outer-div">
-        <h2 className="text-center text-lg sm:text-xl font-bold text-gray-900 mb-6 heading">
+        <span className="page-title">
           Registration No. Reservation Portal
-        </h2>
+        </span>
 
         <div className="w-full h-px divider"></div>
 
