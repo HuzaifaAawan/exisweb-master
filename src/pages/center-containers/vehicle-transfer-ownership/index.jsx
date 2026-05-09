@@ -35,9 +35,6 @@ const VehicleTransferOwnership = () => {
   const [searchText, setSearchText] = useState("");
   const [apiLoading, setApiLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
-  const [hpaParty, setHpaParty] = useState("");
-  const [hpaLetterNo, setHpaLetterNo] = useState("");
-
   const [tempCity, setTempCity] = useState("");
   const [tempDistrict, setTempDistrict] = useState("");
   const [permCity, setPermCity] = useState("");
@@ -1125,7 +1122,7 @@ const VehicleTransferOwnership = () => {
                   {/* Upload Transfer Letter PDF */}
                   <Col xs={24} sm={12}>
                     <span className="Textfield-Label">
-                      Upload Transfer Letter .PDF <span style={{ color: "red" }}>*</span>
+                      UPLOAD TRANSFER LETTER .PDF <span style={{ color: "red" }}>*</span>
                     </span>
 
                     <div
