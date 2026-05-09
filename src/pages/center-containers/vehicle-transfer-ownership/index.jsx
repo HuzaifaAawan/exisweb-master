@@ -1017,7 +1017,7 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={24}>
-                    <Form layout="vertical">
+                    <Form layout="vertical" form={form}>
                       <DistrictDropdowns />
                     </Form>
                   </Col>
@@ -1046,9 +1046,7 @@ const VehicleTransferOwnership = () => {
                         placeholder="Bank / Company Name"
                         value={hpaParty}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={(e) => {
-                          e.target.value = e.target.value.toUpperCase();
-                        }}
+                        onChange={(e) => setHpaParty(e.target.value.toUpperCase())}
                       />
                     </div>
                   </Col>
@@ -1064,9 +1062,7 @@ const VehicleTransferOwnership = () => {
                         placeholder="Letter No....."
                         value={hpaLetterNo}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={(e) => {
-                          e.target.value = e.target.value.toUpperCase();
-                        }}
+                        onChange={(e) => setHpaLetterNo(e.target.value.toUpperCase())}
                       />
                     </div>
                   </Col>
@@ -1293,14 +1289,14 @@ const VehicleTransferOwnership = () => {
                               PURCHASER_CONTACT_NUMBER: contactNumber,
                               PURCHASER_CONTACT_NUMBER2: otherContactNumber,
                               PURCHASER_EMAIL: email,
-                              PURCHASER_TEMP_ADDRESS: presentAddress ,
+                              PURCHASER_TEMP_ADDRESS: tempAddress,
                               PURCHASER_TEMP_CITY: presentAddressCity,
-                              PURCHASER_TEMP_DISTRICT:presentAddressDistrict,
-                              PURCHASER_PRMNT_ADDRESS:permanentAddress,
-                              PURCHASER_PRMNT_CITY:permanentAddressCity,
-                              PURCHASER_PRMNT_DISTRICT:permanentAddressDistrict  ,
-                              HPA_PARTY: "",
-                              HPA_LETTER_NO: "" 
+                              PURCHASER_TEMP_DISTRICT: presentAddressDistrict,
+                              PURCHASER_PRMNT_ADDRESS: permAddress,
+                              PURCHASER_PRMNT_CITY: permanentAddressCity,
+                              PURCHASER_PRMNT_DISTRICT: permanentAddressDistrict,
+                              HPA_PARTY: hpaParty,
+                              HPA_LETTER_NO: hpaLetterNo
                             }),
                           },
                         );
