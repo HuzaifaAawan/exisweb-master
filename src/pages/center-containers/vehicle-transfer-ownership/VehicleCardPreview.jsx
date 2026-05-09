@@ -24,6 +24,7 @@ const VehicleCardPreview = ({
   cnic,
   regDate,
   currentOwnerName,
+  newFatherName,
   transferDate,
   tempAddress,
   vehicleData,
@@ -84,7 +85,7 @@ const VehicleCardPreview = ({
     {
       key: "transferFather",
       label: "F/O/W Name:",
-      value: safe(fatherName),
+      value: safe(newFatherName),
       labelX: 95,
       valueX: 245,
       y: 242,

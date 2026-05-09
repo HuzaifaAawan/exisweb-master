@@ -119,15 +119,15 @@ const VehicleTransferOwnership = () => {
       return;
     }
 
-    if (!nicImage) {
-      message.error("Upload CNIC PDF is required");
-      return;
-    }
+    // if (!nicImage) {
+    //   message.error("Upload CNIC PDF is required");
+    //   return;
+    // }
 
-    if (!transferLetterImage) {
-      message.error("Upload Transfer Letter PDF is required");
-      return;
-    }
+    // if (!transferLetterImage) {
+    //   message.error("Upload Transfer Letter PDF is required");
+    //   return;
+    // }
 
     setShowPreview(true);
   };
@@ -291,107 +291,49 @@ const VehicleTransferOwnership = () => {
 
       console.log("VEHICLE API DATA:", vehicle);
       console.log("BIO API DATA:", bio);
-      console.log("VEHICLE KEYS:", Object.keys(vehicle));
-      console.log("BIO KEYS:", Object.keys(bio));
 
       setVehicleData(vehicle);
 
-      // Current Owner Name
-      setOwnerName(
-        vehicle.CURRENT_OWNER_NAME ||
-          vehicle.OWNER_NAME ||
-          vehicle["CURRENT OWNER NAME"] ||
-          "",
-      );
+      // Current Owner
+      setOwnerName(vehicle.CURRENT_OWNER_NAME || "");
+      setCurrentOwnerName(vehicle.CURRENT_OWNER_NAME || "");
+      setOwnerFatherName(vehicle.CURRENT_OWNER_FNAME || "");  
+       setOwnerCnic(
+         vehicle.CURRENT_OWNER_CNIC ||
+           vehicle.CURRENT_OWNER_CNIC_NO ||
+           vehicle.CURRENT_OWNER_NIC ||
+           vehicle.CURRENT_OWNER_NIC_NO ||
+           vehicle.OWNER_CNIC ||
+           vehicle.OWNER_CNIC_NO ||
+           vehicle.OWNER_NIC ||
+           vehicle.CNIC ||
+           vehicle.NIC ||
+           vehicle["CURRENT_OWNER_CNIC"] ||
+           vehicle["CURRENT OWNER CNIC"] ||
+           vehicle["CURRENT OWNER CNIC NO"] ||
+           vehicle["OWNER CNIC"] ||
+           vehicle["CNIC NO"] ||
+           bio.CNIC ||
+           bio.OWNER_CNIC ||
+           bio.CURRENT_OWNER_CNIC ||
+           "",
+       );
 
-      setCurrentOwnerName(
-        vehicle.CURRENT_OWNER_NAME ||
-          vehicle.OWNER_NAME ||
-          vehicle["CURRENT OWNER NAME"] ||
-          "",
-      );
-
-      // Current Owner CNIC
-      setOwnerCnic(
-        vehicle.CURRENT_OWNER_CNIC ||
-          vehicle.CURRENT_OWNER_CNIC_NO ||
-          vehicle.CURRENT_OWNER_NIC ||
-          vehicle.CURRENT_OWNER_NIC_NO ||
-          vehicle.OWNER_CNIC ||
-          vehicle.OWNER_CNIC_NO ||
-          vehicle.OWNER_NIC ||
-          vehicle.CNIC ||
-          vehicle.NIC ||
-          vehicle["CURRENT_OWNER_CNIC"] ||
-          vehicle["CURRENT OWNER CNIC"] ||
-          vehicle["CURRENT OWNER CNIC NO"] ||
-          vehicle["OWNER CNIC"] ||
-          vehicle["CNIC NO"] ||
-          bio.CNIC ||
-          bio.OWNER_CNIC ||
-          bio.CURRENT_OWNER_CNIC ||
-          "",
-      );
-
-      // Current Owner F/H/W/O
-      setOwnerFatherName(
-        vehicle.CURRENT_OWNER_FNAME ||
-          vehicle.CURRENT_OWNER_FATHER_NAME ||
-          vehicle.CURRENT_OWNER_FATHERNAME ||
-          vehicle.CURRENT_OWNER_FHWO ||
-          vehicle.CURRENT_OWNER_FHWO_NAME ||
-          vehicle.OWNER_FNAME ||
-          vehicle.OWNER_FATHER_NAME ||
-          vehicle.OWNER_FATHERNAME ||
-          vehicle.OWNER_FHWO ||
-          vehicle.FATHER_NAME ||
-          vehicle.FHWO_NAME ||
-          vehicle["CURRENT OWNER F/H/W/O"] ||
-          vehicle["CURRENT OWNER FATHER NAME"] ||
-          vehicle["FATHER / HUSBAND NAME"] ||
-          "",
-      );
-
+      // Owner address
       setOwnerAddress("");
 
       // Purchaser CNIC from biometric
-      setCnic(bio.PURCHASERID || bio.PURCHASER_ID || bio.CNIC || "");
+      setCnic(bio.PURCHASERID || "");
 
-      // First Owner Name
-      setFirstOwnerName(
-        vehicle.FIRST_OWNER_NAME ||
-          vehicle.FIRSTOWNER_NAME ||
-          vehicle.FIRST_OWNER ||
-          vehicle["FIRST OWNER NAME"] ||
-          "",
-      );
-
-      // First Owner F/H/W/O
-      setFirstOwnerFatherName(
-        vehicle.FIRST_OWNER_FNAME ||
-          vehicle.FIRST_OWNER_FATHERNAME ||
-          vehicle.FIRST_OWNER_FATHER_NAME ||
-          vehicle.FIRST_OWNER_FHWO ||
-          vehicle.FIRST_OWNER_FHWO_NAME ||
-          vehicle.FIRST_OWNER_FATHER_HUSBAND_NAME ||
-          vehicle.FATHER_NAME ||
-          vehicle.FHWO_NAME ||
-          vehicle["FIRST OWNER F/H/W/O"] ||
-          vehicle["FIRST OWNER FATHER NAME"] ||
-          vehicle["FATHER / HUSBAND NAME"] ||
-          "",
-      );
-
-      // First Owner CNIC
-      setFirstOwnerCnic(
-        vehicle.FIRST_OWNER_CNIC ||
-          vehicle.FIRSTOWNER_CNIC ||
-          vehicle["FIRST OWNER CNIC"] ||
-          "",
-      );
+      // First Owner
+      setFirstOwnerName(vehicle.FIRST_OWNER_NAME || "");
+      setFirstOwnerFatherName(vehicle.FIRST_OWNER_FNAME || "");
+      setFirstOwnerCnic(vehicle.FIRST_OWNER_CNIC || "");
 
       setShowData(true);
       setShowPurchaserForm(true);
+
+
     } catch (err) {
       console.error("Error fetching bio details:", err);
       setError(err.message || "Unable to fetch data. Please try again.");
@@ -1281,15 +1223,16 @@ const VehicleTransferOwnership = () => {
                 </span>
 
                 <VehicleCardPreview
-                  purchaserName={purchaserName}
-                  fatherName={fatherName}
-                  cnic={cnic}
+                  purchaserName={firstOwnerName}
+                  fatherName={firstOwnerFatherName}
+                  cnic={firstOwnerCnic}
                   regDate={regDate}
-                  currentOwnerName={currentOwnerName}
+                  currentOwnerName={purchaserName}
+                  newFatherName={fatherName}
                   transferDate={transferDate}
                   tempAddress={tempAddress}
                   vehicleData={vehicleData}
-                  ownerCnic={ownerCnic}
+                  ownerCnic={cnic}
                 />
 
                 <div className="preview-buttons">
