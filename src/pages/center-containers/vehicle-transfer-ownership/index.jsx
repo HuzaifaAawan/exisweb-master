@@ -181,7 +181,6 @@ const VehicleTransferOwnership = () => {
     setShowPreview(false);
     setShowChallan(false);
     setShowRequestForm(false);
-
     setRegNo("");
     setRegDate(null);
     setEmail("");
@@ -292,9 +291,36 @@ const VehicleTransferOwnership = () => {
       setOwnerFatherName("");
       setOwnerAddress("");
       setCnic(bio.PURCHASERID || "");
-      setFirstOwnerName(vehicle.FIRST_OWNER_NAME || "");
-      setFirstOwnerFatherName(vehicle.FIRST_OWNER_FATHERNAME || "");
-      setFirstOwnerCnic(vehicle.FIRST_OWNER_CNIC || "");
+      console.log("VEHICLE API DATA:", vehicle);
+
+      setFirstOwnerName(
+        vehicle.FIRST_OWNER_NAME ||
+          vehicle.FIRSTOWNER_NAME ||
+          vehicle.FIRST_OWNER ||
+          vehicle["FIRST OWNER NAME"] ||
+          "",
+      );
+
+      setFirstOwnerFatherName(
+        vehicle.FIRST_OWNER_FNAME ||
+          vehicle.FIRST_OWNER_FATHERNAME ||
+          vehicle.FIRST_OWNER_FATHER_NAME ||
+          vehicle.FIRST_OWNER_FHWO ||
+          vehicle.FIRST_OWNER_FHWO_NAME ||
+          vehicle.FIRST_OWNER_FATHER_HUSBAND_NAME ||
+          vehicle.FATHER_NAME ||
+          vehicle.FHWO_NAME ||
+          vehicle["FIRST OWNER F/H/W/O"] ||
+          vehicle["FATHER / HUSBAND NAME"] ||
+          "",
+      );
+
+      setFirstOwnerCnic(
+        vehicle.FIRST_OWNER_CNIC ||
+          vehicle.FIRSTOWNER_CNIC ||
+          vehicle["FIRST OWNER CNIC"] ||
+          "",
+      );
       setShowData(true);
       setShowPurchaserForm(true);
     } catch (err) {
