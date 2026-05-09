@@ -14,4 +14,5 @@ export const API_ENDPOINTS = {
   NEW_REG_SUBMIT: `${API_BASE_URL}/portal/function/new_reg_submit`,
   GET_CHALLAN_STATUS: `${API_BASE_URL}/portal/function/get_challan_status`,
   GET_CARD_STATUS: `${API_BASE_URL}/portal/function/get_card_status`,
+  GET_POSTREG_APPS: `${API_BASE_URL}/portal/function/get_postreg_apps`,
 };
