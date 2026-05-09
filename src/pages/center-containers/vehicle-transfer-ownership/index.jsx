@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
@@ -16,8 +16,6 @@ import dayjs from "dayjs";
 import { useAuthFetch } from "../../../libs/hooks/useAuthFetch";
 import { API_ENDPOINTS } from "../../../constants";
 
-const STORAGE_KEY = "vehicle_transfer_requests";
-
 const VehicleTransferOwnership = () => {
   const authFetch = useAuthFetch();
 
@@ -28,8 +26,14 @@ const VehicleTransferOwnership = () => {
   const [showAttention, setShowAttention] = useState(false);
   const [showRequestForm, setShowRequestForm] = useState(false);
 
-  const [requests, setRequests] = useState([]);
+  // API Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [apiData, setApiData] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [apiLoading, setApiLoading] = useState(false);
+  const [apiError, setApiError] = useState(null);
 
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
@@ -60,52 +64,49 @@ const VehicleTransferOwnership = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const [previewData, setPreviewData] = useState(null);
   const [challanData, setChallanData] = useState(null);
   const [challanLoading, setChallanLoading] = useState(false);
   const [challanError, setChallanError] = useState(null);
 
+  // Fetch data from API when page, pageSize, or search changes
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        setRequests(JSON.parse(saved));
+    const fetchPostRegApps = async () => {
+      setApiLoading(true);
+      setApiError(null);
+
+      try {
+        const response = await authFetch(API_ENDPOINTS.GET_POSTREG_APPS, {
+          method: "POST",
+          body: JSON.stringify({
+            RECORDS_PER_PAGE: pageSize.toString(),
+            PAGE_NO: currentPage.toString(),
+            SEARCH: searchText.trim(),
+          }),
+        });
+
+        if (!response) {
+          setApiLoading(false);
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        
+        setTotalRecords(parseInt(result.TOTAL_RECORDS) || 0);
+        setApiData(result.DATA || []);
+      } catch (err) {
+        console.error("Error fetching post-registration apps:", err);
+        setApiError(err.message || "Failed to fetch data. Please try again.");
+      } finally {
+        setApiLoading(false);
       }
-    } catch (err) {
-      console.error("Failed to read requests from localStorage", err);
-    }
-  }, []);
+    };
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
-    } catch (err) {
-      console.error("Failed to save requests to localStorage", err);
-    }
-  }, [requests]);
-
-  const filteredRequests = useMemo(() => {
-    const search = searchText.trim().toLowerCase();
-
-    if (!search) return requests;
-
-    return requests.filter((item) =>
-      [
-        item.biometricTracking,
-        item.biometricDate,
-        item.regNo,
-        item.applicationNo,
-        item.applicationProcessingDate,
-        item.challanNo,
-        item.challanStatus,
-        item.challanPaymentDate,
-        item.applicationStatus,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(search),
-    );
-  }, [requests, searchText]);
+    fetchPostRegApps();
+  }, [currentPage, pageSize, searchText]);
 
   const resetEntireFlow = () => {
     setShowData(false);
@@ -142,7 +143,6 @@ const VehicleTransferOwnership = () => {
     setVehicleData(null);
     setLoading(false);
     setError(null);
-    setPreviewData(null);
     setChallanData(null);
     setChallanLoading(false);
     setChallanError(null);
@@ -159,47 +159,8 @@ const VehicleTransferOwnership = () => {
     setShowPreview(false);
     setShowChallan(false);
     setShowRequestForm(false);
-  };
-
-  const addRequestRecord = (apiResult = null) => {
-    const newRequest = {
-      id: Date.now(),
-      biometricTracking: biometricNo || "-",
-      biometricDate: regDate ? dayjs(regDate).format("DD-MM-YYYY") : "-",
-      regNo: regNo || "-",
-
-      applicationNo:
-        apiResult?.APPLICATION_NO ||
-        apiResult?.APP_NO ||
-        apiResult?.ApplicationNo ||
-        apiResult?.applicationNo ||
-        `APP-${Date.now().toString().slice(-6)}`,
-
-      applicationProcessingDate: dayjs().format("DD-MM-YYYY"),
-
-      challanNo:
-        apiResult?.VCT_CHALLAN_NO ||
-        apiResult?.CHALLAN_NO ||
-        apiResult?.ChallanNo ||
-        apiResult?.challanNo ||
-        "-",
-
-      challanStatus:
-        apiResult?.CHALLAN_STATUS ||
-        apiResult?.ChallanStatus ||
-        apiResult?.challanStatus ||
-        "-",
-
-      challanPaymentDate:
-        apiResult?.PAYMENT_DATE ||
-        apiResult?.PaymentDate ||
-        apiResult?.paymentDate ||
-        "-",
-
-      applicationStatus: "Submitted",
-    };
-
-    setRequests((prev) => [newRequest, ...prev]);
+    // Reset pagination to first page
+    setCurrentPage(1);
   };
 
   const handleSubmit = async (e) => {
@@ -345,11 +306,11 @@ const VehicleTransferOwnership = () => {
                 <tr>
                   <th>#</th>
                   <th>Application Number</th>
-                  <th>Biometric Tracking</th>
+                  <th>Application Date</th>
+                  <th>Process Name</th>
+                  <th>Biometric Tracking ID</th>
                   <th>Biometric Date</th>
-                  <th>Reg No.</th>
-                  <th>Application No.</th>
-                  <th>Application Processing Date</th>
+                  <th>Vehicle Reg No.</th>
                   <th>Challan No.</th>
                   <th>Challan Status</th>
                   <th>Challan Payment Date</th>
@@ -358,22 +319,34 @@ const VehicleTransferOwnership = () => {
               </thead>
 
               <tbody>
-                {filteredRequests.length > 0 ? (
-                  filteredRequests.map((item, index) => (
-                    <tr key={item.id}>
-                      <td>{index + 1}</td>
-                      <td>{item.applicationNo}</td>
-                      <td>{item.biometricTracking}</td>
-                      <td>{item.biometricDate}</td>
-                      <td>{item.regNo}</td>
-                      <td>{item.applicationNo}</td>
-                      <td>{item.applicationProcessingDate}</td>
-                      <td>{item.challanNo || "-"}</td>
-                      <td>{item.challanStatus || "-"}</td>
-                      <td>{item.challanPaymentDate || "-"}</td>
+                {apiLoading ? (
+                  <tr>
+                    <td colSpan="11" style={{ textAlign: "center", padding: "20px" }}>
+                      Loading...
+                    </td>
+                  </tr>
+                ) : apiError ? (
+                  <tr>
+                    <td colSpan="11" style={{ textAlign: "center", padding: "20px", color: "red" }}>
+                      {apiError}
+                    </td>
+                  </tr>
+                ) : apiData.length > 0 ? (
+                  apiData.map((item, index) => (
+                    <tr key={item.APPLICATION_NO || index}>
+                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                      <td>{item.APPLICATION_NO || "-"}</td>
+                      <td>{item.APPLICATION_DATE || "-"}</td>
+                      <td>{item["PROCESS NAME"] || "-"}</td>
+                      <td>{item.BIO_TRACKING_ID || "-"}</td>
+                      <td>{item.BIO_DATE || "-"}</td>
+                      <td>{item.VEH_REG_NO || "-"}</td>
+                      <td>{item.CHALLAN_NO || "-"}</td>
+                      <td>{item.CHALLAN_STATUS || "-"}</td>
+                      <td>{item.CHALLAN_PAYMENT_DATE || "-"}</td>
                       <td>
                         <span className="status-badge">
-                          {item.applicationStatus}
+                          {item.APPLICATION_STATUS || "-"}
                         </span>
                       </td>
                     </tr>
@@ -383,7 +356,7 @@ const VehicleTransferOwnership = () => {
                     <td colSpan="11">
                       <div className="request-empty-state">
                         <div className="request-empty-icon">🗂️</div>
-                        <p>No Requests of Transfer of Ownership Yet.</p>
+                        <p>No Transfer of Ownership Applications Found.</p>
                         <span>Request a New Transfer to view details</span>
                       </div>
                     </td>
@@ -393,37 +366,64 @@ const VehicleTransferOwnership = () => {
             </table>
           </div>
           <div className="request-table-footer">
-            <div className="request-page-size">11 Rows/Page</div>
+            <div className="request-page-size">
+              {totalRecords} Records Found | {pageSize} Per Page
+            </div>
 
             <div className="request-pagination">
-              <button type="button" className="page-btn active">
-                1
-              </button>
-              <button type="button" className="page-btn">
-                2
-              </button>
-              <button type="button" className="page-btn">
-                3
-              </button>
-              <button type="button" className="page-btn dots">
-                ...
-              </button>
-              <button type="button" className="page-btn">
-                8
-              </button>
-              <button type="button" className="page-btn">
-                9
-              </button>
-              <button type="button" className="page-btn">
-                10
-              </button>
+              {(() => {
+                const totalPages = Math.ceil(totalRecords / pageSize);
+                const pages = [];
+                const maxPagesToShow = 7;
+
+                if (totalPages <= maxPagesToShow) {
+                  for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                  }
+                } else {
+                  pages.push(1, 2, 3);
+                  if (currentPage > 5) pages.push("...");
+                  pages.push(totalPages - 2, totalPages - 1, totalPages);
+                }
+
+                return pages.map((page, idx) =>
+                  page === "..." ? (
+                    <span key={idx} className="page-btn dots">
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={page}
+                      type="button"
+                      className={`page-btn ${currentPage === page ? "active" : ""}`}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </button>
+                  ),
+                );
+              })()}
             </div>
 
             <div className="request-footer-actions">
-              <button type="button" className="footer-nav-btn">
+              <button
+                type="button"
+                className="footer-nav-btn"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              >
                 ‹ Previous
               </button>
-              <button type="button" className="footer-nav-btn">
+              <button
+                type="button"
+                className="footer-nav-btn"
+                disabled={currentPage >= Math.ceil(totalRecords / pageSize)}
+                onClick={() =>
+                  setCurrentPage((prev) =>
+                    Math.min(prev + 1, Math.ceil(totalRecords / pageSize)),
+                  )
+                }
+              >
                 Next ›
               </button>
             </div>
@@ -1143,8 +1143,9 @@ const VehicleTransferOwnership = () => {
                         console.log("PROCESS_BIO RESULT:", result);
 
                         setChallanData(result);
-                        addRequestRecord(result);
                         setShowChallan(true);
+                        // Refresh the table
+                        setCurrentPage(1);
                       } catch (err) {
                         setChallanError(
                           err.message || "Failed to process. Please try again.",
