@@ -18,6 +18,7 @@ import { API_ENDPOINTS } from "../../../constants";
 
 const VehicleTransferOwnership = () => {
   const authFetch = useAuthFetch();
+  const [form] = Form.useForm();
 
   const [showData, setShowData] = useState(false);
   const [showPurchaserForm, setShowPurchaserForm] = useState(false);
@@ -78,6 +79,8 @@ const VehicleTransferOwnership = () => {
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [hpaParty, setHpaParty] = useState("");
+  const [hpaLetterNo, setHpaLetterNo] = useState("");
   const handlePurchaserNext = () => {
     if (!purchaserName?.trim()) {
       message.error("Purchaser Name is required");
@@ -144,6 +147,9 @@ const VehicleTransferOwnership = () => {
     //   return;
     // }
 
+    const vals = form.getFieldsValue();
+    setpresentAddressDistrict(vals.tempDistrict || "");
+    setpermanentAddressDistrict(vals.permDistrict || "");
     setShowPreview(true);
   };
   const [challanData, setChallanData] = useState(null);
@@ -227,6 +233,9 @@ const VehicleTransferOwnership = () => {
     setChallanData(null);
     setChallanLoading(false);
     setChallanError(null);
+    setHpaParty("");
+    setHpaLetterNo("");
+    form.resetFields();
   };
 
   const openNewRequestForm = () => {
@@ -915,7 +924,7 @@ const VehicleTransferOwnership = () => {
 
                   {/* <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
                     <span className="Textfield-Label">
-                      Upload Transfer Letter .pdf
+                      Upload Transfer Letter .PDF
                     </span>
                     <div
                       className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
@@ -1009,12 +1018,7 @@ const VehicleTransferOwnership = () => {
 
                   <Col xs={24} sm={24}>
                     <Form layout="vertical">
-                      <DistrictDropdowns
-                        tempDistrict={tempDistrict}
-                        setTempDistrict={setTempDistrict}
-                        permDistrict={permDistrict}
-                        setPermDistrict={setPermDistrict}
-                      />
+                      <DistrictDropdowns />
                     </Form>
                   </Col>
                 </Row>
@@ -1042,9 +1046,9 @@ const VehicleTransferOwnership = () => {
                         placeholder="Bank / Company Name"
                         value={hpaParty}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={(e) =>
-                          setHpaParty(e.target.value.toUpperCase())
-                        }
+                        onChange={(e) => {
+                          e.target.value = e.target.value.toUpperCase();
+                        }}
                       />
                     </div>
                   </Col>
@@ -1060,9 +1064,9 @@ const VehicleTransferOwnership = () => {
                         placeholder="Letter No....."
                         value={hpaLetterNo}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={(e) =>
-                          setHpaLetterNo(e.target.value.toUpperCase())
-                        }
+                        onChange={(e) => {
+                          e.target.value = e.target.value.toUpperCase();
+                        }}
                       />
                     </div>
                   </Col>
@@ -1138,8 +1142,7 @@ const VehicleTransferOwnership = () => {
                   {/* Upload Transfer Letter PDF */}
                   <Col xs={24} sm={12}>
                     <span className="Textfield-Label">
-                      Upload Transfer Letter .pdf{" "}
-                      <span style={{ color: "red" }}>*</span>
+                      Upload Transfer Letter .PDF <span style={{ color: "red" }}>*</span>
                     </span>
 
                     <div
@@ -1277,29 +1280,30 @@ const VehicleTransferOwnership = () => {
                           ? dayjs(regDate).format("DD/MM/YYYY")
                           : "";
 
-                          const response = await authFetch(
-                            API_ENDPOINTS.PROCESS_BIO,
-                            {
-                              method: "POST",
-                              body: JSON.stringify({
-                                TRANSACTION_NO: biometricNo,
-                                REG_NO: regNo.toUpperCase(),
-                                REG_DATE: formattedDate,
-
-                                PURCHASER_NAME: purchaserName,
-                                PURCHASER_FATHER_NAME: fatherName,
-                                PURCHASER_CONTACT_NUMBER: contactNumber,
-                                PURCHASER_CONTACT_NUMBER2: otherContactNumber,
-                                PURCHASER_EMAIL: email,
-
-                                PURCHASER_TEMP_ADDRESS: tempAddress,
-                                PURCHASER_TEMP_DISTRICT: tempDistrict,
-
-                                PURCHASER_PRMNT_ADDRESS: permAddress,
-                                PURCHASER_PRMNT_DISTRICT: permDistrict,
-                              }),
-                            },
-                          );
+                        const response = await authFetch(
+                          API_ENDPOINTS.PROCESS_BIO,
+                          {
+                            method: "POST",
+                            body: JSON.stringify({
+                              TRANSACTION_NO: biometricNo,
+                              REG_NO: regNo.toUpperCase(),
+                              REG_DATE: formattedDate,
+                              PURCHASER_NAME: purchaserName,
+                              PURCHASER_FATHER_NAME: fatherName,
+                              PURCHASER_CONTACT_NUMBER: contactNumber,
+                              PURCHASER_CONTACT_NUMBER2: otherContactNumber,
+                              PURCHASER_EMAIL: email,
+                              PURCHASER_TEMP_ADDRESS: presentAddress ,
+                              PURCHASER_TEMP_CITY: presentAddressCity,
+                              PURCHASER_TEMP_DISTRICT:presentAddressDistrict,
+                              PURCHASER_PRMNT_ADDRESS:permanentAddress,
+                              PURCHASER_PRMNT_CITY:permanentAddressCity,
+                              PURCHASER_PRMNT_DISTRICT:permanentAddressDistrict  ,
+                              HPA_PARTY: "",
+                              HPA_LETTER_NO: "" 
+                            }),
+                          },
+                        );
 
                         if (!response) return;
 
