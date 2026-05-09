@@ -282,7 +282,7 @@ const VehicleTransferOwnership = () => {
       className="my-numbers"
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        paddingTop: "16px",
+        paddingTop: "20px",
         display: "flex",
         justifyContent: "flex-start",
         flexDirection: "column",
@@ -878,7 +878,7 @@ const VehicleTransferOwnership = () => {
                       <span className="Hire-Purchase-Agreement block">
                         Hire Purchase Agreement
                       </span>
-                      <Switch />
+                      {/* <Switch /> */}
                     </div>
                   </Col>
 
@@ -896,7 +896,19 @@ const VehicleTransferOwnership = () => {
                     </div>
                   </Col>
 
-                  <Col xs={24} sm={12}></Col>
+                  {/* Letter No */}
+                  <Col xs={24} sm={12}>
+                    <div className="w-full">
+                      <label className="block mb-1 text-sm font-medium text-gray-700">
+                        Letter No.
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Enter...."
+                        className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </Col>
 
                   {/* Upload CNIC PDF */}
                   <Col xs={24} sm={12}>
@@ -954,7 +966,10 @@ const VehicleTransferOwnership = () => {
                       <button
                         type="button"
                         className="text-xs text-red-500 mt-1"
-                        onClick={() => setNicImage(null)}
+                        onClick={() => {
+                          setNicImage(null);
+                          document.getElementById("nic-pdf-upload").value = "";
+                        }}
                       >
                         Remove
                       </button>
@@ -1023,7 +1038,12 @@ const VehicleTransferOwnership = () => {
                       <button
                         type="button"
                         className="text-xs text-red-500 mt-1"
-                        onClick={() => setTransferLetterImage(null)}
+                        onClick={() => {
+                          setTransferLetterImage(null);
+                          document.getElementById(
+                            "transfer-letter-pdf-upload",
+                          ).value = "";
+                        }}
                       >
                         Remove
                       </button>
