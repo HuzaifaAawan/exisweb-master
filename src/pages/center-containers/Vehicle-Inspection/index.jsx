@@ -66,16 +66,7 @@ const VehicleInspection = () => {
         padding: "1.33rem",
       }}
     >
-      <span
-        className="Main-Heading"
-        style={{
-          fontSize: "clamp(16px, 2.2vw, 24px)",
-          fontWeight: "bold",
-          textAlign: "center",
-          maxWidth: "95%",
-          lineHeight: "1.4",
-        }}
-      >
+      <span className="page-title">
         POST-REGISTRATION PROCESS APPLICATION (PHYSICAL INSPECTION REQUEST)
       </span>
 

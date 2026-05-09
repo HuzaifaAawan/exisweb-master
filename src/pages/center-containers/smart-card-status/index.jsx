@@ -52,12 +52,11 @@ const CheckSmartCardStatus = () => {
       }
 
       const data = await response.json();
-      const normalized = Array.isArray(data) ? data : null;
-      if (!normalized || normalized.length === 0) {
+      if (!data || !data.STATUS) {
         setResultError("No record found for the given details.");
         return;
       }
-      setResults(normalized);
+      setResults(data);
     } catch (err) {
       setResultError("Network error. Please try again.");
     } finally {
@@ -82,7 +81,7 @@ const CheckSmartCardStatus = () => {
       className="smart-card-status"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <span className="scs-page-title">Check Smart Card Status</span>
+      <span className="page-title">Check Smart Card Status</span>
 
       <div className="scs-card">
         <span style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}>
@@ -160,72 +159,23 @@ const CheckSmartCardStatus = () => {
         </div>
       )}
 
-      {Array.isArray(results) && results.length > 0 && (
+      {results && (
         <div className="scs-card">
-          {results.map((item, index) => (
-            <div key={index} className={index > 0 ? "scs-result-divider" : ""}>
-              <div className="scs-result-header">
-                <span style={{ fontWeight: "bold", fontSize: "18px" }}>Card Details</span>
-                <span
-                  className="scs-status-badge"
-                  style={{ backgroundColor: getStatusColor(item.STATUS) }}
-                >
-                  {item.STATUS || "-"}
-                </span>
-              </div>
-              <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 16px" }} />
-              <div className="scs-result-grid">
-                <div className="scs-field">
-                  <span className="field-label">Registration No.</span>
-                  <span className="field-value">{item.REGNO || "-"}</span>
-                </div>
-                <div className="scs-field">
-                  <span className="field-label">Application ID</span>
-                  <span className="field-value">{item.APPID || "-"}</span>
-                </div>
-                <div className="scs-field">
-                  <span className="field-label">Application Date</span>
-                  <span className="field-value">{item.APPDATE || "-"}</span>
-                </div>
-                <div className="scs-field">
-                  <span className="field-label">Batch No.</span>
-                  <span className="field-value">{item.BATCHNO || "-"}</span>
-                </div>
-                <div className="scs-field">
-                  <span className="field-label">Process</span>
-                  <span className="field-value">{item.PROCESS || "-"}</span>
-                </div>
-                <div className="scs-field">
-                  <span className="field-label">Phase</span>
-                  <span className="field-value">{item.PHASE || "-"}</span>
-                </div>
-                <div className="scs-field">
-                  <span className="field-label">Processing Status</span>
-                  <span className="field-value">{item.PSTATUS || "-"}</span>
-                </div>
-                <div className="scs-field">
-                  <span className="field-label">Verification</span>
-                  <span className="field-value">{item.VERIFICATION || "-"}</span>
-                </div>
-                <div className="scs-field">
-                  <span className="field-label">Verification Check</span>
-                  <span className="field-value">{item.VCHECK === "Y" ? "Yes" : item.VCHECK === "N" ? "No" : "-"}</span>
-                </div>
-                {item.RMK && (
-                  <div className="scs-field">
-                    <span className="field-label">Remarks</span>
-                    <span className="field-value">{item.RMK}</span>
-                  </div>
-                )}
-                {item.OBJECTION && (
-                  <div className="scs-field">
-                    <span className="field-label">Objection</span>
-                    <span className="field-value">{item.OBJECTION}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+          <div className="scs-result-header">
+            <span style={{ fontWeight: "bold", fontSize: "18px" }}>Card Details</span>
+            {results.STATUS && results.STATUS !== "-" && (
+              <span
+                className="scs-status-badge"
+                style={{ backgroundColor: getStatusColor(results.STATUS) }}
+              >
+                {results.STATUS}
+              </span>
+            )}
+          </div>
+          <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 16px" }} />
+          <p style={{ color: "#374151", fontSize: "14px", lineHeight: "1.7", margin: 0, textAlign: "center" }}>
+            {results.MESSAGE}
+          </p>
         </div>
       )}
     </div>

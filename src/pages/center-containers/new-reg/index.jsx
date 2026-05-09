@@ -476,11 +476,7 @@ const NewVehicleRegistration = () => {
       className="new-reg"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="page-title">
-        <Typography.Title className="title">
-          Online Vehicle Registration
-        </Typography.Title>
-      </div>
+      <span className="page-title">Online Vehicle Registration</span>
       <Tabs
         defaultActiveKey="1"
         className="custom-tabs"

@@ -368,12 +368,10 @@ const VehicleTransferOwnership = () => {
 
   return (
     <div
-      className="my-numbers"
+      className="transfer-ownership-page"
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        paddingTop: "20px",
         display: "flex",
-        justifyContent: "flex-start",
         flexDirection: "column",
         width: "100%",
         maxWidth: "100vw",
@@ -382,21 +380,10 @@ const VehicleTransferOwnership = () => {
         minHeight: "100vh",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        padding: "0 1.33rem 1.33rem",
+        padding: "1.33rem",
       }}
     >
-      <span
-        className="title"
-        style={{
-          fontSize: "clamp(16px, 2.2vw, 24px)",
-          fontWeight: "bold",
-          textAlign: "center",
-          maxWidth: "95%",
-          lineHeight: "1.4",
-        }}
-      >
-        VEHICLE TRANSFER OF OWNERSHIP
-      </span>
+      <span className="page-title">VEHICLE TRANSFER OF OWNERSHIP</span>
 
       {!showRequestForm && (
         <div className="request-table-card">

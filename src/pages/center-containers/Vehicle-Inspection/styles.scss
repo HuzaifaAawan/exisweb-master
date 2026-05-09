@@ -2,6 +2,16 @@
 *{
   font-family: Inter;
 }
+
+.page-title {
+  font-size: clamp(16px, 2.2vw, 24px);
+  font-weight: bold;
+  text-align: center;
+  max-width: 95%;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
 .transfer-ownership {
   width: 100%;
   min-height: 100vh;

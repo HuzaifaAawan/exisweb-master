@@ -82,16 +82,7 @@ const VehicleDetails = () => {
       }}
     >
       {/* Title */}
-      <span
-        className="title"
-        style={{
-          fontSize: "clamp(16px, 2.2vw, 24px)",
-          fontWeight: "bold",
-          textAlign: "center",
-          maxWidth: "95%",
-          lineHeight: "1.4",
-        }}
-      >
+      <span className="page-title">
         Check Registered Vehicle Details
       </span>
 
