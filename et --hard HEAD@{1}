@@ -1,0 +1,91 @@
+[33mcabd5ab[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: commit (merge): Merge branch 'master' of https://github.com/HuzaifaAawan/exisweb-master
+[33mb8778a8[m HEAD@{1}: commit: f/h
+[33m331426c[m HEAD@{2}: commit: updates
+[33m7156159[m HEAD@{3}: commit: validations
+[33md54a4ff[m HEAD@{4}: pull origin master: Merge made by the 'ort' strategy.
+[33md768d99[m HEAD@{5}: commit: updates
+[33m9f05e51[m[33m ([m[1;31morigin/vehicle-tranfer-ownership[m[33m, [m[1;32mvehicle-tranfer-ownership[m[33m)[m HEAD@{6}: checkout: moving from vehicle-tranfer-ownership to master
+[33m9f05e51[m[33m ([m[1;31morigin/vehicle-tranfer-ownership[m[33m, [m[1;32mvehicle-tranfer-ownership[m[33m)[m HEAD@{7}: merge master: Fast-forward
+[33m11d85ae[m HEAD@{8}: checkout: moving from master to vehicle-tranfer-ownership
+[33m9f05e51[m[33m ([m[1;31morigin/vehicle-tranfer-ownership[m[33m, [m[1;32mvehicle-tranfer-ownership[m[33m)[m HEAD@{9}: commit: Updated project changes
+[33m7b5f9b3[m HEAD@{10}: commit: Added vehicle transfer form updates
+[33m94e06ee[m HEAD@{11}: pull origin master --rebase (finish): returning to refs/heads/master
+[33m94e06ee[m HEAD@{12}: pull origin master --rebase (pick): little adjustments
+[33m2ac71ab[m HEAD@{13}: pull origin master --rebase (start): checkout 2ac71abb8ff8ca135633eb0cd325e9741f335faf
+[33mc270bf6[m HEAD@{14}: commit: little adjustments
+[33med33fc2[m HEAD@{15}: pull origin master --rebase: Fast-forward
+[33m3d900b4[m HEAD@{16}: commit: Added transfer request table and navigation to ownership form
+[33m189c69f[m HEAD@{17}: commit: card lyout fixed
+[33m8f80850[m HEAD@{18}: pull origin master: Fast-forward
+[33m4ee6872[m HEAD@{19}: pull origin master --rebase (finish): returning to refs/heads/master
+[33m4ee6872[m HEAD@{20}: pull origin master --rebase (pick): Updated styles.scss (fixes)
+[33m2f6090a[m HEAD@{21}: pull origin master --rebase (start): checkout 2f6090a7230ba2cee01d878fa387f8d7d256a148
+[33mfe6d5c7[m HEAD@{22}: commit: Updated styles.scss (fixes)
+[33mff2537a[m HEAD@{23}: pull origin master: Merge made by the 'ort' strategy.
+[33m2bb0548[m HEAD@{24}: commit: UI fixes: card alignment, preview buttons, responsive fixes
+[33md57985d[m HEAD@{25}: pull origin master: Merge made by the 'ort' strategy.
+[33me33c13a[m HEAD@{26}: commit: Make smart card preview and challan receipt responsive
+[33m0f1371e[m HEAD@{27}: commit: Updated challan width same as preview card
+[33m6e97004[m HEAD@{28}: pull origin master: Fast-forward
+[33meda533a[m HEAD@{29}: pull origin master: Fast-forward
+[33m6c7cc59[m HEAD@{30}: commit: Add: new form and challan receipt integration
+[33m7832a25[m HEAD@{31}: checkout: moving from master to master
+[33m7832a25[m HEAD@{32}: checkout: moving from master to master
+[33m7832a25[m HEAD@{33}: checkout: moving from master to master
+[33m7832a25[m HEAD@{34}: pull --tags origin master: Fast-forward
+[33m69b1cd4[m HEAD@{35}: pull: Fast-forward
+[33m0a580a5[m HEAD@{36}: checkout: moving from vehicle-tranfer-ownership to master
+[33m11d85ae[m HEAD@{37}: commit (merge): ui fixes
+[33mc4661c8[m HEAD@{38}: commit: Commit changes
+[33m3adf440[m HEAD@{39}: checkout: moving from master to vehicle-tranfer-ownership
+[33m0a580a5[m HEAD@{40}: pull origin master: Fast-forward
+[33mf4c3f90[m HEAD@{41}: reset: moving to HEAD
+[33mf4c3f90[m HEAD@{42}: commit (merge): Resolved all merge conflicts using remote versions
+[33m1f41283[m HEAD@{43}: commit: Save local changes before pulling remote master
+[33mcad4e71[m HEAD@{44}: checkout: moving from sso to master
+[33m24fba29[m[33m ([m[1;32msso[m[33m)[m HEAD@{45}: commit: WIP before switching to master
+[33m64bd7ce[m[33m ([m[1;31morigin/sso[m[33m)[m HEAD@{46}: checkout: moving from vehicle-tranfer-ownership to sso
+[33m3adf440[m HEAD@{47}: commit: Updated code for vehicle transfer ownership feature
+[33m33c0be7[m HEAD@{48}: commit: Fixed responsiveness for buttons and captcha in VehicleDetails page
+[33mbad5d9f[m HEAD@{49}: commit: Added new updates in vehicle transfer ownership module
+[33meb7f501[m HEAD@{50}: commit: Updated vehicle transfer ownership page
+[33mc339d8b[m HEAD@{51}: commit: Updated top-bar popup position and dependency lock files
+[33m0a20e14[m HEAD@{52}: commit: Add vehicle transfer ownership form UI
+[33mb4ee292[m HEAD@{53}: commit: Update vehicle transfer ownership feature
+[33mabfba97[m HEAD@{54}: commit: Fix: Registration No uppercase input & responsive styling
+[33m07bcc6b[m HEAD@{55}: commit: fix: adjusted button responsiveness and form layout
+[33meb6f6b2[m HEAD@{56}: commit: Added DistrictDropdowns and attention icon with left placement
+[33ma860fcc[m HEAD@{57}: commit: font changes
+[33ma2277a0[m HEAD@{58}: commit: Your descriptive commit message here
+[33m77a04f3[m HEAD@{59}: pull: Fast-forward
+[33m5be4dcc[m HEAD@{60}: checkout: moving from vertex to vehicle-tranfer-ownership
+[33m8959117[m[33m ([m[1;31morigin/vertex[m[33m, [m[1;32mvertex[m[33m)[m HEAD@{61}: checkout: moving from vehicle-tranfer-ownership to vertex
+[33m5be4dcc[m HEAD@{62}: reset: moving to HEAD
+[33m5be4dcc[m HEAD@{63}: checkout: moving from vertex to vehicle-tranfer-ownership
+[33m8959117[m[33m ([m[1;31morigin/vertex[m[33m, [m[1;32mvertex[m[33m)[m HEAD@{64}: commit: Added note icon and attention-number component, updated styles and attention pages
+[33md8cdfde[m HEAD@{65}: pull origin vertex --rebase (finish): returning to refs/heads/vertex
+[33md8cdfde[m HEAD@{66}: pull origin vertex --rebase (pick): Updated sidebar, attention modal, and form layout
+[33m2759874[m HEAD@{67}: pull origin vertex --rebase (start): checkout 2759874d21efc5c0c7838198b9ea2246ce32a0fc
+[33m2b5e5d9[m HEAD@{68}: commit: Updated sidebar, attention modal, and form layout
+[33m0a66f56[m HEAD@{69}: pull origin vertex: Fast-forward
+[33md09cffd[m HEAD@{70}: commit (merge): Merge branch 'master' of https://github.com/HuzaifaAawan/exisweb-master into vertex
+[33m92311bd[m HEAD@{71}: pull origin vertex: Merge made by the 'ort' strategy.
+[33m1903ebd[m HEAD@{72}: commit: Updated sidebar UI and fixed header styles
+[33m50fc2de[m HEAD@{73}: commit: Updated VehicleTransferOwnership component, fixed spacing and labels
+[33m20592a9[m HEAD@{74}: commit: Updated VehicleTransferOwnership logic to show purchaser info after submit
+[33mb9ee584[m HEAD@{75}: commit: Fixed icon path, cleaned code, and made form responsive
+[33m917a2ea[m HEAD@{76}: commit: Added responsive changes and brandGreen (#04544f) color for buttons
+[33m7312691[m HEAD@{77}: commit: Added UI changes with fixed width and height
+[33mcad4e71[m HEAD@{78}: checkout: moving from master to vertex
+[33mcad4e71[m HEAD@{79}: commit: Final UI adjustments and sidebar animation
+[33mef3f0c8[m HEAD@{80}: pull origin master: Fast-forward
+[33mf1dd90a[m HEAD@{81}: commit: Added SVG icons
+[33mfec76ba[m HEAD@{82}: commit: UI changes
+[33m2c4a348[m HEAD@{83}: reset: moving to HEAD
+[33m2c4a348[m HEAD@{84}: pull origin master: Merge made by the 'ort' strategy.
+[33m7ade597[m HEAD@{85}: commit: Saved my local changes before pulling
+[33m0649f76[m HEAD@{86}: commit: Converted <a> tags to <button> for sidebar navigation
+[33m4e3302b[m HEAD@{87}: pull origin master: Fast-forward
+[33m0a299e7[m HEAD@{88}: commit: Your commit message here
+[33m11595b7[m HEAD@{89}: commit (merge): Merge remote-tracking branch 'origin/master'
+[33m148260b[m HEAD@{90}: commit (initial): Huzaifa

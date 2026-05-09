@@ -256,20 +256,25 @@ const VehicleTransferOwnership = () => {
       }
 
       const text = await response.text();
+
       let result;
+
       try {
         result = JSON.parse(text);
       } catch {
         const inner = text.trim().replace(/^\{|\}$/g, "");
         result = {};
+
         inner.split(",").forEach((pair) => {
           const eqIdx = pair.indexOf("=");
+
           if (eqIdx !== -1) {
             const key = pair.slice(0, eqIdx).trim();
             const val = pair
               .slice(eqIdx + 1)
               .trim()
               .replace(/^"|"$/g, "");
+
             result[key] = val;
           }
         });
@@ -286,18 +291,105 @@ const VehicleTransferOwnership = () => {
 
       console.log("VEHICLE API DATA:", vehicle);
       console.log("BIO API DATA:", bio);
+      console.log("VEHICLE KEYS:", Object.keys(vehicle));
+      console.log("BIO KEYS:", Object.keys(bio));
 
       setVehicleData(vehicle);
-      setOwnerName(vehicle.OWNER_NAME || "");
-      setCurrentOwnerName(vehicle.OWNER_NAME || "");
-      setOwnerCnic(bio.CNIC || "");
-      setOwnerFatherName("");
+
+      // Current Owner Name
+      setOwnerName(
+        vehicle.CURRENT_OWNER_NAME ||
+          vehicle.OWNER_NAME ||
+          vehicle["CURRENT OWNER NAME"] ||
+          "",
+      );
+
+      setCurrentOwnerName(
+        vehicle.CURRENT_OWNER_NAME ||
+          vehicle.OWNER_NAME ||
+          vehicle["CURRENT OWNER NAME"] ||
+          "",
+      );
+
+      // Current Owner CNIC
+      setOwnerCnic(
+        vehicle.CURRENT_OWNER_CNIC ||
+          vehicle.CURRENT_OWNER_CNIC_NO ||
+          vehicle.CURRENT_OWNER_NIC ||
+          vehicle.CURRENT_OWNER_NIC_NO ||
+          vehicle.OWNER_CNIC ||
+          vehicle.OWNER_CNIC_NO ||
+          vehicle.OWNER_NIC ||
+          vehicle.CNIC ||
+          vehicle.NIC ||
+          vehicle["CURRENT_OWNER_CNIC"] ||
+          vehicle["CURRENT OWNER CNIC"] ||
+          vehicle["CURRENT OWNER CNIC NO"] ||
+          vehicle["OWNER CNIC"] ||
+          vehicle["CNIC NO"] ||
+          bio.CNIC ||
+          bio.OWNER_CNIC ||
+          bio.CURRENT_OWNER_CNIC ||
+          "",
+      );
+
+      // Current Owner F/H/W/O
+      setOwnerFatherName(
+        vehicle.CURRENT_OWNER_FNAME ||
+          vehicle.CURRENT_OWNER_FATHER_NAME ||
+          vehicle.CURRENT_OWNER_FATHERNAME ||
+          vehicle.CURRENT_OWNER_FHWO ||
+          vehicle.CURRENT_OWNER_FHWO_NAME ||
+          vehicle.OWNER_FNAME ||
+          vehicle.OWNER_FATHER_NAME ||
+          vehicle.OWNER_FATHERNAME ||
+          vehicle.OWNER_FHWO ||
+          vehicle.FATHER_NAME ||
+          vehicle.FHWO_NAME ||
+          vehicle["CURRENT OWNER F/H/W/O"] ||
+          vehicle["CURRENT OWNER FATHER NAME"] ||
+          vehicle["FATHER / HUSBAND NAME"] ||
+          "",
+      );
+
       setOwnerAddress("");
 
-      setCnic(bio.PURCHASERID || "");
-      setFirstOwnerName(vehicle.FIRST_OWNER_NAME || "");
-      setFirstOwnerFatherName(vehicle.FIRST_OWNER_FATHERNAME || "");
-      setFirstOwnerCnic(vehicle.FIRST_OWNER_CNIC || "");
+      // Purchaser CNIC from biometric
+      setCnic(bio.PURCHASERID || bio.PURCHASER_ID || bio.CNIC || "");
+
+      // First Owner Name
+      setFirstOwnerName(
+        vehicle.FIRST_OWNER_NAME ||
+          vehicle.FIRSTOWNER_NAME ||
+          vehicle.FIRST_OWNER ||
+          vehicle["FIRST OWNER NAME"] ||
+          "",
+      );
+
+      // First Owner F/H/W/O
+      setFirstOwnerFatherName(
+        vehicle.FIRST_OWNER_FNAME ||
+          vehicle.FIRST_OWNER_FATHERNAME ||
+          vehicle.FIRST_OWNER_FATHER_NAME ||
+          vehicle.FIRST_OWNER_FHWO ||
+          vehicle.FIRST_OWNER_FHWO_NAME ||
+          vehicle.FIRST_OWNER_FATHER_HUSBAND_NAME ||
+          vehicle.FATHER_NAME ||
+          vehicle.FHWO_NAME ||
+          vehicle["FIRST OWNER F/H/W/O"] ||
+          vehicle["FIRST OWNER FATHER NAME"] ||
+          vehicle["FATHER / HUSBAND NAME"] ||
+          "",
+      );
+
+      // First Owner CNIC
+      setFirstOwnerCnic(
+        vehicle.FIRST_OWNER_CNIC ||
+          vehicle.FIRSTOWNER_CNIC ||
+          vehicle["FIRST OWNER CNIC"] ||
+          "",
+      );
+
       setShowData(true);
       setShowPurchaserForm(true);
     } catch (err) {
@@ -641,6 +733,7 @@ const VehicleTransferOwnership = () => {
             {showData && (
               <>
                 <hr className="dummy-divider" />
+
                 <div className="dummy-data-container no-bg">
                   <div className="dummy-data-item">
                     <span className="label">Registration No.</span>
@@ -665,6 +758,7 @@ const VehicleTransferOwnership = () => {
                     <span className="label">First Owner CNIC</span>
                     <div className="value">{firstOwnerCnic || "N/A"}</div>
                   </div>
+
                   <div className="dummy-data-item">
                     <span className="label">First Owner Name</span>
                     <div className="value">{firstOwnerName || "N/A"}</div>
@@ -675,18 +769,6 @@ const VehicleTransferOwnership = () => {
                     <div className="value">{firstOwnerFatherName || "N/A"}</div>
                   </div>
 
-                  {/* <div className="dummy-data-item">
-                    <span className="label">First Owner CNIC</span>
-                    <div className="value">{firstOwnerCnic || "N/A"}</div>
-                  </div> */}
-
-                  {/* <div className="dummy-data-item">
-                    <span className="label">Chasis No.</span>
-                    <div className="value">
-                      {vehicleData?.VEH_CHASIS_NO || "N/A"}
-                    </div>
-                  </div> */}
-
                   <div className="dummy-data-item">
                     <span className="label">Current Owner CNIC</span>
                     <div className="value">{ownerCnic || "N/A"}</div>
@@ -696,6 +778,7 @@ const VehicleTransferOwnership = () => {
                     <span className="label">Current Owner Name</span>
                     <div className="value">{ownerName || "N/A"}</div>
                   </div>
+
                   <div className="dummy-data-item">
                     <span className="label">Current Owner F/H/W/O</span>
                     <div className="value">{ownerFatherName || "N/A"}</div>
