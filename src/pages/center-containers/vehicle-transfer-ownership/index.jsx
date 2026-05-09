@@ -293,7 +293,7 @@ const VehicleTransferOwnership = () => {
       setOwnerAddress("");
       setCnic(bio.PURCHASERID || "");
       setFirstOwnerName(vehicle.FIRST_OWNER_NAME || "");
-      setFirstOwnerFatherName(vehicle.FIRST_OWNER_FATHERNAME || "");
+      setFirstOwnerFatherName(vehicle.FIRST_OWNER_FNAME || "");
       setFirstOwnerCnic(vehicle.FIRST_OWNER_CNIC || "");
       setShowData(true);
       setShowPurchaserForm(true);
