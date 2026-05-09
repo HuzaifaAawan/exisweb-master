@@ -287,8 +287,8 @@ const VehicleTransferOwnership = () => {
 
       setVehicleData(vehicle);
       setOwnerName(vehicle.OWNER_NAME || "");
-      setCurrentOwnerName(vehicle.OWNER_NAME || "");
-      setOwnerCnic(bio.CNIC || "");
+      setCurrentOwnerName(vehicle.CURRENT_OWNER_NAME || "");
+      setOwnerCnic(bio.CURRENT_OWNER_CNIC || "");
       setOwnerFatherName("");
       setOwnerAddress("");
       setCnic(bio.PURCHASERID || "");
