@@ -76,8 +76,6 @@ const VehicleTransferOwnership = () => {
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [hpaParty, setHpaParty] = useState("");
-  const [hpaLetterNo, setHpaLetterNo] = useState("");
   const handlePurchaserNext = () => {
     if (!purchaserName?.trim()) {
       message.error("Purchaser Name is required");
@@ -144,9 +142,8 @@ const VehicleTransferOwnership = () => {
     //   return;
     // }
 
-    const vals = form.getFieldsValue();
-    setpresentAddressDistrict(vals.tempDistrict || "");
-    setpermanentAddressDistrict(vals.permDistrict || "");
+    setpresentAddressDistrict(tempDistrict || "");
+    setpermanentAddressDistrict(permDistrict || "");
     setShowPreview(true);
   };
   const [challanData, setChallanData] = useState(null);
@@ -1002,7 +999,12 @@ const VehicleTransferOwnership = () => {
 
                   <Col xs={24} sm={24}>
                     <Form layout="vertical" form={form}>
-                      <DistrictDropdowns />
+                      <DistrictDropdowns
+                        tempDistrict={tempDistrict}
+                        setTempDistrict={setTempDistrict}
+                        permDistrict={permDistrict}
+                        setPermDistrict={setPermDistrict}
+                      />
                     </Form>
                   </Col>
                 </Row>
