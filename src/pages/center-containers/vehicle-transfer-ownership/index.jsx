@@ -42,6 +42,8 @@ const VehicleTransferOwnership = () => {
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
   const [email, setEmail] = useState("");
+  const [hpaParty, setHpaParty] = useState("");
+  const [hpaLetterNo, setHpaLetterNo] = useState("");
   
 
   
