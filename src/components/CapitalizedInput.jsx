@@ -18,7 +18,7 @@ const fetchDistricts = async () => {
     const data = XLSX.utils.sheet_to_json(worksheet);
 
     // Excel me column header jo hai uske hisaab se replace karo
-    return data.map((item) => item["District Name"]).filter(Boolean);// blank items remove
+    return data.map((item) => item["District Name"]).filter(Boolean); // blank items remove
   } catch (err) {
     console.error("Error loading districts:", err);
     return [];
@@ -110,7 +110,6 @@ const EngineSizeInput = ({ value = "", onChange }) => {
   );
 };
 
-
 // ------------------- Uppercase Input -------------------
 const UppercaseInput = ({
   value = "",
@@ -182,7 +181,7 @@ const UppercaseInput = ({
       onChange?.(formatted);
       return;
     }
-    
+
     const uppercaseValue = val.toUpperCase().slice(0, maxLength);
     onChange?.(uppercaseValue);
   };
@@ -229,7 +228,12 @@ const UppercaseInput = ({
 };
 
 // ------------------- District Dropdowns -------------------
-const DistrictDropdowns = () => {
+const DistrictDropdowns = ({
+  tempDistrict,
+  setTempDistrict,
+  permDistrict,
+  setPermDistrict,
+}) => {
   const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
@@ -240,7 +244,18 @@ const DistrictDropdowns = () => {
     <Row gutter={[16, 16]} wrap className="cities-row">
       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
         <Form.Item label="District (Temporary)" name="tempDistrict">
-          <Select placeholder="Select" className="slection-field" showSearch filterOption={(input, option) => (option?.children ?? "").toLowerCase().includes(input.toLowerCase())}>
+          <Select
+            placeholder="Select"
+            className="slection-field"
+            showSearch
+            value={tempDistrict || undefined}
+            onChange={(value) => setTempDistrict(value)}
+            filterOption={(input, option) =>
+              (option?.children ?? "")
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
+          >
             {districts.map((d) => (
               <Option key={d} value={d}>
                 {d}
@@ -252,7 +267,18 @@ const DistrictDropdowns = () => {
 
       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
         <Form.Item label="District (Permanent)" name="permDistrict">
-          <Select placeholder="Select" className="slection-field" showSearch filterOption={(input, option) => (option?.children ?? "").toLowerCase().includes(input.toLowerCase())}>
+          <Select
+            placeholder="Select"
+            className="slection-field"
+            showSearch
+            value={permDistrict || undefined}
+            onChange={(value) => setPermDistrict(value)}
+            filterOption={(input, option) =>
+              (option?.children ?? "")
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
+          >
             {districts.map((d) => (
               <Option key={d} value={d}>
                 {d}

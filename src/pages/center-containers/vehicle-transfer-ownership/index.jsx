@@ -8,9 +8,9 @@ import VehicleCardPreview from "./VehicleCardPreview";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
 import AttentionModal from "../../../components/attention-modal";
 import { Row, Col, Input, Form, Switch } from "antd";
-
-import UppercaseInput from "../../../components/CapitalizedInput.jsx";
-import { DistrictDropdowns } from "../../../components/CapitalizedInput.jsx";
+import UppercaseInput, {
+  DistrictDropdowns,
+} from "../../../components/CapitalizedInput.jsx";
 
 import dayjs from "dayjs";
 import { useAuthFetch } from "../../../libs/hooks/useAuthFetch";
@@ -35,10 +35,19 @@ const VehicleTransferOwnership = () => {
   const [searchText, setSearchText] = useState("");
   const [apiLoading, setApiLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
+  const [hpaParty, setHpaParty] = useState("");
+  const [hpaLetterNo, setHpaLetterNo] = useState("");
 
+  const [tempCity, setTempCity] = useState("");
+  const [tempDistrict, setTempDistrict] = useState("");
+  const [permCity, setPermCity] = useState("");
+  const [permDistrict, setPermDistrict] = useState("");
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
   const [email, setEmail] = useState("");
+  
+
+  
   const [presentAddress, setpresentAddress] = useState(""); 
   const [presentAddressCity, setpresentAddressCity] = useState(""); 
   const [presentAddressDistrict, setpresentAddressDistrict] = useState(""); 
