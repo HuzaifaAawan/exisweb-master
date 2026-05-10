@@ -371,7 +371,8 @@ const VehicleTransferOwnership = () => {
         maxWidth: "100vw",
         overflowX: "hidden",
         alignItems: "center",
-        minHeight: "100vh",
+        minHeight: "100%",
+        boxSizing: "border-box",
         backgroundSize: "cover",
         backgroundPosition: "center",
         padding: "1.33rem",
@@ -1032,7 +1033,9 @@ const VehicleTransferOwnership = () => {
                         placeholder="Bank / Company Name"
                         value={hpaParty}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={(e) => setHpaParty(e.target.value.toUpperCase())}
+                        onChange={(e) =>
+                          setHpaParty(e.target.value.toUpperCase())
+                        }
                       />
                     </div>
                   </Col>
@@ -1048,7 +1051,9 @@ const VehicleTransferOwnership = () => {
                         placeholder="Letter No....."
                         value={hpaLetterNo}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={(e) => setHpaLetterNo(e.target.value.toUpperCase())}
+                        onChange={(e) =>
+                          setHpaLetterNo(e.target.value.toUpperCase())
+                        }
                       />
                     </div>
                   </Col>
@@ -1124,7 +1129,8 @@ const VehicleTransferOwnership = () => {
                   {/* Upload Transfer Letter PDF */}
                   <Col xs={24} sm={12}>
                     <span className="Textfield-Label">
-                      UPLOAD TRANSFER LETTER .PDF <span style={{ color: "red" }}>*</span>
+                      UPLOAD TRANSFER LETTER .PDF{" "}
+                      <span style={{ color: "red" }}>*</span>
                     </span>
 
                     <div
@@ -1280,9 +1286,10 @@ const VehicleTransferOwnership = () => {
                               PURCHASER_TEMP_DISTRICT: presentAddressDistrict,
                               PURCHASER_PRMNT_ADDRESS: permAddress,
                               PURCHASER_PRMNT_CITY: permanentAddressCity,
-                              PURCHASER_PRMNT_DISTRICT: permanentAddressDistrict,
+                              PURCHASER_PRMNT_DISTRICT:
+                                permanentAddressDistrict,
                               HPA_PARTY: hpaParty,
-                              HPA_LETTER_NO: hpaLetterNo
+                              HPA_LETTER_NO: hpaLetterNo,
                             }),
                           },
                         );

@@ -10,14 +10,34 @@ const AppLayout = () => {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        overflowX: "clip",
+        overflow: "hidden",
       }}
       className="app-layout-container"
     >
       <Header className="app-layout-container-header" />
-      <div className="app-layout-content-container" style={{ display: "flex" }}>
+
+      <div
+        className="app-layout-content-container"
+        style={{
+          display: "flex",
+          flex: 1,
+          minHeight: 0,
+          overflow: "hidden",
+        }}
+      >
         <Sidebar />
-        <Outlet />
+
+        <main
+          style={{
+            flex: 1,
+            minWidth: 0,
+            height: "100%",
+            overflowY: "auto",
+            overflowX: "hidden",
+          }}
+        >
+          <Outlet />
+        </main>
       </div>
     </div>
   );
