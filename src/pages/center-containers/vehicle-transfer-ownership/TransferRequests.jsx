@@ -32,7 +32,7 @@
 //             </tr>
 //           </thead>
 
-//           <tbody>
+//           <tbody> 
 //             <tr>
 //               <td colSpan="7" className="empty">
 //                 No Requests of Transfer of Ownership Yet.

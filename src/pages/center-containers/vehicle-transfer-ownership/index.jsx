@@ -698,9 +698,9 @@ const VehicleTransferOwnership = () => {
                   </div>
 
                   <span className="label">Chasis No.</span>
-<div className="value">
-  {vehicleData?.VEH_CHASIS_NO || "N/A"}
-</div>
+                  <div className="value">
+                    {vehicleData?.VEH_CHASIS_NO || "N/A"}
+                  </div>
 
                   <div className="dummy-data-item">
                     <span className="label">First Owner CNIC</span>
