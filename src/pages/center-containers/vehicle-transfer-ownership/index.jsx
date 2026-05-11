@@ -1305,6 +1305,11 @@ const VehicleTransferOwnership = () => {
                         const result = await response.json();
                         console.log("PROCESS_BIO RESULT:", result);
 
+                        if (result.ERROR) {
+                          setChallanError(result.ERROR);
+                          return;
+                        }
+
                         setChallanData(result);
                         setShowChallan(true);
                         // Refresh the table
