@@ -697,12 +697,10 @@ const VehicleTransferOwnership = () => {
                     </div>
                   </div>
 
-                  <div className="dummy-data-item">
-                    <span className="label">Chasis No.</span>
-                    <div className="value">
-                      {vehicleData?.VEH_CHASIS_NO || "N/A"}
-                    </div>
-                  </div>
+                  <span className="label">Chasis No.</span>
+<div className="value">
+  {vehicleData?.VEH_CHASIS_NO || "N/A"}
+</div>
 
                   <div className="dummy-data-item">
                     <span className="label">First Owner CNIC</span>
@@ -1248,6 +1246,8 @@ const VehicleTransferOwnership = () => {
                   tempAddress={tempAddress}
                   vehicleData={vehicleData}
                   ownerCnic={cnic}
+                  hpaParty={hpaParty}
+                  hpaLetterNo={hpaLetterNo}
                 />
 
                 <div className="preview-buttons">

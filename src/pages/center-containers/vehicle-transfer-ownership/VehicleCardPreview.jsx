@@ -28,6 +28,8 @@ const VehicleCardPreview = ({
   transferDate,
   tempAddress,
   vehicleData,
+  hpaParty,
+  hpaLetterNo,
   ownerCnic,
 }) => {
   const fields = [
@@ -132,7 +134,9 @@ const VehicleCardPreview = ({
     {
       key: "hpa",
       label: "HPA:",
-      value: safe(vehicleData?.HPA),
+      value: hpaParty
+        ? `${hpaParty}${hpaLetterNo ? ` / ${hpaLetterNo}` : ""}`
+        : safe(vehicleData?.HPA),
       labelX: 600,
       valueX: 760,
       y: 80,
