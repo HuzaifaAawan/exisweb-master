@@ -134,9 +134,7 @@ const VehicleCardPreview = ({
     {
       key: "hpa",
       label: "HPA:",
-      value: hpaParty
-        ? `${hpaParty}${hpaLetterNo ? ` / ${hpaLetterNo}` : ""}`
-        : safe(vehicleData?.HPA),
+      value: hpaParty || safe(vehicleData?.HPA),
       labelX: 600,
       valueX: 760,
       y: 80,
@@ -209,7 +207,7 @@ const VehicleCardPreview = ({
       labelX: 600,
       valueX: 750,
       y: 256,
-      boldLabel: true,
+      // boldLabel: true,
     },
     {
       key: "tyreFront",
