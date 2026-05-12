@@ -260,13 +260,24 @@ const VehicleTransferOwnership = () => {
     try {
       const formattedDate = regDate ? dayjs(regDate).format("DD/MM/YYYY") : "";
 
-      const response = await authFetch(API_ENDPOINTS.GET_BIO_DET, {
+      const endpoint = biometricNo?.trim()
+        ? API_ENDPOINTS.GET_BIO_DET
+        : API_ENDPOINTS.GET_VEHICLE_DETAILS;
+
+      const requestBody = biometricNo?.trim()
+        ? {
+            TRANSACTION_NO: biometricNo,
+            REG_NO: regNo.toUpperCase(),
+            REG_DATE: formattedDate,
+          }
+        : {
+            REG_NO: regNo.toUpperCase(),
+            REG_DATE: formattedDate,
+          };
+
+      const response = await authFetch(endpoint, {
         method: "POST",
-        body: JSON.stringify({
-          TRANSACTION_NO: biometricNo,
-          REG_NO: regNo.toUpperCase(),
-          REG_DATE: formattedDate,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response) return;
@@ -306,54 +317,98 @@ const VehicleTransferOwnership = () => {
         );
       }
 
-      const vehicle = result.vehicle?.[0] || {};
-      const bio = result.bio?.[0] || {};
+      const vehicle = biometricNo?.trim()
+        ? result.vehicle?.[0] || {}
+        : Array.isArray(result)
+          ? result[0] || {}
+          : result || {};
+
+      const bio = biometricNo?.trim() ? result.bio?.[0] || {} : {};
 
       console.log("VEHICLE API DATA:", vehicle);
       console.log("BIO API DATA:", bio);
 
+      console.log("FIRST OWNER CHECK:", {
+        FIRST_OWNER_NAME: vehicle.FIRST_OWNER_NAME,
+        FIRST_OWNER_NAME_SPACE: vehicle["FIRST OWNER NAME"],
+        OWNER_NAME: vehicle.OWNER_NAME,
+        fullVehicle: vehicle,
+      });
+
       setVehicleData(vehicle);
 
+      setVehicleData(vehicle);
       // Current Owner
-      setOwnerName(vehicle.CURRENT_OWNER_NAME || "");
-      setCurrentOwnerName(vehicle.CURRENT_OWNER_NAME || "");
-      setOwnerFatherName(vehicle.CURRENT_OWNER_FNAME || "");  
-       setOwnerCnic(
-         vehicle.CURRENT_OWNER_CNIC ||
-           vehicle.CURRENT_OWNER_CNIC_NO ||
-           vehicle.CURRENT_OWNER_NIC ||
-           vehicle.CURRENT_OWNER_NIC_NO ||
-           vehicle.OWNER_CNIC ||
-           vehicle.OWNER_CNIC_NO ||
-           vehicle.OWNER_NIC ||
-           vehicle.CNIC ||
-           vehicle.NIC ||
-           vehicle["CURRENT_OWNER_CNIC"] ||
-           vehicle["CURRENT OWNER CNIC"] ||
-           vehicle["CURRENT OWNER CNIC NO"] ||
-           vehicle["OWNER CNIC"] ||
-           vehicle["CNIC NO"] ||
-           bio.CNIC ||
-           bio.OWNER_CNIC ||
-           bio.CURRENT_OWNER_CNIC ||
-           "",
-       );
+      const currentOwner =
+        vehicle.CURRENT_OWNER_NAME ||
+        vehicle.OWNER_NAME ||
+        vehicle["OWNER NAME"] ||
+        "";
 
-      // Owner address
+      const currentOwnerFather =
+        vehicle.CURRENT_OWNER_FNAME ||
+        vehicle.OWNER_FNAME ||
+        vehicle.FATHER_NAME ||
+        vehicle.FNAME ||
+        vehicle["FATHER NAME"] ||
+        vehicle["F/H/W/O"] ||
+        "";
+
+      const currentOwnerCnic =
+        vehicle.CURRENT_OWNER_CNIC ||
+        vehicle.CURRENT_OWNER_CNIC_NO ||
+        vehicle.CURRENT_OWNER_NIC ||
+        vehicle.CURRENT_OWNER_NIC_NO ||
+        vehicle.OWNER_CNIC ||
+        vehicle.OWNER_CNIC_NO ||
+        vehicle.OWNER_NIC ||
+        vehicle.CNIC ||
+        vehicle.NIC ||
+        vehicle["CURRENT_OWNER_CNIC"] ||
+        vehicle["CURRENT OWNER CNIC"] ||
+        vehicle["CURRENT OWNER CNIC NO"] ||
+        vehicle["OWNER CNIC"] ||
+        vehicle["CNIC NO"] ||
+        bio.CNIC ||
+        bio.OWNER_CNIC ||
+        bio.CURRENT_OWNER_CNIC ||
+        "";
+
+    
+      // First Owner
+      const firstOwner =
+        vehicle.FIRST_OWNER_NAME || vehicle["FIRST OWNER NAME"] || "";
+
+      const firstOwnerFather =
+        vehicle.FIRST_OWNER_FNAME ||
+        vehicle["FIRST OWNER FNAME"] ||
+        vehicle["FIRST OWNER F/H/W/O"] ||
+        "";
+
+      const firstOwnerCnicValue =
+        vehicle.FIRST_OWNER_CNIC ||
+        vehicle.FIRST_OWNER_CNIC_NO ||
+        vehicle["FIRST OWNER CNIC"] ||
+        vehicle["FIRST OWNER CNIC NO"] ||
+        "";
+
+
+      setOwnerName(currentOwner);
+
+      setCurrentOwnerName(currentOwner);
+      setOwnerFatherName(currentOwnerFather);
+      setOwnerCnic(currentOwnerCnic);
+
       setOwnerAddress("");
 
-      // Purchaser CNIC from biometric
       setCnic(bio.PURCHASERID || "");
 
-      // First Owner
-      setFirstOwnerName(vehicle.FIRST_OWNER_NAME || "");
-      setFirstOwnerFatherName(vehicle.FIRST_OWNER_FNAME || "");
-      setFirstOwnerCnic(vehicle.FIRST_OWNER_CNIC || "");
+      setFirstOwnerName(firstOwner);
+      setFirstOwnerFatherName(firstOwnerFather);
+      setFirstOwnerCnic(firstOwnerCnicValue);
 
       setShowData(true);
       setShowPurchaserForm(true);
-
-
     } catch (err) {
       console.error("Error fetching bio details:", err);
       setError(err.message || "Unable to fetch data. Please try again.");
@@ -647,7 +702,7 @@ const VehicleTransferOwnership = () => {
                   <button
                     type="submit"
                     className="submit-frame w-full"
-                    disabled={loading || !regNo || !regDate || !biometricNo}
+                    disabled={loading || !regNo || !regDate}
                   >
                     {loading ? "Loading..." : "Submit"}
                   </button>
@@ -697,9 +752,11 @@ const VehicleTransferOwnership = () => {
                     </div>
                   </div>
 
-                  <span className="label">Chasis No.</span>
-                  <div className="value">
-                    {vehicleData?.VEH_CHASIS_NO || "N/A"}
+                  <div className="dummy-data-item">
+                    <span className="label">Chasis No.</span>
+                    <div className="value">
+                      {vehicleData?.VEH_CHASIS_NO || "N/A"}
+                    </div>
                   </div>
 
                   <div className="dummy-data-item">
@@ -1113,16 +1170,23 @@ const VehicleTransferOwnership = () => {
                     </div>
 
                     {nicImage && (
-                      <button
-                        type="button"
-                        className="text-xs text-red-500 mt-1"
-                        onClick={() => {
-                          setNicImage(null);
-                          document.getElementById("nic-pdf-upload").value = "";
-                        }}
-                      >
-                        Remove
-                      </button>
+                      <div style={{ height: "20px", marginTop: "4px" }}>
+                        <button
+                          type="button"
+                          className="text-xs text-red-500"
+                          style={{
+                            visibility: nicImage ? "visible" : "hidden",
+                            padding: 0,
+                          }}
+                          onClick={() => {
+                            setNicImage(null);
+                            document.getElementById("nic-pdf-upload").value =
+                              "";
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     )}
                   </Col>
 
@@ -1186,25 +1250,33 @@ const VehicleTransferOwnership = () => {
                     </div>
 
                     {transferLetterImage && (
-                      <button
-                        type="button"
-                        className="text-xs text-red-500 mt-1"
-                        onClick={() => {
-                          setTransferLetterImage(null);
-                          document.getElementById(
-                            "transfer-letter-pdf-upload",
-                          ).value = "";
-                        }}
-                      >
-                        Remove
-                      </button>
+                      <div style={{ height: "20px", marginTop: "4px" }}>
+                        <button
+                          type="button"
+                          className="text-xs text-red-500"
+                          style={{
+                            visibility: transferLetterImage
+                              ? "visible"
+                              : "hidden",
+                            padding: 0,
+                          }}
+                          onClick={() => {
+                            setTransferLetterImage(null);
+                            document.getElementById(
+                              "transfer-letter-pdf-upload",
+                            ).value = "";
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     )}
                   </Col>
                 </Row>
 
                 <div
                   style={{
-                    marginTop: "24px",
+                    marginTop: "45px",
                     display: "flex",
                     justifyContent: "flex-end",
                   }}
