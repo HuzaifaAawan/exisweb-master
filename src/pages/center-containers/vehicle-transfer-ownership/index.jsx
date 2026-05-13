@@ -275,7 +275,17 @@ const VehicleTransferOwnership = () => {
     return false;
   };
   
-  const getOwnerIdLabel = (value) => {
+  const getOwnerIdLabel = (value, ownerType) => {
+    const type = String(ownerType || "").toUpperCase();
+
+    if (
+      type.includes("ORG") ||
+      type.includes("ORGANIZATION") ||
+      type.includes("COMPANY")
+    ) {
+      return "NTN";
+    }
+
     return isNtnValue(value) ? "NTN" : "CNIC / Passport No.";
   };
 
@@ -290,20 +300,13 @@ const VehicleTransferOwnership = () => {
     try {
       const formattedDate = regDate ? dayjs(regDate).format("DD/MM/YYYY") : "";
 
-      const endpoint = biometricNo?.trim()
-        ? API_ENDPOINTS.GET_BIO_DET
-        : API_ENDPOINTS.GET_VEHICLE_DETAILS;
+      const endpoint = API_ENDPOINTS.GET_BIO_DET;
 
-      const requestBody = biometricNo?.trim()
-        ? {
-            TRANSACTION_NO: biometricNo,
-            REG_NO: regNo.toUpperCase(),
-            REG_DATE: formattedDate,
-          }
-        : {
-            REG_NO: regNo.toUpperCase(),
-            REG_DATE: formattedDate,
-          };
+      const requestBody = {
+        TRANSACTION_NO: biometricNo?.trim() || "",
+        REG_NO: regNo.toUpperCase(),
+        REG_DATE: formattedDate,
+      };
 
       const response = await authFetch(endpoint, {
         method: "POST",
@@ -347,13 +350,9 @@ const VehicleTransferOwnership = () => {
         );
       }
 
-      const vehicle = biometricNo?.trim()
-        ? result.vehicle?.[0] || {}
-        : Array.isArray(result)
-          ? result[0] || {}
-          : result || {};
+      const vehicle = result.vehicle?.[0] || {};
 
-      const bio = biometricNo?.trim() ? result.bio?.[0] || {} : {};
+      const bio = result.bio?.[0] || {};
 
       console.log("VEHICLE API DATA:", vehicle);
       console.log("BIO API DATA:", bio);
@@ -445,26 +444,34 @@ const VehicleTransferOwnership = () => {
         vehicle["F/H/W/O"] ||
         "";
 
-      const currentOwnerCnic =
-        vehicle.CURRENT_OWNER_CNIC ||
-        vehicle.CURRENT_OWNER_CNIC_NO ||
-        vehicle.CURRENT_OWNER_NIC ||
-        vehicle.CURRENT_OWNER_NIC_NO ||
-        vehicle.OWNER_CNIC ||
-        vehicle.OWNER_CNIC_NO ||
-        vehicle.OWNER_NIC ||
-        vehicle.CNIC ||
-        vehicle.NIC ||
-        vehicle["CURRENT_OWNER_CNIC"] ||
-        vehicle["CURRENT OWNER CNIC"] ||
-        vehicle["CURRENT OWNER CNIC NO"] ||
-        vehicle["OWNER CNIC"] ||
-        vehicle["CNIC NO"] ||
-        bio.CNIC ||
-        bio.OWNER_CNIC ||
-        bio.CURRENT_OWNER_CNIC ||
-        "";
-
+        const currentOwnerCnic =
+          vehicle.CURRENT_OWNER_CNIC ||
+          vehicle.CURRENT_OWNER_NTN ||
+          vehicle.CURRENT_OWNER_CNIC_NO ||
+          vehicle.CURRENT_OWNER_NIC ||
+          vehicle.CURRENT_OWNER_NIC_NO ||
+          vehicle.OWNER_CNIC ||
+          vehicle.OWNER_NTN ||
+          vehicle.OWNER_CNIC_NO ||
+          vehicle.OWNER_NIC ||
+          vehicle.CNIC ||
+          vehicle.NIC ||
+          vehicle.NTN ||
+          vehicle["CURRENT_OWNER_CNIC"] ||
+          vehicle["CURRENT OWNER CNIC"] ||
+          vehicle["CURRENT OWNER NTN"] ||
+          vehicle["CURRENT OWNER CNIC NO"] ||
+          vehicle["OWNER CNIC"] ||
+          vehicle["OWNER NTN"] ||
+          vehicle["CNIC NO"] ||
+          vehicle["NTN"] ||
+          bio.CNIC ||
+          bio.NTN ||
+          bio.OWNER_CNIC ||
+          bio.OWNER_NTN ||
+          bio.CURRENT_OWNER_CNIC ||
+          bio.CURRENT_OWNER_NTN ||
+          "";
     
       // First Owner
       const firstOwner =
@@ -476,12 +483,18 @@ const VehicleTransferOwnership = () => {
         vehicle["FIRST OWNER F/H/W/O"] ||
         "";
 
-      const firstOwnerCnicValue =
-        vehicle.FIRST_OWNER_CNIC ||
-        vehicle.FIRST_OWNER_CNIC_NO ||
-        vehicle["FIRST OWNER CNIC"] ||
-        vehicle["FIRST OWNER CNIC NO"] ||
-        "";
+        const firstOwnerCnicValue =
+          vehicle.FIRST_OWNER_CNIC ||
+          vehicle.FIRST_OWNER_NTN ||
+          vehicle.FIRST_OWNER_CNIC_NO ||
+          vehicle.FIRST_OWNER_NIC ||
+          vehicle.FIRST_OWNER_NIC_NO ||
+          vehicle["FIRST OWNER CNIC"] ||
+          vehicle["FIRST OWNER NTN"] ||
+          vehicle["FIRST OWNER CNIC NO"] ||
+          vehicle["FIRST OWNER NIC"] ||
+          vehicle["FIRST OWNER NIC NO"] ||
+          "";
 
 
       setOwnerName(currentOwner);
@@ -852,7 +865,11 @@ const VehicleTransferOwnership = () => {
 
                   <div className="dummy-data-item">
                     <span className="label">
-                      First Owner {getOwnerIdLabel(firstOwnerCnic)}
+                      First Owner{" "}
+                      {getOwnerIdLabel(
+                        firstOwnerCnic,
+                        vehicleData?.FIRST_OWNER_TYPE,
+                      )}
                     </span>
                     <div className="value">{firstOwnerCnic || "N/A"}</div>
                   </div>
@@ -869,7 +886,11 @@ const VehicleTransferOwnership = () => {
 
                   <div className="dummy-data-item">
                     <span className="label">
-                      Current Owner {getOwnerIdLabel(ownerCnic)}
+                      Current Owner{" "}
+                      {getOwnerIdLabel(
+                        ownerCnic,
+                        vehicleData?.CURRENT_OWNER_TYPE,
+                      )}
                     </span>
                     <div className="value">{ownerCnic || "N/A"}</div>
                   </div>
