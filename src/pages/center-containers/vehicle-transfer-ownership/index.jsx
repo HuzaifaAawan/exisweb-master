@@ -26,6 +26,7 @@ const VehicleTransferOwnership = () => {
   const [showChallan, setShowChallan] = useState(false);
   const [showAttention, setShowAttention] = useState(false);
   const [showRequestForm, setShowRequestForm] = useState(false);
+  
 
   // API Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,6 +46,7 @@ const VehicleTransferOwnership = () => {
   const [hpaParty, setHpaParty] = useState("");
   const [hpaLetterNo, setHpaLetterNo] = useState("");
   
+  
 
   
   const [presentAddress, setpresentAddress] = useState(""); 
@@ -57,6 +59,8 @@ const VehicleTransferOwnership = () => {
   const [nicImage, setNicImage] = useState(null);
   const [transferLetterImage, setTransferLetterImage] = useState(null);
   const [cnic, setCnic] = useState("");
+  const [purchaserType, setPurchaserType] = useState("INDIVIDUAL");
+  const [purchaserIdNo, setPurchaserIdNo] = useState("");
   const [purchaserName, setPurchaserName] = useState("");
   const [fhwoName, setFhwoName] = useState("");
   const [ntn, setNtn] = useState("");
@@ -89,8 +93,12 @@ const VehicleTransferOwnership = () => {
       return;
     }
 
-    if (!cnic?.trim()) {
-      message.error("CNIC No. is required");
+    if (!purchaserIdNo?.trim() && !cnic?.trim()) {
+      message.error(
+        purchaserType === "ORGANIZATION"
+          ? "NTN is required"
+          : "CNIC / Passport No. is required",
+      );
       return;
     }
 
@@ -205,6 +213,9 @@ const VehicleTransferOwnership = () => {
     setNicImage(null);
     setTransferLetterImage(null);
     setCnic("");
+    setCnic("");
+    setPurchaserType("INDIVIDUAL");
+    setPurchaserIdNo("");
     setPurchaserName("");
     setFhwoName("");
     setNtn("");
@@ -247,6 +258,25 @@ const VehicleTransferOwnership = () => {
     setShowRequestForm(false);
     // Reset pagination to first page
     setCurrentPage(1);
+  };
+  const isNtnValue = (value) => {
+    const val = String(value || "").trim();
+  
+    if (!val) return false;
+  
+    const onlyDigits = val.replace(/\D/g, "");
+  
+    if (val.includes("-") && onlyDigits.length <= 9) return true;
+  
+    if (onlyDigits.length > 0 && onlyDigits.length !== 13 && onlyDigits.length <= 9) {
+      return true;
+    }
+  
+    return false;
+  };
+  
+  const getOwnerIdLabel = (value) => {
+    return isNtnValue(value) ? "NTN" : "CNIC / Passport No.";
   };
 
   const handleSubmit = async (e) => {
@@ -327,6 +357,67 @@ const VehicleTransferOwnership = () => {
 
       console.log("VEHICLE API DATA:", vehicle);
       console.log("BIO API DATA:", bio);
+      const getValue = (...values) => {
+        return (
+          values.find(
+            (v) => v !== undefined && v !== null && String(v).trim() !== "",
+          ) || ""
+        );
+      };
+
+      const rawPurchaserType = getValue(
+        bio.PURCHASER_TYPE,
+        bio.PURCHASER_CATEGORY,
+        bio.PURCHASER_STATUS,
+        bio.OWNER_TYPE,
+        bio.APPLICANT_TYPE,
+        bio.TYPE,
+      )
+        .toString()
+        .toUpperCase();
+
+      const organizationNtn = getValue(
+        bio.PURCHASER_NTN,
+        bio.PURCHASERNTN,
+        bio.NTN,
+        bio.NTN_NO,
+        bio.ORGANIZATION_NTN,
+        bio.ORGANIZATIONNTN,
+      );
+
+      const individualId = getValue(
+        bio.PURCHASERID,
+        bio.PURCHASER_ID,
+        bio.PURCHASER_CNIC,
+        bio.PURCHASERCNIC,
+        bio.CNIC,
+        bio.PASSPORT_NO,
+        bio.PASSPORTNO,
+      );
+
+      const isOrganization =
+        rawPurchaserType.includes("ORG") ||
+        rawPurchaserType.includes("COMPANY") ||
+        rawPurchaserType.includes("ORGANIZATION") ||
+        rawPurchaserType.includes("NTN") ||
+        !!organizationNtn;
+
+      const finalPurchaserType = isOrganization ? "ORGANIZATION" : "INDIVIDUAL";
+      const finalPurchaserIdNo = isOrganization
+        ? organizationNtn
+        : individualId;
+
+      setPurchaserType(finalPurchaserType);
+      setPurchaserIdNo(finalPurchaserIdNo);
+      setCnic(finalPurchaserIdNo);
+
+      console.log("PURCHASER TYPE CHECK:", {
+        rawPurchaserType,
+        organizationNtn,
+        individualId,
+        finalPurchaserType,
+        finalPurchaserIdNo,
+      });
 
       console.log("FIRST OWNER CHECK:", {
         FIRST_OWNER_NAME: vehicle.FIRST_OWNER_NAME,
@@ -401,7 +492,7 @@ const VehicleTransferOwnership = () => {
 
       setOwnerAddress("");
 
-      setCnic(bio.PURCHASERID || "");
+      // setCnic(bio.PURCHASERID || "");
 
       setFirstOwnerName(firstOwner);
       setFirstOwnerFatherName(firstOwnerFather);
@@ -760,7 +851,9 @@ const VehicleTransferOwnership = () => {
                   </div>
 
                   <div className="dummy-data-item">
-                    <span className="label">First Owner CNIC</span>
+                    <span className="label">
+                      First Owner {getOwnerIdLabel(firstOwnerCnic)}
+                    </span>
                     <div className="value">{firstOwnerCnic || "N/A"}</div>
                   </div>
 
@@ -775,7 +868,9 @@ const VehicleTransferOwnership = () => {
                   </div>
 
                   <div className="dummy-data-item">
-                    <span className="label">Current Owner CNIC</span>
+                    <span className="label">
+                      Current Owner {getOwnerIdLabel(ownerCnic)}
+                    </span>
                     <div className="value">{ownerCnic || "N/A"}</div>
                   </div>
 
@@ -843,14 +938,26 @@ const VehicleTransferOwnership = () => {
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">
-                      CNIC No. <span style={{ color: "red" }}>*</span>
+                    <span
+                      className="Textfield-Label"
+                      style={{ color: "black" }}
+                    >
+                      {purchaserType === "ORGANIZATION"
+                        ? "NTN"
+                        : "CNIC / Passport No."}{" "}
+                      <span style={{ color: "red" }}>*</span>
                     </span>
+
                     <Input
-                      value={cnic}
+                      value={purchaserIdNo || cnic}
                       readOnly
-                      placeholder="Auto-filled from biometric"
+                      placeholder={
+                        purchaserType === "ORGANIZATION"
+                          ? "Auto-filled NTN"
+                          : "Auto-filled CNIC / Passport No."
+                      }
                       className="uniform-input1"
+                      style={{ color: "black" }}
                     />
                   </Col>
 
@@ -1317,7 +1424,7 @@ const VehicleTransferOwnership = () => {
                   transferDate={transferDate}
                   tempAddress={tempAddress}
                   vehicleData={vehicleData}
-                  ownerCnic={cnic}
+                  ownerCnic={purchaserIdNo || cnic}
                   hpaParty={hpaParty}
                   hpaLetterNo={hpaLetterNo}
                 />
@@ -1350,6 +1457,16 @@ const VehicleTransferOwnership = () => {
                               TRANSACTION_NO: biometricNo,
                               REG_NO: regNo.toUpperCase(),
                               REG_DATE: formattedDate,
+                              PURCHASER_TYPE: purchaserType,
+                              PURCHASER_ID: purchaserIdNo || cnic,
+                              PURCHASER_NTN:
+                                purchaserType === "ORGANIZATION"
+                                  ? purchaserIdNo || cnic
+                                  : "",
+                              PURCHASER_CNIC:
+                                purchaserType === "INDIVIDUAL"
+                                  ? purchaserIdNo || cnic
+                                  : "",
                               PURCHASER_NAME: purchaserName,
                               PURCHASER_FATHER_NAME: fatherName,
                               PURCHASER_CONTACT_NUMBER: contactNumber,
