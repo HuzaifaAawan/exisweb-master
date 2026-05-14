@@ -95,7 +95,7 @@ const VehicleTransferOwnership = () => {
 
     if (!purchaserIdNo?.trim() && !cnic?.trim()) {
       message.error(
-        purchaserType === "COMPANY"
+        purchaserType.toUpperCase() === "COMPANY"
           ? "NTN is required"
           : "CNIC / Passport No. is required",
       );
@@ -520,6 +520,12 @@ const VehicleTransferOwnership = () => {
       setLoading(false);
     }
   };
+
+  const isNtnField =
+    purchaserType.toUpperCase() === "COMPANY" ||
+    ["ORG", "ORGANIZATION", "COMPANY"].some((t) =>
+      String(vehicleData?.CURRENT_OWNER_TYPE || "").toUpperCase().includes(t),
+    );
 
   return (
     <div
@@ -964,18 +970,21 @@ const VehicleTransferOwnership = () => {
                       className="Textfield-Label"
                       style={{ color: "black" }}
                     >
-                      {purchaserType === "COMPANY"
-                        ? "NTN No."
-                        : "CNIC / Passport No."}{" "}
+                      {isNtnField ? "NTN No." : "CNIC / Passport No."}{" "}
                       <span style={{ color: "red" }}>*</span>
                     </span>
 
                     <Input
                       value={purchaserIdNo || cnic}
-                      readOnly
+                      readOnly={!isNtnField}
+                      onChange={
+                        isNtnField
+                          ? (e) => setPurchaserIdNo(e.target.value)
+                          : undefined
+                      }
                       placeholder={
-                        purchaserType === "COMPANY"
-                          ? "Auto-filled NTN No."
+                        isNtnField
+                          ? "Enter NTN No."
                           : "Auto-filled CNIC / Passport No."
                       }
                       className="uniform-input1"
@@ -1482,11 +1491,11 @@ const VehicleTransferOwnership = () => {
                               PURCHASER_TYPE: purchaserType,
                               PURCHASER_ID: purchaserIdNo || cnic,
                               PURCHASER_NTN:
-                                purchaserType === "COMPANY"
+                                purchaserType.toUpperCase() === "COMPANY"
                                   ? purchaserIdNo || cnic
                                   : "",
                               PURCHASER_CNIC:
-                                purchaserType === "INDIVIDUAL"
+                                purchaserType.toUpperCase() === "INDIVIDUAL"
                                   ? purchaserIdNo || cnic
                                   : "",
                               PURCHASER_NAME: purchaserName,
