@@ -91,7 +91,7 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu Toggle with AntD Dropdown */}
-        <div className="hidden laptop:block self-end mt-2">
+        <div className="mobile-menu-toggle">
           <Dropdown
             menu={menuStructure}
             placement="bottomRight"
