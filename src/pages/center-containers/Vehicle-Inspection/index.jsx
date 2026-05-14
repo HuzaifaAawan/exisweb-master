@@ -26,7 +26,7 @@ import { DistrictDropdowns } from "../../../components/CapitalizedInput.jsx";
 
 const VehicleInspection = () => {
   const [showData, setShowData] = useState(false);
-  const [showPurchaserForm, setShowPurchaserForm] = useState(false);
+  const [showPurchaserForm, setShowPurchaserForm] = useState(true);
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
   const [processType, setProcessType] = useState(null);

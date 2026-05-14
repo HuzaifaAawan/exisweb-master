@@ -16,6 +16,4 @@
 //   /biometric             - Biometric Verification
 //   /locator               - eSahulat Centre Locator
 
-export const disabledPages = [
-  "/registration", "/my-numbers", "/new-reg", "/vehicle-inspection"
-];
+export const disabledPages = ["/registration", "/my-numbers", "/new-reg"];
