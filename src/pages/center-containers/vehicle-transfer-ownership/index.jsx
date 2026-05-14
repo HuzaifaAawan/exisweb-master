@@ -95,7 +95,7 @@ const VehicleTransferOwnership = () => {
 
     if (!purchaserIdNo?.trim() && !cnic?.trim()) {
       message.error(
-        purchaserType === "ORGANIZATION"
+        purchaserType === "COMPANY"
           ? "NTN is required"
           : "CNIC / Passport No. is required",
       );
@@ -365,6 +365,7 @@ const VehicleTransferOwnership = () => {
       };
 
       const rawPurchaserType = getValue(
+        bio.PURCHASERTYPE,
         bio.PURCHASER_TYPE,
         bio.PURCHASER_CATEGORY,
         bio.PURCHASER_STATUS,
@@ -375,14 +376,14 @@ const VehicleTransferOwnership = () => {
         .toString()
         .toUpperCase();
 
-      const organizationNtn = getValue(
-        bio.PURCHASER_NTN,
-        bio.PURCHASERNTN,
-        bio.NTN,
-        bio.NTN_NO,
-        bio.ORGANIZATION_NTN,
-        bio.ORGANIZATIONNTN,
-      );
+        const organizationNtn = getValue(
+          bio.PURCHASER_NTN,
+          bio.PURCHASERNTN,
+          bio.NTN,
+          bio.NTN_NO,
+          bio.ORGANIZATION_NTN,
+          bio.ORGANIZATIONNTN,
+        );
 
       const individualId = getValue(
         bio.PURCHASERID,
@@ -395,16 +396,15 @@ const VehicleTransferOwnership = () => {
       );
 
       const isOrganization =
-        rawPurchaserType.includes("ORG") ||
         rawPurchaserType.includes("COMPANY") ||
-        rawPurchaserType.includes("ORGANIZATION") ||
-        rawPurchaserType.includes("NTN") ||
-        !!organizationNtn;
+        rawPurchaserType.includes("ORG") ||
+        rawPurchaserType.includes("ORGANIZATION");
 
-      const finalPurchaserType = isOrganization ? "ORGANIZATION" : "INDIVIDUAL";
-      const finalPurchaserIdNo = isOrganization
-        ? organizationNtn
-        : individualId;
+        const finalPurchaserType = isOrganization ? "COMPANY" : "INDIVIDUAL";
+
+        const finalPurchaserIdNo = isOrganization
+          ? organizationNtn
+          : individualId;
 
       setPurchaserType(finalPurchaserType);
       setPurchaserIdNo(finalPurchaserIdNo);
@@ -913,7 +913,8 @@ const VehicleTransferOwnership = () => {
             <div className="Frame-1000009526">
               <div style={{ padding: "0 24px" }}>
                 <span className="Profiles-Manager-form2-h1">
-                  Purchaser Information
+                  Purchaser Information{" "}
+                  {purchaserType ? `(${purchaserType.toUpperCase()})` : ""}
                 </span>
                 <span className="Profiles-Manager-form2-h2">
                   Please provide the details of the purchaser to whom the
@@ -963,8 +964,8 @@ const VehicleTransferOwnership = () => {
                       className="Textfield-Label"
                       style={{ color: "black" }}
                     >
-                      {purchaserType === "ORGANIZATION"
-                        ? "NTN"
+                      {purchaserType === "COMPANY"
+                        ? "NTN No."
                         : "CNIC / Passport No."}{" "}
                       <span style={{ color: "red" }}>*</span>
                     </span>
@@ -973,8 +974,8 @@ const VehicleTransferOwnership = () => {
                       value={purchaserIdNo || cnic}
                       readOnly
                       placeholder={
-                        purchaserType === "ORGANIZATION"
-                          ? "Auto-filled NTN"
+                        purchaserType === "COMPANY"
+                          ? "Auto-filled NTN No."
                           : "Auto-filled CNIC / Passport No."
                       }
                       className="uniform-input1"
@@ -1481,7 +1482,7 @@ const VehicleTransferOwnership = () => {
                               PURCHASER_TYPE: purchaserType,
                               PURCHASER_ID: purchaserIdNo || cnic,
                               PURCHASER_NTN:
-                                purchaserType === "ORGANIZATION"
+                                purchaserType === "COMPANY"
                                   ? purchaserIdNo || cnic
                                   : "",
                               PURCHASER_CNIC:
