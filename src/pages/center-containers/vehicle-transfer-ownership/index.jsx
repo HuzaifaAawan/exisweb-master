@@ -545,7 +545,7 @@ const VehicleTransferOwnership = () => {
         padding: "1.33rem",
       }}
     >
-      <span className="page-title">VEHICLE TRANSFER OF OWNERSHIP</span>
+      <span className="page-title">Vehicle Transfer Of Ownership</span>
 
       {!showRequestForm && (
         <div className="request-table-card">
