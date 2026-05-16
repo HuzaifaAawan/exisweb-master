@@ -29,7 +29,7 @@ const VehicleInspection = () => {
   const [regDate, setRegDate] = useState(null);
   const [engineNo, setEngineNo] = useState("");
   const [chassisNo, setChassisNo] = useState("");
-  const [processType, setProcessType] = useState(null);
+  const [processType, setProcessType] = useState("new_vehicle_registration");
   const [inspectionNumber, setInspectionNumber] = useState("");
   const [city, setCity] = useState("");
 
@@ -87,7 +87,7 @@ const VehicleInspection = () => {
     setRegDate(null);
     setEngineNo("");
     setChassisNo("");
-    setProcessType(null);
+    setProcessType("new_vehicle_registration");
     setInspectionNumber("");
     setCity("");
   };
@@ -524,55 +524,25 @@ const VehicleInspection = () => {
           </div>
 
           {showData && (
-            <div className="Frame-1000009526">
-              <div style={{ padding: "0 24px" }}>
-                <div className="inspection-application-box">
-                  <div className="selected-process-text">
-                    SELECTED PROCESS:{" "}
-                    <span>
-                      {processType === "new_vehicle_registration"
-                        ? "New Vehicle Registration"
-                        : processType === "transfer_of_ownership"
-                          ? "Transfer Of Ownership"
-                          : processType === "other_type_of_applications"
-                            ? "Other Type Of Applications"
-                            : "N/A"}
-                    </span>
-                  </div>
-
-                  <div className="inspection-application-title">
-                    PHYSICAL INSPECTION APPLICATION NUMBER IS:{" "}
-                    <span>{inspectionNumber || "N/A"}</span>
-                  </div>
-
-                  <ul className="inspection-instructions">
-                    <li>
-                      KINDLY VISIT ETD OFFICE FOR YOUR VEHICLE PHYSICAL
-                      INSPECTION.
-                    </li>
-                    <li>
-                      VEHICLES INSPECTED BY ETD STAFF MUST BE IMMEDIATELY HANDED
-                      OVER TO THE BUYER.
-                    </li>
-                    <li>
-                      IT IS THE BUYER'S DUTY TO ENSURE THEY RECEIVE SAME VEHICLE
-                      INSPECTED BY ETD STAFF.
-                    </li>
-                    <li>
-                      PLEASE ENSURE THAT BIOMETRIC VERIFICATION OF THE SELLER
-                      AND BUYER ALIGN WITH THIS APPLICATION.
-                    </li>
-                    <li>
-                      BIOMETRIC VERIFICATION IS ONLY ALLOWED AFTER THE VEHICLE
-                      HAS BEEN INSPECTED BY ETD STAFF.
-                    </li>
-                    <li>
-                      CHANGE OF OWNERSHIP IS SUBJECT TO CURRENT OWNER'S
-                      BIOMETRIC VERIFICATION FROM NADRA.
-                    </li>
-                  </ul>
-                </div>
+            <div className="vi-result-card">
+              <div className="vi-result-header">
+                <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                  Inspection Application Details
+                </span>
               </div>
+              <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "0 auto" }} />
+              <p style={{ color: "#374151", fontSize: "16px", fontWeight: "700", lineHeight: "1.6", margin: "0 0 12px 0" }}>
+                PHYSICAL INSPECTION APPLICATION NUMBER IS:{" "}
+                <span style={{ color: "#04544f" }}>{inspectionNumber || "N/A"}</span>
+              </p>
+              <ul style={{ color: "#374151", fontSize: "14px", lineHeight: "1.8", margin: 0, paddingLeft: "20px" }}>
+                <li>KINDLY VISIT ETD OFFICE FOR YOUR VEHICLE PHYSICAL INSPECTION AGAINST THIS APPLICATION NUMBER.</li>
+                <li>VEHICLES INSPECTED BY ETD STAFF MUST BE IMMEDIATELY HANDED OVER TO THE BUYER.</li>
+                <li>IT IS THE BUYER'S DUTY TO ENSURE THEY RECEIVE SAME VEHICLE INSPECTED BY ETD STAFF.</li>
+                <li>PLEASE ENSURE THAT BIOMETRIC VERIFICATION OF THE SELLER AND BUYER ALIGN WITH THIS APPLICATION.</li>
+                <li>BIOMETRIC VERIFICATION IS ONLY ALLOWED AFTER THE VEHICLE HAS BEEN INSPECTED BY ETD STAFF.</li>
+                <li>CHANGE OF OWNERSHIP IS SUBJECT TO CURRENT OWNER'S BIOMETRIC VERIFICATION FROM NADRA.</li>
+              </ul>
             </div>
           )}
         </>

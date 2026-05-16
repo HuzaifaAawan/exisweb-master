@@ -131,6 +131,24 @@
   padding: 0 16px !important;
 }
 
+.vi-result-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #e3e3e3;
+  background-color: #fff;
+  margin-top: 16px;
+}
+
+.vi-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .process-type-radio-group {
   display: flex;
   flex-wrap: wrap;
