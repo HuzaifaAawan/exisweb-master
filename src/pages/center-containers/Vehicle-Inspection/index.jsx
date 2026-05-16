@@ -5,13 +5,19 @@ import transferIcon from "../../../assets/icons/transfer_icon.JPG";
 import noteIcon from "../../../assets/icons/note.png";
 import "./media_transfer.scss";
 
-import { Select, Row, Col, message } from "antd";
+import { Select, Radio, Row, Col, message } from "antd";
 import { useEffect, useState } from "react";
 
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
 import UppercaseInput from "../../../components/CapitalizedInput.jsx";
 import { useAuthFetch } from "../../../libs/hooks/useAuthFetch";
 import { API_ENDPOINTS } from "../../../constants";
+
+const PROCESS_TYPE_OPTIONS = [
+  { value: "new_vehicle_registration", label: "New Vehicle Registration" },
+  { value: "transfer_of_ownership", label: "Transfer of Ownership" },
+  { value: "other_type_of_applications", label: "Other type of applications" },
+];
 
 const VehicleInspection = () => {
   const authFetch = useAuthFetch();
@@ -134,17 +140,20 @@ const VehicleInspection = () => {
 
     setSubmitLoading(true);
 
+    const isNewReg = processType === "new_vehicle_registration";
+
     try {
       const response = await authFetch(
-        API_ENDPOINTS.SUBMIT_INSPECTION_REQUEST,
+        API_ENDPOINTS.GET_PHYSICAL_INSP_NO,
         {
           method: "POST",
           body: JSON.stringify({
-            PROCESS_TYPE: processType,
-            REG_NO: regNo?.trim().toUpperCase(),
-            REG_DATE: regDate ? regDate.format?.("DD/MM/YYYY") : "",
-            ENGINE_NO: engineNo?.trim().toUpperCase(),
-            CHASSIS_NO: chassisNo?.trim().toUpperCase(),
+            ID: "",
+            APPTYPE: isNewReg ? 1 : 2,
+            CHASSIS_NO: isNewReg ? chassisNo?.trim().toUpperCase() : "",
+            ENGINE_NO: isNewReg ? engineNo?.trim().toUpperCase() : "",
+            REG_NO: isNewReg ? "" : regNo?.trim().toUpperCase(),
+            REG_DATE: isNewReg ? "" : (regDate ? regDate.format?.("DD/MM/YYYY") : ""),
             CITY: city?.toUpperCase(),
           }),
         },
@@ -158,12 +167,7 @@ const VehicleInspection = () => {
 
       const result = await response.json();
 
-      setInspectionNumber(
-        result.INSPECTION_NO ||
-          result.INSPECTION_NUMBER ||
-          result.APPLICATION_NO ||
-          "N/A",
-      );
+      setInspectionNumber(result.INSPECTION_ID || "N/A");
 
       setShowData(true);
     } catch (err) {
@@ -401,38 +405,47 @@ const VehicleInspection = () => {
 
             <form onSubmit={handleSubmit}>
               <Row gutter={[20, 16]} className="items-end w-full">
-                <Col xs={24} sm={24} md={12} lg={7}>
+                <Col xs={24} sm={24} md={24} lg={24}>
                   <div className="field-box">
-                    <label htmlFor="processType" className="Textfield-Label">
+                    <label className="Textfield-Label">
                       Select Process Type
                     </label>
-
-                    <Select
-                      id="processType"
-                      placeholder="Select"
-                      className="w-full custom-select"
-                      value={processType ?? null}
-                      onChange={(value) => {
-                        setProcessType(value ?? null);
+                    <Radio.Group
+                      value={processType}
+                      onChange={(e) => {
+                        setProcessType(e.target.value);
                         setShowData(false);
                       }}
-                      allowClear
-                      options={[
-                        {
-                          value: "new_vehicle_registration",
-                          label: "New Vehicle Registration",
-                        },
-                        {
-                          value: "transfer_of_ownership",
-                          label: "Transfer of Ownership",
-                        },
-                        {
-                          value: "other_type_of_applications",
-                          label: "Other type of applications",
-                        },
-                      ]}
-                    />
+                      className="process-type-radio-group"
+                    >
+                      {PROCESS_TYPE_OPTIONS.map((opt) => (
+                        <Radio key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </Radio>
+                      ))}
+                    </Radio.Group>
                   </div>
+                </Col>
+
+                <Col xs={24} sm={24} md={12} lg={7}>
+                  {processType === "new_vehicle_registration" ? (
+                    <>
+                      <label className="Textfield-Label">Chassis No.</label>
+                      <UppercaseInput
+                        placeholder="Enter here..."
+                        value={chassisNo}
+                        onChange={(val) => setChassisNo(val)}
+                        className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg"
+                      />
+                    </>
+                  ) : (
+                    <LabelDatePicker
+                      label="Registration Date"
+                      value={regDate}
+                      setRegDate={setRegDate}
+                      className="w-full"
+                    />
+                  )}
                 </Col>
 
                 <Col xs={24} sm={24} md={12} lg={7}>
@@ -459,38 +472,6 @@ const VehicleInspection = () => {
                 </Col>
 
                 <Col xs={24} sm={24} md={12} lg={7}>
-                  {processType === "new_vehicle_registration" ? (
-                    <>
-                      <label className="Textfield-Label">Chassis No.</label>
-                      <UppercaseInput
-                        placeholder="Enter here..."
-                        value={chassisNo}
-                        onChange={(val) => setChassisNo(val)}
-                        className="w-full px-3 py-2 h-12 border border-gray-300 rounded-lg"
-                      />
-                    </>
-                  ) : (
-                    <LabelDatePicker
-                      label="Registration Date"
-                      value={regDate}
-                      setRegDate={setRegDate}
-                      className="w-full"
-                    />
-                  )}
-                </Col>
-
-                <Col xs={24} sm={24} md={12} lg={3}>
-                  <button
-                    type="submit"
-                    className="submit-frame px-4 py-4 rounded-lg bg-[#ebf1f1] text-[#04544f] font-bold text-sm"
-                    style={{ width: "150px" }}
-                    disabled={submitLoading}
-                  >
-                    {submitLoading ? "Loading..." : "Submit"}
-                  </button>
-                </Col>
-
-                <Col xs={24} sm={24} md={12} lg={7}>
                   <label className="Textfield-Label">Select your city</label>
                   <select
                     value={city}
@@ -504,6 +485,17 @@ const VehicleInspection = () => {
                     <option value="multan">MULTAN</option>
                     <option value="faisalabad">FAISALABAD</option>
                   </select>
+                </Col>
+
+                <Col xs={24} sm={24} md={12} lg={3}>
+                  <button
+                    type="submit"
+                    className="submit-frame px-4 py-4 rounded-lg bg-[#ebf1f1] text-[#04544f] font-bold text-sm"
+                    style={{ width: "150px" }}
+                    disabled={submitLoading}
+                  >
+                    {submitLoading ? "Loading..." : "Submit"}
+                  </button>
                 </Col>
               </Row>
             </form>
@@ -549,7 +541,7 @@ const VehicleInspection = () => {
                   </div>
 
                   <div className="inspection-application-title">
-                    PHYSICAL INSPECTION APPLICATION NUMBER :{" "}
+                    PHYSICAL INSPECTION APPLICATION NUMBER IS:{" "}
                     <span>{inspectionNumber || "N/A"}</span>
                   </div>
 

@@ -130,3 +130,18 @@
   height: 50px !important;
   padding: 0 16px !important;
 }
+
+.process-type-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding: 6px 0;
+  margin-bottom: 12px;
+
+  .ant-radio-wrapper {
+    margin-inline-end: 0;
+    font-size: 14px;
+    color: #161a23;
+    align-items: center;
+  }
+}
