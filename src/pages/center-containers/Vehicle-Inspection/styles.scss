@@ -131,6 +131,129 @@
   padding: 0 16px !important;
 }
 
+.vi-result-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #e3e3e3;
+  background-color: #fff;
+  margin-top: 16px;
+}
+
+.vi-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vi-table-footer {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #edf0f5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.vi-page-info {
+  min-width: 110px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d9dee8;
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #49566a;
+}
+
+.vi-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.vi-page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #d9dee8;
+  border-radius: 8px;
+  background: #fff;
+  color: #556274;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f5f8fb;
+  }
+
+  &.active {
+    background: #eef3f7;
+    color: #0d4f4a;
+    border-color: #cfd9e4;
+  }
+}
+
+.vi-page-dots {
+  min-width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a94a6;
+  font-size: 14px;
+}
+
+.vi-nav-btn {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #d9dee8;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #f8fafc;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 768px) {
+  .vi-table-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vi-page-info,
+  .vi-pagination {
+    width: 100%;
+  }
+
+  .vi-pagination {
+    justify-content: space-between;
+  }
+}
+
 .process-type-radio-group {
   display: flex;
   flex-wrap: wrap;

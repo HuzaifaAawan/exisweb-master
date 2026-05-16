@@ -29,7 +29,7 @@ const VehicleInspection = () => {
   const [regDate, setRegDate] = useState(null);
   const [engineNo, setEngineNo] = useState("");
   const [chassisNo, setChassisNo] = useState("");
-  const [processType, setProcessType] = useState(null);
+  const [processType, setProcessType] = useState("new_vehicle_registration");
   const [inspectionNumber, setInspectionNumber] = useState("");
   const [city, setCity] = useState("");
 
@@ -64,8 +64,6 @@ const VehicleInspection = () => {
 
         const result = await response.json();
 
-        console.log("PHYSICAL INSPECTION TABLE API:", result);
-
         setTotalRecords(parseInt(result.TOTAL_RECORDS) || 0);
         setApiData(result.DATA || []);
       } catch (err) {
@@ -73,6 +71,8 @@ const VehicleInspection = () => {
         setApiError(
           "API certificate issue. Please open API URL in browser and proceed/allow certificate, then refresh page.",
         );
+      } finally {
+        setApiLoading(false);
       }
     };
 
@@ -87,7 +87,7 @@ const VehicleInspection = () => {
     setRegDate(null);
     setEngineNo("");
     setChassisNo("");
-    setProcessType(null);
+    setProcessType("new_vehicle_registration");
     setInspectionNumber("");
     setCity("");
   };
@@ -179,6 +179,18 @@ const VehicleInspection = () => {
 
   const totalPages = Math.ceil(totalRecords / pageSize);
 
+  const getPageNumbers = (current, total) => {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const pages = [1];
+    if (current > 3) pages.push("...");
+    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+      pages.push(i);
+    }
+    if (current < total - 2) pages.push("...");
+    pages.push(total);
+    return pages;
+  };
+
   return (
     <div
       className="transfer-ownership"
@@ -233,56 +245,46 @@ const VehicleInspection = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Application Number</th>
-                  <th>Application Date</th>
+                  <th>ID</th>
                   <th>Process Type</th>
-                  <th>Inspection Number</th>
-                  <th>Vehicle Reg No.</th>
-                  <th>Status</th>
+                  <th>Chassis No.</th>
+                  <th>Engine No.</th>
+                  <th>Reg No.</th>
+                  <th>Inspection Status</th>
                 </tr>
               </thead>
 
               <tbody>
                 {apiLoading ? (
                   <tr>
-                    <td
-                      colSpan="7"
-                      style={{ textAlign: "center", padding: "20px" }}
-                    >
+                    <td colSpan="7" style={{ textAlign: "center", padding: "20px" }}>
                       Loading...
                     </td>
                   </tr>
                 ) : apiError ? (
                   <tr>
-                    <td
-                      colSpan="7"
-                      style={{
-                        textAlign: "center",
-                        padding: "20px",
-                        color: "red",
-                      }}
-                    >
+                    <td colSpan="7" style={{ textAlign: "center", padding: "20px", color: "red" }}>
                       {apiError}
                     </td>
                   </tr>
                 ) : apiData.length > 0 ? (
                   apiData.map((item, index) => (
-                    <tr
-                      key={item.APPLICATION_NO || item.INSPECTION_NO || index}
-                    >
+                    <tr key={item.ID || index}>
                       <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      <td>{item.APPLICATION_NO || "-"}</td>
-                      <td>{item.APPLICATION_DATE || "-"}</td>
+                      <td>{item.ID || "-"}</td>
                       <td>
-                        {item.PROCESS_TYPE || item["PROCESS TYPE"] || "-"}
+                        {item.APP_TYPE === 1
+                          ? "New Vehicle Registration"
+                          : item.APP_TYPE === 2
+                            ? "Transfer of Ownership"
+                            : "-"}
                       </td>
-                      <td>
-                        {item.INSPECTION_NO || item.INSPECTION_NUMBER || "-"}
-                      </td>
-                      <td>{item.VEH_REG_NO || item.REG_NO || "-"}</td>
+                      <td>{item.CHASSIS_NO || "-"}</td>
+                      <td>{item.ENGINE_NO || "-"}</td>
+                      <td>{item.REG_NO || "-"}</td>
                       <td>
                         <span className="status-badge">
-                          {item.APPLICATION_STATUS || item.STATUS || "-"}
+                          {item.INSPECTION_STATUS || "-"}
                         </span>
                       </td>
                     </tr>
@@ -302,43 +304,41 @@ const VehicleInspection = () => {
             </table>
           </div>
 
-          <div className="request-table-footer">
-            <div className="request-page-size">
+          <div className="vi-table-footer">
+            <div className="vi-page-info">
               {totalRecords} Records Found | {pageSize} Per Page
             </div>
 
-            <div className="request-pagination">
-              {Array.from({ length: totalPages || 1 }, (_, i) => i + 1)
-                .slice(0, 7)
-                .map((page) => (
+            <div className="vi-pagination">
+              <button
+                type="button"
+                className="vi-nav-btn"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              >
+                ‹ Prev
+              </button>
+
+              {getPageNumbers(currentPage, totalPages || 1).map((page, i) =>
+                page === "..." ? (
+                  <span key={`dots-${i}`} className="vi-page-dots">…</span>
+                ) : (
                   <button
                     key={page}
                     type="button"
-                    className={`page-btn ${currentPage === page ? "active" : ""}`}
+                    className={`vi-page-btn ${currentPage === page ? "active" : ""}`}
                     onClick={() => setCurrentPage(page)}
                   >
                     {page}
                   </button>
-                ))}
-            </div>
-
-            <div className="request-footer-actions">
-              <button
-                type="button"
-                className="footer-nav-btn"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              >
-                ‹ Previous
-              </button>
+                )
+              )}
 
               <button
                 type="button"
-                className="footer-nav-btn"
+                className="vi-nav-btn"
                 disabled={currentPage >= totalPages}
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               >
                 Next ›
               </button>
@@ -524,55 +524,25 @@ const VehicleInspection = () => {
           </div>
 
           {showData && (
-            <div className="Frame-1000009526">
-              <div style={{ padding: "0 24px" }}>
-                <div className="inspection-application-box">
-                  <div className="selected-process-text">
-                    SELECTED PROCESS:{" "}
-                    <span>
-                      {processType === "new_vehicle_registration"
-                        ? "New Vehicle Registration"
-                        : processType === "transfer_of_ownership"
-                          ? "Transfer Of Ownership"
-                          : processType === "other_type_of_applications"
-                            ? "Other Type Of Applications"
-                            : "N/A"}
-                    </span>
-                  </div>
-
-                  <div className="inspection-application-title">
-                    PHYSICAL INSPECTION APPLICATION NUMBER IS:{" "}
-                    <span>{inspectionNumber || "N/A"}</span>
-                  </div>
-
-                  <ul className="inspection-instructions">
-                    <li>
-                      KINDLY VISIT ETD OFFICE FOR YOUR VEHICLE PHYSICAL
-                      INSPECTION.
-                    </li>
-                    <li>
-                      VEHICLES INSPECTED BY ETD STAFF MUST BE IMMEDIATELY HANDED
-                      OVER TO THE BUYER.
-                    </li>
-                    <li>
-                      IT IS THE BUYER'S DUTY TO ENSURE THEY RECEIVE SAME VEHICLE
-                      INSPECTED BY ETD STAFF.
-                    </li>
-                    <li>
-                      PLEASE ENSURE THAT BIOMETRIC VERIFICATION OF THE SELLER
-                      AND BUYER ALIGN WITH THIS APPLICATION.
-                    </li>
-                    <li>
-                      BIOMETRIC VERIFICATION IS ONLY ALLOWED AFTER THE VEHICLE
-                      HAS BEEN INSPECTED BY ETD STAFF.
-                    </li>
-                    <li>
-                      CHANGE OF OWNERSHIP IS SUBJECT TO CURRENT OWNER'S
-                      BIOMETRIC VERIFICATION FROM NADRA.
-                    </li>
-                  </ul>
-                </div>
+            <div className="vi-result-card">
+              <div className="vi-result-header">
+                <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                  Inspection Application Details
+                </span>
               </div>
+              <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "0 auto" }} />
+              <p style={{ color: "#374151", fontSize: "16px", fontWeight: "700", lineHeight: "1.6", margin: "0 0 12px 0" }}>
+                PHYSICAL INSPECTION APPLICATION NUMBER IS:{" "}
+                <span style={{ color: "#04544f" }}>{inspectionNumber || "N/A"}</span>
+              </p>
+              <ul style={{ color: "#374151", fontSize: "14px", lineHeight: "1.8", margin: 0, paddingLeft: "20px" }}>
+                <li>KINDLY VISIT ETD OFFICE FOR YOUR VEHICLE PHYSICAL INSPECTION AGAINST THIS APPLICATION NUMBER.</li>
+                <li>VEHICLES INSPECTED BY ETD STAFF MUST BE IMMEDIATELY HANDED OVER TO THE BUYER.</li>
+                <li>IT IS THE BUYER'S DUTY TO ENSURE THEY RECEIVE SAME VEHICLE INSPECTED BY ETD STAFF.</li>
+                <li>PLEASE ENSURE THAT BIOMETRIC VERIFICATION OF THE SELLER AND BUYER ALIGN WITH THIS APPLICATION.</li>
+                <li>BIOMETRIC VERIFICATION IS ONLY ALLOWED AFTER THE VEHICLE HAS BEEN INSPECTED BY ETD STAFF.</li>
+                <li>CHANGE OF OWNERSHIP IS SUBJECT TO CURRENT OWNER'S BIOMETRIC VERIFICATION FROM NADRA.</li>
+              </ul>
             </div>
           )}
         </>
