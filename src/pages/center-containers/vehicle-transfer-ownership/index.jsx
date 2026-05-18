@@ -922,7 +922,10 @@ const VehicleTransferOwnership = () => {
                   Purchaser Information{" "}
                   {purchaserType ? `(${purchaserType.toUpperCase()})` : ""}
                 </span>
-                <span className="Profiles-Manager-form2-h2">
+                <span
+                  className="Profiles-Manager-form2-h2"
+                  style={{ display: "block", marginTop: "6px" }}
+                >
                   Please provide the details of the purchaser to whom the
                   ownership is being transferred
                 </span>
