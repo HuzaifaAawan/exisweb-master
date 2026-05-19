@@ -1214,7 +1214,7 @@ const VehicleTransferOwnership = () => {
 
                     <div className="hire-purchase-container mt-6">
                       <span className="Hire-Purchase-Agreement block">
-                        Hire Purchase Agreement
+                        Hire Purchase Agreement 
                       </span>
                       {/* <Switch /> */}
                     </div>
