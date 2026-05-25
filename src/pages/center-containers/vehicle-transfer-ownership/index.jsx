@@ -3,6 +3,7 @@ import "./styles.scss";
 import backgroundImage from "../../../assets/icons/background2.2.png";
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
 // import noteIcon from "../../../assets/icons/note.png";
+import exciseLogo from "../../../assets/icons/exciselogo.jpeg";
 import { message } from "antd";
 import VehicleCardPreview from "./VehicleCardPreview";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
@@ -1214,7 +1215,7 @@ const VehicleTransferOwnership = () => {
 
                     <div className="hire-purchase-container mt-6">
                       <span className="Hire-Purchase-Agreement block">
-                        Hire Purchase Agreement 
+                        Hire Purchase Agreement
                       </span>
                       {/* <Switch /> */}
                     </div>
@@ -1528,10 +1529,10 @@ const VehicleTransferOwnership = () => {
                         const result = await response.json();
                         console.log("PROCESS_BIO RESULT:", result);
 
-                        if (result.ERROR) {
-                          setChallanError(result.ERROR);
-                          return;
-                        }
+                        // if (result.ERROR) {
+                        //   setChallanError(result.ERROR);
+                        //   return;
+                        // }
 
                         setChallanData(result);
                         setShowChallan(true);
@@ -1571,6 +1572,7 @@ const VehicleTransferOwnership = () => {
 
       {showChallan && (
         <div className="nbp-challan-wrapper">
+          {/* ================= OLD CHALLAN ================= */}
           <div id="challan" className="nbp-challan">
             <div className="challan-inner">
               <div className="challan-header">
@@ -1584,37 +1586,52 @@ const VehicleTransferOwnership = () => {
                     <strong>Registration No:</strong>{" "}
                     {challanData?.REGISTRATION_NO || regNo || "-"}
                   </p>
+
                   <p>
                     <strong>Application Type:</strong> TRANSFER OF OWNERSHIP
                   </p>
+
                   <p>
                     <strong>Chassis No.:</strong>{" "}
                     {challanData?.CHASSIS_NO ||
                       vehicleData?.VEH_CHASIS_NO ||
                       "-"}
                   </p>
+
                   <p>
-                    <strong>Category:</strong> {challanData?.CATEGORY || "-"}
+                    <strong>Category:</strong>{" "}
+                    {challanData?.CATEGORY ||
+                      vehicleData?.CATEGORY ||
+                      "PRIVATE"}
                   </p>
+
                   <p>
-                    <strong>Body Type:</strong> {challanData?.BODYTYPE || "-"}
+                    <strong>Body Type:</strong>{" "}
+                    {challanData?.BODYTYPE ||
+                      vehicleData?.BODYTYPE ||
+                      "MOTOR CAR"}
                   </p>
+
                   <p>
                     <strong>Owner Name:</strong> {ownerName || "-"}
                   </p>
+
                   <p>
-                    <strong>Father / Husband Name:</strong> {fatherName || "-"}
+                    <strong>Father / Husband Name:</strong>{" "}
+                    {ownerFatherName || "-"}
                   </p>
                   <p>
                     <strong>Vehicle Status:</strong>{" "}
-                    {challanData?.VEHICLE_STATUS || "-"}
+                    {challanData?.VEHICLE_STATUS || "TRANSFERRED"}
                   </p>
+
                   <p>
                     <strong>Payment From:</strong>{" "}
                     {challanData?.TAX_PAID_FROM
                       ? dayjs(challanData.TAX_PAID_FROM).format("DD-MM-YYYY")
                       : "-"}
                   </p>
+
                   <p>
                     <strong>Total Amount:</strong>{" "}
                     {challanData?.TOTAL_AMOUNT?.toLocaleString() || "-"}
@@ -1626,32 +1643,39 @@ const VehicleTransferOwnership = () => {
                     <strong>Challan No:</strong>{" "}
                     {challanData?.VCT_CHALLAN_NO || "-"}
                   </p>
+
                   <p>
                     <strong>Challan Date:</strong>{" "}
                     {challanData?.CHALLAN_DATE || "-"}
                   </p>
+
                   <p>
                     <strong>Challan Status:</strong>{" "}
                     {challanData?.CHALLAN_STATUS || "-"}
                   </p>
+
                   <p>
                     <strong>Maker / Brand:</strong>{" "}
                     {challanData?.MAKER_MAKE ||
                       vehicleData?.["MAKER/ MAKE"] ||
                       "-"}
                   </p>
+
                   <p>
                     <strong>Filer Status:</strong>{" "}
                     {challanData?.FILER_STATUS || "-"}
                   </p>
+
                   <p>
                     <strong>Payment Upto:</strong>{" "}
                     {challanData?.TAX_PAID_UPTO || "-"}
                   </p>
+
                   <p>
                     <strong>Life Time Tax:</strong>{" "}
                     {challanData?.VEH_TAX_PAID_LIFE_TIME || "-"}
                   </p>
+
                   <p>
                     <strong>Payment Date:</strong>{" "}
                     {challanData?.PAYMENT_DATE || "-"}
@@ -1661,17 +1685,47 @@ const VehicleTransferOwnership = () => {
 
               <div className="challan-note">
                 Kindly make payment of following dues at bank booth situated in
-                this office or online system for electronic payment. Please
-                check the vehicle particulars and amount carefully.
+                this office or online system for electronic payment.
               </div>
 
               <table className="challan-table">
-                <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Amount</th>
+                <tbody>
+                  {(challanData?.TAX_FINE_DETAIL?.length
+                    ? challanData.TAX_FINE_DETAIL
+                    : [
+                        {
+                          TAT_ID: 1,
+                          TAT_NAME: "TRANSFER FEE",
+                          VTH_AMOUNT_PAID: 2750,
+                        },
+                        {
+                          TAT_ID: 2,
+                          TAT_NAME: "SMART CARD FEE",
+                          VTH_AMOUNT_PAID: 1300,
+                        },
+                        {
+                          TAT_ID: 3,
+                          TAT_NAME: "GOVT. PLATFORM CHARGES",
+                          VTH_AMOUNT_PAID: 50,
+                        },
+                      ]
+                  ).map((item) => (
+                    <tr key={item.TAT_ID}>
+                      <td>{item.TAT_NAME}</td>
+                      <td>
+                        {Number(item.VTH_AMOUNT_PAID || 0).toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+
+                  <tr className="total-row">
+                    <td>Total</td>
+                    <td>
+                      {(challanData?.TOTAL_AMOUNT || 4100).toLocaleString()}
+                    </td>
                   </tr>
-                </thead>
+                </tbody>
+
                 <tbody>
                   {challanData?.TAX_FINE_DETAIL?.map((item) => (
                     <tr key={item.TAT_ID}>
@@ -1679,10 +1733,11 @@ const VehicleTransferOwnership = () => {
                       <td>{item.VTH_AMOUNT_PAID?.toLocaleString()}</td>
                     </tr>
                   ))}
+
                   <tr className="total-row">
                     <td>Total</td>
                     <td>
-                      {challanData?.TOTAL_AMOUNT?.toLocaleString() || "-"}
+                      {(challanData?.TOTAL_AMOUNT || 4100).toLocaleString()}
                     </td>
                   </tr>
                 </tbody>
@@ -1701,18 +1756,228 @@ const VehicleTransferOwnership = () => {
             </div>
           </div>
 
+          {/* ================= TRANSFER LETTER ================= */}
+
+          <div id="transfer-letter" className="transfer-letter-doc">
+            <div className="transfer-letter-header-row">
+              <div className="transfer-letter-logo-box">
+                <img src={exciseLogo} alt="Excise Logo" />
+              </div>
+
+              <div className="transfer-letter-title">
+                <h2>EXCISE & TAXATION ICT ISLAMABAD</h2>
+                <h3>TRANSFER OF OWNERSHIP</h3>
+              </div>
+
+              <div className="transfer-letter-qr-box">
+                {challanData?.VCT_CHALLAN_NO || "7600079"}
+              </div>
+            </div>
+            <div className="transfer-letter-vehicle-grid">
+              <p>
+                <strong>Registration No:</strong>
+                <span>{challanData?.REGISTRATION_NO || regNo || "-"}</span>
+              </p>
+
+              <p>
+                <strong>Challan No:</strong>
+                <span>{challanData?.VCT_CHALLAN_NO || "-"}</span>
+              </p>
+
+              <p>
+                <strong>Registration Date:</strong>
+                <span>
+                  {regDate ? dayjs(regDate).format("DD-MM-YYYY") : "-"}
+                </span>
+              </p>
+
+              <p>
+                <strong>Challan Date:</strong>
+                <span>{challanData?.CHALLAN_DATE || "-"}</span>
+              </p>
+
+              <p>
+                <strong>Application Type:</strong>
+                <span>TRANSFER OF OWNERSHIP</span>
+              </p>
+
+              <p>
+                <strong>Challan Status:</strong>
+                <span>{challanData?.CHALLAN_STATUS || "-"}</span>
+              </p>
+
+              <p>
+                <strong>Chassis No:</strong>
+                <span>
+                  {challanData?.CHASSIS_NO || vehicleData?.VEH_CHASIS_NO || "-"}
+                </span>
+              </p>
+
+              <p>
+                <strong>Maker / Brand:</strong>
+                <span>
+                  {challanData?.MAKER_MAKE ||
+                    vehicleData?.["MAKER/ MAKE"] ||
+                    "-"}
+                </span>
+              </p>
+
+              <p>
+                <strong>Category:</strong>
+                <span>
+                  {challanData?.CATEGORY || vehicleData?.CATEGORY || "PRIVATE"}
+                </span>
+              </p>
+
+              <p>
+                <strong>Color:</strong>
+                <span>{vehicleData?.COLOR || "-"}</span>
+              </p>
+
+              <p>
+                <strong>Body Type:</strong>
+                <span>
+                  {challanData?.BODYTYPE ||
+                    vehicleData?.BODYTYPE ||
+                    "MOTOR CAR"}
+                </span>
+              </p>
+
+              <p>
+                <strong>Filer Status:</strong>
+                <span>{challanData?.FILER_STATUS || "-"}</span>
+              </p>
+
+              <p>
+                <strong>Vehicle Status:</strong>
+                <span>{challanData?.VEHICLE_STATUS || "TRANSFERRED"}</span>
+              </p>
+
+              <p>
+                <strong>Life Time Tax:</strong>
+                <span>{challanData?.VEH_TAX_PAID_LIFE_TIME || "-"}</span>
+              </p>
+
+              <p>
+                <strong>Payment From:</strong>
+                <span>
+                  {challanData?.TAX_PAID_FROM
+                    ? dayjs(challanData.TAX_PAID_FROM).format("DD-MM-YYYY")
+                    : "-"}
+                </span>
+              </p>
+
+              <p>
+                <strong>Payment Date:</strong>
+                <span>{challanData?.PAYMENT_DATE || "-"}</span>
+              </p>
+            </div>
+
+            <div className="transfer-letter-separator"></div>
+
+            {/* SELLER + PURCHASER ONLY */}
+
+            <div className="transfer-letter-two-boxes">
+              <div className="transfer-letter-box">
+                <div className="transfer-letter-box-title">SELLER DETAILS</div>
+
+                <div className="transfer-letter-box-body">
+                  <p>
+                    <strong>Owner Name:</strong> {ownerName || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Father / Husband Name:</strong>{" "}
+                    {ownerFatherName || "-"}
+                  </p>
+
+                  <p>
+                    <strong>CNIC / NTN:</strong> {ownerCnic || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Address:</strong> {ownerAddress || "-"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="transfer-letter-box">
+                <div className="transfer-letter-box-title">
+                  PURCHASER DETAILS
+                </div>
+
+                <div className="transfer-letter-box-body">
+                  <p>
+                    <strong>Purchaser Name:</strong> {purchaserName || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Father / Husband Name:</strong> {fatherName || "-"}
+                  </p>
+
+                  <p>
+                    <strong>CNIC / NTN:</strong> {purchaserIdNo || cnic || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Contact No:</strong> {contactNumber || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Other Contact No:</strong>{" "}
+                    {otherContactNumber || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Email:</strong> {email || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Present Address:</strong> {tempAddress || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Permanent Address:</strong> {permAddress || "-"}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="transfer-letter-separator"></div>
+
+            <div className="transfer-letter-footer-row">
+              <span>
+                <strong>Processed By:</strong> SYSTEM
+              </span>
+
+              <span>
+                <strong>Print Date:</strong>{" "}
+                {dayjs().format("DD/MM/YYYY HH:mm:ss")}
+              </span>
+            </div>
+
+            <p className="transfer-letter-note-text">
+              Read the particulars of owner and vehicle carefully and get
+              rectification instantly from Excise & Taxation Department. This
+              document is system generated and does not require signature.
+            </p>
+          </div>
+
+          {/* ================= BUTTONS ================= */}
+
           <div
             className="preview-buttons"
-            style={{ marginTop: "24px", width: "100%", maxWidth: "1200px" }}
+            style={{
+              marginTop: "24px",
+              width: "100%",
+              maxWidth: "1200px",
+            }}
           >
-            <button
-              className="back-button"
-              onClick={() => {
-                goBackToTable();
-              }}
-            >
+            <button className="back-button" onClick={goBackToTable}>
               Back to Requests
             </button>
+
+            {/* DOWNLOAD CHALLAN */}
 
             <button
               className="confirm-button"
@@ -1723,13 +1988,18 @@ const VehicleTransferOwnership = () => {
                   html2canvas.default(challanElement).then((canvas) => {
                     import("jspdf").then((jsPDF) => {
                       const pdf = new jsPDF.jsPDF("p", "mm", "a4");
+
                       const imgData = canvas.toDataURL("image/png");
+
                       const imgProps = pdf.getImageProperties(imgData);
+
                       const pdfWidth = pdf.internal.pageSize.getWidth();
+
                       const pdfHeight =
                         (imgProps.height * pdfWidth) / imgProps.width;
 
                       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
                       pdf.save("vehicle-challan.pdf");
                     });
                   });
@@ -1738,11 +2008,49 @@ const VehicleTransferOwnership = () => {
             >
               Download Challan
             </button>
+
+            {/* DOWNLOAD TRANSFER LETTER */}
+
+            <button
+              className="confirm-button"
+              onClick={() => {
+                const transferElement =
+                  document.getElementById("transfer-letter");
+
+                import("html2canvas").then((html2canvas) => {
+                  html2canvas
+                    .default(transferElement, {
+                      scale: 2,
+                      useCORS: true,
+                      backgroundColor: "#ffffff",
+                    })
+                    .then((canvas) => {
+                      import("jspdf").then((jsPDF) => {
+                        const pdf = new jsPDF.jsPDF("p", "mm", "a4");
+
+                        const imgData = canvas.toDataURL("image/png");
+
+                        const imgProps = pdf.getImageProperties(imgData);
+
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+
+                        const pdfHeight =
+                          (imgProps.height * pdfWidth) / imgProps.width;
+
+                        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+                        pdf.save("transfer-letter.pdf");
+                      });
+                    });
+                });
+              }}
+            >
+              Download Transfer Letter
+            </button>
           </div>
         </div>
       )}
 
-      
       <AttentionModal
         open={showAttention}
         onClose={() => setShowAttention(false)}
