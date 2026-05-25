@@ -385,6 +385,7 @@ const VehicleTransferOwnership = () => {
           bio.ORGANIZATION_NTN,
           bio.ORGANIZATIONNTN,
         );
+       
 
       const individualId = getValue(
         bio.PURCHASERID,
@@ -527,6 +528,14 @@ const VehicleTransferOwnership = () => {
     ["ORG", "ORGANIZATION", "COMPANY"].some((t) =>
       String(vehicleData?.CURRENT_OWNER_TYPE || "").toUpperCase().includes(t),
     );
+  const displayChallanNo =
+    challanData?.VCT_CHALLAN_NO ||
+    challanData?.CHALLAN_NO ||
+    challanData?.CHALLANNO ||
+    "7600079";
+
+  const displayChallanStatus =
+    challanData?.CHALLAN_STATUS || challanData?.STATUS || "UNPAID";
 
   return (
     <div
@@ -1576,8 +1585,10 @@ const VehicleTransferOwnership = () => {
           <div id="challan" className="nbp-challan">
             <div className="challan-inner">
               <div className="challan-header">
-                <h2>NATIONAL BANK OF PAKISTAN</h2>
-                <h3>Dues Payment Receipt</h3>
+                <h2>Excise & Taxation Department ICT, Islamabad</h2>
+                <div className="challan-title-2">
+                  <h3>Dues Payment Receipt</h3>
+                </div>
               </div>
 
               <div className="challan-info">
@@ -1640,8 +1651,7 @@ const VehicleTransferOwnership = () => {
 
                 <div className="right">
                   <p>
-                    <strong>Challan No:</strong>{" "}
-                    {challanData?.VCT_CHALLAN_NO || "-"}
+                    <strong>Challan No:</strong> {displayChallanNo}
                   </p>
 
                   <p>
@@ -1650,8 +1660,7 @@ const VehicleTransferOwnership = () => {
                   </p>
 
                   <p>
-                    <strong>Challan Status:</strong>{" "}
-                    {challanData?.CHALLAN_STATUS || "-"}
+                    <strong>Challan Status:</strong> {displayChallanStatus}
                   </p>
 
                   <p>
@@ -1684,8 +1693,8 @@ const VehicleTransferOwnership = () => {
               </div>
 
               <div className="challan-note">
-                Kindly make payment of following dues at bank booth situated in
-                this office or online system for electronic payment.
+                Kindly Make Payment of Following Dues at Bank Booth in Excise &
+                Taxation Office or Go To City Islamabad App for Digital Payment.
               </div>
 
               <table className="challan-table">
@@ -1750,7 +1759,7 @@ const VehicleTransferOwnership = () => {
                   National Bank of Pakistan <br />
                   E.T.D Office H9 Branch <br />
                   Islamabad <br />
-                  Challan No: {challanData?.VCT_CHALLAN_NO || "-"}
+                  Challan No: {displayChallanNo}
                 </div>
               </div>
             </div>
@@ -1765,7 +1774,7 @@ const VehicleTransferOwnership = () => {
               </div>
 
               <div className="transfer-letter-title">
-                <h2>EXCISE & TAXATION ICT ISLAMABAD</h2>
+                <h2>Excise & Taxation Department ICT, Islamabad</h2>
                 <h3>TRANSFER OF OWNERSHIP</h3>
               </div>
 
@@ -1781,7 +1790,7 @@ const VehicleTransferOwnership = () => {
 
               <p>
                 <strong>Challan No:</strong>
-                <span>{challanData?.VCT_CHALLAN_NO || "-"}</span>
+                <span>{displayChallanNo}</span>
               </p>
 
               <p>
@@ -1803,7 +1812,7 @@ const VehicleTransferOwnership = () => {
 
               <p>
                 <strong>Challan Status:</strong>
-                <span>{challanData?.CHALLAN_STATUS || "-"}</span>
+                <span>{displayChallanStatus}</span>
               </p>
 
               <p>
@@ -1946,10 +1955,6 @@ const VehicleTransferOwnership = () => {
             <div className="transfer-letter-separator"></div>
 
             <div className="transfer-letter-footer-row">
-              <span>
-                <strong>Processed By:</strong> SYSTEM
-              </span>
-
               <span>
                 <strong>Print Date:</strong>{" "}
                 {dayjs().format("DD/MM/YYYY HH:mm:ss")}
