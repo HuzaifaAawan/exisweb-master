@@ -1727,12 +1727,12 @@ const VehicleTransferOwnership = () => {
                     </tr>
                   ))}
 
-                  <tr className="total-row">
+                  {/* <tr className="total-row">
                     <td>Total</td>
                     <td>
                       {(challanData?.TOTAL_AMOUNT || 4100).toLocaleString()}
                     </td>
-                  </tr>
+                  </tr> */}
                 </tbody>
 
                 <tbody>

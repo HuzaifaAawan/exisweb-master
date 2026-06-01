@@ -4,7 +4,8 @@
 import React, { useState, useEffect } from "react";
 import { Input, Select, Row, Col, Form } from "antd";
 import * as XLSX from "xlsx";
-
+import { DownOutlined } from "@ant-design/icons";
+import "./styles.scss";
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -240,6 +241,16 @@ const DistrictDropdowns = ({
     fetchDistricts().then(setDistricts);
   }, []);
 
+  const customArrow = (
+    <DownOutlined
+      style={{
+        fontSize: 25,
+        marginTop: 9,
+        color: "#bfbfbf",
+      }}
+    />
+  );
+
   return (
     <Row gutter={[16, 16]} wrap className="cities-row">
       <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -248,6 +259,7 @@ const DistrictDropdowns = ({
             placeholder="Select"
             className="slection-field"
             showSearch
+            suffixIcon={customArrow}
             value={tempDistrict || undefined}
             onChange={(value) => setTempDistrict(value)}
             filterOption={(input, option) =>
@@ -271,6 +283,7 @@ const DistrictDropdowns = ({
             placeholder="Select"
             className="slection-field"
             showSearch
+            suffixIcon={customArrow}
             value={permDistrict || undefined}
             onChange={(value) => setPermDistrict(value)}
             filterOption={(input, option) =>
@@ -290,6 +303,5 @@ const DistrictDropdowns = ({
     </Row>
   );
 };
-
 export { EngineSizeInput, DistrictDropdowns };
 export default UppercaseInput;
