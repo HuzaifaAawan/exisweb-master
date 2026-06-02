@@ -533,10 +533,10 @@ const VehicleTransferOwnership = () => {
     challanData?.VCT_CHALLAN_NO ||
     challanData?.CHALLAN_NO ||
     challanData?.CHALLANNO ||
-    "7600079";
+    "-";
 
-  const displayChallanStatus =
-    challanData?.CHALLAN_STATUS || challanData?.STATUS || "UNPAID";
+const displayChallanStatus =
+  challanData?.CHALLAN_STATUS || challanData?.STATUS || "-";
 
   return (
     <div
@@ -1539,10 +1539,10 @@ const VehicleTransferOwnership = () => {
                         const result = await response.json();
                         console.log("PROCESS_BIO RESULT:", result);
 
-                        // if (result.ERROR) {
-                        //   setChallanError(result.ERROR);
-                        //   return;
-                        // }
+                        if (result.ERROR) {
+                          setChallanError(result.ERROR);
+                          return;
+                        }
 
                         setChallanData(result);
                         setShowChallan(true);
@@ -1612,16 +1612,12 @@ const VehicleTransferOwnership = () => {
 
                   <p>
                     <strong>Category:</strong>{" "}
-                    {challanData?.CATEGORY ||
-                      vehicleData?.CATEGORY ||
-                      "PRIVATE"}
+                    {challanData?.CATEGORY || vehicleData?.CATEGORY || "-"}
                   </p>
 
                   <p>
                     <strong>Body Type:</strong>{" "}
-                    {challanData?.BODYTYPE ||
-                      vehicleData?.BODYTYPE ||
-                      "MOTOR CAR"}
+                    {challanData?.BODYTYPE || vehicleData?.BODYTYPE || "-"}
                   </p>
 
                   <p>
@@ -1634,7 +1630,7 @@ const VehicleTransferOwnership = () => {
                   </p>
                   <p>
                     <strong>Vehicle Status:</strong>{" "}
-                    {challanData?.VEHICLE_STATUS || "TRANSFERRED"}
+                    {challanData?.VEHICLE_STATUS || "-"}
                   </p>
 
                   <p>
@@ -1712,42 +1708,7 @@ const VehicleTransferOwnership = () => {
               </div>
 
               <table className="challan-table">
-                <tbody>
-                  {(challanData?.TAX_FINE_DETAIL?.length
-                    ? challanData.TAX_FINE_DETAIL
-                    : [
-                        {
-                          TAT_ID: 1,
-                          TAT_NAME: "TRANSFER FEE",
-                          VTH_AMOUNT_PAID: 2750,
-                        },
-                        {
-                          TAT_ID: 2,
-                          TAT_NAME: "SMART CARD FEE",
-                          VTH_AMOUNT_PAID: 1300,
-                        },
-                        {
-                          TAT_ID: 3,
-                          TAT_NAME: "GOVT. PLATFORM CHARGES",
-                          VTH_AMOUNT_PAID: 50,
-                        },
-                      ]
-                  ).map((item) => (
-                    <tr key={item.TAT_ID}>
-                      <td>{item.TAT_NAME}</td>
-                      <td>
-                        {Number(item.VTH_AMOUNT_PAID || 0).toLocaleString()}
-                      </td>
-                    </tr>
-                  ))}
-
-                  {/* <tr className="total-row">
-                    <td>Total</td>
-                    <td>
-                      {(challanData?.TOTAL_AMOUNT || 4100).toLocaleString()}
-                    </td>
-                  </tr> */}
-                </tbody>
+                
 
                 <tbody>
                   {challanData?.TAX_FINE_DETAIL?.map((item) => (
@@ -1760,7 +1721,7 @@ const VehicleTransferOwnership = () => {
                   <tr className="total-row">
                     <td>Total</td>
                     <td>
-                      {(challanData?.TOTAL_AMOUNT || 4100).toLocaleString()}
+                      {(challanData?.TOTAL_AMOUNT || 0).toLocaleString()}
                     </td>
                   </tr>
                 </tbody>
@@ -1794,7 +1755,7 @@ const VehicleTransferOwnership = () => {
 
               <div className="transfer-letter-qr-box">
                 <QRCodeCanvas
-                  value={String(challanData?.VCT_CHALLAN_NO || "7600079")}
+                  value={`Challan No: ${displayChallanNo}`}
                   size={90}
                   level="H"
                   includeMargin={true}
