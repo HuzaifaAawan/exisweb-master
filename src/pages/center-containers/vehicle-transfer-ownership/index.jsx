@@ -4,6 +4,7 @@ import backgroundImage from "../../../assets/icons/background2.2.png";
 import transferIcon from "../../../assets/icons/transfer_icon.JPG";
 // import noteIcon from "../../../assets/icons/note.png";
 import exciseLogo from "../../../assets/icons/exciselogo.jpeg";
+import { QRCodeCanvas } from "qrcode.react";
 import { message } from "antd";
 import VehicleCardPreview from "./VehicleCardPreview";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
@@ -1660,7 +1661,20 @@ const VehicleTransferOwnership = () => {
                   </p>
 
                   <p>
-                    <strong>Challan Status:</strong> {displayChallanStatus}
+                    <strong>Challan Status:</strong>
+                    <span
+                      style={{
+                        color:
+                          displayChallanStatus?.toLowerCase() === "paid"
+                            ? "green"
+                            : displayChallanStatus?.toLowerCase() === "unpaid"
+                              ? "red"
+                              : "inherit",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {displayChallanStatus}
+                    </span>
                   </p>
 
                   <p>
@@ -1756,9 +1770,9 @@ const VehicleTransferOwnership = () => {
                 <div>Print on: {dayjs().format("DD/MM/YYYY")}</div>
 
                 <div className="branch-info">
-                  National Bank of Pakistan <br />
+                  {/* National Bank of Pakistan <br />
                   E.T.D Office H9 Branch <br />
-                  Islamabad <br />
+                  Islamabad <br /> */}
                   Challan No: {displayChallanNo}
                 </div>
               </div>
@@ -1779,7 +1793,12 @@ const VehicleTransferOwnership = () => {
               </div>
 
               <div className="transfer-letter-qr-box">
-                {challanData?.VCT_CHALLAN_NO || "7600079"}
+                <QRCodeCanvas
+                  value={String(challanData?.VCT_CHALLAN_NO || "7600079")}
+                  size={90}
+                  level="H"
+                  includeMargin={true}
+                />
               </div>
             </div>
             <div className="transfer-letter-vehicle-grid">
@@ -1808,11 +1827,6 @@ const VehicleTransferOwnership = () => {
               <p>
                 <strong>Application Type:</strong>
                 <span>TRANSFER OF OWNERSHIP</span>
-              </p>
-
-              <p>
-                <strong>Challan Status:</strong>
-                <span>{displayChallanStatus}</span>
               </p>
 
               <p>
@@ -1961,11 +1975,7 @@ const VehicleTransferOwnership = () => {
               </span>
             </div>
 
-            <p className="transfer-letter-note-text">
-              Read the particulars of owner and vehicle carefully and get
-              rectification instantly from Excise & Taxation Department. This
-              document is system generated and does not require signature.
-            </p>
+            {/*  */}
           </div>
 
           {/* ================= BUTTONS ================= */}
