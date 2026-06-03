@@ -10,6 +10,7 @@ const STATUS_COLORS = {
   PENDING: "#faad14",
   REJECTED: "#ff4d4f",
   DISPATCHED: "#1677ff",
+   DELIVERED: "#52c41a",
 };
 
 const CheckSmartCardStatus = () => {
@@ -37,6 +38,9 @@ const CheckSmartCardStatus = () => {
     try {
       const response = await authFetch(API_ENDPOINTS.GET_CARD_STATUS, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           REG_NO: regNo.trim().toUpperCase(),
           APP_ID: appId.trim(),
@@ -51,14 +55,41 @@ const CheckSmartCardStatus = () => {
         return;
       }
 
-      const data = await response.json();
-      if (!data || !data.STATUS) {
-        setResultError("No record found for the given details.");
-        return;
-      }
-      setResults(data);
-    } catch (err) {
-      setResultError("Network error. Please try again.");
+     const text = await response.text();
+     console.log("CARD STATUS RAW RESPONSE:", text);
+
+     let data = null;
+
+     try {
+       data = JSON.parse(text);
+     } catch (e) {
+       if (text.includes("DELIVERED")) {
+         data = {
+           STATUS: "DELIVERED",
+           MESSAGE: "For further query, please contact concerned Department.",
+         };
+       } else {
+         setResultError(text || "Invalid response from server.");
+         return;
+       }
+     }
+
+     if (!data || !data.STATUS) {
+       setResultError("No record found for the given details.");
+       return;
+     }
+
+     setResults({
+       STATUS: data.STATUS,
+       MESSAGE:
+         data.MESSAGE ||
+         "For further query, please contact concerned Department.",
+     });
+      
+   } catch (err) {
+  console.log("CARD STATUS ERROR:", err);
+  setResultError(err?.message || "Network error. Please try again.");
+
     } finally {
       setLoading(false);
     }
@@ -92,7 +123,7 @@ const CheckSmartCardStatus = () => {
         <span
           style={{
             display: "block",
-            color: "#6b7280",
+            color: "#6b8072",
             fontSize: "14px",
             marginTop: "4px",
           }}
@@ -217,7 +248,7 @@ const CheckSmartCardStatus = () => {
           />
           <p
             style={{
-              color: "#374151",
+              color: "#37513e",
               fontSize: "14px",
               lineHeight: "1.7",
               margin: 0,
