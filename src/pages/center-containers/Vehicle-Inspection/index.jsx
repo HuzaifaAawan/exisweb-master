@@ -24,13 +24,13 @@ const VehicleInspection = () => {
 
   const [showData, setShowData] = useState(false);
   const [showRequestForm, setShowRequestForm] = useState(false);
-
   const [regNo, setRegNo] = useState("");
   const [regDate, setRegDate] = useState(null);
   const [engineNo, setEngineNo] = useState("");
   const [chassisNo, setChassisNo] = useState("");
   const [processType, setProcessType] = useState("new_vehicle_registration");
   const [inspectionNumber, setInspectionNumber] = useState("");
+  const [noResultMessage, setNoResultMessage] = useState("");
   const [city, setCity] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,6 +89,7 @@ const VehicleInspection = () => {
     setChassisNo("");
     setProcessType("new_vehicle_registration");
     setInspectionNumber("");
+    setNoResultMessage("");
     setCity("");
   };
 
@@ -138,26 +139,30 @@ const VehicleInspection = () => {
       return;
     }
 
+    setNoResultMessage("");
+    setInspectionNumber("");
+    setShowData(false);
     setSubmitLoading(true);
 
     const isNewReg = processType === "new_vehicle_registration";
 
     try {
-      const response = await authFetch(
-        API_ENDPOINTS.GET_PHYSICAL_INSP_NO,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            ID: "",
-            APPTYPE: isNewReg ? 1 : 2,
-            CHASSIS_NO: isNewReg ? chassisNo?.trim().toUpperCase() : "",
-            ENGINE_NO: isNewReg ? engineNo?.trim().toUpperCase() : "",
-            REG_NO: isNewReg ? "" : regNo?.trim().toUpperCase(),
-            REG_DATE: isNewReg ? "" : (regDate ? regDate.format?.("DD/MM/YYYY") : ""),
-            CITY: city?.toUpperCase(),
-          }),
-        },
-      );
+      const response = await authFetch(API_ENDPOINTS.GET_PHYSICAL_INSP_NO, {
+        method: "POST",
+        body: JSON.stringify({
+          ID: "",
+          APPTYPE: isNewReg ? 1 : 2,
+          CHASSIS_NO: isNewReg ? chassisNo?.trim().toUpperCase() : "",
+          ENGINE_NO: isNewReg ? engineNo?.trim().toUpperCase() : "",
+          REG_NO: isNewReg ? "" : regNo?.trim().toUpperCase(),
+          REG_DATE: isNewReg
+            ? ""
+            : regDate
+              ? regDate.format?.("DD/MM/YYYY")
+              : "",
+          CITY: city?.toUpperCase(),
+        }),
+      });
 
       if (!response) return;
 
@@ -165,13 +170,57 @@ const VehicleInspection = () => {
         throw new Error(response.statusText);
       }
 
-      const result = await response.json();
+      const text = await response.text();
 
-      setInspectionNumber(result.INSPECTION_ID || "N/A");
+      let resultData = {};
 
+      try {
+        resultData = JSON.parse(text);
+      } catch {
+        const inner = text.trim().replace(/^\{|\}$/g, "");
+
+        inner.split(",").forEach((pair) => {
+          const eqIdx = pair.indexOf("=");
+
+          if (eqIdx !== -1) {
+            const key = pair.slice(0, eqIdx).trim();
+            const val = pair
+              .slice(eqIdx + 1)
+              .trim()
+              .replace(/^"|"$/g, "");
+
+            resultData[key] = val;
+          }
+        });
+      }
+
+      if (
+        String(resultData?.result || "")
+          .toUpperCase()
+          .includes("NO RESULT") ||
+        resultData?.ErrorCode ||
+        resultData?.ERRORCODE ||
+        resultData?.ErrorMessage ||
+        resultData?.ERRORMESSAGE ||
+        !resultData?.INSPECTION_ID
+      ) {
+        setNoResultMessage(
+          "Please provide correct parameters to start application or contact ETO office.",
+        );
+        setInspectionNumber("");
+        setShowData(true);
+        return;
+      }
+
+      setNoResultMessage("");
+      setInspectionNumber(resultData.INSPECTION_ID);
       setShowData(true);
     } catch (err) {
-      message.error(err.message || "Unable to submit inspection request.");
+      setNoResultMessage(
+        "Please provide correct parameters to start application or contact ETO office.",
+      );
+      setInspectionNumber("");
+      setShowData(true);
     } finally {
       setSubmitLoading(false);
     }
@@ -181,13 +230,23 @@ const VehicleInspection = () => {
 
   const getPageNumbers = (current, total) => {
     if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+
     const pages = [1];
+
     if (current > 3) pages.push("...");
-    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+
+    for (
+      let i = Math.max(2, current - 1);
+      i <= Math.min(total - 1, current + 1);
+      i++
+    ) {
       pages.push(i);
     }
+
     if (current < total - 2) pages.push("...");
+
     pages.push(total);
+
     return pages;
   };
 
@@ -220,19 +279,6 @@ const VehicleInspection = () => {
             </div>
 
             <div className="request-table-actions">
-              {/* <div className="request-search-box">
-                <span className="request-search-icon">⌕</span>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchText}
-                  onChange={(e) => {
-                    setSearchText(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                />
-              </div> */}
-
               <button
                 type="button"
                 className="request-new-btn"
@@ -427,11 +473,14 @@ const VehicleInspection = () => {
                     <label className="Textfield-Label">
                       Select Process Type
                     </label>
+
                     <Radio.Group
                       value={processType}
                       onChange={(e) => {
                         setProcessType(e.target.value);
                         setShowData(false);
+                        setNoResultMessage("");
+                        setInspectionNumber("");
                       }}
                       className="process-type-radio-group"
                     >
@@ -547,6 +596,7 @@ const VehicleInspection = () => {
                   Inspection Application Details
                 </span>
               </div>
+
               <hr
                 style={{
                   border: "none",
@@ -555,6 +605,7 @@ const VehicleInspection = () => {
                   margin: "0 auto",
                 }}
               />
+
               <p
                 style={{
                   color: "#374151",
@@ -564,45 +615,54 @@ const VehicleInspection = () => {
                   margin: "0 0 12px 0",
                 }}
               >
-                PHYSICAL INSPECTION APPLICATION NUMBER IS:{" "}
-                <span style={{ color: "#04544f" }}>
-                  {inspectionNumber || "N/A"}
-                </span>
+                {noResultMessage ? (
+                  <span style={{ color: "red", fontWeight: "bold" }}>
+                    {noResultMessage}
+                  </span>
+                ) : (
+                  <>
+                    PHYSICAL INSPECTION APPLICATION NUMBER IS:{" "}
+                    <span style={{ color: "#04544f" }}>{inspectionNumber}</span>
+                  </>
+                )}
               </p>
-              <ul
-                style={{
-                  color: "#374151",
-                  fontSize: "14px",
-                  lineHeight: "1.8",
-                  margin: 0,
-                  paddingLeft: "20px",
-                }}
-              >
-                <li>
-                  KINDLY VISIT ETD OFFICE FOR YOUR VEHICLE PHYSICAL INSPECTION
-                  AGAINST THIS APPLICATION NUMBER.
-                </li>
-                <li>
-                  VEHICLES INSPECTED BY ETD STAFF MUST BE IMMEDIATELY HANDED
-                  OVER TO THE BUYER.
-                </li>
-                <li>
-                  IT IS THE BUYER'S DUTY TO ENSURE THEY RECEIVE SAME VEHICLE
-                  INSPECTED BY ETD STAFF.
-                </li>
-                <li>
-                  PLEASE ENSURE THAT BIOMETRIC VERIFICATION OF THE SELLER AND
-                  BUYER ALIGN WITH THIS APPLICATION.
-                </li>
-                <li>
-                  BIOMETRIC VERIFICATION IS ONLY ALLOWED AFTER THE VEHICLE HAS
-                  BEEN INSPECTED BY ETD STAFF.
-                </li>
-                <li>
-                  CHANGE OF OWNERSHIP IS SUBJECT TO CURRENT OWNER'S BIOMETRIC
-                  VERIFICATION FROM NADRA.
-                </li>
-              </ul>
+
+              {!noResultMessage && (
+                <ul
+                  style={{
+                    color: "#374151",
+                    fontSize: "14px",
+                    lineHeight: "1.8",
+                    margin: 0,
+                    paddingLeft: "20px",
+                  }}
+                >
+                  <li>
+                    KINDLY VISIT ETD OFFICE FOR YOUR VEHICLE PHYSICAL INSPECTION
+                    AGAINST THIS APPLICATION NUMBER.
+                  </li>
+                  <li>
+                    VEHICLES INSPECTED BY ETD STAFF MUST BE IMMEDIATELY HANDED
+                    OVER TO THE BUYER.
+                  </li>
+                  <li>
+                    IT IS THE BUYER'S DUTY TO ENSURE THEY RECEIVE SAME VEHICLE
+                    INSPECTED BY ETD STAFF.
+                  </li>
+                  <li>
+                    PLEASE ENSURE THAT BIOMETRIC VERIFICATION OF THE SELLER AND
+                    BUYER ALIGN WITH THIS APPLICATION.
+                  </li>
+                  <li>
+                    BIOMETRIC VERIFICATION IS ONLY ALLOWED AFTER THE VEHICLE HAS
+                    BEEN INSPECTED BY ETD STAFF.
+                  </li>
+                  <li>
+                    CHANGE OF OWNERSHIP IS SUBJECT TO CURRENT OWNER'S BIOMETRIC
+                    VERIFICATION FROM NADRA.
+                  </li>
+                </ul>
+              )}
             </div>
           )}
         </>

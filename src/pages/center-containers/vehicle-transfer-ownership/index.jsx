@@ -28,6 +28,7 @@ const VehicleTransferOwnership = () => {
   const [showChallan, setShowChallan] = useState(false);
   const [showAttention, setShowAttention] = useState(false);
   const [showRequestForm, setShowRequestForm] = useState(false);
+  const [noResultMessage, setNoResultMessage] = useState("");
   
 
   // API Pagination State
@@ -114,22 +115,12 @@ const VehicleTransferOwnership = () => {
       return;
     }
 
-    if (!otherContactNumber?.trim()) {
-      message.error("Other Mobile Number is required");
-      return;
-    }
-
-    if (otherContactNumber.length < 13) {
+    if (otherContactNumber?.trim() && otherContactNumber.length < 13) {
       message.error("Other Mobile Number is incomplete");
       return;
     }
 
-    if (!email?.trim()) {
-      message.error("Email Address is required");
-      return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (email?.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       message.error("Please enter a valid email address");
       return;
     }
@@ -240,6 +231,7 @@ const VehicleTransferOwnership = () => {
     setLoading(false);
     setError(null);
     setChallanData(null);
+    setNoResultMessage("");
     setChallanLoading(false);
     setChallanError(null);
     setHpaParty("");
@@ -296,6 +288,7 @@ const VehicleTransferOwnership = () => {
     setError(null);
     setVehicleData(null);
     setShowData(false);
+    setNoResultMessage("");
     setShowPurchaserForm(false);
     setLoading(true);
 
@@ -352,10 +345,24 @@ const VehicleTransferOwnership = () => {
         );
       }
 
-      const vehicle = result.vehicle?.[0] || {};
+      
+      if (String(result?.result || "").toUpperCase() === "NO RESULT") {
+        setNoResultMessage(
+          "Please provide correct parameters to start application or contact ETO office.",
+        );
 
+        setShowData(true);
+        setShowPurchaserForm(false);
+        setShowPreview(false);
+        setVehicleData(null);
+
+        return;
+      }
+
+      const vehicle = result.vehicle?.[0] || {};
       const bio = result.bio?.[0] || {};
 
+      setNoResultMessage("");
       console.log("VEHICLE API DATA:", vehicle);
       console.log("BIO API DATA:", bio);
       const getValue = (...values) => {
@@ -861,66 +868,87 @@ const displayChallanStatus =
                 <hr className="dummy-divider" />
 
                 <div className="dummy-data-container no-bg">
-                  <div className="dummy-data-item">
-                    <span className="label">Registration No.</span>
-                    <div className="value">{regNo || "N/A"}</div>
-                  </div>
-
-                  <div className="dummy-data-item">
-                    <span className="label">Registration Date</span>
-                    <div className="value">
-                      {regDate ? dayjs(regDate).format("DD-MM-YYYY") : "N/A"}
+                  {noResultMessage ? (
+                    <div
+                      style={{
+                        width: "100%",
+                        color: "red",
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                        textAlign: "center",
+                        padding: "14px",
+                      }}
+                    >
+                      {noResultMessage}
                     </div>
-                  </div>
+                  ) : (
+                    <>
+                      <div className="dummy-data-item">
+                        <span className="label">Registration No.</span>
+                        <div className="value">{regNo || "N/A"}</div>
+                      </div>
 
-                  <div className="dummy-data-item">
-                    <span className="label">Chasis No.</span>
-                    <div className="value">
-                      {vehicleData?.VEH_CHASIS_NO || "N/A"}
-                    </div>
-                  </div>
+                      <div className="dummy-data-item">
+                        <span className="label">Registration Date</span>
+                        <div className="value">
+                          {regDate
+                            ? dayjs(regDate).format("DD-MM-YYYY")
+                            : "N/A"}
+                        </div>
+                      </div>
 
-                  <div className="dummy-data-item">
-                    <span className="label">
-                      First Owner{" "}
-                      {getOwnerIdLabel(
-                        firstOwnerCnic,
-                        vehicleData?.FIRST_OWNER_TYPE,
-                      )}
-                    </span>
-                    <div className="value">{firstOwnerCnic || "N/A"}</div>
-                  </div>
+                      <div className="dummy-data-item">
+                        <span className="label">Chasis No.</span>
+                        <div className="value">
+                          {vehicleData?.VEH_CHASIS_NO || "N/A"}
+                        </div>
+                      </div>
 
-                  <div className="dummy-data-item">
-                    <span className="label">First Owner Name</span>
-                    <div className="value">{firstOwnerName || "N/A"}</div>
-                  </div>
+                      <div className="dummy-data-item">
+                        <span className="label">
+                          First Owner{" "}
+                          {getOwnerIdLabel(
+                            firstOwnerCnic,
+                            vehicleData?.FIRST_OWNER_TYPE,
+                          )}
+                        </span>
+                        <div className="value">{firstOwnerCnic || "N/A"}</div>
+                      </div>
 
-                  <div className="dummy-data-item">
-                    <span className="label">First Owner F/H/W/O</span>
-                    <div className="value">{firstOwnerFatherName || "N/A"}</div>
-                  </div>
+                      <div className="dummy-data-item">
+                        <span className="label">First Owner Name</span>
+                        <div className="value">{firstOwnerName || "N/A"}</div>
+                      </div>
 
-                  <div className="dummy-data-item">
-                    <span className="label">
-                      Current Owner{" "}
-                      {getOwnerIdLabel(
-                        ownerCnic,
-                        vehicleData?.CURRENT_OWNER_TYPE,
-                      )}
-                    </span>
-                    <div className="value">{ownerCnic || "N/A"}</div>
-                  </div>
+                      <div className="dummy-data-item">
+                        <span className="label">First Owner F/H/W/O</span>
+                        <div className="value">
+                          {firstOwnerFatherName || "N/A"}
+                        </div>
+                      </div>
 
-                  <div className="dummy-data-item">
-                    <span className="label">Current Owner Name</span>
-                    <div className="value">{ownerName || "N/A"}</div>
-                  </div>
+                      <div className="dummy-data-item">
+                        <span className="label">
+                          Current Owner{" "}
+                          {getOwnerIdLabel(
+                            ownerCnic,
+                            vehicleData?.CURRENT_OWNER_TYPE,
+                          )}
+                        </span>
+                        <div className="value">{ownerCnic || "N/A"}</div>
+                      </div>
 
-                  <div className="dummy-data-item">
-                    <span className="label">Current Owner F/H/W/O</span>
-                    <div className="value">{ownerFatherName || "N/A"}</div>
-                  </div>
+                      <div className="dummy-data-item">
+                        <span className="label">Current Owner Name</span>
+                        <div className="value">{ownerName || "N/A"}</div>
+                      </div>
+
+                      <div className="dummy-data-item">
+                        <span className="label">Current Owner F/H/W/O</span>
+                        <div className="value">{ownerFatherName || "N/A"}</div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             )}
@@ -1021,7 +1049,6 @@ const displayChallanStatus =
                   <Col xs={24} sm={8}>
                     <span className="Textfield-Label">
                       Other Mobile Number{" "}
-                      <span style={{ color: "red" }}>*</span>
                     </span>
                     <UppercaseInput
                       value={otherContactNumber}
@@ -1032,9 +1059,7 @@ const displayChallanStatus =
                   </Col>
 
                   <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">
-                      Email Address <span style={{ color: "red" }}>*</span>
-                    </span>
+                    <span className="Textfield-Label">Email Address </span>
                     <Input
                       type="email"
                       value={email}
@@ -1184,7 +1209,7 @@ const displayChallanStatus =
                       value={tempAddress}
                       onChange={(val) => setTempAddress(val)}
                       showCount
-                      maxLength={30}
+                      maxLength={40}
                       rows={4}
                       placeholder="Enter Address..."
                       className="uniform-input2"
@@ -1200,7 +1225,7 @@ const displayChallanStatus =
                       value={permAddress}
                       onChange={(val) => setPermAddress(val)}
                       showCount
-                      maxLength={30}
+                      maxLength={40}
                       rows={4}
                       placeholder="Enter Address..."
                       className="uniform-input2"
@@ -1270,7 +1295,7 @@ const displayChallanStatus =
                   {/* Upload CNIC PDF */}
                   <Col xs={24} sm={12}>
                     <span className="Textfield-Label">
-                      Upload CNIC .PDF <span style={{ color: "red" }}>*</span>
+                      Upload CNIC .PDF 
                     </span>
 
                     <div
@@ -1346,7 +1371,7 @@ const displayChallanStatus =
                   <Col xs={24} sm={12}>
                     <span className="Textfield-Label">
                       UPLOAD TRANSFER LETTER .PDF{" "}
-                      <span style={{ color: "red" }}>*</span>
+                      
                     </span>
 
                     <div
@@ -1708,8 +1733,6 @@ const displayChallanStatus =
               </div>
 
               <table className="challan-table">
-                
-
                 <tbody>
                   {challanData?.TAX_FINE_DETAIL?.map((item) => (
                     <tr key={item.TAT_ID}>
@@ -1720,9 +1743,7 @@ const displayChallanStatus =
 
                   <tr className="total-row">
                     <td>Total</td>
-                    <td>
-                      {(challanData?.TOTAL_AMOUNT || 0).toLocaleString()}
-                    </td>
+                    <td>{(challanData?.TOTAL_AMOUNT || 0).toLocaleString()}</td>
                   </tr>
                 </tbody>
               </table>

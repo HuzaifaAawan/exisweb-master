@@ -5,12 +5,13 @@ import backgroundImage from "../assets/icons/background2.2.png";
 import { API_ENDPOINTS } from "../constants";
 import { useAuthFetch } from "../libs/hooks/useAuthFetch";
 import "./center-containers/vehicle-transfer-ownership/styles.scss";
-
+import dayjs from "dayjs";
+import { LabelDatePicker } from "../components/common/label-date-picker/index.js";
 
 const VehicleDetails = () => {
   const authFetch = useAuthFetch();
   const [registration, setRegistration] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(null);
   const [captchaValue, setCaptchaValue] = useState(null);
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
@@ -132,8 +133,8 @@ const VehicleDetails = () => {
               <input
                 type="text"
                 placeholder="e.g., ALB-572"
-                className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${registrationError ? "border-red-500" : "border-gray-300"}`}
-                style={{ height: "44px" }}
+                className={`w-full border rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${registrationError ? "border-red-500" : "border-gray-300"}`}
+                style={{ height: "52px" }}
                 required
                 value={registration}
                 onChange={(e) => {
@@ -158,15 +159,11 @@ const VehicleDetails = () => {
 
             {/* Registration Date */}
             <Col xs={24} sm={12}>
-              <label className="Textfield-Label">Registration date:</label>
-              <input
-                type="date"
-                required
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                style={{ height: "44px" }}
+              <LabelDatePicker
+                label="Registration date:"
                 value={date}
-                onChange={(e) => setDate(e.target.value)}
-                max={new Date().toISOString().split("T")[0]}
+                setRegDate={setDate}
+                className="w-full"
               />
             </Col>
           </Row>
