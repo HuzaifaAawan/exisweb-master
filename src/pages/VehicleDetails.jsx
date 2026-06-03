@@ -175,7 +175,7 @@ const VehicleDetails = () => {
           <Row gutter={[16, 16]} style={{ marginTop: "16px" }}>
             <Col xs={24}>
               <ReCAPTCHA
-                sitekey="6LfBRAotAAAAACMKlXcOjepk_I75pYQYEFXX1s0M"
+                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                 onChange={handleCaptchaChange}
                 theme="light"
               />

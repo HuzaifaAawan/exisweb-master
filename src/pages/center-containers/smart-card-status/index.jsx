@@ -137,7 +137,7 @@ const CheckSmartCardStatus = () => {
 
           <div style={{ marginTop: "16px" }}>
             <ReCAPTCHA
-              sitekey="6LfBRAotAAAAACMKlXcOjepk_I75pYQYEFXX1s0M"
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
               onChange={(val) => setCaptchaValue(val)}
               theme="light"
             />
