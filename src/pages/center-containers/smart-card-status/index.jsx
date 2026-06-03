@@ -10,7 +10,7 @@ const STATUS_COLORS = {
   PENDING: "#faad14",
   REJECTED: "#ff4d4f",
   DISPATCHED: "#1677ff",
-   DELIVERED: "#52c41a",
+  DELIVERED: "#52c41a",
 };
 
 const CheckSmartCardStatus = () => {
@@ -207,7 +207,7 @@ const CheckSmartCardStatus = () => {
       {resultError && (
         <div className="scs-card">
           <div className="scs-result-header">
-            <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+            <span style={{ fontWeight: "bold", fontSize: "18px"}}>
               Card Details
             </span>
           </div>
@@ -246,17 +246,7 @@ const CheckSmartCardStatus = () => {
               margin: "12px auto 16px",
             }}
           />
-          <p
-            style={{
-              color: "#37513e",
-              fontSize: "14px",
-              lineHeight: "1.7",
-              margin: 0,
-              textAlign: "center",
-            }}
-          >
-            {results.MESSAGE}
-          </p>
+          <p className="scs-response-message">{results.MESSAGE}</p>
         </div>
       )}
     </div>

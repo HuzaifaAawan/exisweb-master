@@ -62,14 +62,15 @@
 
 .scs-error {
   color: #ff4d4f;
-  font-size: 13px;
+  font-size: 16px;
+  font-weight: 700;
   margin: 4px 0 0;
 }
 
 .scs-result-error {
   color: #ff4d4f;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 700;
   text-align: center;
   padding: 16px 0;
   margin: 0;
@@ -159,4 +160,31 @@
 .submit-frame:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+
+.scs-error,
+.scs-result-error,
+.scs-response-message {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+
+.scs-response-message {
+  color: #050806;
+  line-height: 1.7;
+  margin: 0;
+  text-align: center;
+}
+.scs-result-header {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.scs-status-badge {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
