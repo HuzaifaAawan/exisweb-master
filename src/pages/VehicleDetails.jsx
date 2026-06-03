@@ -82,9 +82,7 @@ const VehicleDetails = () => {
       }}
     >
       {/* Title */}
-      <span className="page-title">
-        Check Registered Vehicle Details
-      </span>
+      <span className="page-title">Check Registered Vehicle Details</span>
 
       {/* Form Card */}
       <div
@@ -101,13 +99,29 @@ const VehicleDetails = () => {
         }}
       >
         <div>
-          <span style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}>
+          <span
+            style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}
+          >
             Check Vehicle Details
           </span>
-          <span style={{ display: "block", color: "#6b7280", fontSize: "14px", marginTop: "4px" }}>
+          <span
+            style={{
+              display: "block",
+              color: "#6b7280",
+              fontSize: "14px",
+              marginTop: "4px",
+            }}
+          >
             Please provide the details below to view vehicle information
           </span>
-          <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 0" }} />
+          <hr
+            style={{
+              border: "none",
+              borderTop: "1px solid #e3e3e3",
+              width: "80%",
+              margin: "12px auto 0",
+            }}
+          />
         </div>
 
         <form onSubmit={handleCheck}>
@@ -126,13 +140,18 @@ const VehicleDetails = () => {
                   const val = e.target.value.toUpperCase();
                   setRegistration(val);
                   if (val && !REG_PATTERN.test(val)) {
-                    setRegistrationError("Format: 2-3 letters, hyphen, numbers (e.g., ALB-572).");
+                    setRegistrationError(
+                      "Format: 2-3 letters, hyphen, numbers (e.g., ALB-572).",
+                    );
                   } else {
                     setRegistrationError("");
                   }
                 }}
               />
-              <p className="text-red-500 text-sm mt-1" style={{ minHeight: "20px" }}>
+              <p
+                className="text-red-500 text-sm mt-1"
+                style={{ minHeight: "20px" }}
+              >
                 {registrationError || ""}
               </p>
             </Col>
@@ -150,14 +169,13 @@ const VehicleDetails = () => {
                 max={new Date().toISOString().split("T")[0]}
               />
             </Col>
-
           </Row>
 
           {/* ReCAPTCHA */}
           <Row gutter={[16, 16]} style={{ marginTop: "16px" }}>
             <Col xs={24}>
               <ReCAPTCHA
-               sitekey="6LfBRAotAAAAACMKIXcOjepk_l75pYQYEFXX1s0M"
+                sitekey="6LfBRAotAAAAACMKlXcOjepk_I75pYQYEFXX1s0M"
                 onChange={handleCaptchaChange}
                 theme="light"
               />
@@ -165,7 +183,14 @@ const VehicleDetails = () => {
           </Row>
 
           {/* Check + Reset + Reserve Number */}
-          <div style={{ marginTop: "16px", display: "flex", justifyContent: "flex-end", gap: "6px" }}>
+          <div
+            style={{
+              marginTop: "16px",
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "6px",
+            }}
+          >
             <button
               type="submit"
               disabled={loading || !registration || !date}
@@ -212,10 +237,19 @@ const VehicleDetails = () => {
             marginTop: "16px",
           }}
         >
-          <span style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}>
+          <span
+            style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}
+          >
             Vehicle Information
           </span>
-          <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "0 auto" }} />
+          <hr
+            style={{
+              border: "none",
+              borderTop: "1px solid #e3e3e3",
+              width: "80%",
+              margin: "0 auto",
+            }}
+          />
           <table className="table-auto border-collapse border w-full">
             <tbody>
               <tr>
@@ -224,23 +258,33 @@ const VehicleDetails = () => {
               </tr>
               <tr>
                 <td className="border px-2 py-1 font-bold">REG DATE:</td>
-                <td className="border px-2 py-1">{responseData.VEH_REG_DATE}</td>
+                <td className="border px-2 py-1">
+                  {responseData.VEH_REG_DATE}
+                </td>
               </tr>
               <tr>
                 <td className="border px-2 py-1 font-bold">ENGINE NO:</td>
-                <td className="border px-2 py-1">{responseData.VEH_ENGINE_NO}</td>
+                <td className="border px-2 py-1">
+                  {responseData.VEH_ENGINE_NO}
+                </td>
               </tr>
               <tr>
                 <td className="border px-2 py-1 font-bold">CHASIS NO:</td>
-                <td className="border px-2 py-1">{responseData.VEH_CHASIS_NO}</td>
+                <td className="border px-2 py-1">
+                  {responseData.VEH_CHASIS_NO}
+                </td>
               </tr>
               <tr>
                 <td className="border px-2 py-1 font-bold">ENGINE SIZE:</td>
-                <td className="border px-2 py-1">{responseData.VEH_ENGINE_SIZE}</td>
+                <td className="border px-2 py-1">
+                  {responseData.VEH_ENGINE_SIZE}
+                </td>
               </tr>
               <tr>
                 <td className="border px-2 py-1 font-bold">YEAR OF MANF:</td>
-                <td className="border px-2 py-1">{responseData.VEH_YEAR_OF_MANF}</td>
+                <td className="border px-2 py-1">
+                  {responseData.VEH_YEAR_OF_MANF}
+                </td>
               </tr>
               <tr>
                 <td className="border px-2 py-1 font-bold">COLOR:</td>
@@ -256,12 +300,16 @@ const VehicleDetails = () => {
               </tr>
               <tr>
                 <td className="border px-2 py-1 font-bold">MAKER:</td>
-                <td className="border px-2 py-1">{responseData["MAKER/ MAKE"]}</td>
+                <td className="border px-2 py-1">
+                  {responseData["MAKER/ MAKE"]}
+                </td>
               </tr>
               <tr>
                 <td className="border px-2 py-1 font-bold">TAX PAID UPTO:</td>
                 <td className="border px-2 py-1">
-                  {responseData.VEH_TAX_PAID_UPTO || responseData.LIFETIME_TAX || "N/A"}
+                  {responseData.VEH_TAX_PAID_UPTO ||
+                    responseData.LIFETIME_TAX ||
+                    "N/A"}
                 </td>
               </tr>
               <tr>

@@ -114,7 +114,7 @@ const VehicleChallanVerification = () => {
 
           <div style={{ marginTop: "16px" }}>
             <ReCAPTCHA
-              sitekey="6LfBRAotAAAAACMKIXcOjepk_l75pYQYEFXX1s0M"
+              sitekey="6LfBRAotAAAAACMKlXcOjepk_I75pYQYEFXX1s0M"
               onChange={(val) => setCaptchaValue(val)}
               theme="light"
             />
