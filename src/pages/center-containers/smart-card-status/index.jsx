@@ -84,13 +84,30 @@ const CheckSmartCardStatus = () => {
       <span className="page-title">Check Smart Card Status</span>
 
       <div className="scs-card">
-        <span style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}>
+        <span
+          style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}
+        >
           Smart Card Status
         </span>
-        <span style={{ display: "block", color: "#6b7280", fontSize: "14px", marginTop: "4px" }}>
-          Enter the registration number and application ID to check your smart card status
+        <span
+          style={{
+            display: "block",
+            color: "#6b7280",
+            fontSize: "14px",
+            marginTop: "4px",
+          }}
+        >
+          Enter the registration number and application ID to check your smart
+          card status
         </span>
-        <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 16px" }} />
+        <hr
+          style={{
+            border: "none",
+            borderTop: "1px solid #e3e3e3",
+            width: "80%",
+            margin: "12px auto 16px",
+          }}
+        />
 
         <form onSubmit={handleSubmit}>
           <div className="scs-fields-row">
@@ -120,7 +137,7 @@ const CheckSmartCardStatus = () => {
 
           <div style={{ marginTop: "16px" }}>
             <ReCAPTCHA
-              sitekey="6LfnCSQrAAAAAIwtsn-vb3eIunRMfZopzXnlFxcx"
+              sitekey="6LfBRAotAAAAACMKIXcOjepk_l75pYQYEFXX1s0M"
               onChange={(val) => setCaptchaValue(val)}
               theme="light"
             />
@@ -128,7 +145,14 @@ const CheckSmartCardStatus = () => {
 
           {captchaError && <p className="scs-error">{captchaError}</p>}
 
-          <div style={{ marginTop: "16px", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+          <div
+            style={{
+              marginTop: "16px",
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "8px",
+            }}
+          >
             <button
               type="submit"
               disabled={loading || !regNo.trim() || !appId.trim()}
@@ -152,9 +176,18 @@ const CheckSmartCardStatus = () => {
       {resultError && (
         <div className="scs-card">
           <div className="scs-result-header">
-            <span style={{ fontWeight: "bold", fontSize: "18px" }}>Card Details</span>
+            <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+              Card Details
+            </span>
           </div>
-          <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 0" }} />
+          <hr
+            style={{
+              border: "none",
+              borderTop: "1px solid #e3e3e3",
+              width: "80%",
+              margin: "12px auto 0",
+            }}
+          />
           <p className="scs-result-error">{resultError}</p>
         </div>
       )}
@@ -162,7 +195,9 @@ const CheckSmartCardStatus = () => {
       {results && (
         <div className="scs-card">
           <div className="scs-result-header">
-            <span style={{ fontWeight: "bold", fontSize: "18px" }}>Card Details</span>
+            <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+              Card Details
+            </span>
             {results.STATUS && results.STATUS !== "-" && (
               <span
                 className="scs-status-badge"
@@ -172,8 +207,23 @@ const CheckSmartCardStatus = () => {
               </span>
             )}
           </div>
-          <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 16px" }} />
-          <p style={{ color: "#374151", fontSize: "14px", lineHeight: "1.7", margin: 0, textAlign: "center" }}>
+          <hr
+            style={{
+              border: "none",
+              borderTop: "1px solid #e3e3e3",
+              width: "80%",
+              margin: "12px auto 16px",
+            }}
+          />
+          <p
+            style={{
+              color: "#374151",
+              fontSize: "14px",
+              lineHeight: "1.7",
+              margin: 0,
+              textAlign: "center",
+            }}
+          >
             {results.MESSAGE}
           </p>
         </div>

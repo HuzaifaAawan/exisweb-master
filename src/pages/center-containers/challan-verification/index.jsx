@@ -77,13 +77,29 @@ const VehicleChallanVerification = () => {
       <span className="page-title">Vehicle Challan Verification</span>
 
       <div className="challan-card">
-        <span style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}>
+        <span
+          style={{ display: "block", fontWeight: "bold", fontSize: "18px" }}
+        >
           Verify Challan
         </span>
-        <span style={{ display: "block", color: "#6b7280", fontSize: "14px", marginTop: "4px" }}>
+        <span
+          style={{
+            display: "block",
+            color: "#6b7280",
+            fontSize: "14px",
+            marginTop: "4px",
+          }}
+        >
           Please enter the challan number below to check its status
         </span>
-        <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 16px" }} />
+        <hr
+          style={{
+            border: "none",
+            borderTop: "1px solid #e3e3e3",
+            width: "80%",
+            margin: "12px auto 16px",
+          }}
+        />
 
         <form onSubmit={handleSubmit}>
           <label className="Textfield-Label">Challan Number</label>
@@ -98,7 +114,7 @@ const VehicleChallanVerification = () => {
 
           <div style={{ marginTop: "16px" }}>
             <ReCAPTCHA
-              sitekey="6LfnCSQrAAAAAIwtsn-vb3eIunRMfZopzXnlFxcx"
+              sitekey="6LfBRAotAAAAACMKIXcOjepk_l75pYQYEFXX1s0M"
               onChange={(val) => setCaptchaValue(val)}
               theme="light"
             />
@@ -106,7 +122,14 @@ const VehicleChallanVerification = () => {
 
           {captchaError && <p className="challan-error">{captchaError}</p>}
 
-          <div style={{ marginTop: "16px", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+          <div
+            style={{
+              marginTop: "16px",
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "8px",
+            }}
+          >
             <button
               type="submit"
               disabled={loading || !challanNo.trim()}
@@ -130,9 +153,18 @@ const VehicleChallanVerification = () => {
       {resultError && (
         <div className="challan-card">
           <div className="challan-result-header">
-            <span style={{ fontWeight: "bold", fontSize: "18px" }}>Challan Details</span>
+            <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+              Challan Details
+            </span>
           </div>
-          <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 0" }} />
+          <hr
+            style={{
+              border: "none",
+              borderTop: "1px solid #e3e3e3",
+              width: "80%",
+              margin: "12px auto 0",
+            }}
+          />
           <p className="challan-result-error">{resultError}</p>
         </div>
       )}
@@ -140,9 +172,14 @@ const VehicleChallanVerification = () => {
       {results && (
         <div className="challan-card">
           {results.map((item, index) => (
-            <div key={index} className={index > 0 ? "challan-result-divider" : ""}>
+            <div
+              key={index}
+              className={index > 0 ? "challan-result-divider" : ""}
+            >
               <div className="challan-result-header">
-                <span style={{ fontWeight: "bold", fontSize: "18px" }}>Challan Details</span>
+                <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                  Challan Details
+                </span>
                 <span
                   className="challan-status-badge"
                   style={{ backgroundColor: getStatusColor(item.CHSTATUS) }}
@@ -150,7 +187,14 @@ const VehicleChallanVerification = () => {
                   {item.CHSTATUS || "-"}
                 </span>
               </div>
-              <hr style={{ border: "none", borderTop: "1px solid #e3e3e3", width: "80%", margin: "12px auto 16px" }} />
+              <hr
+                style={{
+                  border: "none",
+                  borderTop: "1px solid #e3e3e3",
+                  width: "80%",
+                  margin: "12px auto 16px",
+                }}
+              />
               <div className="challan-result-grid">
                 <div className="challan-field">
                   <span className="field-label">Challan No.</span>
@@ -170,7 +214,9 @@ const VehicleChallanVerification = () => {
                 </div>
                 <div className="challan-field">
                   <span className="field-label">Amount</span>
-                  <span className="field-value amount">PKR {item.AMOUNT?.toLocaleString() || "-"}</span>
+                  <span className="field-value amount">
+                    PKR {item.AMOUNT?.toLocaleString() || "-"}
+                  </span>
                 </div>
                 <div className="challan-field">
                   <span className="field-label">Paid Date</span>
