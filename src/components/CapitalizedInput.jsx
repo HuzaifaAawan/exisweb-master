@@ -244,7 +244,7 @@ const DistrictDropdowns = ({
   const customArrow = (
     <DownOutlined
       style={{
-        fontSize: 25,
+        fontSize: 15,
         marginTop: 9,
         color: "#bfbfbf",
       }}
