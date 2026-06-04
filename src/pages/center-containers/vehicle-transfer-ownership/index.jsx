@@ -9,7 +9,7 @@ import { message } from "antd";
 import VehicleCardPreview from "./VehicleCardPreview";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
 import AttentionModal from "../../../components/attention-modal";
-import { Row, Col, Input, Form, Switch } from "antd";
+import { Row, Col, Input, Form, Switch, Radio } from "antd";
 import UppercaseInput, {
   DistrictDropdowns,
 } from "../../../components/CapitalizedInput.jsx";
@@ -64,6 +64,8 @@ const VehicleTransferOwnership = () => {
   const [cnic, setCnic] = useState("");
   const [purchaserType, setPurchaserType] = useState("INDIVIDUAL");
   const [purchaserIdNo, setPurchaserIdNo] = useState("");
+  const [purchaserIdType, setPurchaserIdType] = useState("CNIC");
+  const [idAutoFilled, setIdAutoFilled] = useState(false);
   const [purchaserName, setPurchaserName] = useState("");
   const [fhwoName, setFhwoName] = useState("");
   const [ntn, setNtn] = useState("");
@@ -97,11 +99,17 @@ const VehicleTransferOwnership = () => {
     }
 
     if (!purchaserIdNo?.trim() && !cnic?.trim()) {
-      message.error(
+      const idLabel =
         purchaserType.toUpperCase() === "COMPANY"
-          ? "NTN is required"
-          : "CNIC / Passport No. is required",
-      );
+          ? "NTN"
+          : !biometricNo?.trim()
+          ? purchaserIdType === "PASSPORT"
+            ? "Passport No."
+            : purchaserIdType === "NTN"
+            ? "NTN"
+            : "CNIC"
+          : "CNIC / Passport No.";
+      message.error(`${idLabel} is required`);
       return;
     }
 
@@ -209,6 +217,8 @@ const VehicleTransferOwnership = () => {
     setCnic("");
     setPurchaserType("INDIVIDUAL");
     setPurchaserIdNo("");
+    setPurchaserIdType("CNIC");
+    setIdAutoFilled(false);
     setPurchaserName("");
     setFhwoName("");
     setNtn("");
@@ -419,6 +429,7 @@ const VehicleTransferOwnership = () => {
       setPurchaserType(finalPurchaserType);
       setPurchaserIdNo(finalPurchaserIdNo);
       setCnic(finalPurchaserIdNo);
+      setIdAutoFilled(!!finalPurchaserIdNo?.trim());
 
       console.log("PURCHASER TYPE CHECK:", {
         rawPurchaserType,
@@ -968,6 +979,7 @@ const displayChallanStatus =
                   Please provide the details of the purchaser to whom the
                   ownership is being transferred
                 </span>
+
                 <hr
                   style={{
                     marginTop: "15px",
@@ -975,6 +987,26 @@ const displayChallanStatus =
                     borderTop: "1px solid #e3e3e3",
                   }}
                 />
+
+                {!biometricNo?.trim() && (
+                  <div style={{ marginTop: "14px", marginBottom: "20px" }}>
+                    <span className="Textfield-Label" style={{ display: "block", marginBottom: "6px" }}>
+                      Select Purchaser Type <span style={{ color: "red" }}>*</span>
+                    </span>
+                    <Radio.Group
+                      value={purchaserIdType}
+                      onChange={(e) => {
+                        setPurchaserIdType(e.target.value);
+                        setPurchaserIdNo("");
+                        setCnic("");
+                      }}
+                    >
+                      <Radio value="CNIC">Individual (Pakistani)</Radio>
+                      <Radio value="PASSPORT">Individual (Foreigner)</Radio>
+                      <Radio value="NTN">Bank/ Company</Radio>
+                    </Radio.Group>
+                  </div>
+                )}
               </div>
 
               <div style={{ padding: "0 24px" }}>
@@ -1012,20 +1044,30 @@ const displayChallanStatus =
                       className="Textfield-Label"
                       style={{ color: "black" }}
                     >
-                      {isNtnField ? "NTN No." : "CNIC / Passport No."}{" "}
+                      {!biometricNo?.trim()
+                        ? purchaserIdType === "PASSPORT"
+                          ? "Passport No."
+                          : purchaserIdType === "NTN"
+                          ? "NTN No."
+                          : "CNIC No."
+                        : isNtnField
+                        ? "NTN No."
+                        : "CNIC / Passport No."}{" "}
                       <span style={{ color: "red" }}>*</span>
                     </span>
 
                     <Input
                       value={purchaserIdNo || cnic}
-                      readOnly={!isNtnField}
+                      readOnly={!!biometricNo?.trim() && !isNtnField}
                       onChange={
-                        isNtnField
+                        !biometricNo?.trim() || isNtnField
                           ? (e) => setPurchaserIdNo(e.target.value)
                           : undefined
                       }
                       placeholder={
-                        isNtnField
+                        !biometricNo?.trim()
+                          ? `Enter ${purchaserIdType === "PASSPORT" ? "Passport No." : purchaserIdType === "NTN" ? "NTN No." : "CNIC No."}`
+                          : isNtnField
                           ? "Enter NTN No."
                           : "Auto-filled CNIC / Passport No."
                       }
