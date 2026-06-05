@@ -25,6 +25,7 @@ const VehicleTransferOwnership = () => {
   const [showData, setShowData] = useState(false);
   const [showPurchaserForm, setShowPurchaserForm] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [submittedData, setSubmittedData] = useState(null);
   const [showChallan, setShowChallan] = useState(false);
   const [showAttention, setShowAttention] = useState(false);
   const [showRequestForm, setShowRequestForm] = useState(false);
@@ -291,6 +292,9 @@ const VehicleTransferOwnership = () => {
     setNoResultMessage("");
     setShowPurchaserForm(false);
     setLoading(true);
+    setSubmittedData({
+          regNo,
+        });
 
     try {
       const formattedDate = regDate ? dayjs(regDate).format("DD/MM/YYYY") : "";
@@ -350,6 +354,7 @@ const VehicleTransferOwnership = () => {
         setNoResultMessage(
           "Please provide correct parameters to start application or contact ETO office.",
         );
+        
 
         setShowData(true);
         setShowPurchaserForm(false);
@@ -871,7 +876,7 @@ const displayChallanStatus =
                   {noResultMessage ? (
                     <div
                       style={{
-                        width: "100%",
+                        width: "174%",
                         color: "red",
                         fontWeight: "bold",
                         fontSize: "16px",
@@ -885,7 +890,9 @@ const displayChallanStatus =
                     <>
                       <div className="dummy-data-item">
                         <span className="label">Registration No.</span>
-                        <div className="value">{regNo || "N/A"}</div>
+                        <div className="value">
+                          {submittedData?.regNo || "N/A"}
+                        </div>
                       </div>
 
                       <div className="dummy-data-item">
@@ -1294,9 +1301,7 @@ const displayChallanStatus =
 
                   {/* Upload CNIC PDF */}
                   <Col xs={24} sm={12}>
-                    <span className="Textfield-Label">
-                      Upload CNIC .PDF 
-                    </span>
+                    <span className="Textfield-Label">Upload CNIC .PDF</span>
 
                     <div
                       className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
@@ -1371,7 +1376,6 @@ const displayChallanStatus =
                   <Col xs={24} sm={12}>
                     <span className="Textfield-Label">
                       UPLOAD TRANSFER LETTER .PDF{" "}
-                      
                     </span>
 
                     <div
