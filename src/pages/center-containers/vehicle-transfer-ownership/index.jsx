@@ -293,8 +293,8 @@ const VehicleTransferOwnership = () => {
     setShowPurchaserForm(false);
     setLoading(true);
     setSubmittedData({
-          regNo,
-        });
+      regNo,
+    });
 
     try {
       const formattedDate = regDate ? dayjs(regDate).format("DD/MM/YYYY") : "";
@@ -977,7 +977,8 @@ const displayChallanStatus =
                 </span>
                 <hr
                   style={{
-                    marginTop: "15px",
+                    marginTop: "25px",
+                    marginBottom: "18px",
                     border: "none",
                     borderTop: "1px solid #e3e3e3",
                   }}
