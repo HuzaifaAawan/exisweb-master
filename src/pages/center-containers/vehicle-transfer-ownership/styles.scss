@@ -65,7 +65,7 @@
 }
 
 .custom-select .ant-select-selector {
-  height: 44px !important;
+  height: 50px !important;
   border-radius: 6px !important;
   display: flex;
   align-items: center;
@@ -1266,4 +1266,97 @@
   text-align: center;
   font-size: 13px;
   line-height: 1.5;
+}
+.upload-doc-grid {
+  width: 100%;
+  margin-top: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.upload-doc-header,
+.upload-doc-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 1.5fr 100px;
+  align-items: center;
+  column-gap: 16px;
+  padding: 0 20px;
+}
+
+.upload-doc-header {
+  min-height: 58px;
+  background: #f7f8fa;
+  font-weight: 700;
+  color: #333;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.upload-doc-row {
+  min-height: 90px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.upload-doc-row:last-child {
+  border-bottom: none;
+}
+
+.upload-doc-row > div {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.upload-doc-row .ant-select {
+  width: 100%;
+  height: 54px;
+}
+
+.upload-doc-row .ant-select-selector {
+  height: 54px !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 8px !important;
+}
+
+.upload-doc-row .ant-select-selection-item {
+  display: flex !important;
+  align-items: center !important;
+  line-height: 54px !important;
+}
+
+.upload-file-box {
+  width: 100%;
+  height: 54px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  cursor: pointer;
+  color: #4b4598;
+  background: #fafafa;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.upload-file-box span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  line-height: 1;
+}
+
+.upload-file-box:hover {
+  border-color: #1677ff;
+}
+
+.upload-remove-btn {
+  border: none;
+  background: transparent;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
 }

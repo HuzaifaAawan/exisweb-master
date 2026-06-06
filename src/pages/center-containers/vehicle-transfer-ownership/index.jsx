@@ -9,7 +9,7 @@ import { message } from "antd";
 import VehicleCardPreview from "./VehicleCardPreview";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
 import AttentionModal from "../../../components/attention-modal";
-import { Row, Col, Input, Form, Switch, Radio } from "antd";
+import { Row, Col, Input, Form, Switch, Radio, Select } from "antd";
 import UppercaseInput, {
   DistrictDropdowns,
 } from "../../../components/CapitalizedInput.jsx";
@@ -60,8 +60,11 @@ const VehicleTransferOwnership = () => {
   const [permanentAddressCity, setpermanentAddressCity] = useState(""); 
   const [permanentAddressDistrict, setpermanentAddressDistrict] = useState(""); 
   const [emailError, setEmailError] = useState("");
-  const [nicImage, setNicImage] = useState(null);
-  const [transferLetterImage, setTransferLetterImage] = useState(null);
+  const [uploadedDocs, setUploadedDocs] = useState([
+    { uploadType: "CNIC_FRONT", file: null },
+    { uploadType: "CNIC_BACK", file: null },
+    { uploadType: "MIX_DOC", file: null },
+  ]);
   const [cnic, setCnic] = useState("");
   const [purchaserType, setPurchaserType] = useState("INDIVIDUAL");
   const [purchaserIdNo, setPurchaserIdNo] = useState("");
@@ -212,8 +215,11 @@ const VehicleTransferOwnership = () => {
     setRegDate(null);
     setEmail("");
     setEmailError("");
-    setNicImage(null);
-    setTransferLetterImage(null);
+    setUploadedDocs([
+      { uploadType: "CNIC_FRONT", file: null },
+      { uploadType: "CNIC_BACK", file: null },
+      { uploadType: "MIX_DOC", file: null },
+    ]);
     setCnic("");
     setCnic("");
     setPurchaserType("INDIVIDUAL");
@@ -998,8 +1004,12 @@ const displayChallanStatus =
 
                 {!biometricNo?.trim() && (
                   <div style={{ marginTop: "14px", marginBottom: "20px" }}>
-                    <span className="Textfield-Label" style={{ display: "block", marginBottom: "6px" }}>
-                      Select Purchaser Type <span style={{ color: "red" }}>*</span>
+                    <span
+                      className="Textfield-Label"
+                      style={{ display: "block", marginBottom: "6px" }}
+                    >
+                      Select Purchaser Type{" "}
+                      <span style={{ color: "red" }}>*</span>
                     </span>
                     <Radio.Group
                       value={purchaserIdType}
@@ -1056,11 +1066,11 @@ const displayChallanStatus =
                         ? purchaserIdType === "PASSPORT"
                           ? "Passport No."
                           : purchaserIdType === "NTN"
-                          ? "NTN No."
-                          : "CNIC No."
+                            ? "NTN No."
+                            : "CNIC No."
                         : isNtnField
-                        ? "NTN No."
-                        : "CNIC / Passport No."}{" "}
+                          ? "NTN No."
+                          : "CNIC / Passport No."}{" "}
                       <span style={{ color: "red" }}>*</span>
                     </span>
 
@@ -1076,8 +1086,8 @@ const displayChallanStatus =
                         !biometricNo?.trim()
                           ? `Enter ${purchaserIdType === "PASSPORT" ? "Passport No." : purchaserIdType === "NTN" ? "NTN No." : "CNIC No."}`
                           : isNtnField
-                          ? "Enter NTN No."
-                          : "Auto-filled CNIC / Passport No."
+                            ? "Enter NTN No."
+                            : "Auto-filled CNIC / Passport No."
                       }
                       className="uniform-input1"
                       style={{ color: "black" }}
@@ -1132,122 +1142,6 @@ const displayChallanStatus =
                       </span>
                     )}
                   </Col>
-
-                  {/* <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
-                    <span className="Textfield-Label">Upload CNIC .PDF</span>
-                    <div
-                      className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
-                      style={{ height: "100px", marginTop: "4px" }}
-                      onClick={() =>
-                        document.getElementById("nic-upload").click()
-                      }
-                    >
-                      {nicImage ? (
-                        <img
-                          src={URL.createObjectURL(nicImage)}
-                          alt="CNIC"
-                          className="h-full w-full object-contain rounded-lg"
-                        />
-                      ) : (
-                        <>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-8 w-8 text-gray-400 mb-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
-                            />
-                          </svg>
-                          <span className="text-sm text-gray-500">
-                            Click to upload CNIC
-                          </span>
-                        </>
-                      )}
-                      <input
-                        id="nic-upload"
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => setNicImage(e.target.files[0] || null)}
-                      />
-                    </div>
-                    {nicImage && (
-                      <button
-                        type="button"
-                        className="text-xs text-red-500 mt-1"
-                        onClick={() => setNicImage(null)}
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </Col> */}
-
-                  {/* <Col xs={24} sm={12} style={{ marginTop: "8px" }}>
-                    <span className="Textfield-Label">
-                      Upload Transfer Letter .PDF
-                    </span>
-                    <div
-                      className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
-                      style={{ height: "100px", marginTop: "4px" }}
-                      onClick={() =>
-                        document
-                          .getElementById("transfer-letter-upload")
-                          .click()
-                      }
-                    >
-                      {transferLetterImage ? (
-                        <img
-                          src={URL.createObjectURL(transferLetterImage)}
-                          alt="Transfer Letter"
-                          className="h-full w-full object-contain rounded-lg"
-                        />
-                      ) : (
-                        <>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-8 w-8 text-gray-400 mb-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
-                            />
-                          </svg>
-                          <span className="text-sm text-gray-500">
-                            Click to upload Transfer Letter
-                          </span>
-                        </>
-                      )}
-                      <input
-                        id="transfer-letter-upload"
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) =>
-                          setTransferLetterImage(e.target.files[0] || null)
-                        }
-                      />
-                    </div>
-                    {transferLetterImage && (
-                      <button
-                        type="button"
-                        className="text-xs text-red-500 mt-1"
-                        onClick={() => setTransferLetterImage(null)}
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </Col> */}
 
                   <Col xs={24} sm={12} className="relative">
                     <span className="Textfield-Label">
@@ -1343,158 +1237,112 @@ const displayChallanStatus =
                   </Col>
 
                   {/* Upload CNIC PDF */}
-                  <Col xs={24} sm={12}>
-                    <span className="Textfield-Label">Upload CNIC .PDF</span>
+                  <Col xs={24}>
+                    <span className="Textfield-Label">Upload Documents</span>
 
-                    <div
-                      className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
-                      style={{ height: "100px", marginTop: "8px" }}
-                      onClick={() =>
-                        document.getElementById("nic-pdf-upload").click()
-                      }
-                    >
-                      {nicImage ? (
-                        <div className="flex flex-col items-center justify-center">
-                          <span className="text-sm text-gray-700 font-medium">
-                            {nicImage.name}
-                          </span>
-                          <span className="text-xs text-gray-500 mt-1">
-                            Click to change file
-                          </span>
-                        </div>
-                      ) : (
-                        <>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-8 w-8 text-gray-400 mb-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
-                            />
-                          </svg>
-
-                          <span className="text-sm text-gray-500">
-                            Click to upload CNIC
-                          </span>
-                        </>
-                      )}
-
-                      <input
-                        id="nic-pdf-upload"
-                        type="file"
-                        accept="application/pdf"
-                        className="hidden"
-                        onChange={(e) => setNicImage(e.target.files[0] || null)}
-                      />
-                    </div>
-
-                    {nicImage && (
-                      <div style={{ height: "20px", marginTop: "4px" }}>
-                        <button
-                          type="button"
-                          className="text-xs text-red-500"
-                          style={{
-                            visibility: nicImage ? "visible" : "hidden",
-                            padding: 0,
-                          }}
-                          onClick={() => {
-                            setNicImage(null);
-                            document.getElementById("nic-pdf-upload").value =
-                              "";
-                          }}
-                        >
-                          Remove
-                        </button>
+                    <div className="upload-doc-grid">
+                      <div className="upload-doc-header">
+                        <div>Serial #</div>
+                        <div>Select Upload Type</div>
+                        <div>File</div>
+                        <div>Action</div>
                       </div>
-                    )}
-                  </Col>
 
-                  {/* Upload Transfer Letter PDF */}
-                  <Col xs={24} sm={12}>
-                    <span className="Textfield-Label">
-                      UPLOAD TRANSFER LETTER .PDF{" "}
-                    </span>
+                      {uploadedDocs.map((doc, index) => (
+                        <div className="upload-doc-row" key={index}>
+                          <div>{index + 1}</div>
 
-                    <div
-                      className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
-                      style={{ height: "100px", marginTop: "8px" }}
-                      onClick={() =>
-                        document
-                          .getElementById("transfer-letter-pdf-upload")
-                          .click()
-                      }
-                    >
-                      {transferLetterImage ? (
-                        <div className="flex flex-col items-center justify-center">
-                          <span className="text-sm text-gray-700 font-medium">
-                            {transferLetterImage.name}
-                          </span>
-                          <span className="text-xs text-gray-500 mt-1">
-                            Click to change file
-                          </span>
-                        </div>
-                      ) : (
-                        <>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-8 w-8 text-gray-400 mb-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"
+                          <div>
+                            <Select
+                              value={doc.uploadType}
+                              className="w-full"
+                              onChange={(value) => {
+                                const isAlreadySelected = uploadedDocs.some(
+                                  (item, i) =>
+                                    i !== index && item.uploadType === value,
+                                );
+
+                                if (isAlreadySelected) {
+                                  message.error(
+                                    "This upload type is already selected",
+                                  );
+                                  return;
+                                }
+
+                                const updated = [...uploadedDocs];
+                                updated[index].uploadType = value;
+                                setUploadedDocs(updated);
+                              }}
+                              options={[
+                                {
+                                  value: "CNIC_FRONT",
+                                  label: "CNIC Front",
+                                  disabled: uploadedDocs.some(
+                                    (item, i) =>
+                                      i !== index &&
+                                      item.uploadType === "CNIC_FRONT",
+                                  ),
+                                },
+                                {
+                                  value: "CNIC_BACK",
+                                  label: "CNIC Back",
+                                  disabled: uploadedDocs.some(
+                                    (item, i) =>
+                                      i !== index &&
+                                      item.uploadType === "CNIC_BACK",
+                                  ),
+                                },
+                                {
+                                  value: "MIX_DOC",
+                                  label: "Mix Doc",
+                                  disabled: uploadedDocs.some(
+                                    (item, i) =>
+                                      i !== index &&
+                                      item.uploadType === "MIX_DOC",
+                                  ),
+                                },
+                              ]}
                             />
-                          </svg>
+                          </div>
 
-                          <span className="text-sm text-gray-500">
-                            Click to upload Transfer Letter
-                          </span>
-                        </>
-                      )}
+                          <div>
+                            <label className="upload-file-box">
+                              <span>
+                                {doc.file ? doc.file.name : "Choose PDF File"}
+                              </span>
 
-                      <input
-                        id="transfer-letter-pdf-upload"
-                        type="file"
-                        accept="application/pdf"
-                        className="hidden"
-                        onChange={(e) =>
-                          setTransferLetterImage(e.target.files[0] || null)
-                        }
-                      />
+                              <input
+                                type="file"
+                                accept="application/pdf"
+                                hidden
+                                onChange={(e) => {
+                                  const updated = [...uploadedDocs];
+                                  updated[index].file =
+                                    e.target.files[0] || null;
+                                  setUploadedDocs(updated);
+                                }}
+                              />
+                            </label>
+                          </div>
+
+                          <div>
+                            {doc.file && (
+                              <button
+                                type="button"
+                                className="upload-remove-btn"
+                                onClick={() => {
+                                  const updated = [...uploadedDocs];
+                                  updated[index].file = null;
+                                  setUploadedDocs(updated);
+                                }}
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-
-                    {transferLetterImage && (
-                      <div style={{ height: "20px", marginTop: "4px" }}>
-                        <button
-                          type="button"
-                          className="text-xs text-red-500"
-                          style={{
-                            visibility: transferLetterImage
-                              ? "visible"
-                              : "hidden",
-                            padding: 0,
-                          }}
-                          onClick={() => {
-                            setTransferLetterImage(null);
-                            document.getElementById(
-                              "transfer-letter-pdf-upload",
-                            ).value = "";
-                          }}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    )}
                   </Col>
                 </Row>
 
