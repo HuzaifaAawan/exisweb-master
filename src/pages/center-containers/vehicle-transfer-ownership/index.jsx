@@ -23,6 +23,7 @@ const VehicleTransferOwnership = () => {
   const [form] = Form.useForm();
 
   const [showData, setShowData] = useState(false);
+
   const [showPurchaserForm, setShowPurchaserForm] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
@@ -30,7 +31,6 @@ const VehicleTransferOwnership = () => {
   const [showAttention, setShowAttention] = useState(false);
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [noResultMessage, setNoResultMessage] = useState("");
-  
 
   // API Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,22 +49,17 @@ const VehicleTransferOwnership = () => {
   const [email, setEmail] = useState("");
   const [hpaParty, setHpaParty] = useState("");
   const [hpaLetterNo, setHpaLetterNo] = useState("");
-  
-  
 
-  
-  const [presentAddress, setpresentAddress] = useState(""); 
-  const [presentAddressCity, setpresentAddressCity] = useState(""); 
-  const [presentAddressDistrict, setpresentAddressDistrict] = useState(""); 
-  const [permanentAddress, setpermanentAddress] = useState(""); 
-  const [permanentAddressCity, setpermanentAddressCity] = useState(""); 
-  const [permanentAddressDistrict, setpermanentAddressDistrict] = useState(""); 
+  const [presentAddress, setpresentAddress] = useState("");
+  const [presentAddressCity, setpresentAddressCity] = useState("");
+  const [presentAddressDistrict, setpresentAddressDistrict] = useState("");
+  const [permanentAddress, setpermanentAddress] = useState("");
+  const [permanentAddressCity, setpermanentAddressCity] = useState("");
+  const [permanentAddressDistrict, setpermanentAddressDistrict] = useState("");
+  const [purchaserUrduName, setPurchaserUrduName] = useState("");
+  const [fatherUrduName, setFatherUrduName] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [uploadedDocs, setUploadedDocs] = useState([
-    { uploadType: "CNIC_FRONT", file: null },
-    { uploadType: "CNIC_BACK", file: null },
-    { uploadType: "MIX_DOC", file: null },
-  ]);
+  const [uploadedDocs, setUploadedDocs] = useState([]);
   const [cnic, setCnic] = useState("");
   const [purchaserType, setPurchaserType] = useState("INDIVIDUAL");
   const [purchaserIdNo, setPurchaserIdNo] = useState("");
@@ -107,12 +102,12 @@ const VehicleTransferOwnership = () => {
         purchaserType.toUpperCase() === "COMPANY"
           ? "NTN"
           : !biometricNo?.trim()
-          ? purchaserIdType === "PASSPORT"
-            ? "Passport No."
-            : purchaserIdType === "NTN"
-            ? "NTN"
-            : "CNIC"
-          : "CNIC / Passport No.";
+            ? purchaserIdType === "PASSPORT"
+              ? "Passport No."
+              : purchaserIdType === "NTN"
+                ? "NTN"
+                : "CNIC"
+            : "CNIC / Passport No.";
       message.error(`${idLabel} is required`);
       return;
     }
@@ -191,7 +186,7 @@ const VehicleTransferOwnership = () => {
         }
 
         const result = await response.json();
-        
+
         setTotalRecords(parseInt(result.TOTAL_RECORDS) || 0);
         setApiData(result.DATA || []);
       } catch (err) {
@@ -215,11 +210,7 @@ const VehicleTransferOwnership = () => {
     setRegDate(null);
     setEmail("");
     setEmailError("");
-    setUploadedDocs([
-      { uploadType: "CNIC_FRONT", file: null },
-      { uploadType: "CNIC_BACK", file: null },
-      { uploadType: "MIX_DOC", file: null },
-    ]);
+    setUploadedDocs([]);
     setCnic("");
     setCnic("");
     setPurchaserType("INDIVIDUAL");
@@ -244,6 +235,8 @@ const VehicleTransferOwnership = () => {
     setFirstOwnerName("");
     setFirstOwnerFatherName("");
     setFirstOwnerCnic("");
+    setPurchaserUrduName("");
+    setFatherUrduName("");
     setVehicleData(null);
     setLoading(false);
     setError(null);
@@ -272,20 +265,24 @@ const VehicleTransferOwnership = () => {
   };
   const isNtnValue = (value) => {
     const val = String(value || "").trim();
-  
+
     if (!val) return false;
-  
+
     const onlyDigits = val.replace(/\D/g, "");
-  
+
     if (val.includes("-") && onlyDigits.length <= 9) return true;
-  
-    if (onlyDigits.length > 0 && onlyDigits.length !== 13 && onlyDigits.length <= 9) {
+
+    if (
+      onlyDigits.length > 0 &&
+      onlyDigits.length !== 13 &&
+      onlyDigits.length <= 9
+    ) {
       return true;
     }
-  
+
     return false;
   };
-  
+
   const getOwnerIdLabel = (value, ownerType) => {
     const type = String(ownerType || "").toUpperCase();
 
@@ -365,12 +362,10 @@ const VehicleTransferOwnership = () => {
         );
       }
 
-      
       if (String(result?.result || "").toUpperCase() === "NO RESULT") {
         setNoResultMessage(
           "Please provide correct parameters to start application or contact ETO office.",
         );
-        
 
         setShowData(true);
         setShowPurchaserForm(false);
@@ -382,6 +377,10 @@ const VehicleTransferOwnership = () => {
 
       const vehicle = result.vehicle?.[0] || {};
       const bio = result.bio?.[0] || {};
+      setBiometricNo(bio.TRANSACTION_NO || "");
+      setPurchaserUrduName(bio.PURCHASERNAME || "");
+      setFatherUrduName(bio.PURCHASERNAME || "");
+      setBiometricNo(bio.TRANSACTION_NO || "");
 
       setNoResultMessage("");
       console.log("VEHICLE API DATA:", vehicle);
@@ -406,15 +405,14 @@ const VehicleTransferOwnership = () => {
         .toString()
         .toUpperCase();
 
-        const organizationNtn = getValue(
-          bio.PURCHASER_NTN,
-          bio.PURCHASERNTN,
-          bio.NTN,
-          bio.NTN_NO,
-          bio.ORGANIZATION_NTN,
-          bio.ORGANIZATIONNTN,
-        );
-       
+      const organizationNtn = getValue(
+        bio.PURCHASER_NTN,
+        bio.PURCHASERNTN,
+        bio.NTN,
+        bio.NTN_NO,
+        bio.ORGANIZATION_NTN,
+        bio.ORGANIZATIONNTN,
+      );
 
       const individualId = getValue(
         bio.PURCHASERID,
@@ -431,11 +429,11 @@ const VehicleTransferOwnership = () => {
         rawPurchaserType.includes("ORG") ||
         rawPurchaserType.includes("ORGANIZATION");
 
-        const finalPurchaserType = isOrganization ? "COMPANY" : "INDIVIDUAL";
+      const finalPurchaserType = isOrganization ? "COMPANY" : "INDIVIDUAL";
 
-        const finalPurchaserIdNo = isOrganization
-          ? organizationNtn
-          : individualId;
+      const finalPurchaserIdNo = isOrganization
+        ? organizationNtn
+        : individualId;
 
       setPurchaserType(finalPurchaserType);
       setPurchaserIdNo(finalPurchaserIdNo);
@@ -476,35 +474,35 @@ const VehicleTransferOwnership = () => {
         vehicle["F/H/W/O"] ||
         "";
 
-        const currentOwnerCnic =
-          vehicle.CURRENT_OWNER_CNIC ||
-          vehicle.CURRENT_OWNER_NTN ||
-          vehicle.CURRENT_OWNER_CNIC_NO ||
-          vehicle.CURRENT_OWNER_NIC ||
-          vehicle.CURRENT_OWNER_NIC_NO ||
-          vehicle.OWNER_CNIC ||
-          vehicle.OWNER_NTN ||
-          vehicle.OWNER_CNIC_NO ||
-          vehicle.OWNER_NIC ||
-          vehicle.CNIC ||
-          vehicle.NIC ||
-          vehicle.NTN ||
-          vehicle["CURRENT_OWNER_CNIC"] ||
-          vehicle["CURRENT OWNER CNIC"] ||
-          vehicle["CURRENT OWNER NTN"] ||
-          vehicle["CURRENT OWNER CNIC NO"] ||
-          vehicle["OWNER CNIC"] ||
-          vehicle["OWNER NTN"] ||
-          vehicle["CNIC NO"] ||
-          vehicle["NTN"] ||
-          bio.CNIC ||
-          bio.NTN ||
-          bio.OWNER_CNIC ||
-          bio.OWNER_NTN ||
-          bio.CURRENT_OWNER_CNIC ||
-          bio.CURRENT_OWNER_NTN ||
-          "";
-    
+      const currentOwnerCnic =
+        vehicle.CURRENT_OWNER_CNIC ||
+        vehicle.CURRENT_OWNER_NTN ||
+        vehicle.CURRENT_OWNER_CNIC_NO ||
+        vehicle.CURRENT_OWNER_NIC ||
+        vehicle.CURRENT_OWNER_NIC_NO ||
+        vehicle.OWNER_CNIC ||
+        vehicle.OWNER_NTN ||
+        vehicle.OWNER_CNIC_NO ||
+        vehicle.OWNER_NIC ||
+        vehicle.CNIC ||
+        vehicle.NIC ||
+        vehicle.NTN ||
+        vehicle["CURRENT_OWNER_CNIC"] ||
+        vehicle["CURRENT OWNER CNIC"] ||
+        vehicle["CURRENT OWNER NTN"] ||
+        vehicle["CURRENT OWNER CNIC NO"] ||
+        vehicle["OWNER CNIC"] ||
+        vehicle["OWNER NTN"] ||
+        vehicle["CNIC NO"] ||
+        vehicle["NTN"] ||
+        bio.CNIC ||
+        bio.NTN ||
+        bio.OWNER_CNIC ||
+        bio.OWNER_NTN ||
+        bio.CURRENT_OWNER_CNIC ||
+        bio.CURRENT_OWNER_NTN ||
+        "";
+
       // First Owner
       const firstOwner =
         vehicle.FIRST_OWNER_NAME || vehicle["FIRST OWNER NAME"] || "";
@@ -515,19 +513,18 @@ const VehicleTransferOwnership = () => {
         vehicle["FIRST OWNER F/H/W/O"] ||
         "";
 
-        const firstOwnerCnicValue =
-          vehicle.FIRST_OWNER_CNIC ||
-          vehicle.FIRST_OWNER_NTN ||
-          vehicle.FIRST_OWNER_CNIC_NO ||
-          vehicle.FIRST_OWNER_NIC ||
-          vehicle.FIRST_OWNER_NIC_NO ||
-          vehicle["FIRST OWNER CNIC"] ||
-          vehicle["FIRST OWNER NTN"] ||
-          vehicle["FIRST OWNER CNIC NO"] ||
-          vehicle["FIRST OWNER NIC"] ||
-          vehicle["FIRST OWNER NIC NO"] ||
-          "";
-
+      const firstOwnerCnicValue =
+        vehicle.FIRST_OWNER_CNIC ||
+        vehicle.FIRST_OWNER_NTN ||
+        vehicle.FIRST_OWNER_CNIC_NO ||
+        vehicle.FIRST_OWNER_NIC ||
+        vehicle.FIRST_OWNER_NIC_NO ||
+        vehicle["FIRST OWNER CNIC"] ||
+        vehicle["FIRST OWNER NTN"] ||
+        vehicle["FIRST OWNER CNIC NO"] ||
+        vehicle["FIRST OWNER NIC"] ||
+        vehicle["FIRST OWNER NIC NO"] ||
+        "";
 
       setOwnerName(currentOwner);
 
@@ -556,7 +553,9 @@ const VehicleTransferOwnership = () => {
   const isNtnField =
     purchaserType.toUpperCase() === "COMPANY" ||
     ["ORG", "ORGANIZATION", "COMPANY"].some((t) =>
-      String(vehicleData?.CURRENT_OWNER_TYPE || "").toUpperCase().includes(t),
+      String(vehicleData?.CURRENT_OWNER_TYPE || "")
+        .toUpperCase()
+        .includes(t),
     );
   const displayChallanNo =
     challanData?.VCT_CHALLAN_NO ||
@@ -564,8 +563,8 @@ const VehicleTransferOwnership = () => {
     challanData?.CHALLANNO ||
     "-";
 
-const displayChallanStatus =
-  challanData?.CHALLAN_STATUS || challanData?.STATUS || "-";
+  const displayChallanStatus =
+    challanData?.CHALLAN_STATUS || challanData?.STATUS || "-";
 
   return (
     <div
@@ -839,12 +838,14 @@ const displayChallanStatus =
                     Biometric Verification Tracking Number
                   </label>
                   <Input
-                    placeholder="e.g., 1234567890"
+                    placeholder="Biometric number will be fetched automatically"
                     value={biometricNo}
-                    onChange={(e) =>
-                      setBiometricNo(e.target.value.toUpperCase())
-                    }
+                    readOnly
                     className="w-full"
+                    style={{
+                      backgroundColor: "#f5f5f5",
+                      cursor: "not-allowed",
+                    }}
                   />
                 </Col>
 
@@ -1029,35 +1030,7 @@ const displayChallanStatus =
 
               <div style={{ padding: "0 24px" }}>
                 <Row gutter={[16, 16]}>
-                  <Col xs={24} sm={8}>
-                    <span className="Dropdown-Label Textfield-Label">
-                      Purchaser Name <span style={{ color: "red" }}>*</span>
-                    </span>
-
-                    <Input
-                      placeholder="Enter Purchaser Name"
-                      className="uniform-input1"
-                      value={purchaserName}
-                      onChange={(e) =>
-                        setPurchaserName(e.target.value.toUpperCase())
-                      }
-                    />
-                  </Col>
-
-                  <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">
-                      F/H/W/O Name <span style={{ color: "red" }}>*</span>
-                    </span>
-                    <UppercaseInput
-                      value={fatherName}
-                      onChange={setFatherName}
-                      placeholder="Enter Father Name"
-                      className="uniform-input1"
-                      maxLength={32}
-                    />
-                  </Col>
-
-                  <Col xs={24} sm={8}>
+                  <Col xs={24}>
                     <span
                       className="Textfield-Label"
                       style={{ color: "black" }}
@@ -1079,19 +1052,111 @@ const displayChallanStatus =
                       readOnly={!!biometricNo?.trim() && !isNtnField}
                       onChange={
                         !biometricNo?.trim() || isNtnField
-                          ? (e) => setPurchaserIdNo(e.target.value)
+                          ? (e) => {
+                              setPurchaserIdNo(e.target.value);
+                              setCnic(e.target.value);
+                            }
                           : undefined
                       }
                       placeholder={
                         !biometricNo?.trim()
-                          ? `Enter ${purchaserIdType === "PASSPORT" ? "Passport No." : purchaserIdType === "NTN" ? "NTN No." : "CNIC No."}`
+                          ? `Enter ${
+                              purchaserIdType === "PASSPORT"
+                                ? "Passport No."
+                                : purchaserIdType === "NTN"
+                                  ? "NTN No."
+                                  : "CNIC No."
+                            }`
                           : isNtnField
                             ? "Enter NTN No."
                             : "Auto-filled CNIC / Passport No."
                       }
                       className="uniform-input1"
-                      style={{ color: "black" }}
+                      style={{
+                        color: "black",
+                        backgroundColor:
+                          !!biometricNo?.trim() && !isNtnField
+                            ? "#f5f5f5"
+                            : "#fff",
+                        cursor:
+                          !!biometricNo?.trim() && !isNtnField
+                            ? "not-allowed"
+                            : "text",
+                      }}
                     />
+                  </Col>
+
+                  <Col xs={24}>
+                    <Row gutter={[16, 16]}>
+                      <Col xs={24} sm={12}>
+                        <span className="Dropdown-Label Textfield-Label">
+                          Purchaser Name <span style={{ color: "red" }}>*</span>
+                        </span>
+
+                        <Input
+                          placeholder="Enter Purchaser Name"
+                          className="uniform-input1"
+                          value={purchaserName}
+                          onChange={(e) =>
+                            setPurchaserName(e.target.value.toUpperCase())
+                          }
+                        />
+                      </Col>
+
+                      <Col xs={24} sm={12}>
+                        <span className="Dropdown-Label Textfield-Label">
+                          Purchaser Name
+                        </span>
+
+                        <Input
+                          placeholder="Fetched Urdu Name"
+                          className="uniform-input1"
+                          value={purchaserUrduName}
+                          readOnly
+                          style={{
+                            backgroundColor: "#f5f5f5",
+                            cursor: "not-allowed",
+                            direction: "rtl",
+                            textAlign: "right",
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+
+                  <Col xs={24}>
+                    <Row gutter={[16, 16]}>
+                      <Col xs={24} sm={12}>
+                        <span className="Textfield-Label">
+                          F/H/W/O Name <span style={{ color: "red" }}>*</span>
+                        </span>
+
+                        <UppercaseInput
+                          value={fatherName}
+                          onChange={setFatherName}
+                          placeholder="Enter Father Name"
+                          className="uniform-input1"
+                          maxLength={32}
+                        />
+                      </Col>
+
+                      <Col xs={24} sm={12}>
+                        <span className="Textfield-Label">F/H/W/O Name</span>
+
+                        <Input
+                          value={fatherUrduName}
+                          readOnly
+                          placeholder="Fetched Urdu Father Name"
+                          className="uniform-input1"
+                          style={{
+                            backgroundColor: "#f5f5f5",
+                            cursor: "not-allowed",
+                            direction: "rtl",
+                            textAlign: "right",
+                          }}
+                        />
+                      </Col>
+                    </Row>
                   </Col>
 
                   <Col xs={24} sm={8}>
@@ -1238,110 +1303,113 @@ const displayChallanStatus =
 
                   {/* Upload CNIC PDF */}
                   <Col xs={24}>
-                    <span className="Textfield-Label">Upload Documents</span>
-
-                    <div className="upload-doc-grid">
-                      <div className="upload-doc-header">
-                        <div>Serial #</div>
-                        <div>Select Upload Type</div>
-                        <div>File</div>
-                        <div>Action</div>
+                    <div className="upload-doc-section-card">
+                      <div className="upload-doc-section-header">
+                        <h3>Upload Documents</h3>
+                        <p>
+                          Please upload the required documents in PDF or JPEG
+                          format.
+                        </p>
                       </div>
 
-                      {uploadedDocs.map((doc, index) => (
-                        <div className="upload-doc-row" key={index}>
-                          <div>{index + 1}</div>
+                      <div className="upload-doc-grid">
+                        <div className="upload-doc-header">
+                          <div>Serial #</div>
+                          <div>Select Upload Type</div>
+                          <div>File</div>
+                          <div>Action</div>
+                        </div>
 
-                          <div>
-                            <Select
-                              value={doc.uploadType}
-                              className="w-full"
-                              onChange={(value) => {
-                                const isAlreadySelected = uploadedDocs.some(
-                                  (item, i) =>
-                                    i !== index && item.uploadType === value,
-                                );
+                        {uploadedDocs.map((doc, index) => (
+                          <div className="upload-doc-row" key={index}>
+                            <div>{index + 1}</div>
 
-                                if (isAlreadySelected) {
-                                  message.error(
-                                    "This upload type is already selected",
-                                  );
-                                  return;
-                                }
+                            <div>
+                              <label className="add-doc-btn">
+                                + Add File
+                                <input
+                                  type="file"
+                                  accept="application/pdf,image/jpeg,image/jpg"
+                                  hidden
+                                  onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (!file) return;
 
-                                const updated = [...uploadedDocs];
-                                updated[index].uploadType = value;
-                                setUploadedDocs(updated);
-                              }}
-                              options={[
-                                {
-                                  value: "CNIC_FRONT",
-                                  label: "CNIC Front",
-                                  disabled: uploadedDocs.some(
-                                    (item, i) =>
-                                      i !== index &&
-                                      item.uploadType === "CNIC_FRONT",
-                                  ),
-                                },
-                                {
-                                  value: "CNIC_BACK",
-                                  label: "CNIC Back",
-                                  disabled: uploadedDocs.some(
-                                    (item, i) =>
-                                      i !== index &&
-                                      item.uploadType === "CNIC_BACK",
-                                  ),
-                                },
-                                {
-                                  value: "MIX_DOC",
-                                  label: "Mix Doc",
-                                  disabled: uploadedDocs.some(
-                                    (item, i) =>
-                                      i !== index &&
-                                      item.uploadType === "MIX_DOC",
-                                  ),
-                                },
-                              ]}
-                            />
-                          </div>
+                                    const allowedTypes = [
+                                      "application/pdf",
+                                      "image/jpeg",
+                                    ];
 
-                          <div>
-                            <label className="upload-file-box">
-                              <span>
-                                {doc.file ? doc.file.name : "Choose PDF File"}
-                              </span>
+                                    if (!allowedTypes.includes(file.type)) {
+                                      message.error(
+                                        "Only PDF and JPEG files are allowed",
+                                      );
+                                      return;
+                                    }
 
-                              <input
-                                type="file"
-                                accept="application/pdf"
-                                hidden
-                                onChange={(e) => {
-                                  const updated = [...uploadedDocs];
-                                  updated[index].file =
-                                    e.target.files[0] || null;
-                                  setUploadedDocs(updated);
-                                }}
-                              />
-                            </label>
-                          </div>
+                                    const updated = [...uploadedDocs];
+                                    updated[index].file = file;
+                                    setUploadedDocs(updated);
+                                  }}
+                                />
+                              </label>
+                            </div>
 
-                          <div>
-                            {doc.file && (
+                            <div className="uploaded-file-name">
+                              {doc.file?.name || "No file selected"}
+                            </div>
+
+                            <div>
                               <button
                                 type="button"
                                 className="upload-remove-btn"
                                 onClick={() => {
-                                  const updated = [...uploadedDocs];
-                                  updated[index].file = null;
+                                  const updated = uploadedDocs.filter(
+                                    (_, i) => i !== index,
+                                  );
                                   setUploadedDocs(updated);
                                 }}
                               >
-                                Remove
+                                Delete
                               </button>
-                            )}
+                            </div>
                           </div>
+                        ))}
+
+                        <div className="upload-doc-add-row">
+                          <div></div>
+
+                          <label className="add-main-doc-btn">
+                            + Add File
+                            <input
+                              type="file"
+                              accept="application/pdf,image/jpeg,image/jpg"
+                              hidden
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (!file) return;
+
+                                const allowedTypes = [
+                                  "application/pdf",
+                                  "image/jpeg",
+                                ];
+
+                                if (!allowedTypes.includes(file.type)) {
+                                  message.error(
+                                    "Only PDF and JPEG files are allowed",
+                                  );
+                                  return;
+                                }
+
+                                setUploadedDocs((prev) => [...prev, { file }]);
+                              }}
+                            />
+                          </label>
+
+                          <div></div>
+                          <div></div>
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </Col>
                 </Row>
