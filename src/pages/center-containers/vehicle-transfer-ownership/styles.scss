@@ -1267,76 +1267,15 @@
   font-size: 13px;
   line-height: 1.5;
 }
-.upload-doc-header,
-.upload-doc-row {
-  display: grid;
-  grid-template-columns: 120px 1.2fr 2fr 120px;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 24px;
-}
-
-.upload-doc-row {
-  min-height: 76px;
-  border-bottom: 1px solid #eeeeee;
-}
-
-.upload-doc-add-row {
-  display: grid;
-  grid-template-columns: 120px 1.2fr 2.9fr 2500px;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 24px;
-}
-
-.add-doc-btn,
-.add-main-doc-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 120px;
-  
-  height: 40px;
-  padding: 0 16px;
-  border: 1px dashed #1677ff;
-  border-radius: 8px;
-  color: #1677ff;
-  background: #f0f7ff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.add-doc-btn:hover,
-.add-main-doc-btn:hover {
-  background: #e6f4ff;
-  
-}
-
-.uploaded-file-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  word-break: break-word;
-}
-
-.upload-remove-btn {
-  border: none;
-  background: #ff4d4f;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-}
 .upload-doc-section-card {
   width: 100%;
   margin-top: 24px;
   padding: 22px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #d9e2ec;
   border-radius: 16px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
 }
 
 .upload-doc-section-header {
@@ -1353,7 +1292,86 @@
 }
 
 .upload-doc-section-header p {
-  margin: 6px 0 0 0;
+  margin: 6px 0 0;
   font-size: 13px;
   color: #6b7280;
+}
+
+.upload-doc-grid {
+  width: 100%;
+  min-width: 700px;
+}
+
+.upload-doc-header,
+.upload-doc-row,
+.upload-doc-add-row {
+  display: grid;
+  grid-template-columns: 120px 220px minmax(280px, 1fr) 140px;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.upload-doc-header {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.add-doc-btn,
+.add-main-doc-btn {
+  width: 190px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #1677ff;
+  border-radius: 8px;
+  color: #1677ff;
+  background: #f0f7ff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-doc-btn:hover,
+.add-main-doc-btn:hover {
+  background: #e6f4ff;
+}
+
+.uploaded-file-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+
+.upload-remove-btn {
+  height: 44px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 8px;
+  background: #ff4d4f;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .upload-doc-grid {
+    min-width: 650px;
+  }
+
+  .upload-doc-header,
+  .upload-doc-row,
+  .upload-doc-add-row {
+    grid-template-columns: 90px 180px minmax(220px, 1fr) 120px;
+    padding: 14px;
+  }
+
+  .add-doc-btn,
+  .add-main-doc-btn {
+    width: 150px;
+  }
 }

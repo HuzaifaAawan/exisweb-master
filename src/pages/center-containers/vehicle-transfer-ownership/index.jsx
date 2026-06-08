@@ -1334,6 +1334,21 @@ const VehicleTransferOwnership = () => {
                                   onChange={(e) => {
                                     const file = e.target.files[0];
                                     if (!file) return;
+                                    const isDuplicate = uploadedDocs.some(
+                                      (item, i) =>
+                                        i !== index &&
+                                        item.file &&
+                                        item.file.name === file.name &&
+                                        item.file.size === file.size,
+                                    );
+
+                                    if (isDuplicate) {
+                                      message.error(
+                                        "This file is already uploaded",
+                                      );
+                                      e.target.value = "";
+                                      return;
+                                    }
 
                                     const allowedTypes = [
                                       "application/pdf",
@@ -1350,6 +1365,7 @@ const VehicleTransferOwnership = () => {
                                     const updated = [...uploadedDocs];
                                     updated[index].file = file;
                                     setUploadedDocs(updated);
+                                    e.target.value = "";
                                   }}
                                 />
                               </label>
@@ -1389,6 +1405,21 @@ const VehicleTransferOwnership = () => {
                                 const file = e.target.files[0];
                                 if (!file) return;
 
+                                const isDuplicate = uploadedDocs.some(
+                                  (item) =>
+                                    item.file &&
+                                    item.file.name === file.name &&
+                                    item.file.size === file.size,
+                                );
+
+                                if (isDuplicate) {
+                                  message.error(
+                                    "This file is already uploaded",
+                                  );
+                                  e.target.value = "";
+                                  return;
+                                }
+
                                 const allowedTypes = [
                                   "application/pdf",
                                   "image/jpeg",
@@ -1398,10 +1429,12 @@ const VehicleTransferOwnership = () => {
                                   message.error(
                                     "Only PDF and JPEG files are allowed",
                                   );
+                                  e.target.value = "";
                                   return;
                                 }
 
                                 setUploadedDocs((prev) => [...prev, { file }]);
+                                e.target.value = "";
                               }}
                             />
                           </label>
