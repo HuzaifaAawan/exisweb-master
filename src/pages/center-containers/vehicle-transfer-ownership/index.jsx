@@ -101,6 +101,21 @@ const VehicleTransferOwnership = () => {
   const getCnicDigits = (value) => {
     return String(value || "").replace(/\D/g, "");
   };
+  const formatPhoneForPayload = (value) => {
+    const digits = String(value || "").replace(/\D/g, "");
+
+    if (!digits) return "";
+
+    if (digits.startsWith("92")) {
+      return `+92-${digits.slice(2)}`;
+    }
+
+    if (digits.startsWith("0")) {
+      return `+92-${digits.slice(1)}`;
+    }
+
+    return `+92-${digits}`;
+  };
   const handlePurchaserNext = () => {
     if (!purchaserName?.trim()) {
       message.error("Purchaser Name is required");
@@ -1556,8 +1571,10 @@ const VehicleTransferOwnership = () => {
                                   : "",
                               PURCHASER_NAME: purchaserName,
                               PURCHASER_FATHER_NAME: fatherName,
-                              PURCHASER_CONTACT_NUMBER: contactNumber,
-                              PURCHASER_CONTACT_NUMBER2: otherContactNumber,
+                              PURCHASER_CONTACT_NUMBER:
+                                formatPhoneForPayload(contactNumber),
+                              PURCHASER_CONTACT_NUMBER2:
+                                formatPhoneForPayload(otherContactNumber),
                               PURCHASER_EMAIL: email,
                               PURCHASER_TEMP_ADDRESS: tempAddress,
                               PURCHASER_TEMP_CITY: presentAddressCity,
