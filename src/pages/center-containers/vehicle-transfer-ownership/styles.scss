@@ -1288,18 +1288,6 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
-.upload-doc-section-header h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: #04544f;
-}
-
-.upload-doc-section-header p {
-  margin: 6px 0 0;
-  font-size: 13px;
-  color: #6b7280;
-}
 
 .upload-doc-grid {
   width: 100%;
@@ -1310,7 +1298,7 @@
 .upload-doc-row,
 .upload-doc-add-row {
   display: grid;
-  grid-template-columns: 120px minmax(280px, 1fr) 220px 140px;
+  grid-template-columns: 120px minmax(280px, 1fr) 220px 80px;
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
@@ -1390,7 +1378,7 @@
   .upload-doc-header,
   .upload-doc-row,
   .upload-doc-add-row {
-    grid-template-columns: 90px minmax(220px, 1fr) 180px 120px;
+    grid-template-columns: 90px minmax(220px, 1fr) 180px 70px;
     padding: 14px;
   }
 
