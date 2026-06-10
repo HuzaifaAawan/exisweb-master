@@ -10,6 +10,7 @@ import VehicleCardPreview from "./VehicleCardPreview";
 import { LabelDatePicker } from "../../../components/common/label-date-picker/index.js";
 import AttentionModal from "../../../components/attention-modal";
 import { Row, Col, Input, Form, Switch, Radio, Select } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import UppercaseInput, {
   DistrictDropdowns,
 } from "../../../components/CapitalizedInput.jsx";
@@ -616,81 +617,79 @@ const VehicleTransferOwnership = () => {
             </div>
           </div>
 
-          <div className="request-table-wrapper">
-            <table className="request-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Application Number</th>
-                  <th>Application Date</th>
-                  <th>Process Name</th>
-                  <th>Biometric Tracking ID</th>
-                  <th>Biometric Date</th>
-                  <th>Vehicle Reg No.</th>
-                  <th>Challan No.</th>
-                  <th>Challan Status</th>
-                  <th>Challan Payment Date</th>
-                  <th>Application Status</th>
-                </tr>
-              </thead>
+          {!apiLoading && !apiError && apiData.length === 0 ? (
+            <div className="request-empty-state">
+              <div className="request-empty-icon">🗂️</div>
+              <p>No Transfer of Ownership Applications Found.</p>
+              <span>Request a New Transfer to view details</span>
+            </div>
+          ) : (
+            <div className="request-table-wrapper">
+              <table className="request-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Application Number</th>
+                    <th>Application Date</th>
+                    <th>Process Name</th>
+                    <th>Biometric Tracking ID</th>
+                    <th>Biometric Date</th>
+                    <th>Vehicle Reg No.</th>
+                    <th>Challan No.</th>
+                    <th>Challan Status</th>
+                    <th>Challan Payment Date</th>
+                    <th>Application Status</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {apiLoading ? (
-                  <tr>
-                    <td
-                      colSpan="11"
-                      style={{ textAlign: "center", padding: "20px" }}
-                    >
-                      Loading...
-                    </td>
-                  </tr>
-                ) : apiError ? (
-                  <tr>
-                    <td
-                      colSpan="11"
-                      style={{
-                        textAlign: "center",
-                        padding: "20px",
-                        color: "red",
-                      }}
-                    >
-                      {apiError}
-                    </td>
-                  </tr>
-                ) : apiData.length > 0 ? (
-                  apiData.map((item, index) => (
-                    <tr key={item.APPLICATION_NO || index}>
-                      <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                      <td>{item.APPLICATION_NO || "-"}</td>
-                      <td>{item.APPLICATION_DATE || "-"}</td>
-                      <td>{item["PROCESS NAME"] || "-"}</td>
-                      <td>{item.BIO_TRACKING_ID || "-"}</td>
-                      <td>{item.BIO_DATE || "-"}</td>
-                      <td>{item.VEH_REG_NO || "-"}</td>
-                      <td>{item.CHALLAN_NO || "-"}</td>
-                      <td>{item.CHALLAN_STATUS || "-"}</td>
-                      <td>{item.CHALLAN_PAYMENT_DATE || "-"}</td>
-                      <td>
-                        <span className="status-badge">
-                          {item.APPLICATION_STATUS || "-"}
-                        </span>
+                <tbody>
+                  {apiLoading ? (
+                    <tr>
+                      <td
+                        colSpan="11"
+                        style={{ textAlign: "center", padding: "20px" }}
+                      >
+                        Loading...
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="11">
-                      <div className="request-empty-state">
-                        <div className="request-empty-icon">🗂️</div>
-                        <p>No Transfer of Ownership Applications Found.</p>
-                        <span>Request a New Transfer to view details</span>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  ) : apiError ? (
+                    <tr>
+                      <td
+                        colSpan="11"
+                        style={{
+                          textAlign: "center",
+                          padding: "20px",
+                          color: "red",
+                        }}
+                      >
+                        {apiError}
+                      </td>
+                    </tr>
+                  ) : (
+                    apiData.map((item, index) => (
+                      <tr key={item.APPLICATION_NO || index}>
+                        <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                        <td>{item.APPLICATION_NO || "-"}</td>
+                        <td>{item.APPLICATION_DATE || "-"}</td>
+                        <td>{item["PROCESS NAME"] || "-"}</td>
+                        <td>{item.BIO_TRACKING_ID || "-"}</td>
+                        <td>{item.BIO_DATE || "-"}</td>
+                        <td>{item.VEH_REG_NO || "-"}</td>
+                        <td>{item.CHALLAN_NO || "-"}</td>
+                        <td>{item.CHALLAN_STATUS || "-"}</td>
+                        <td>{item.CHALLAN_PAYMENT_DATE || "-"}</td>
+                        <td>
+                          <span className="status-badge">
+                            {item.APPLICATION_STATUS || "-"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
           <div className="request-table-footer">
             <div className="request-page-size">
               {totalRecords} Records Found | {pageSize} Per Page
@@ -1305,144 +1304,113 @@ const VehicleTransferOwnership = () => {
                   <Col xs={24}>
                     <div className="upload-doc-section-card">
                       <div className="upload-doc-section-header">
-                        <h3>Upload Documents</h3>
-                        <p>
-                          Please upload the required documents in PDF or JPEG
-                          format.
-                        </p>
-                      </div>
-
-                      <div className="upload-doc-grid">
-                        <div className="upload-doc-header">
-                          <div>Serial #</div>
-                          <div>Select Upload Type</div>
-                          <div>File</div>
-                          <div>Action</div>
+                        <div>
+                          <h3>Upload Documents</h3>
+                          <p>
+                            Please upload the required documents in PDF or JPEG
+                            format.
+                          </p>
                         </div>
 
-                        {uploadedDocs.map((doc, index) => (
-                          <div className="upload-doc-row" key={index}>
-                            <div>{index + 1}</div>
+                        <label className="add-main-doc-btn">
+                          + Add File
+                          <input
+                            type="file"
+                            accept="application/pdf,image/jpeg,image/jpg"
+                            hidden
+                            onChange={(e) => {
+                              const file = e.target.files[0];
+                              if (!file) return;
 
-                            <div>
-                              <label className="add-doc-btn">
-                                + Add File
-                                <input
-                                  type="file"
-                                  accept="application/pdf,image/jpeg,image/jpg"
-                                  hidden
-                                  onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (!file) return;
-                                    const isDuplicate = uploadedDocs.some(
-                                      (item, i) =>
-                                        i !== index &&
-                                        item.file &&
-                                        item.file.name === file.name &&
-                                        item.file.size === file.size,
-                                    );
+                              const isDuplicate = uploadedDocs.some(
+                                (item) =>
+                                  item.file &&
+                                  item.file.name === file.name &&
+                                  item.file.size === file.size,
+                              );
 
-                                    if (isDuplicate) {
-                                      message.error(
-                                        "This file is already uploaded",
-                                      );
-                                      e.target.value = "";
-                                      return;
-                                    }
-
-                                    const allowedTypes = [
-                                      "application/pdf",
-                                      "image/jpeg",
-                                    ];
-
-                                    if (!allowedTypes.includes(file.type)) {
-                                      message.error(
-                                        "Only PDF and JPEG files are allowed",
-                                      );
-                                      return;
-                                    }
-
-                                    const updated = [...uploadedDocs];
-                                    updated[index].file = file;
-                                    setUploadedDocs(updated);
-                                    e.target.value = "";
-                                  }}
-                                />
-                              </label>
-                            </div>
-
-                            <div className="uploaded-file-name">
-                              {doc.file?.name || "No file selected"}
-                            </div>
-
-                            <div>
-                              <button
-                                type="button"
-                                className="upload-remove-btn"
-                                onClick={() => {
-                                  const updated = uploadedDocs.filter(
-                                    (_, i) => i !== index,
-                                  );
-                                  setUploadedDocs(updated);
-                                }}
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-
-                        <div className="upload-doc-add-row">
-                          <div></div>
-
-                          <label className="add-main-doc-btn">
-                            + Add File
-                            <input
-                              type="file"
-                              accept="application/pdf,image/jpeg,image/jpg"
-                              hidden
-                              onChange={(e) => {
-                                const file = e.target.files[0];
-                                if (!file) return;
-
-                                const isDuplicate = uploadedDocs.some(
-                                  (item) =>
-                                    item.file &&
-                                    item.file.name === file.name &&
-                                    item.file.size === file.size,
-                                );
-
-                                if (isDuplicate) {
-                                  message.error(
-                                    "This file is already uploaded",
-                                  );
-                                  e.target.value = "";
-                                  return;
-                                }
-
-                                const allowedTypes = [
-                                  "application/pdf",
-                                  "image/jpeg",
-                                ];
-
-                                if (!allowedTypes.includes(file.type)) {
-                                  message.error(
-                                    "Only PDF and JPEG files are allowed",
-                                  );
-                                  e.target.value = "";
-                                  return;
-                                }
-
-                                setUploadedDocs((prev) => [...prev, { file }]);
+                              if (isDuplicate) {
+                                message.error("This file is already uploaded");
                                 e.target.value = "";
-                              }}
-                            />
-                          </label>
+                                return;
+                              }
 
-                          <div></div>
-                          <div></div>
-                        </div>
+                              const allowedTypes = [
+                                "application/pdf",
+                                "image/jpeg",
+                              ];
+
+                              if (!allowedTypes.includes(file.type)) {
+                                message.error(
+                                  "Only PDF and JPEG files are allowed",
+                                );
+                                e.target.value = "";
+                                return;
+                              }
+
+                              setUploadedDocs((prev) => [...prev, { file, type: "" }]);
+                              e.target.value = "";
+                            }}
+                          />
+                        </label>
                       </div>
+
+                      {uploadedDocs.length > 0 && (
+                        <div className="upload-doc-grid">
+                          <div className="upload-doc-header">
+                            <div>Serial #</div>
+                            <div>File</div>
+                            <div>Upload Type</div>
+                            <div>Action</div>
+                          </div>
+
+                          {uploadedDocs.map((doc, index) => (
+                            <div className="upload-doc-row" key={index}>
+                              <div>{index + 1}</div>
+
+                              <div className="uploaded-file-name">
+                                {doc.file?.name || "No file selected"}
+                              </div>
+
+                              <div>
+                                <Select
+                                  value={doc.type || undefined}
+                                  placeholder="Select type"
+                                  style={{ width: "100%" }}
+                                  onChange={(val) => {
+                                    const updated = [...uploadedDocs];
+                                    updated[index].type = val;
+                                    setUploadedDocs(updated);
+                                  }}
+                                  options={[
+                                    { value: "CNIC Front", label: "CNIC Front" },
+                                    { value: "CNIC Back", label: "CNIC Back" },
+                                    { value: "Transfer Letter", label: "Transfer Letter" },
+                                    { value: "Affidavit", label: "Affidavit" },
+                                    { value: "NOC Issued from Bank", label: "NOC Issued from Bank" },
+                                    { value: "NOC Issued from Seller Organization", label: "NOC Issued from Seller Organization" },
+                                  ]}
+                                />
+                              </div>
+
+                              <div>
+                                <button
+                                  type="button"
+                                  className="upload-remove-btn"
+                                  onClick={() => {
+                                    const updated = uploadedDocs.filter(
+                                      (_, i) => i !== index,
+                                    );
+                                    setUploadedDocs(updated);
+                                  }}
+                                >
+                                  <DeleteOutlined />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>

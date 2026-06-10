@@ -1279,6 +1279,10 @@
 }
 
 .upload-doc-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 18px;
   padding-bottom: 14px;
   border-bottom: 1px solid #e5e7eb;
@@ -1306,7 +1310,7 @@
 .upload-doc-row,
 .upload-doc-add-row {
   display: grid;
-  grid-template-columns: 120px 220px minmax(280px, 1fr) 140px;
+  grid-template-columns: 120px minmax(280px, 1fr) 220px 140px;
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
@@ -1318,7 +1322,6 @@
   font-weight: 700;
 }
 
-.add-doc-btn,
 .add-main-doc-btn {
   width: 190px;
   height: 44px;
@@ -1334,17 +1337,38 @@
   cursor: pointer;
 }
 
-.add-doc-btn:hover,
 .add-main-doc-btn:hover {
   background: #e6f4ff;
 }
 
 .uploaded-file-name {
+  display: flex;
+  align-items: center;
   font-size: 14px;
   font-weight: 600;
   color: #333;
   overflow-wrap: anywhere;
   line-height: 1.4;
+}
+
+.upload-doc-row > div {
+  display: flex;
+  align-items: center;
+}
+
+.upload-doc-row .ant-select {
+  width: 100%;
+}
+
+.upload-doc-row .ant-select .ant-select-selector {
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.upload-doc-row .ant-select .ant-select-selection-item,
+.upload-doc-row .ant-select .ant-select-selection-placeholder {
+  line-height: 44px !important;
 }
 
 .upload-remove-btn {
@@ -1366,11 +1390,10 @@
   .upload-doc-header,
   .upload-doc-row,
   .upload-doc-add-row {
-    grid-template-columns: 90px 180px minmax(220px, 1fr) 120px;
+    grid-template-columns: 90px minmax(220px, 1fr) 180px 120px;
     padding: 14px;
   }
 
-  .add-doc-btn,
   .add-main-doc-btn {
     width: 150px;
   }
