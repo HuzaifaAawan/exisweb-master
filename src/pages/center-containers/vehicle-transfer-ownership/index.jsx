@@ -981,24 +981,26 @@ const VehicleTransferOwnership = () => {
           {showPurchaserForm && !showPreview && (
             <div className="Frame-1000009526">
               <div style={{ padding: "0 24px" }}>
-                <span className="Profiles-Manager-form2-h1">
-                  Purchaser Information{" "}
-                  {purchaserType ? `(${purchaserType.toUpperCase()})` : ""}
-                </span>
-                <span
-                  className="Profiles-Manager-form2-h2"
-                  style={{ display: "block", marginTop: "6px" }}
-                >
-                  Please provide the details of the purchaser to whom the
-                  ownership is being transferred
-                </span>
+                <div className="mb-1">
+                  <span className="block font-bold text-lg">
+                    Purchaser Information{" "}
+                    {purchaserType ? `(${purchaserType.toUpperCase()})` : ""}
+                  </span>
+                </div>
+
+                <div className="mb-3">
+                  <span className="block text-gray-600 text-sm">
+                    Please provide the details of the purchaser to whom the
+                    ownership is being transferred
+                  </span>
+                </div>
 
                 <hr
                   style={{
-                    marginTop: "25px",
-                    marginBottom: "18px",
                     border: "none",
                     borderTop: "1px solid #e3e3e3",
+                    width: "80%",
+                    margin: "0 auto",
                   }}
                 />
 
@@ -1029,7 +1031,7 @@ const VehicleTransferOwnership = () => {
 
               <div style={{ padding: "0 24px" }}>
                 <Row gutter={[16, 16]}>
-                  <Col xs={24}>
+                  <Col xs={24} sm={12}>
                     <span
                       className="Textfield-Label"
                       style={{ color: "black" }}
@@ -1085,105 +1087,8 @@ const VehicleTransferOwnership = () => {
                     />
                   </Col>
 
-                  <Col xs={24}>
-                    <Row gutter={[16, 16]}>
-                      <Col xs={24} sm={12}>
-                        <span className="Dropdown-Label Textfield-Label">
-                          Purchaser Name <span style={{ color: "red" }}>*</span>
-                        </span>
-
-                        <Input
-                          placeholder="Enter Purchaser Name"
-                          className="uniform-input1"
-                          value={purchaserName}
-                          onChange={(e) =>
-                            setPurchaserName(e.target.value.toUpperCase())
-                          }
-                        />
-                      </Col>
-
-                      <Col xs={24} sm={12}>
-                        <span className="Dropdown-Label Textfield-Label">
-                          Purchaser Name
-                        </span>
-
-                        <Input
-                          placeholder="Fetched Urdu Name"
-                          className="uniform-input1"
-                          value={purchaserUrduName}
-                          readOnly
-                          style={{
-                            backgroundColor: "#f5f5f5",
-                            cursor: "not-allowed",
-                            direction: "rtl",
-                            textAlign: "right",
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                  </Col>
-
-                  <Col xs={24}>
-                    <Row gutter={[16, 16]}>
-                      <Col xs={24} sm={12}>
-                        <span className="Textfield-Label">
-                          F/H/W/O Name <span style={{ color: "red" }}>*</span>
-                        </span>
-
-                        <UppercaseInput
-                          value={fatherName}
-                          onChange={setFatherName}
-                          placeholder="Enter Father Name"
-                          className="uniform-input1"
-                          maxLength={32}
-                        />
-                      </Col>
-
-                      <Col xs={24} sm={12}>
-                        <span className="Textfield-Label">F/H/W/O Name</span>
-
-                        <Input
-                          value={fatherUrduName}
-                          readOnly
-                          placeholder="Fetched Urdu Father Name"
-                          className="uniform-input1"
-                          style={{
-                            backgroundColor: "#f5f5f5",
-                            cursor: "not-allowed",
-                            direction: "rtl",
-                            textAlign: "right",
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                  </Col>
-
-                  <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">
-                      Mobile Number <span style={{ color: "red" }}>*</span>
-                    </span>
-                    <UppercaseInput
-                      value={contactNumber}
-                      onChange={setContactNumber}
-                      isPhone
-                      placeholder="Enter Contact Number"
-                    />
-                  </Col>
-
-                  <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">
-                      Other Mobile Number{" "}
-                    </span>
-                    <UppercaseInput
-                      value={otherContactNumber}
-                      onChange={setOtherContactNumber}
-                      isPhone
-                      placeholder="Enter Other Contact Number"
-                    />
-                  </Col>
-
-                  <Col xs={24} sm={8}>
-                    <span className="Textfield-Label">Email Address </span>
+                  <Col xs={24} sm={12}>
+                    <span className="Textfield-Label">Email Address</span>
                     <Input
                       type="email"
                       value={email}
@@ -1207,6 +1112,63 @@ const VehicleTransferOwnership = () => {
                     )}
                   </Col>
 
+                  <Col xs={24}>
+                    <Row gutter={[16, 16]}>
+                      <Col xs={24} sm={12}>
+                        <span className="Dropdown-Label Textfield-Label">
+                          Purchaser Name <span style={{ color: "red" }}>*</span>
+                        </span>
+
+                        <Input
+                          placeholder="Enter Purchaser Name"
+                          className="uniform-input1"
+                          value={purchaserName}
+                          onChange={(e) =>
+                            setPurchaserName(e.target.value.toUpperCase())
+                          }
+                        />
+                      </Col>
+
+                      <Col xs={24} sm={12}>
+                        <span className="Textfield-Label">
+                          F/H/W/O Name <span style={{ color: "red" }}>*</span>
+                        </span>
+
+                        <UppercaseInput
+                          value={fatherName}
+                          onChange={setFatherName}
+                          placeholder="Enter Father Name"
+                          className="uniform-input1"
+                          maxLength={32}
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+
+                  <Col xs={24} sm={12}>
+                    <span className="Textfield-Label">
+                      Mobile Number <span style={{ color: "red" }}>*</span>
+                    </span>
+                    <UppercaseInput
+                      value={contactNumber}
+                      onChange={setContactNumber}
+                      isPhone
+                      placeholder="Enter Contact Number"
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={12}>
+                    <span className="Textfield-Label">
+                      Other Mobile Number{" "}
+                    </span>
+                    <UppercaseInput
+                      value={otherContactNumber}
+                      onChange={setOtherContactNumber}
+                      isPhone
+                      placeholder="Enter Other Contact Number"
+                    />
+                  </Col>
+
                   <Col xs={24} sm={12} className="relative">
                     <span className="Textfield-Label">
                       Temporary Address <span style={{ color: "red" }}>*</span>
@@ -1219,7 +1181,7 @@ const VehicleTransferOwnership = () => {
                       showCount
                       maxLength={40}
                       rows={4}
-                      placeholder="Enter Address..."
+                      placeholder="Enter Address"
                       className="uniform-input2"
                     />
                   </Col>
@@ -1235,7 +1197,7 @@ const VehicleTransferOwnership = () => {
                       showCount
                       maxLength={40}
                       rows={4}
-                      placeholder="Enter Address..."
+                      placeholder="Enter Address"
                       className="uniform-input2"
                     />
                   </Col>
@@ -1272,7 +1234,7 @@ const VehicleTransferOwnership = () => {
                       </label>
                       <input
                         type="text"
-                        placeholder="Bank / Company Name"
+                        placeholder="Enter Bank / Company Name"
                         value={hpaParty}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={(e) =>
@@ -1290,7 +1252,7 @@ const VehicleTransferOwnership = () => {
                       </label>
                       <input
                         type="text"
-                        placeholder="Letter No....."
+                        placeholder="Enter Letter No"
                         value={hpaLetterNo}
                         className="w-full h-12 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={(e) =>
@@ -1305,11 +1267,17 @@ const VehicleTransferOwnership = () => {
                     <div className="upload-doc-section-card">
                       <div className="upload-doc-section-header">
                         <div>
-                          <h3>Upload Documents</h3>
-                          <p>
-                            Please upload the required documents in PDF or JPEG
-                            format.
-                          </p>
+                          <div className="mb-1">
+                            <span className="block font-bold text-lg">
+                              Upload Documents
+                            </span>
+                          </div>
+                          <div>
+                            <span className="block text-gray-600 text-sm">
+                              Please upload the required documents in PDF or
+                              JPEG format.
+                            </span>
+                          </div>
                         </div>
 
                         <label className="add-main-doc-btn">
