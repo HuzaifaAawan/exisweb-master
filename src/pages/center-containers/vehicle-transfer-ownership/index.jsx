@@ -1525,15 +1525,34 @@ const VehicleTransferOwnership = () => {
                               TRANSACTION_NO: biometricNo,
                               REG_NO: regNo.toUpperCase(),
                               REG_DATE: formattedDate,
-                              PURCHASER_TYPE: purchaserType,
-                              PURCHASER_ID: purchaserIdNo || cnic,
-                              PURCHASER_NTN:
-                                purchaserType.toUpperCase() === "COMPANY"
-                                  ? purchaserIdNo || cnic
-                                  : "",
+
+                              PURCHASER_TYPE:
+                                purchaserIdType === "NTN"
+                                  ? "ORGANIZATION"
+                                  : "INDIVIDUAL",
+
+                              PURCHASER_ID: (
+                                purchaserIdNo ||
+                                cnic ||
+                                ""
+                              ).replace(/\D/g, ""),
+
                               PURCHASER_CNIC:
-                                purchaserType.toUpperCase() === "INDIVIDUAL"
-                                  ? purchaserIdNo || cnic
+                                purchaserIdType === "CNIC"
+                                  ? (purchaserIdNo || cnic || "").replace(
+                                      /\D/g,
+                                      "",
+                                    )
+                                  : "",
+
+                              PURCHASER_PASSPORT:
+                                purchaserIdType === "PASSPORT"
+                                  ? purchaserIdNo || cnic || ""
+                                  : "",
+
+                              PURCHASER_NTN:
+                                purchaserIdType === "NTN"
+                                  ? purchaserIdNo || cnic || ""
                                   : "",
                               PURCHASER_NAME: purchaserName,
                               PURCHASER_FATHER_NAME: fatherName,
