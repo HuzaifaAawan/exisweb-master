@@ -997,9 +997,11 @@ const VehicleTransferOwnership = () => {
 
                 <hr
                   style={{
+                    marginTop: "25px",
+                    marginBottom: "18px",
                     border: "none",
                     borderTop: "1px solid #e3e3e3",
-                    width: "80%",
+                    width: "100%",
                     margin: "0 auto",
                   }}
                 />
@@ -1316,7 +1318,10 @@ const VehicleTransferOwnership = () => {
                                 return;
                               }
 
-                              setUploadedDocs((prev) => [...prev, { file, type: "" }]);
+                              setUploadedDocs((prev) => [
+                                ...prev,
+                                { file, type: "" },
+                              ]);
                               e.target.value = "";
                             }}
                           />
@@ -1351,12 +1356,26 @@ const VehicleTransferOwnership = () => {
                                     setUploadedDocs(updated);
                                   }}
                                   options={[
-                                    { value: "CNIC Front", label: "CNIC Front" },
+                                    {
+                                      value: "CNIC Front",
+                                      label: "CNIC Front",
+                                    },
                                     { value: "CNIC Back", label: "CNIC Back" },
-                                    { value: "Transfer Letter", label: "Transfer Letter" },
+                                    {
+                                      value: "Transfer Letter",
+                                      label: "Transfer Letter",
+                                    },
                                     { value: "Affidavit", label: "Affidavit" },
-                                    { value: "NOC Issued from Bank", label: "NOC Issued from Bank" },
-                                    { value: "NOC Issued from Seller Organization", label: "NOC Issued from Seller Organization" },
+                                    {
+                                      value: "NOC Issued from Bank",
+                                      label: "NOC Issued from Bank",
+                                    },
+                                    {
+                                      value:
+                                        "NOC Issued from Seller Organization",
+                                      label:
+                                        "NOC Issued from Seller Organization",
+                                    },
                                   ]}
                                 />
                               </div>

@@ -1267,6 +1267,7 @@
   font-size: 13px;
   line-height: 1.5;
 }
+
 .upload-doc-section-card {
   width: 100%;
   margin-top: 24px;
@@ -1290,19 +1291,21 @@
 
 
 .upload-doc-grid {
-  width: 100%;
-  min-width: 700px;
+  width: max-content;
+  min-width: 100%;
 }
 
 .upload-doc-header,
 .upload-doc-row,
 .upload-doc-add-row {
   display: grid;
-  grid-template-columns: 120px minmax(280px, 1fr) 220px 80px;
+  grid-template-columns: 120px minmax(280px, 1fr) 275px 90px;
   align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
+  gap: 20px;
+  padding: 16px 24px;
   border-bottom: 1px solid #e5e7eb;
+  min-width: 700px;
+
 }
 
 .upload-doc-header {
@@ -1343,13 +1346,17 @@
   display: flex;
   align-items: center;
 }
-
+.upload-doc-row > div:last-child {
+  justify-content: center;
+}
 .upload-doc-row .ant-select {
   width: 100%;
+    height: 44px;
 }
 
 .upload-doc-row .ant-select .ant-select-selector {
-  height: 44px !important;
+ height: 44px !important;
+  min-height: 44px !important;
   display: flex !important;
   align-items: center !important;
 }
@@ -1360,26 +1367,24 @@
 }
 
 .upload-remove-btn {
+ width: 44px;
   height: 44px;
-  padding: 0 18px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   border-radius: 8px;
   background: #ff4d4f;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
+  line-height: 1;
 }
 
 @media (max-width: 768px) {
   .upload-doc-grid {
     min-width: 650px;
-  }
-
-  .upload-doc-header,
-  .upload-doc-row,
-  .upload-doc-add-row {
-    grid-template-columns: 90px minmax(220px, 1fr) 180px 70px;
-    padding: 14px;
   }
 
   .add-main-doc-btn {
