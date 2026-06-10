@@ -87,6 +87,20 @@ const VehicleTransferOwnership = () => {
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const formatCnic = (value) => {
+    const digits = String(value || "")
+      .replace(/\D/g, "")
+      .slice(0, 13);
+
+    if (digits.length <= 5) return digits;
+    if (digits.length <= 12) return `${digits.slice(0, 5)}-${digits.slice(5)}`;
+
+    return `${digits.slice(0, 5)}-${digits.slice(5, 12)}-${digits.slice(12)}`;
+  };
+
+  const getCnicDigits = (value) => {
+    return String(value || "").replace(/\D/g, "");
+  };
   const handlePurchaserNext = () => {
     if (!purchaserName?.trim()) {
       message.error("Purchaser Name is required");
@@ -110,6 +124,13 @@ const VehicleTransferOwnership = () => {
                 : "CNIC"
             : "CNIC / Passport No.";
       message.error(`${idLabel} is required`);
+      return;
+    }
+    if (
+      purchaserIdType === "CNIC" &&
+      getCnicDigits(purchaserIdNo || cnic).length !== 13
+    ) {
+      message.error("CNIC No. must be 13 digits");
       return;
     }
 
@@ -229,6 +250,7 @@ const VehicleTransferOwnership = () => {
     setCurrentOwnerName("");
     setPermAddress("");
     setOwnerName("");
+    
     setOwnerCnic("");
     setTransferDate(dayjs());
     setOwnerFatherName("");
@@ -306,6 +328,23 @@ const VehicleTransferOwnership = () => {
     setNoResultMessage("");
     setShowPurchaserForm(false);
     setLoading(true);
+    setPurchaserIdNo("");
+    setCnic("");
+    setPurchaserName("");
+    setFatherName("");
+    setContactNumber("");
+    setOtherContactNumber("");
+    setEmail("");
+    setEmailError("");
+    setTempAddress("");
+    setPermAddress("");
+    setTempDistrict("");
+    setPermDistrict("");
+    setHpaParty("");
+    setHpaLetterNo("");
+    
+    setUploadedDocs([]);
+    form.resetFields();
     setSubmittedData({
       regNo,
     });
@@ -358,9 +397,11 @@ const VehicleTransferOwnership = () => {
       }
 
       if (result.ErrorCode) {
-        throw new Error(
-          result.ErrorMessage || "An error occurred. Please try again.",
-        );
+        setError(result.ErrorMessage || "An error occurred. Please try again.");
+        setShowData(false);
+        setShowPurchaserForm(false);
+        setVehicleData(null);
+        return;
       }
 
       if (String(result?.result || "").toUpperCase() === "NO RESULT") {
@@ -1053,11 +1094,17 @@ const VehicleTransferOwnership = () => {
                     <Input
                       value={purchaserIdNo || cnic}
                       readOnly={!!biometricNo?.trim() && !isNtnField}
+                      maxLength={purchaserIdType === "CNIC" ? 15 : undefined}
                       onChange={
                         !biometricNo?.trim() || isNtnField
                           ? (e) => {
-                              setPurchaserIdNo(e.target.value);
-                              setCnic(e.target.value);
+                              const value =
+                                purchaserIdType === "CNIC"
+                                  ? formatCnic(e.target.value)
+                                  : e.target.value.toUpperCase();
+
+                              setPurchaserIdNo(value);
+                              setCnic(value);
                             }
                           : undefined
                       }
@@ -1512,7 +1559,36 @@ const VehicleTransferOwnership = () => {
                           throw new Error(`Error: ${response.statusText}`);
                         }
 
-                        const result = await response.json();
+                        const text = await response.text();
+
+                        let result = {};
+
+                        try {
+                          result = JSON.parse(text);
+                        } catch {
+                          const inner = text.trim().replace(/^\{|\}$/g, "");
+
+                          inner.split(",").forEach((pair) => {
+                            const eqIdx = pair.indexOf("=");
+
+                            if (eqIdx !== -1) {
+                              const key = pair.slice(0, eqIdx).trim();
+                              const val = pair
+                                .slice(eqIdx + 1)
+                                .trim()
+                                .replace(/^"|"$/g, "");
+
+                              result[key] = val;
+                            }
+                          });
+                        }
+                        if (result.ErrorCode) {
+                          setChallanError(
+                            result.ErrorMessage ||
+                              "Failed to process. Please try again.",
+                          );
+                          return;
+                        }
                         console.log("PROCESS_BIO RESULT:", result);
 
                         if (result.ERROR) {
