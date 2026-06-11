@@ -1109,14 +1109,25 @@ const VehicleTransferOwnership = () => {
                     <Input
                       value={purchaserIdNo || cnic}
                       readOnly={!!biometricNo?.trim() && !isNtnField}
-                      maxLength={purchaserIdType === "CNIC" ? 15 : undefined}
+                      maxLength={
+                        !biometricNo?.trim() && purchaserIdType === "CNIC"
+                          ? 15
+                          : undefined
+                      }
                       onChange={
                         !biometricNo?.trim() || isNtnField
                           ? (e) => {
-                              const value =
-                                purchaserIdType === "CNIC"
-                                  ? formatCnic(e.target.value)
-                                  : e.target.value.toUpperCase();
+                              let value = e.target.value;
+
+                              const shouldFormatAsCnic =
+                                !biometricNo?.trim() &&
+                                purchaserIdType === "CNIC";
+
+                              if (shouldFormatAsCnic) {
+                                value = formatCnic(value);
+                              } else {
+                                value = value.toUpperCase();
+                              }
 
                               setPurchaserIdNo(value);
                               setCnic(value);
