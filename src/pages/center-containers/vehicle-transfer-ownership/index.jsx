@@ -31,6 +31,7 @@ const VehicleTransferOwnership = () => {
   const [showChallan, setShowChallan] = useState(false);
   const [showAttention, setShowAttention] = useState(false);
   const [showRequestForm, setShowRequestForm] = useState(false);
+  const [refreshTable, setRefreshTable] = useState(0);
   const [noResultMessage, setNoResultMessage] = useState("");
 
   // API Pagination State
@@ -235,7 +236,7 @@ const VehicleTransferOwnership = () => {
     };
 
     fetchPostRegApps();
-  }, [currentPage, pageSize, searchText]);
+  }, [currentPage, pageSize, searchText, refreshTable]);
 
   const resetEntireFlow = () => {
     setShowData(false);
@@ -300,6 +301,7 @@ const VehicleTransferOwnership = () => {
     setShowRequestForm(false);
     // Reset pagination to first page
     setCurrentPage(1);
+    setRefreshTable((prev) => prev + 1);
   };
   const isNtnValue = (value) => {
     const val = String(value || "").trim();
