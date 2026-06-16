@@ -638,28 +638,28 @@ const VehicleInspection = () => {
                   }}
                 >
                   <li>
-                    KINDLY VISIT ETD OFFICE FOR YOUR VEHICLE PHYSICAL INSPECTION
-                    AGAINST THIS APPLICATION NUMBER.
+                    • KINDLY VISIT ETD OFFICE FOR YOUR VEHICLE PHYSICAL
+                    INSPECTION AGAINST THIS APPLICATION NUMBER.
                   </li>
                   <li>
-                    VEHICLES INSPECTED BY ETD STAFF MUST BE IMMEDIATELY HANDED
+                    • VEHICLES INSPECTED BY ETD STAFF MUST BE IMMEDIATELY HANDED
                     OVER TO THE BUYER.
                   </li>
                   <li>
-                    IT IS THE BUYER'S DUTY TO ENSURE THEY RECEIVE SAME VEHICLE
+                    • IT IS THE BUYER'S DUTY TO ENSURE THEY RECEIVE SAME VEHICLE
                     INSPECTED BY ETD STAFF.
                   </li>
                   <li>
-                    PLEASE ENSURE THAT BIOMETRIC VERIFICATION OF THE SELLER AND
-                    BUYER ALIGN WITH THIS APPLICATION.
+                    • PLEASE ENSURE THAT BIOMETRIC VERIFICATION OF THE SELLER
+                    AND BUYER ALIGN WITH THIS APPLICATION.
                   </li>
                   <li>
-                    BIOMETRIC VERIFICATION IS ONLY ALLOWED AFTER THE VEHICLE HAS
-                    BEEN INSPECTED BY ETD STAFF.
+                    • BIOMETRIC VERIFICATION IS ONLY ALLOWED AFTER THE VEHICLE
+                    HAS BEEN INSPECTED BY ETD STAFF.
                   </li>
                   <li>
-                    CHANGE OF OWNERSHIP IS SUBJECT TO CURRENT OWNER'S BIOMETRIC
-                    VERIFICATION FROM NADRA.
+                    • CHANGE OF OWNERSHIP IS SUBJECT TO CURRENT OWNER'S
+                    BIOMETRIC VERIFICATION FROM NADRA.
                   </li>
                 </ul>
               )}

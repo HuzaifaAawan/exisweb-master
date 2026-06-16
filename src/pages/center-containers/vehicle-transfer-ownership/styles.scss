@@ -767,6 +767,13 @@
   cursor: pointer;
 }
 
+@media (max-width: 768px) {
+  .back-button,
+  .confirm-button {
+    width: calc(100% - 40px) !important;
+    max-width: none !important;
+  }
+}
 .back-button {
   background-color: #ebf1f1;
   color: #04544f;
@@ -1326,6 +1333,20 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+}
+@media (max-width: 576px) {
+  .upload-doc-section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .upload-doc-section-header .add-main-doc-btn {
+    width: 100px;
+    height: 42px;
+    align-self: stretch;
+  }
 }
 
 .add-main-doc-btn:hover {
