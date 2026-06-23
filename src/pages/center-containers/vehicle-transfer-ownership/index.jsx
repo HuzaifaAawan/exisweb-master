@@ -116,6 +116,36 @@ const VehicleTransferOwnership = () => {
 
     return `+92-${digits}`;
   };
+  const parseBackendResponse = (text) => {
+    try {
+      return JSON.parse(text);
+    } catch {
+      const result = {};
+
+      const cleanText = String(text || "")
+        .trim()
+        .replace(/^\{|\}$/g, "");
+
+      const errorCodeMatch = cleanText.match(/ErrorCode\s*=\s*([^,}]+)/i);
+      const errorMessageMatch = cleanText.match(
+        /ErrorMessage\s*=\s*"([^"]*)"/i,
+      );
+
+      if (errorCodeMatch) {
+        result.ErrorCode = errorCodeMatch[1].trim();
+      }
+
+      if (errorMessageMatch) {
+        result.ErrorMessage = errorMessageMatch[1].trim();
+      }
+
+      if (!result.ErrorCode && !result.ErrorMessage) {
+        result.ErrorMessage = text;
+      }
+
+      return result;
+    }
+  };
   const handlePurchaserNext = () => {
     if (!purchaserName?.trim()) {
       message.error("Purchaser Name is required");
@@ -218,11 +248,23 @@ const VehicleTransferOwnership = () => {
           return;
         }
 
+        const text = await response.text();
+        const result = parseBackendResponse(text);
+
         if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
+          throw new Error(result.ErrorMessage || text || response.statusText);
         }
 
-        const result = await response.json();
+        if (result.ErrorCode || result.ErrorMessage) {
+          setApiError(result.ErrorMessage || text);
+          setError(result.ErrorMessage || text);
+          setShowData(false);
+          setShowPurchaserForm(false);
+          setShowPreview(false);
+          setVehicleData(null);
+          return;
+          return;
+        }
 
         setTotalRecords(parseInt(result.TOTAL_RECORDS) || 0);
         setApiData(result.DATA || []);
@@ -388,33 +430,13 @@ const VehicleTransferOwnership = () => {
 
       const text = await response.text();
 
-      let result;
+      const result = parseBackendResponse(text);
 
-      try {
-        result = JSON.parse(text);
-      } catch {
-        const inner = text.trim().replace(/^\{|\}$/g, "");
-        result = {};
-
-        inner.split(",").forEach((pair) => {
-          const eqIdx = pair.indexOf("=");
-
-          if (eqIdx !== -1) {
-            const key = pair.slice(0, eqIdx).trim();
-            const val = pair
-              .slice(eqIdx + 1)
-              .trim()
-              .replace(/^"|"$/g, "");
-
-            result[key] = val;
-          }
-        });
-      }
-
-      if (result.ErrorCode) {
-        setError(result.ErrorMessage || "An error occurred. Please try again.");
+      if (result.ErrorCode || result.ErrorMessage) {
+        setError(result.ErrorMessage || text);
         setShowData(false);
         setShowPurchaserForm(false);
+        setShowPreview(false);
         setVehicleData(null);
         return;
       }
@@ -1603,9 +1625,12 @@ const VehicleTransferOwnership = () => {
                         if (!response) return;
 
                         if (!response.ok) {
-                          throw new Error(`Error: ${response.statusText}`);
+                          const text = await response.text();
+                          const result = parseBackendResponse(text);
+                          throw new Error(
+                            result.ErrorMessage || text || response.statusText,
+                          );
                         }
-
                         const text = await response.text();
 
                         let result = {};
