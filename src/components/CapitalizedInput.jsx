@@ -134,8 +134,19 @@ const UppercaseInput = ({
 
   const formatPhone = (raw) => {
     const d = normalizePhoneDigits(raw);
-    if (d.length === 10) return `+92-${d.slice(0, 3)}-${d.slice(3)}`;
-    if (d.length > 0) return `+92-${d}`;
+
+    if (d.length === 10) {
+      return `92-${d.slice(0, 3)}-${d.slice(3)}`;
+    }
+
+    if (d.length > 3) {
+      return `92-${d.slice(0, 3)}-${d.slice(3)}`;
+    }
+
+    if (d.length > 0) {
+      return `92-${d}`;
+    }
+
     return "";
   };
 
@@ -222,7 +233,7 @@ const UppercaseInput = ({
       {...props}
       value={value}
       onChange={handleChange}
-      maxLength={isPhone ? 17 : isCNIC ? 15 : isNTN ? 20 : maxLength}
+      maxLength={isPhone ? 15 : isCNIC ? 15 : isNTN ? 20 : maxLength}
       className={`custom-uppercase-input ${props.className || ""}`}
     />
   );

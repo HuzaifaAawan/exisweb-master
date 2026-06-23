@@ -102,20 +102,22 @@ const VehicleTransferOwnership = () => {
     return String(value || "").replace(/\D/g, "");
   };
   const formatPhoneForPayload = (value) => {
-    const digits = String(value || "").replace(/\D/g, "");
+  const digits = String(value || "").replace(/\D/g, "");
 
-    if (!digits) return "";
+  if (!digits) return "";
 
-    if (digits.startsWith("92")) {
-      return `+92-${digits.slice(2)}`;
-    }
+  let localNumber = digits;
 
-    if (digits.startsWith("0")) {
-      return `+92-${digits.slice(1)}`;
-    }
+  if (digits.startsWith("92")) {
+    localNumber = digits.slice(2);
+  }
 
-    return `+92-${digits}`;
-  };
+  if (digits.startsWith("0")) {
+    localNumber = digits.slice(1);
+  }
+
+  return `92-${localNumber.slice(0, 3)}-${localNumber.slice(3)}`;
+};
   const parseBackendResponse = (text) => {
     try {
       return JSON.parse(text);
