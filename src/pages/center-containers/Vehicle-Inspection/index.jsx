@@ -41,7 +41,34 @@ const VehicleInspection = () => {
   const [apiLoading, setApiLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
   const [submitLoading, setSubmitLoading] = useState(false);
+const parseBackendResponse = (text) => {
+  try {
+    return JSON.parse(text);
+  } catch {
+    const result = {};
 
+    const cleanText = String(text || "")
+      .trim()
+      .replace(/^\{|\}$/g, "");
+
+    const errorCodeMatch = cleanText.match(/ErrorCode\s*=\s*([^,}]+)/i);
+    const errorMessageMatch = cleanText.match(/ErrorMessage\s*=\s*"([^"]*)"/i);
+
+    if (errorCodeMatch) {
+      result.ErrorCode = errorCodeMatch[1].trim();
+    }
+
+    if (errorMessageMatch) {
+      result.ErrorMessage = errorMessageMatch[1].trim();
+    }
+
+    if (!result.ErrorCode && !result.ErrorMessage) {
+      result.ErrorMessage = text;
+    }
+
+    return result;
+  }
+};
   useEffect(() => {
     const fetchInspectionRequests = async () => {
       setApiLoading(true);
@@ -56,21 +83,34 @@ const VehicleInspection = () => {
           }),
         });
 
-        if (!response) return;
+        const text = await response.text();
+        const result = parseBackendResponse(text);
 
         if (!response.ok) {
-          throw new Error(response.statusText);
+          throw new Error(result.ErrorMessage || text || response.statusText);
         }
 
-        const result = await response.json();
+        if (
+          result.ErrorCode ||
+          result.ErrorMessage ||
+          result.ERROR ||
+          result.error ||
+          result.message
+        ) {
+          throw new Error(
+            result.ErrorMessage ||
+              result.ERROR ||
+              result.error ||
+              result.message ||
+              text,
+          );
+        }
 
         setTotalRecords(parseInt(result.TOTAL_RECORDS) || 0);
         setApiData(result.DATA || []);
       } catch (err) {
         console.error("Inspection table API error:", err);
-        setApiError(
-          "API certificate issue. Please open API URL in browser and proceed/allow certificate, then refresh page.",
-        );
+        setApiError(err.message || "Failed to fetch inspection requests.");
       } finally {
         setApiLoading(false);
       }
@@ -166,46 +206,36 @@ const VehicleInspection = () => {
 
       if (!response) return;
 
+      const text = await response.text();
+      const resultData = parseBackendResponse(text);
+
       if (!response.ok) {
-        throw new Error(response.statusText);
+        throw new Error(resultData.ErrorMessage || text || response.statusText);
       }
 
-      const text = await response.text();
+      const backendError =
+        resultData?.ErrorMessage ||
+        resultData?.ERRORMESSAGE ||
+        resultData?.ERROR ||
+        resultData?.error ||
+        resultData?.message;
 
-      let resultData = {};
-
-      try {
-        resultData = JSON.parse(text);
-      } catch {
-        const inner = text.trim().replace(/^\{|\}$/g, "");
-
-        inner.split(",").forEach((pair) => {
-          const eqIdx = pair.indexOf("=");
-
-          if (eqIdx !== -1) {
-            const key = pair.slice(0, eqIdx).trim();
-            const val = pair
-              .slice(eqIdx + 1)
-              .trim()
-              .replace(/^"|"$/g, "");
-
-            resultData[key] = val;
-          }
-        });
+      if (resultData?.ErrorCode || resultData?.ERRORCODE || backendError) {
+        setNoResultMessage(backendError || text);
+        setInspectionNumber("");
+        setShowData(true);
+        return;
       }
 
       if (
         String(resultData?.result || "")
           .toUpperCase()
           .includes("NO RESULT") ||
-        resultData?.ErrorCode ||
-        resultData?.ERRORCODE ||
-        resultData?.ErrorMessage ||
-        resultData?.ERRORMESSAGE ||
         !resultData?.INSPECTION_ID
       ) {
         setNoResultMessage(
-          "Please provide correct parameters to start application or contact ETO office.",
+          resultData?.result ||
+            "Please provide correct parameters to start application or contact ETO office.",
         );
         setInspectionNumber("");
         setShowData(true);
@@ -217,12 +247,11 @@ const VehicleInspection = () => {
       setShowData(true);
     } catch (err) {
       setNoResultMessage(
-        "Please provide correct parameters to start application or contact ETO office.",
+        err.message ||
+          "Please provide correct parameters to start application or contact ETO office.",
       );
       setInspectionNumber("");
       setShowData(true);
-    } finally {
-      setSubmitLoading(false);
     }
   };
 

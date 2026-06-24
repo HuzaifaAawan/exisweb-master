@@ -18,7 +18,34 @@ const VehicleChallanVerification = () => {
   const [results, setResults] = useState(null);
   const [captchaError, setCaptchaError] = useState(null);
   const [resultError, setResultError] = useState(null);
+const parseBackendResponse = (text) => {
+  try {
+    return JSON.parse(text);
+  } catch {
+    const result = {};
 
+    const cleanText = String(text || "")
+      .trim()
+      .replace(/^\{|\}$/g, "");
+
+    const errorCodeMatch = cleanText.match(/ErrorCode\s*=\s*([^,}]+)/i);
+    const errorMessageMatch = cleanText.match(/ErrorMessage\s*=\s*"([^"]*)"/i);
+
+    if (errorCodeMatch) {
+      result.ErrorCode = errorCodeMatch[1].trim();
+    }
+
+    if (errorMessageMatch) {
+      result.ErrorMessage = errorMessageMatch[1].trim();
+    }
+
+    if (!result.ErrorCode && !result.ErrorMessage) {
+      result.ErrorMessage = text;
+    }
+
+    return result;
+  }
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCaptchaError(null);
@@ -37,25 +64,54 @@ const VehicleChallanVerification = () => {
         body: JSON.stringify({ CHALLAN_NO: challanNo.trim() }),
       });
 
-      if (!response) return;
+     if (!response) return;
 
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        setResultError(errData?.message || `Request failed (${response.status})`);
-        return;
-      }
+     const text = await response.text();
+     const data = parseBackendResponse(text);
 
-      const data = await response.json();
-      if (!data || data?.result === "NO RESULT" || data.length === 0) {
-        setResultError("No challan found for the given number.");
-        return;
-      }
-      setResults(data);
+     if (!response.ok) {
+       setResultError(
+         data.ErrorMessage ||
+           data.ERRORMESSAGE ||
+           data.ERROR ||
+           data.error ||
+           data.message ||
+           text ||
+           `Request failed (${response.status})`,
+       );
+       return;
+     }
+
+     const backendError =
+       data.ErrorMessage ||
+       data.ERRORMESSAGE ||
+       data.ERROR ||
+       data.error ||
+       data.message;
+
+     if (data.ErrorCode || data.ERRORCODE || backendError) {
+       setResultError(backendError || text);
+       return;
+     }
+
+     if (
+       !data ||
+       data?.result === "NO RESULT" ||
+       String(data?.result || "")
+         .toUpperCase()
+         .includes("NO RESULT") ||
+       data.length === 0
+     ) {
+       setResultError(data?.result || "No challan found for the given number.");
+       return;
+     }
+
+     setResults(Array.isArray(data) ? data : [data]);
     } catch (err) {
-      setResultError("Network error. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  setResultError(err.message || "Network error. Please try again.");
+} finally {
+  setLoading(false);
+}
   };
 
   const handleReset = () => {
