@@ -53,6 +53,8 @@ const VehicleTransferOwnership = () => {
 
   const [presentAddress, setpresentAddress] = useState("");
   const [presentAddressCity, setpresentAddressCity] = useState("");
+  const [temporaryCity, setTemporaryCity] = useState("");
+  const [permanentCity, setPermanentCity] = useState("");
   const [presentAddressDistrict, setpresentAddressDistrict] = useState("");
   const [permanentAddress, setpermanentAddress] = useState("");
   const [permanentAddressCity, setpermanentAddressCity] = useState("");
@@ -102,22 +104,20 @@ const VehicleTransferOwnership = () => {
     return String(value || "").replace(/\D/g, "");
   };
   const formatPhoneForPayload = (value) => {
-  const digits = String(value || "").replace(/\D/g, "");
+    const digits = String(value || "").replace(/\D/g, "");
 
-  if (!digits) return "";
+    if (!digits) return "";
 
-  let localNumber = digits;
+    if (digits.startsWith("92")) {
+      return digits;
+    }
 
-  if (digits.startsWith("92")) {
-    localNumber = digits.slice(2);
-  }
+    if (digits.startsWith("0")) {
+      return `92${digits.slice(1)}`;
+    }
 
-  if (digits.startsWith("0")) {
-    localNumber = digits.slice(1);
-  }
-
-  return `92-${localNumber.slice(0, 3)}-${localNumber.slice(3)}`;
-};
+    return `92${digits}`;
+  };
   const parseBackendResponse = (text) => {
     try {
       return JSON.parse(text);
@@ -208,6 +208,15 @@ const VehicleTransferOwnership = () => {
 
     if (!permAddress?.trim()) {
       message.error("Permanent Address is required");
+      return;
+    }
+    if (!temporaryCity?.trim()) {
+      message.error("Temporary City is required");
+      return;
+    }
+
+    if (!permanentCity?.trim()) {
+      message.error("Permanent City is required");
       return;
     }
 
@@ -309,7 +318,8 @@ const VehicleTransferOwnership = () => {
     setCurrentOwnerName("");
     setPermAddress("");
     setOwnerName("");
-    
+    setTemporaryCity("");
+    setPermanentCity("");
     setOwnerCnic("");
     setTransferDate(dayjs());
     setOwnerFatherName("");
@@ -399,6 +409,8 @@ const VehicleTransferOwnership = () => {
     setPermAddress("");
     setTempDistrict("");
     setPermDistrict("");
+    setTemporaryCity("");
+    setPermanentCity("");
     setHpaParty("");
     setHpaLetterNo("");
     
@@ -1300,6 +1312,29 @@ const VehicleTransferOwnership = () => {
                       className="uniform-input2"
                     />
                   </Col>
+                  <Col xs={24} sm={12}>
+                    <span className="Textfield-Label">
+                      Temporary City <span style={{ color: "red" }}>*</span>
+                    </span>
+                    <UppercaseInput
+                      value={temporaryCity}
+                      onChange={(val) => setTemporaryCity(val)}
+                      placeholder="Enter Temporary City"
+                      className="uniform-input2"
+                    />
+                  </Col>
+
+                  <Col xs={24} sm={12}>
+                    <span className="Textfield-Label">
+                      Permanent City <span style={{ color: "red" }}>*</span>
+                    </span>
+                    <UppercaseInput
+                      value={permanentCity}
+                      onChange={(val) => setPermanentCity(val)}
+                      placeholder="Enter Permanent City"
+                      className="uniform-input2"
+                    />
+                  </Col>
 
                   <Col xs={24} sm={24}>
                     <Form layout="vertical" form={form}>
@@ -1612,10 +1647,10 @@ const VehicleTransferOwnership = () => {
                                 formatPhoneForPayload(otherContactNumber),
                               PURCHASER_EMAIL: email,
                               PURCHASER_TEMP_ADDRESS: tempAddress,
-                              PURCHASER_TEMP_CITY: presentAddressCity,
+                              PURCHASER_TEMP_CITY: temporaryCity,
                               PURCHASER_TEMP_DISTRICT: presentAddressDistrict,
                               PURCHASER_PRMNT_ADDRESS: permAddress,
-                              PURCHASER_PRMNT_CITY: permanentAddressCity,
+                              PURCHASER_PRMNT_CITY: permanentCity,
                               PURCHASER_PRMNT_DISTRICT:
                                 permanentAddressDistrict,
                               HPA_PARTY: hpaParty,
@@ -2003,6 +2038,13 @@ const VehicleTransferOwnership = () => {
 
                   <p>
                     <strong>Address:</strong> {ownerAddress || "-"}
+                  </p>
+                  <p>
+                    <strong>Temporary City:</strong> {temporaryCity || "-"}
+                  </p>
+
+                  <p>
+                    <strong>Permanent City:</strong> {permanentCity || "-"}
                   </p>
                 </div>
               </div>
