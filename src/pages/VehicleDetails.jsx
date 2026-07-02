@@ -22,50 +22,68 @@ const VehicleDetails = () => {
     setCaptchaValue(value);
   };
 
-  const handleCheck = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setResponseData(null);
+ const handleCheck = async (e) => {
+   e.preventDefault();
+   setError(null);
+   setResponseData(null);
 
-    if (!REG_PATTERN.test(registration)) {
-      setRegistrationError("Format must be 2-3 letters, a hyphen, then numbers (e.g., ALB-572).");
-      return;
-    }
+   if (!REG_PATTERN.test(registration)) {
+     setRegistrationError(
+       "Format must be 2-3 letters, a hyphen, then numbers (e.g., ALB-572).",
+     );
+     return;
+   }
 
-    if (!captchaValue) {
-      setError("Please verify that you're not a robot.");
-      return;
-    }
+   if (!captchaValue) {
+     setError("Please verify that you're not a robot.");
+     return;
+   }
 
-    setLoading(true);
+   setLoading(true);
 
-    try {
-      const formattedDate = date ? new Date(date).toLocaleDateString('en-GB') : "";
+   try {
+     const formattedDate = date
+       ? new Date(date).toLocaleDateString("en-GB")
+       : "";
 
-      const response = await authFetch(API_ENDPOINTS.GET_VEHICLE_DETAILS, {
-        method: "POST",
-        body: JSON.stringify({
-          REG_NO: registration.toUpperCase(),
-          REG_DATE: formattedDate,
-        }),
-      });
+     const response = await authFetch(API_ENDPOINTS.GET_VEHICLE_DETAILS, {
+       method: "POST",
+       body: JSON.stringify({
+         REG_NO: registration.toUpperCase(),
+         REG_DATE: formattedDate,
+       }),
+     });
 
-      if (!response) return;
+     if (!response) return;
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
+     // Response ko pehle text format mein read karein taake crash na ho
+     const rawText = await response.text();
 
-      const result = await response.json();
-      const vehicle = Array.isArray(result) ? result[0] : result;
-      setResponseData({ ...vehicle, enteredDate: date });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError(error.message || "Unable to fetch data. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+     // Check karein agar backend se custom error string aa rahi hai
+     if (rawText.includes("ErrorMessage=")) {
+       // Regex ke zariye ErrorMessage="..." ke andar ka text nikalen gaay
+       const match = rawText.match(/ErrorMessage=["']?([^"']+)["']?/);
+       const extractedMessage = match ? match[1] : "Something went wrong";
+       throw new Error(extractedMessage);
+     }
+
+     // Agar direct error nahi hai, tab check karein response status
+     if (!response.ok) {
+       throw new Error(`Error: ${response.statusText}`);
+     }
+
+     // Agar sab theek hai, to text ko JSON mein parse karein
+     const result = JSON.parse(rawText);
+     const vehicle = Array.isArray(result) ? result[0] : result;
+     setResponseData({ ...vehicle, enteredDate: date });
+   } catch (error) {
+     console.error("Error fetching data:", error);
+     // Yahan ab direct exact string "Something went wronge" show hogi
+     setError(error.message || "Unable to fetch data. Please try again.");
+   } finally {
+     setLoading(false);
+   }
+ };
 
   return (
     <div
